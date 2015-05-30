@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public abstract class AbstractService<E,D> {
+abstract class AbstractService<E,D> implements fr.frogdevelopment.assoplus.service.Service<E,D> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
 
 	@Autowired
 	private CommonDao<E> dao;
 
-//	@Override
+	@Override
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public ObservableList<D> getAllData() {
 		ObservableList<D> data = FXCollections.observableArrayList();
@@ -32,19 +32,19 @@ public abstract class AbstractService<E,D> {
 		return data;
 	}
 
-//	@Override
+	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void saveData(D dto) {
 		dao.save(createBean(dto));
 	}
 
-//	@Override
+	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void updateData(D dto) {
 		dao.update(createBean(dto));
 	}
 
-//	@Override
+	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void deleteData(D dto) {
 		dao.delete(createBean(dto));

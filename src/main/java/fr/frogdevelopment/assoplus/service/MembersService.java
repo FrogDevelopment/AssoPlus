@@ -1,15 +1,8 @@
 package fr.frogdevelopment.assoplus.service;
 
+import fr.frogdevelopment.assoplus.bean.Member;
 import fr.frogdevelopment.assoplus.dto.MemberDTO;
-import javafx.collections.ObservableList;
 
-public interface MembersService {
+public interface MembersService extends Service<Member, MemberDTO> {
 
-	ObservableList<MemberDTO> getAllData();
-
-	void saveData(MemberDTO memberDTO);
-
-	void updateData(MemberDTO memberDTO);
-
-	void deleteData(MemberDTO memberDTO);
 }

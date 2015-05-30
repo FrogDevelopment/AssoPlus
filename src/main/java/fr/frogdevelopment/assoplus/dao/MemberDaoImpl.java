@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Repository("memberDao")
 public class MemberDaoImpl extends CommonDaoImpl<Member> implements MemberDao {
 
 	@Override

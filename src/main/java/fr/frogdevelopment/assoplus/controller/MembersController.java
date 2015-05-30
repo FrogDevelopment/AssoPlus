@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-@Component
+@Controller("memberController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MembersController implements Initializable {
 
@@ -25,9 +25,6 @@ public class MembersController implements Initializable {
 
     @Autowired
     private MembersService membersService;
-
-    private ObservableList<MemberDTO> data;
-
     @FXML
     private TextField txtNumber;
     @FXML
@@ -50,17 +47,16 @@ public class MembersController implements Initializable {
     private TextField txtPostalCode;
     @FXML
     private TextField txtCity;
-
     @FXML
-    private TableView table;
+    private TableView<MemberDTO> table;
+
+    private ObservableList<MemberDTO> data;
 
     @Override
-    @SuppressWarnings("unchecked")
     public void initialize(URL location, ResourceBundle resources) {
         try {
             data = membersService.getAllData();
 
-            table.setItems(null);
             table.setItems(data);
 
         } catch (Exception e) {

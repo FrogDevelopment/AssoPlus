@@ -1,58 +1,17 @@
 package fr.frogdevelopment.assoplus.service;
 
-import fr.frogdevelopment.assoplus.dao.MemberDao;
 import fr.frogdevelopment.assoplus.bean.Member;
 import fr.frogdevelopment.assoplus.dto.MemberDTO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-@Service
-public class MembersServiceImpl implements MembersService {
+@Service("memberService")
+public class MembersServiceImpl extends AbstractService<Member, MemberDTO> implements MembersService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MembersServiceImpl.class);
 
-	@Autowired
-	private MemberDao memberDao;
-
-	@Override
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-	public ObservableList<MemberDTO> getAllData() {
-		ObservableList<MemberDTO> data = FXCollections.observableArrayList();
-
-		List<Member> members = memberDao.getAll();
-
-		members.forEach(member -> data.add(createDTO(member)));
-
-		return data;
-	}
-
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveData(MemberDTO memberDTO) {
-		memberDao.save(createBean(memberDTO));
-	}
-
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void updateData(MemberDTO memberDTO) {
-		memberDao.update(createBean(memberDTO));
-	}
-
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void deleteData(MemberDTO memberDTO) {
-		memberDao.delete(createBean(memberDTO));
-	}
-
-	private MemberDTO createDTO(Member member) {
+	protected MemberDTO createDTO(Member member) {
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setId(member.getId());
 		memberDTO.setNumber(member.getNumber());
@@ -70,7 +29,7 @@ public class MembersServiceImpl implements MembersService {
 		return memberDTO;
 	}
 
-	private Member createBean(MemberDTO memberDTO) {
+	protected Member createBean(MemberDTO memberDTO) {
 		Member member = new Member();
 		member.setId(memberDTO.getId());
 		member.setNumber(memberDTO.getNumber());
@@ -87,5 +46,4 @@ public class MembersServiceImpl implements MembersService {
 
 		return member;
 	}
-
 }
