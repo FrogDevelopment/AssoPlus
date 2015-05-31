@@ -30,18 +30,18 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 
+	private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("/spring.xml");
+
 	public static Parent load(String url) {
-		try (InputStream fxmlStream = Main.class.getResourceAsStream(url)) {
-			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/spring.xml");
+		try (InputStream fxmlStream = Class.class.getResourceAsStream(url)) {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setControllerFactory(applicationContext::getBean);
+			loader.setControllerFactory(CONTEXT::getBean);
 			loader.setLocation(Class.class.getResource("/fxml/"));
 			return loader.load(fxmlStream);
 		} catch (IOException ioException) {
 			throw new RuntimeException(ioException);
 		}
 	}
-
 
 	public static void main(String[] args) {
 		launch(args);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.control.*?>
+<TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="fr.frogdevelopment.assoplus.controller.members.AllMembersController"
+           fx:id="table">
+
+    <columnResizePolicy>
+        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+    </columnResizePolicy>
+    <columns>
+        <TableColumn text="Numéro">
+            <cellValueFactory>
+                <PropertyValueFactory property="number"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Nom">
+            <cellValueFactory>
+                <PropertyValueFactory property="lastname"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Prénom">
+            <cellValueFactory>
+                <PropertyValueFactory property="firstname"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Date de naissance">
+            <cellValueFactory>
+                <PropertyValueFactory property="birthday"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="email">
+            <cellValueFactory>
+                <PropertyValueFactory property="email"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Diplôme">
+            <cellValueFactory>
+                <PropertyValueFactory property="licence"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Option">
+            <cellValueFactory>
+                <PropertyValueFactory property="option"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Téléphone">
+            <cellValueFactory>
+                <PropertyValueFactory property="phone"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Adresse">
+            <cellValueFactory>
+                <PropertyValueFactory property="address"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Code Postal">
+            <cellValueFactory>
+                <PropertyValueFactory property="postalCode"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Ville">
+            <cellValueFactory>
+                <PropertyValueFactory property="city"/>
+            </cellValueFactory>
+        </TableColumn>
+    </columns>
+</TableView>

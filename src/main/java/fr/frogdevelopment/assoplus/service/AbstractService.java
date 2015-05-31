@@ -6,13 +6,11 @@ import javafx.collections.ObservableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 abstract class AbstractService<E,D> implements fr.frogdevelopment.assoplus.service.Service<E,D> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
