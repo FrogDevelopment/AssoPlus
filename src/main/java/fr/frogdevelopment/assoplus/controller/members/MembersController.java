@@ -34,7 +34,7 @@ public class MembersController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		LOGGER.debug("");
+		displayView(ADD);
 	}
 
 	private void displayView(String view) {

@@ -49,7 +49,7 @@ public class AddMemberController implements Initializable {
 	@FXML
 	private TextField txtCity;
 	@FXML
-	private CheckBox cbFee;
+	private CheckBox cbFeePaid;
 	@FXML
 	private Label lbNumber;
 
@@ -70,6 +70,7 @@ public class AddMemberController implements Initializable {
 		member.setAddress(txtAddress.getText());
 		member.setPostalCode(txtPostalCode.getText());
 		member.setCity(txtCity.getText());
+		member.setFeePaid(cbFeePaid.isSelected());
 
 		membersService.saveData(member);
 	}
