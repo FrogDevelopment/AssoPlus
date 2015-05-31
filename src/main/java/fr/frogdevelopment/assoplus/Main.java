@@ -21,7 +21,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		LOGGER.info("Chargement de la configuration");
 
-		Parent root = load("/fxml/members.fxml");
+		Parent root = load("/fxml/main.fxml");
 
 		primaryStage.setTitle("AssoManager");
 		primaryStage.setScene(new Scene(root, 600, 600));
@@ -35,6 +35,7 @@ public class Main extends Application {
 			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/spring.xml");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setControllerFactory(applicationContext::getBean);
+			loader.setLocation(Class.class.getResource("/fxml/"));
 			return loader.load(fxmlStream);
 		} catch (IOException ioException) {
 			throw new RuntimeException(ioException);
