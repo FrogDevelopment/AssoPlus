@@ -11,9 +11,9 @@
         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
     </columnResizePolicy>
     <columns>
-        <TableColumn text="Numéro">
+        <TableColumn text="Numéro d'étudiant">
             <cellValueFactory>
-                <PropertyValueFactory property="number"/>
+                <PropertyValueFactory property="studentNumber"/>
             </cellValueFactory>
         </TableColumn>
         <TableColumn text="Nom">
@@ -64,6 +64,11 @@
         <TableColumn text="Ville">
             <cellValueFactory>
                 <PropertyValueFactory property="city"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Adhésion payée">
+            <cellValueFactory>
+                <PropertyValueFactory property="feePaid"/>
             </cellValueFactory>
         </TableColumn>
     </columns>

@@ -4,6 +4,8 @@ import fr.frogdevelopment.assoplus.dto.MemberDTO;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,7 @@ public class AddMemberController implements Initializable {
 	private MembersService membersService;
 
 	@FXML
-	private TextField txtNumber;
+	private TextField txtStudentNumber;
 	@FXML
 	private TextField txtLastname;
 	@FXML
@@ -47,6 +49,9 @@ public class AddMemberController implements Initializable {
 	@FXML
 	private TextField txtCity;
 	@FXML
+	private CheckBox cbFee;
+	@FXML
+	private Label lbNumber;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -54,7 +59,7 @@ public class AddMemberController implements Initializable {
 
 	public void saveData() {
 		MemberDTO member = new MemberDTO();
-		member.setNumber(Integer.parseInt(txtNumber.getText()));
+		member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
 		member.setLastname(txtLastname.getText());
 		member.setFirstname(txtFirstname.getText());
 		member.setBirthday(txtBirthday.getText());

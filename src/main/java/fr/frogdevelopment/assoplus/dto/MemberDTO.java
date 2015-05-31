@@ -5,7 +5,7 @@ import javafx.beans.property.*;
 public class MemberDTO {
 
 	private final LongProperty id = new SimpleLongProperty();
-	private final IntegerProperty number = new SimpleIntegerProperty();
+	private final IntegerProperty studentNumber = new SimpleIntegerProperty();
 	private final StringProperty lastname = new SimpleStringProperty();
 	private final StringProperty firstname = new SimpleStringProperty();
 	private final StringProperty birthday = new SimpleStringProperty();
@@ -16,6 +16,7 @@ public class MemberDTO {
 	private final StringProperty address = new SimpleStringProperty();
 	private final StringProperty postalCode = new SimpleStringProperty();
 	private final StringProperty city = new SimpleStringProperty();
+	private final BooleanProperty feePaid = new SimpleBooleanProperty();
 
 	public long getId() {
 		return id.get();
@@ -29,16 +30,16 @@ public class MemberDTO {
 		this.id.set(id);
 	}
 
-	public int getNumber() {
-		return number.get();
+	public int getStudentNumber() {
+		return studentNumber.get();
 	}
 
-	public IntegerProperty numberProperty() {
-		return number;
+	public IntegerProperty studentNumberProperty() {
+		return studentNumber;
 	}
 
-	public void setNumber(int number) {
-		this.number.set(number);
+	public void setStudentNumber(int studentNumber) {
+		this.studentNumber.set(studentNumber);
 	}
 
 	public String getLastname() {
@@ -159,5 +160,17 @@ public class MemberDTO {
 
 	public void setCity(String city) {
 		this.city.set(city);
+	}
+
+	public boolean getFeePaid() {
+		return feePaid.get();
+	}
+
+	public BooleanProperty feePaidProperty() {
+		return feePaid;
+	}
+
+	public void setFeePaid(boolean feePaid) {
+		this.feePaid.set(feePaid);
 	}
 }

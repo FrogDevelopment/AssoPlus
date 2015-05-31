@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fr.frogdevelopment.assoplus.components.controller.NumberTextField?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.members.AddMemberController">
@@ -25,41 +25,46 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         </rowConstraints>
         <children>
 
-            <Label text="Number"/>
-            <TextField fx:id="txtNumber" GridPane.columnIndex="1"/>
+            <Label text="Numéro étudiant" GridPane.rowIndex="0"/>
+            <NumberTextField fx:id="txtStudentNumber" GridPane.columnIndex="1"/>
 
-            <Label text="Lastname" GridPane.rowIndex="1"/>
+            <Label text="Nom" GridPane.rowIndex="1"/>
             <TextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-            <Label text="Firstname" GridPane.rowIndex="2"/>
+            <Label text="Prénom" GridPane.rowIndex="2"/>
             <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-            <Label text="Birthday" GridPane.rowIndex="3"/>
+            <Label text="Date de naissance" GridPane.rowIndex="3"/>
             <TextField fx:id="txtBirthday" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
             <Label text="Email" GridPane.rowIndex="4"/>
             <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-            <Label text="Licence" GridPane.rowIndex="5"/>
+            <Label text="Diplôme" GridPane.rowIndex="5"/>
             <TextField fx:id="txtLicence" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
             <Label text="Option" GridPane.rowIndex="6"/>
             <TextField fx:id="txtOption" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
-            <Label text="Phone" GridPane.rowIndex="7"/>
+            <Label text="N° téléphone" GridPane.rowIndex="7"/>
             <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
 
-            <Label text="Address" GridPane.rowIndex="8"/>
+            <Label text="Adresse" GridPane.rowIndex="8"/>
             <TextField fx:id="txtAddress" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 
-            <Label text="PostalCode" GridPane.rowIndex="9"/>
+            <Label text="Code Postal" GridPane.rowIndex="9"/>
             <TextField fx:id="txtPostalCode" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
 
-            <Label text="City" GridPane.rowIndex="10"/>
+            <Label text="Ville" GridPane.rowIndex="10"/>
             <TextField fx:id="txtCity" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+
+            <Label text="Adhésion payée" GridPane.rowIndex="11"/>
+            <CheckBox fx:id="cbFee" GridPane.columnIndex="1" GridPane.rowIndex="11" selected="true"/>
+
         </children>
     </GridPane>
     <Button onAction="#saveData" text="Save"/>

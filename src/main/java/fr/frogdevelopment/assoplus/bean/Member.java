@@ -5,15 +5,15 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "member")
-public class Member implements Serializable{
+public class Member implements Serializable {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "number", nullable = false)
-	private Integer number;
+	@Column(name = "studentNumber", unique = true, nullable = false)
+	private Integer studentNumber;
 
 	@Column(name = "lastname", nullable = false)
 	private String lastname;
@@ -45,6 +45,9 @@ public class Member implements Serializable{
 	@Column(name = "city")
 	private String city;
 
+	@Column(name = "fee_paid")
+	private boolean feePaid;
+
 	public Long getId() {
 		return id;
 	}
@@ -53,12 +56,12 @@ public class Member implements Serializable{
 		this.id = id;
 	}
 
-	public Integer getNumber() {
-		return number;
+	public Integer getStudentNumber() {
+		return studentNumber;
 	}
 
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setStudentNumber(Integer studentNumber) {
+		this.studentNumber = studentNumber;
 	}
 
 	public String getLastname() {
@@ -139,5 +142,13 @@ public class Member implements Serializable{
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public boolean isFeePaid() {
+		return feePaid;
+	}
+
+	public void setFeePaid(boolean feePaid) {
+		this.feePaid = feePaid;
 	}
 }
