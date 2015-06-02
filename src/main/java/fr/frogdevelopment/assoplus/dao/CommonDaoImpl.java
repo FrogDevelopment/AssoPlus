@@ -36,7 +36,7 @@ public class CommonDaoImpl<E> implements CommonDao<E> {
 	}
 
 	/**
-	 * @return Le nom de l'entité du DAO.
+	 * @return Le nom de l'entitÃ© du DAO.
 	 * @see Class#getSimpleName()
 	 */
 	protected final String getEntityName() {

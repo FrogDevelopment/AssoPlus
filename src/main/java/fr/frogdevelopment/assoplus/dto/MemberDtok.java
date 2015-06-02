@@ -2,7 +2,9 @@ package fr.frogdevelopment.assoplus.dto;
 
 import javafx.beans.property.*;
 
-public class MemberDTO {
+import java.io.Serializable;
+
+public class MemberDtok implements Serializable{
 
 	private final LongProperty id = new SimpleLongProperty();
 	private final IntegerProperty studentNumber = new SimpleIntegerProperty();

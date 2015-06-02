@@ -1,46 +1,61 @@
 package fr.frogdevelopment.assoplus.service;
 
-import fr.frogdevelopment.assoplus.bean.Member;
-import fr.frogdevelopment.assoplus.dto.MemberDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import fr.frogdevelopment.assoplus.bean.Member;
+import fr.frogdevelopment.assoplus.bean.SchoolYear;
+import fr.frogdevelopment.assoplus.dao.SchoolYearDao;
+import fr.frogdevelopment.assoplus.dto.MemberDtok;
 
 @Service("memberService")
-public class MembersServiceImpl extends AbstractService<Member, MemberDTO> implements MembersService {
+public class MembersServiceImpl extends AbstractService<Member, MemberDtok> implements MembersService {
 
-	protected MemberDTO createDTO(Member member) {
-		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setId(member.getId());
-		memberDTO.setStudentNumber(member.getStudentNumber());
-		memberDTO.setLastname(member.getLastname());
-		memberDTO.setFirstname(member.getFirstname());
-		memberDTO.setBirthday(member.getBirthday());
-		memberDTO.setEmail(member.getEmail());
-		memberDTO.setLicence(member.getLicence());
-		memberDTO.setOption(member.getOption());
-		memberDTO.setPhone(member.getPhone());
-		memberDTO.setAddress(member.getAddress());
-		memberDTO.setPostalCode(member.getPostalCode());
-		memberDTO.setCity(member.getCity());
-		memberDTO.setFeePaid(member.isFeePaid());
+	@Autowired
+	private SchoolYearDao schoolYearDao;
 
-		return memberDTO;
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public SchoolYear getCurrentSchoolYear() {
+		return schoolYearDao.getLastShoolYear();
 	}
 
-	protected Member createBean(MemberDTO memberDTO) {
+	protected MemberDtok createDTO(Member member) {
+		MemberDtok memberDto = new MemberDtok();
+		memberDto.setId(member.getId());
+		memberDto.setStudentNumber(member.getStudentNumber());
+		memberDto.setLastname(member.getLastname());
+		memberDto.setFirstname(member.getFirstname());
+		memberDto.setBirthday(member.getBirthday());
+		memberDto.setEmail(member.getEmail());
+		memberDto.setLicence(member.getLicence());
+		memberDto.setOption(member.getOption());
+		memberDto.setPhone(member.getPhone());
+		memberDto.setAddress(member.getAddress());
+		memberDto.setPostalCode(member.getPostalCode());
+		memberDto.setCity(member.getCity());
+		memberDto.setFeePaid(member.isFeePaid());
+
+		return memberDto;
+	}
+
+	protected Member createBean(MemberDtok memberDto) {
 		Member member = new Member();
-		member.setId(memberDTO.getId());
-		member.setStudentNumber(memberDTO.getStudentNumber());
-		member.setLastname(memberDTO.getLastname());
-		member.setFirstname(memberDTO.getFirstname());
-		member.setBirthday(memberDTO.getBirthday());
-		member.setEmail(memberDTO.getEmail());
-		member.setLicence(memberDTO.getLicence());
-		member.setOption(memberDTO.getOption());
-		member.setPhone(memberDTO.getPhone());
-		member.setAddress(memberDTO.getAddress());
-		member.setPostalCode(memberDTO.getPostalCode());
-		member.setCity(memberDTO.getCity());
-		member.setFeePaid(memberDTO.getFeePaid());
+		member.setId(memberDto.getId());
+		member.setStudentNumber(memberDto.getStudentNumber());
+		member.setLastname(memberDto.getLastname());
+		member.setFirstname(memberDto.getFirstname());
+		member.setBirthday(memberDto.getBirthday());
+		member.setEmail(memberDto.getEmail());
+		member.setLicence(memberDto.getLicence());
+		member.setOption(memberDto.getOption());
+		member.setPhone(memberDto.getPhone());
+		member.setAddress(memberDto.getAddress());
+		member.setPostalCode(memberDto.getPostalCode());
+		member.setCity(memberDto.getCity());
+		member.setFeePaid(memberDto.getFeePaid());
 
 		return member;
 	}
