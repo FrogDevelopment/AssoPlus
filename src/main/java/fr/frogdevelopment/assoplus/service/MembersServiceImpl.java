@@ -4,18 +4,24 @@
 
 package fr.frogdevelopment.assoplus.service;
 
+import fr.frogdevelopment.assoplus.bean.Member;
+import fr.frogdevelopment.assoplus.bean.SchoolYear;
+import fr.frogdevelopment.assoplus.dao.SchoolYearDao;
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import fr.frogdevelopment.assoplus.bean.Member;
-import fr.frogdevelopment.assoplus.bean.SchoolYear;
-import fr.frogdevelopment.assoplus.dao.SchoolYearDao;
-import fr.frogdevelopment.assoplus.dto.MemberDtok;
+import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service("memberService")
-public class MembersServiceImpl extends AbstractService<Member, MemberDtok> implements MembersService {
+public class MembersServiceImpl extends AbstractService<Member, MemberDto> implements MembersService {
 
 	@Autowired
 	private SchoolYearDao schoolYearDao;
@@ -26,8 +32,8 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDtok> impl
 		return schoolYearDao.getLastShoolYear();
 	}
 
-	protected MemberDtok createDTO(Member member) {
-		MemberDtok memberDto = new MemberDtok();
+	protected MemberDto createDTO(Member member) {
+		MemberDto memberDto = new MemberDto();
 		memberDto.setId(member.getId());
 		memberDto.setStudentNumber(member.getStudentNumber());
 		memberDto.setLastname(member.getLastname());
@@ -45,7 +51,7 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDtok> impl
 		return memberDto;
 	}
 
-	protected Member createBean(MemberDtok memberDto) {
+	protected Member createBean(MemberDto memberDto) {
 		Member member = new Member();
 		member.setId(memberDto.getId());
 		member.setStudentNumber(memberDto.getStudentNumber());
@@ -62,5 +68,38 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDtok> impl
 		member.setFeePaid(memberDto.getFeePaid());
 
 		return member;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void importMembers(File file) {
+
+		try (final InputStream is = new FileInputStream(file);
+		     final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		     final CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader().withSkipHeaderRecord().withDelimiter(','))) {
+
+			Set<Member> members = new HashSet<>();
+			parser.forEach(line -> {
+				Member member = new Member();
+
+				String studentNumber = line.get("NUMERO ETUDIANT");
+				if (!StringUtils.isEmpty(studentNumber)) {
+					member.setStudentNumber(Integer.valueOf(studentNumber));
+					member.setLastname(line.get("NOM"));
+					member.setFirstname(line.get("PRENOM"));
+					member.setLicence(line.get("DEGRES"));
+					member.setOption(line.get("OPTION"));
+					member.setPhone(line.get("TELEPHONE"));
+					member.setEmail(line.get("E-MAIL"));
+
+					members.add(member);
+				}
+			});
+
+			dao.saveAll(members);
+
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 }

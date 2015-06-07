@@ -18,7 +18,7 @@ public class SchoolYearDto implements Serializable {
 
     private final LongProperty id = new SimpleLongProperty();
     private final StringProperty schoolYear = new SimpleStringProperty();
-    private final ListProperty<MemberDtok> members = new SimpleListProperty<>();
+    private final ListProperty<MemberDto> members = new SimpleListProperty<>();
 
     public long getId() {
         return id.get();
@@ -44,15 +44,15 @@ public class SchoolYearDto implements Serializable {
         this.schoolYear.set(schoolYear);
     }
 
-    public ObservableList<MemberDtok> getMembers() {
+    public ObservableList<MemberDto> getMembers() {
         return members.get();
     }
 
-    public ListProperty<MemberDtok> membersProperty() {
+    public ListProperty<MemberDto> membersProperty() {
         return members;
     }
 
-    public void setMembers(ObservableList<MemberDtok> members) {
+    public void setMembers(ObservableList<MemberDto> members) {
         this.members.set(members);
     }
 }

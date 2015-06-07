@@ -21,12 +21,12 @@ import java.util.Set;
 @Table(name = "member", uniqueConstraints = {
         @UniqueConstraint(columnNames = "studentNumber")
 })
-public class Member implements Serializable {
+public class Member implements Serializable, Bean {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "studentNumber", unique = true, nullable = false)
     private Integer studentNumber;
@@ -67,11 +67,11 @@ public class Member implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members", cascade = CascadeType.PERSIST)
     private Set<SchoolYear> schoolYears;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

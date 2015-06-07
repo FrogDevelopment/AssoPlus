@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
-import fr.frogdevelopment.assoplus.dto.MemberDtok;
+import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.service.MembersService;
 
 import java.net.URL;
@@ -30,7 +30,7 @@ public class AllMembersController implements Initializable {
 	private MembersService membersService;
 
 	@FXML
-	private TableView<MemberDtok> table;
+	private TableView<MemberDto> table;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

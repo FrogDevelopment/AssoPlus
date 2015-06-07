@@ -8,7 +8,7 @@ import javafx.beans.property.*;
 
 import java.io.Serializable;
 
-public class MemberDtok implements Serializable{
+public class MemberDto implements Serializable, Dto{
 
 	private final LongProperty id = new SimpleLongProperty();
 	private final IntegerProperty studentNumber = new SimpleIntegerProperty();

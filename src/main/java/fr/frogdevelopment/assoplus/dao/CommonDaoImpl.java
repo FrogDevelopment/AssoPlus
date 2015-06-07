@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Set;
 
 @Transactional(propagation = Propagation.MANDATORY)
 public class CommonDaoImpl<E> implements CommonDao<E> {
@@ -95,13 +96,28 @@ public class CommonDaoImpl<E> implements CommonDao<E> {
 	}
 
 	@Override
+	public void saveAll(Set<E> entities) {
+		entities.forEach(this::save);
+	}
+
+	@Override
 	public void update(E entity) throws HibernateException {
 		getSession().update(entity);
 	}
 
 	@Override
+	public void updateAll(Set<E> entities) throws HibernateException {
+		entities.forEach(this::update);
+	}
+
+	@Override
 	public void delete(E entity) throws HibernateException {
 		getSession().delete(entity);
+	}
+
+	@Override
+	public void deleteAll(Set<E> entities) throws HibernateException {
+		entities.forEach(this::delete);
 	}
 
 }

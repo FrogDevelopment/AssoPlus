@@ -10,9 +10,9 @@ interface Service<E, D> {
 
 	ObservableList<D> getAllData();
 
-	void saveData(D dto);
+	D saveData(D dto);
 
-	void updateData(D dto);
+	D updateData(D dto);
 
 	void deleteData(D dto);
 }

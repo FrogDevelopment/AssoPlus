@@ -23,5 +23,4 @@ public class MemberDaoImpl extends CommonDaoImpl<Member> implements MemberDao {
 				.list();
 	}
 
-
 }

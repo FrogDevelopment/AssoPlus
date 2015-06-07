@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 public interface CommonDao<E> {
 
@@ -21,8 +22,13 @@ public interface CommonDao<E> {
 
 	void save(E entity);
 
+	void saveAll(Set<E> entities);
+
 	void update(E entity);
+
+	void updateAll(Set<E> entities) throws HibernateException;
 
 	void delete(E entity);
 
+	void deleteAll(Set<E> entities) throws HibernateException;
 }
