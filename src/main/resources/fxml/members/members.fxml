@@ -13,7 +13,12 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import fr.frogdevelopment.assoplus.components.controller.NumberTextField?>
+<?import fr.frogdevelopment.assoplus.components.controls.NumberTextField?>
+
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.frogdevelopment.assoplus.controller.members.MembersController">
@@ -36,139 +41,138 @@
         </VBox>
     </left>
 
-    <top>
-        <VBox fx:id="vbTop">
-            <GridPane>
-                <columnConstraints>
-                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="50.0"/>
-                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                </rowConstraints>
-
-                <Label text="Numéro étudiant" GridPane.rowIndex="0"/>
-                <NumberTextField fx:id="txtStudentNumber" GridPane.columnIndex="1"/>
-
-                <Label text="Nom" GridPane.rowIndex="1"/>
-                <TextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-
-                <Label text="Prénom" GridPane.rowIndex="2"/>
-                <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-
-                <Label text="Date de naissance" GridPane.rowIndex="3"/>
-                <TextField fx:id="txtBirthday" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-
-                <Label text="Email" GridPane.rowIndex="4"/>
-                <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-
-                <Label text="Diplôme" GridPane.rowIndex="5"/>
-                <TextField fx:id="txtLicence" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-
-                <Label text="Option" GridPane.rowIndex="6"/>
-                <TextField fx:id="txtOption" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-
-                <Label text="N° téléphone" GridPane.rowIndex="7"/>
-                <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-
-                <Label text="Adresse" GridPane.rowIndex="8"/>
-                <TextField fx:id="txtAddress" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-
-                <Label text="Code Postal" GridPane.rowIndex="9"/>
-                <TextField fx:id="txtPostalCode" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
-
-                <Label text="Ville" GridPane.rowIndex="10"/>
-                <TextField fx:id="txtCity" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
-
-                <Label text="Adhésion payée" GridPane.rowIndex="11"/>
-                <CheckBox fx:id="cbFeePaid" GridPane.columnIndex="1" GridPane.rowIndex="11" selected="true"/>
-
-            </GridPane>
-            <Button onAction="#saveData" text="Save"/>
-        </VBox>
-    </top>
-
     <center>
-        <!--<Pane fx:id="content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />-->
-        <TableView fx:id="table">
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-            </columnResizePolicy>
-            <columns>
-                <TableColumn text="Numéro d'étudiant">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="studentNumber"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Nom">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="lastname"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Prénom">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="firstname"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Date de naissance">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="birthday"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="email">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="email"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Diplôme">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="licence"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Option">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="option"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Téléphone">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="phone"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Adresse">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="address"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Code Postal">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="postalCode"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Ville">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="city"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Adhésion payée">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="feePaid"/>
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
+        <VBox>
+            <VBox fx:id="vbTop">
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="50.0"/>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+
+                    <Label text="Numéro étudiant" GridPane.rowIndex="0"/>
+                    <NumberTextField fx:id="txtStudentNumber" GridPane.columnIndex="1"/>
+
+                    <Label text="Nom" GridPane.rowIndex="1"/>
+                    <TextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Prénom" GridPane.rowIndex="2"/>
+                    <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                    <Label text="Date de naissance" GridPane.rowIndex="3"/>
+                    <TextField fx:id="txtBirthday" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <Label text="Email" GridPane.rowIndex="4"/>
+                    <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                    <Label text="Diplôme" GridPane.rowIndex="5"/>
+                    <TextField fx:id="txtLicence" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+                    <Label text="Option" GridPane.rowIndex="6"/>
+                    <TextField fx:id="txtOption" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+                    <Label text="N° téléphone" GridPane.rowIndex="7"/>
+                    <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+                    <Label text="Adresse" GridPane.rowIndex="8"/>
+                    <TextField fx:id="txtAddress" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+                    <Label text="Code Postal" GridPane.rowIndex="9"/>
+                    <TextField fx:id="txtPostalCode" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+
+                    <Label text="Ville" GridPane.rowIndex="10"/>
+                    <TextField fx:id="txtCity" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+
+                    <Label text="Adhésion payée" GridPane.rowIndex="11"/>
+                    <CheckBox fx:id="cbFeePaid" GridPane.columnIndex="1" GridPane.rowIndex="11" selected="true"/>
+
+                </GridPane>
+                <Button onAction="#saveData" text="Save"/>
+            </VBox>
+
+            <TableView fx:id="table">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn text="Numéro d'étudiant">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="studentNumber"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Nom">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="lastname"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Prénom">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="firstname"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Date de naissance">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="birthday"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="email">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="email"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Diplôme">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="licence"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Option">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="option"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Téléphone">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="phone"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Adresse">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="address"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Code Postal">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="postalCode"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Ville">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="city"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="Adhésion payée">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="feePaid"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </VBox>
     </center>
 
 </BorderPane>

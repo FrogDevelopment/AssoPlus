@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Frog Development 2015.
+ */
+
 package fr.frogdevelopment.assoplus.dao;
 
 import org.hibernate.criterion.Order;

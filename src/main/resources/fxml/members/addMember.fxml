@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fr.frogdevelopment.assoplus.components.controller.NumberTextField?>
+<?import fr.frogdevelopment.assoplus.components.controls.NumberTextField?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.members.AddMemberController">

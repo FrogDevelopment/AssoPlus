@@ -2,6 +2,10 @@
 
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
 <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="fr.frogdevelopment.assoplus.controller.members.AllMembersController"

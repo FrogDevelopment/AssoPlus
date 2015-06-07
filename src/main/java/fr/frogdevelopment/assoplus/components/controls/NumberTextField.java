@@ -1,4 +1,8 @@
-package fr.frogdevelopment.assoplus.components.controller;
+/*
+ * Copyright (c) Frog Development 2015.
+ */
+
+package fr.frogdevelopment.assoplus.components.controls;
 
 import javafx.scene.control.TextField;
 
