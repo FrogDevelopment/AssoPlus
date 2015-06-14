@@ -6,6 +6,7 @@ package fr.frogdevelopment.assoplus.bean;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 
@@ -66,12 +67,12 @@ public class Option {
 
 	@Override
 	public String toString() {
-		return "Option{" +
-				"id=" + id +
-				", code='" + code + '\'' +
-				", label='" + label + '\'' +
-				", licence=" + licence +
-				'}';
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("code", code)
+				.append("label", label)
+				.append("licence", licence)
+				.toString();
 	}
 
 	@Override

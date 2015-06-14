@@ -4,6 +4,10 @@
 
 package fr.frogdevelopment.assoplus.bean;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,9 +64,6 @@ public class Member implements Serializable, Bean {
 
     @Column(name = "city")
     private String city;
-
-    @Column(name = "fee_paid")
-    private boolean feePaid;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members", cascade = CascadeType.PERSIST)
     private Set<SchoolYear> schoolYears;
@@ -163,19 +164,72 @@ public class Member implements Serializable, Bean {
         this.city = city;
     }
 
-    public boolean isFeePaid() {
-        return feePaid;
-    }
-
-    public void setFeePaid(boolean feePaid) {
-        this.feePaid = feePaid;
-    }
-
     public Set<SchoolYear> getSchoolYears() {
         return schoolYears;
     }
 
     public void setSchoolYears(Set<SchoolYear> schoolYears) {
         this.schoolYears = schoolYears;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("studentNumber", studentNumber)
+                .append("lastname", lastname)
+                .append("firstname", firstname)
+                .append("birthday", birthday)
+                .append("email", email)
+                .append("licence", licence)
+                .append("option", option)
+                .append("phone", phone)
+                .append("address", address)
+                .append("postalCode", postalCode)
+                .append("city", city)
+                .append("schoolYears", schoolYears)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Member member = (Member) o;
+
+        return new EqualsBuilder()
+                .append(id, member.id)
+                .append(studentNumber, member.studentNumber)
+                .append(lastname, member.lastname)
+                .append(firstname, member.firstname)
+                .append(birthday, member.birthday)
+                .append(email, member.email)
+                .append(licence, member.licence)
+                .append(option, member.option)
+                .append(phone, member.phone)
+                .append(address, member.address)
+                .append(postalCode, member.postalCode)
+                .append(city, member.city)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(studentNumber)
+                .append(lastname)
+                .append(firstname)
+                .append(birthday)
+                .append(email)
+                .append(licence)
+                .append(option)
+                .append(phone)
+                .append(address)
+                .append(postalCode)
+                .append(city)
+                .toHashCode();
     }
 }

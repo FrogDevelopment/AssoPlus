@@ -4,6 +4,10 @@
 
 package fr.frogdevelopment.assoplus.bean;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,5 +55,36 @@ public class SchoolYear {
 
     public void setMembers(Set<Member> members) {
         this.members = members;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("schoolYear", schoolYear)
+                .append("members", members)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SchoolYear that = (SchoolYear) o;
+
+        return new EqualsBuilder()
+                .append(id, that.id)
+                .append(schoolYear, that.schoolYear)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(schoolYear)
+                .toHashCode();
     }
 }

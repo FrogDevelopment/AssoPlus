@@ -4,6 +4,8 @@
 
 package fr.frogdevelopment.assoplus.bean;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -63,12 +65,12 @@ public class Licence implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Licence{" +
-				"id=" + id +
-				", code='" + code + '\'' +
-				", label='" + label + '\'' +
-				", options=" + options +
-				'}';
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("code", code)
+				.append("label", label)
+				.append("options", options)
+				.toString();
 	}
 
 	@Override
