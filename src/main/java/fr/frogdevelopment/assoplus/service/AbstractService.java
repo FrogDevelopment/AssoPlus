@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-abstract class AbstractService<B extends Bean, D extends Dto> implements fr.frogdevelopment.assoplus.service.Service<B, D> {
+abstract class AbstractService<B extends Bean, D extends Dto> implements fr.frogdevelopment.assoplus.service.Service<D> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
 

@@ -4,13 +4,12 @@
 
 package fr.frogdevelopment.assoplus.service;
 
-import fr.frogdevelopment.assoplus.bean.Member;
 import fr.frogdevelopment.assoplus.bean.SchoolYear;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 
 import java.io.File;
 
-public interface MembersService extends Service<Member, MemberDto> {
+public interface MembersService extends Service<MemberDto> {
 
     SchoolYear getCurrentSchoolYear();
 

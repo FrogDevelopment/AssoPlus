@@ -6,7 +6,7 @@ package fr.frogdevelopment.assoplus.service;
 
 import javafx.collections.ObservableList;
 
-interface Service<E, D> {
+interface Service<D> {
 
 	ObservableList<D> getAllData();
 
