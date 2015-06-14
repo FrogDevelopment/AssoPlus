@@ -46,7 +46,6 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
 		memberDto.setAddress(member.getAddress());
 		memberDto.setPostalCode(member.getPostalCode());
 		memberDto.setCity(member.getCity());
-		memberDto.setFeePaid(member.isFeePaid());
 
 		return memberDto;
 	}
@@ -65,7 +64,6 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
 		member.setAddress(memberDto.getAddress());
 		member.setPostalCode(memberDto.getPostalCode());
 		member.setCity(memberDto.getCity());
-		member.setFeePaid(memberDto.getFeePaid());
 
 		return member;
 	}

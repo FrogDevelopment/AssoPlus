@@ -2,13 +2,13 @@
  * Copyright (c) Frog Development 2015.
  */
 
-package fr.frogdevelopment.assoplus.controller.members;
+package fr.frogdevelopment.assoplus.controller;
 
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -34,11 +34,15 @@ public class MembersController implements Initializable {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MembersController.class);
 
-    @Autowired
+	private ResourceBundle bundle;
+
+	@Autowired
 	private MembersService membersService;
 
-    @FXML
-    private VBox vbTop;
+	@FXML
+	private VBox vbTop;
+	@FXML
+	private Button btnShowHide;
 
 	@FXML
 	private VBox vbLeft;
@@ -65,51 +69,59 @@ public class MembersController implements Initializable {
 	private TextField txtPostalCode;
 	@FXML
 	private TextField txtCity;
+
 	@FXML
-	private CheckBox cbFeePaid;
+	private TableView<MemberDto> table;
 
-    @FXML
-    private TableView<MemberDto> table;
-
-    private ObservableList<MemberDto> data;
+	private ObservableList<MemberDto> data;
 
 
-    @Override
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-        try {
-            data = membersService.getAllData();
-            table.setItems(data);
-        } catch (Exception e) {
-            LOGGER.error("FIXME", e);
-        }
+		bundle = resources;
+		try {
+			data = membersService.getAllData();
+			table.setItems(data);
+		} catch (Exception e) {
+			LOGGER.error("FIXME", e);
+		}
 	}
 
-    public void saveData() {
-        MemberDto member = new MemberDto();
-        member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
-        member.setLastname(txtLastname.getText());
-        member.setFirstname(txtFirstname.getText());
-        member.setBirthday(txtBirthday.getText());
-        member.setEmail(txtEmail.getText());
-        member.setLicence(txtLicence.getText());
-        member.setOption(txtOption.getText());
-        member.setPhone(txtPhone.getText());
-        member.setAddress(txtAddress.getText());
-        member.setPostalCode(txtPostalCode.getText());
-        member.setCity(txtCity.getText());
-        member.setFeePaid(cbFeePaid.isSelected());
+	public void saveData() {
+		MemberDto member = new MemberDto();
+		member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
+		member.setLastname(txtLastname.getText());
+		member.setFirstname(txtFirstname.getText());
+		member.setBirthday(txtBirthday.getText());
+		member.setEmail(txtEmail.getText());
+		member.setLicence(txtLicence.getText());
+		member.setOption(txtOption.getText());
+		member.setPhone(txtPhone.getText());
+		member.setAddress(txtAddress.getText());
+		member.setPostalCode(txtPostalCode.getText());
+		member.setCity(txtCity.getText());
 
-        membersService.saveData(member);
+		membersService.saveData(member);
 
-        // fixme voir si id maj dans DTO
-        data.add(member);
-    }
+		data.add(member);
+	}
 
-    public void importMembers(Event event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Importer des adhérents");
-	    File file = fileChooser.showOpenDialog(vbLeft.getScene().getWindow());
+	public void importMembers() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Importer des adhérents");
+		File file = fileChooser.showOpenDialog(vbLeft.getScene().getWindow());
 
-	    membersService.importMembers(file);
-    }
+		if (file != null) {
+			membersService.importMembers(file);
+		}
+	}
+
+
+	public void showHideMember() {
+		final boolean isVisible = vbTop.isVisible();
+		vbTop.setManaged(!isVisible);
+		vbTop.setVisible(!isVisible);
+
+		btnShowHide.setText(isVisible ? "Montrer" : "Cacher");
+	}
 }

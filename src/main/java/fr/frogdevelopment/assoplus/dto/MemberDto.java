@@ -22,7 +22,6 @@ public class MemberDto implements Serializable, Dto{
 	private final StringProperty address = new SimpleStringProperty();
 	private final StringProperty postalCode = new SimpleStringProperty();
 	private final StringProperty city = new SimpleStringProperty();
-	private final BooleanProperty feePaid = new SimpleBooleanProperty();
 
 	public long getId() {
 		return id.get();
@@ -168,15 +167,4 @@ public class MemberDto implements Serializable, Dto{
 		this.city.set(city);
 	}
 
-	public boolean getFeePaid() {
-		return feePaid.get();
-	}
-
-	public BooleanProperty feePaidProperty() {
-		return feePaid;
-	}
-
-	public void setFeePaid(boolean feePaid) {
-		this.feePaid.set(feePaid);
-	}
 }

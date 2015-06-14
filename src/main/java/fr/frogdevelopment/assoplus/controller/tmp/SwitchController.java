@@ -2,7 +2,7 @@
  * Copyright (c) Frog Development 2015.
  */
 
-package fr.frogdevelopment.assoplus.controller.members;
+package fr.frogdevelopment.assoplus.controller.tmp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
