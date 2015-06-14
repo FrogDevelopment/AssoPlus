@@ -16,6 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ResourceBundle;
 
 public class Main extends Application {
 
@@ -41,6 +42,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setControllerFactory(CONTEXT::getBean);
 			loader.setLocation(Class.class.getResource("/fxml/"));
+			loader.setResources(ResourceBundle.getBundle("bundles.label"));
 			return loader.load(fxmlStream);
 		} catch (IOException ioException) {
 			throw new RuntimeException(ioException);
