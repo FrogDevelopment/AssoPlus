@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ import java.util.Set;
 		@UniqueConstraint(columnNames = "code"),
 		@UniqueConstraint(columnNames = "label")
 })
-public class Licence implements Serializable{
+public class Licence implements Reference {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
@@ -30,6 +31,18 @@ public class Licence implements Serializable{
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "licence")
 	private Set<Option> options;
+
+	public Licence() {
+	}
+
+	public Licence(String code, String label) {
+		this.code = code;
+		this.label = label;
+		options = new HashSet<>(4);
+		for (int i = 0; i < 3; i++) {
+			options.add(new Option(String.valueOf(i), "Option " + i));
+		}
+	}
 
 	public long getId() {
 		return id;

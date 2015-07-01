@@ -15,7 +15,7 @@ import javax.persistence.*;
 		@UniqueConstraint(columnNames = "code"),
 		@UniqueConstraint(columnNames = "label")
 })
-public class Option {
+public class Option implements Reference{
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
@@ -31,6 +31,14 @@ public class Option {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "licence_id", nullable = false)
 	private Licence licence;
+
+	public Option() {
+	}
+
+	public Option(String code, String label) {
+		this.code = code;
+		this.label = label;
+	}
 
 	public long getId() {
 		return id;

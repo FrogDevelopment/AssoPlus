@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.Pane?>
+<Pane xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
+    <TreeTableView fx:id="treeTableView">
+        <columns>
+            <TreeTableColumn fx:id="colLicence" prefWidth="75.0" text="Code" resizable="false"/>
+            <TreeTableColumn fx:id="colOption" prefWidth="300.0" text="Libellé"/>
+        </columns>
+    </TreeTableView>
+</Pane>
