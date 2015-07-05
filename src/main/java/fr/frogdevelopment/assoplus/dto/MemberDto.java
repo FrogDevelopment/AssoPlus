@@ -8,26 +8,26 @@ import javafx.beans.property.*;
 
 import java.io.Serializable;
 
-public class MemberDto implements Serializable, Dto{
+public class MemberDto implements Dto {
 
-	private final LongProperty id = new SimpleLongProperty();
-	private final IntegerProperty studentNumber = new SimpleIntegerProperty();
-	private final StringProperty lastname = new SimpleStringProperty();
-	private final StringProperty firstname = new SimpleStringProperty();
-	private final StringProperty birthday = new SimpleStringProperty();
-	private final StringProperty email = new SimpleStringProperty();
-	private final StringProperty licence = new SimpleStringProperty();
-	private final StringProperty option = new SimpleStringProperty();
-	private final StringProperty phone = new SimpleStringProperty();
-	private final StringProperty address = new SimpleStringProperty();
-	private final StringProperty postalCode = new SimpleStringProperty();
-	private final StringProperty city = new SimpleStringProperty();
+	private final SimpleLongProperty id = new SimpleLongProperty();
+	private final SimpleIntegerProperty studentNumber = new SimpleIntegerProperty();
+	private final SimpleStringProperty lastname = new SimpleStringProperty();
+	private final SimpleStringProperty firstname = new SimpleStringProperty();
+	private final SimpleStringProperty birthday = new SimpleStringProperty();
+	private final SimpleStringProperty email = new SimpleStringProperty();
+	private final SimpleStringProperty licence = new SimpleStringProperty();
+	private final SimpleStringProperty option = new SimpleStringProperty();
+	private final SimpleStringProperty phone = new SimpleStringProperty();
+	private final SimpleStringProperty address = new SimpleStringProperty();
+	private final SimpleStringProperty postalCode = new SimpleStringProperty();
+	private final SimpleStringProperty city = new SimpleStringProperty();
 
 	public long getId() {
 		return id.get();
 	}
 
-	public LongProperty idProperty() {
+	public SimpleLongProperty idProperty() {
 		return id;
 	}
 
@@ -39,7 +39,7 @@ public class MemberDto implements Serializable, Dto{
 		return studentNumber.get();
 	}
 
-	public IntegerProperty studentNumberProperty() {
+	public SimpleIntegerProperty studentNumberProperty() {
 		return studentNumber;
 	}
 
@@ -51,7 +51,7 @@ public class MemberDto implements Serializable, Dto{
 		return lastname.get();
 	}
 
-	public StringProperty lastnameProperty() {
+	public SimpleStringProperty lastnameProperty() {
 		return lastname;
 	}
 
@@ -63,7 +63,7 @@ public class MemberDto implements Serializable, Dto{
 		return firstname.get();
 	}
 
-	public StringProperty firstnameProperty() {
+	public SimpleStringProperty firstnameProperty() {
 		return firstname;
 	}
 
@@ -75,7 +75,7 @@ public class MemberDto implements Serializable, Dto{
 		return birthday.get();
 	}
 
-	public StringProperty birthdayProperty() {
+	public SimpleStringProperty birthdayProperty() {
 		return birthday;
 	}
 
@@ -87,7 +87,7 @@ public class MemberDto implements Serializable, Dto{
 		return email.get();
 	}
 
-	public StringProperty emailProperty() {
+	public SimpleStringProperty emailProperty() {
 		return email;
 	}
 
@@ -99,7 +99,7 @@ public class MemberDto implements Serializable, Dto{
 		return licence.get();
 	}
 
-	public StringProperty licenceProperty() {
+	public SimpleStringProperty licenceProperty() {
 		return licence;
 	}
 
@@ -111,7 +111,7 @@ public class MemberDto implements Serializable, Dto{
 		return option.get();
 	}
 
-	public StringProperty optionProperty() {
+	public SimpleStringProperty optionProperty() {
 		return option;
 	}
 
@@ -123,7 +123,7 @@ public class MemberDto implements Serializable, Dto{
 		return phone.get();
 	}
 
-	public StringProperty phoneProperty() {
+	public SimpleStringProperty phoneProperty() {
 		return phone;
 	}
 
@@ -135,7 +135,7 @@ public class MemberDto implements Serializable, Dto{
 		return address.get();
 	}
 
-	public StringProperty addressProperty() {
+	public SimpleStringProperty addressProperty() {
 		return address;
 	}
 
@@ -147,7 +147,7 @@ public class MemberDto implements Serializable, Dto{
 		return postalCode.get();
 	}
 
-	public StringProperty postalCodeProperty() {
+	public SimpleStringProperty postalCodeProperty() {
 		return postalCode;
 	}
 
@@ -159,12 +159,11 @@ public class MemberDto implements Serializable, Dto{
 		return city.get();
 	}
 
-	public StringProperty cityProperty() {
+	public SimpleStringProperty cityProperty() {
 		return city;
 	}
 
 	public void setCity(String city) {
 		this.city.set(city);
 	}
-
 }

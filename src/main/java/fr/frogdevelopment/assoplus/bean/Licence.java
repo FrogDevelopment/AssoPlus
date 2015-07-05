@@ -32,18 +32,6 @@ public class Licence implements Reference {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "licence")
 	private Set<Option> options;
 
-	public Licence() {
-	}
-
-	public Licence(String code, String label) {
-		this.code = code;
-		this.label = label;
-		options = new HashSet<>(4);
-		for (int i = 0; i < 3; i++) {
-			options.add(new Option(String.valueOf(i), "Option " + i));
-		}
-	}
-
 	public long getId() {
 		return id;
 	}

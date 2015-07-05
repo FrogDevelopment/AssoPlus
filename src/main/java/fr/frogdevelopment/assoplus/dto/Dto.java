@@ -4,7 +4,9 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-public interface Dto {
+import java.io.Serializable;
+
+public interface Dto extends Serializable {
 
 	void setId(long id);
 }

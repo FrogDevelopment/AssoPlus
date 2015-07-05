@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.layout.Pane?>
-<Pane xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
-    <TreeTableView fx:id="treeTableView">
-        <columns>
-            <TreeTableColumn fx:id="colLicence" prefWidth="75.0" text="Code" resizable="false"/>
-            <TreeTableColumn fx:id="colOption" prefWidth="300.0" text="Libellé"/>
-        </columns>
-    </TreeTableView>
-</Pane>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
+    <center>
+        <TreeTableView fx:id="treeTableView" BorderPane.alignment="CENTER">
+            <columns>
+                <TreeTableColumn fx:id="colCode" prefWidth="75.0" resizable="false" text="Code"/>
+                <TreeTableColumn fx:id="colLabel" prefWidth="300.0" text="Libellé"/>
+            </columns>
+        </TreeTableView>
+    </center>
+    <bottom>
+        <Button text="Annuler" BorderPane.alignment="CENTER" onMouseClicked="#onCancel"/>
+    </bottom>
+</BorderPane>

@@ -4,8 +4,8 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.bean.Licence;
-import fr.frogdevelopment.assoplus.bean.Reference;
+import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.ReferenceDto;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -15,6 +15,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -31,51 +32,60 @@ import java.util.ResourceBundle;
 public class LicencesController implements Initializable {
 
 	@FXML
-	private TreeTableView<Reference> treeTableView;
+	private TreeTableView<ReferenceDto> treeTableView;
 	@FXML
-	private TreeTableColumn<Reference, String> colLicence;
+	private TreeTableColumn<ReferenceDto, String> colCode;
 	@FXML
-	private TreeTableColumn<Reference, String> colOption;
+	private TreeTableColumn<ReferenceDto, String> colLabel;
 
-
-	private TextFieldTreeTableCell textFieldTreeTableCell = new TextFieldTreeTableCell(new StringConverter<String>() {
-		@Override
-		public String toString(String object) {
-			return object;
-		}
-
-		@Override
-		public String fromString(String string) {
-			return string;
-		}
-	});
+	private List<LicenceDto> licences;
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public void initialize(URL location, ResourceBundle resources) {
 
-		List<Licence> licences = Arrays.<Licence>asList(
-				new Licence("L1", "Licence 1"),
-				new Licence("L2", "Licence 2"),
-				new Licence("L3", "Licence 3"),
-				new Licence("M1", "Master 1"),
-				new Licence("M2", "Master 2"),
-				new Licence("D", "Doctorat")
+		licences = Arrays.<LicenceDto>asList(
+				new LicenceDto(0, "L1", "Licence 1"),
+				new LicenceDto(0, "L2", "Licence 2"),
+				new LicenceDto(0, "L3", "Licence 3"),
+				new LicenceDto(0, "M1", "Master 1"),
+				new LicenceDto(0, "M2", "Master 2"),
+				new LicenceDto(0, "D", "Doctorat")
 		);
 
-		TreeItem<Reference> rootItem = new TreeItem<>(new Licence());
+		TreeItem<ReferenceDto> rootItem = new TreeItem<>(new LicenceDto());
 
 		licences.forEach(licence -> {
-			TreeItem<Reference> treeItem = new TreeItem<>(licence);
+			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licence);
 			licence.getOptions().forEach(option -> treeItem.getChildren().add(new TreeItem<>(option)));
 			rootItem.getChildren().add(treeItem);
 		});
 
-		colLicence.setCellValueFactory((TreeTableColumn.CellDataFeatures<Reference, String> p) -> new ReadOnlyStringWrapper(p.getValue().getValue().getCode()));
-		colLicence.setCellFactory(p -> textFieldTreeTableCell);
+		colCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
+		colCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+			@Override
+			public String toString(String object) {
+				return object;
+			}
 
-		colOption.setCellValueFactory((TreeTableColumn.CellDataFeatures<Reference, String> p) -> new ReadOnlyStringWrapper(p.getValue().getValue().getLabel()));
-		colOption.setCellFactory(p -> textFieldTreeTableCell);
+			@Override
+			public String fromString(String string) {
+				return string;
+			}
+		}));
+
+		colLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
+		colLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+			@Override
+			public String toString(String object) {
+				return object;
+			}
+
+			@Override
+			public String fromString(String string) {
+				return string;
+			}
+		}));
 
 		rootItem.setExpanded(true);
 		treeTableView.setRoot(rootItem);
@@ -86,7 +96,7 @@ public class LicencesController implements Initializable {
 
 	public void onCancel(Event event) {
 		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-		window.close();
+//		window.close();
 	}
 
 }

@@ -4,27 +4,22 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
-import java.io.Serializable;
+public class SchoolYearDto implements Dto {
 
-public class SchoolYearDto implements Serializable {
-
-    private final LongProperty id = new SimpleLongProperty();
-    private final StringProperty schoolYear = new SimpleStringProperty();
-    private final ListProperty<MemberDto> members = new SimpleListProperty<>();
+    private final SimpleLongProperty id = new SimpleLongProperty();
+    private final SimpleStringProperty schoolYear = new SimpleStringProperty();
+    private final SimpleListProperty<MemberDto> members = new SimpleListProperty<>();
 
     public long getId() {
         return id.get();
     }
 
-    public LongProperty idProperty() {
+    public SimpleLongProperty idProperty() {
         return id;
     }
 
@@ -36,7 +31,7 @@ public class SchoolYearDto implements Serializable {
         return schoolYear.get();
     }
 
-    public StringProperty schoolYearProperty() {
+    public SimpleStringProperty schoolYearProperty() {
         return schoolYear;
     }
 
@@ -48,7 +43,7 @@ public class SchoolYearDto implements Serializable {
         return members.get();
     }
 
-    public ListProperty<MemberDto> membersProperty() {
+    public SimpleListProperty<MemberDto> membersProperty() {
         return members;
     }
 

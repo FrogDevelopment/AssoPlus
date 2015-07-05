@@ -32,14 +32,6 @@ public class Option implements Reference{
 	@JoinColumn(name = "licence_id", nullable = false)
 	private Licence licence;
 
-	public Option() {
-	}
-
-	public Option(String code, String label) {
-		this.code = code;
-		this.label = label;
-	}
-
 	public long getId() {
 		return id;
 	}
