@@ -4,17 +4,27 @@
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
+    <top>
+        <HBox BorderPane.alignment="CENTER">
+            <Button text="Ajouter Diplôme" onMouseClicked="#onAddLicence"/>
+            <Button text="Ajouter Option" onMouseClicked="#onAddOption"/>
+        </HBox>
+    </top>
     <center>
         <TreeTableView fx:id="treeTableView" BorderPane.alignment="CENTER">
             <columns>
-                <TreeTableColumn fx:id="colCode" prefWidth="75.0" resizable="false" text="Code"/>
-                <TreeTableColumn fx:id="colLabel" prefWidth="300.0" text="Libellé"/>
+                <TreeTableColumn fx:id="columnCode" prefWidth="75.0" resizable="false" text="Code"/>
+                <TreeTableColumn fx:id="columnLabel" prefWidth="300.0" text="Libellé"/>
             </columns>
         </TreeTableView>
     </center>
     <bottom>
-        <Button text="Annuler" BorderPane.alignment="CENTER" onMouseClicked="#onCancel"/>
+        <HBox BorderPane.alignment="CENTER">
+            <Button text="Sauver" onMouseClicked="#onSave"/>
+            <Button text="Annuler" onMouseClicked="#onCancel"/>
+        </HBox>
     </bottom>
 </BorderPane>

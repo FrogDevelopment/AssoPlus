@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 abstract class AbstractService<B extends Bean, D extends Dto> implements fr.frogdevelopment.assoplus.service.Service<D> {
 
@@ -62,8 +65,16 @@ abstract class AbstractService<B extends Bean, D extends Dto> implements fr.frog
 		dao.delete(createBean(dto));
 	}
 
-	abstract protected D createDTO(B entity);
+	public abstract D createDTO(B entity);
 
-	abstract protected B createBean(D dto);
+	public Set<D> createDTOs(Collection<B> beans) {
+		return beans.stream().map(this::createDTO).collect(Collectors.toSet());
+	}
+
+	public abstract B createBean(D dto);
+
+	public Set<B> createBeans(Collection<D> dtos) {
+		return dtos.stream().map(this::createBean).collect(Collectors.toSet());
+	}
 
 }

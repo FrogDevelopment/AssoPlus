@@ -16,12 +16,6 @@ public class OptionDto implements ReferenceDto {
 	private SimpleStringProperty label = new SimpleStringProperty();
 	private ObjectProperty<LicenceDto> licenceDto = new SimpleObjectProperty<>();
 
-	public OptionDto(long id, String code, String label) {
-		this.id.setValue(id);
-		this.code.setValue(code);
-		this.label.setValue(label);
-	}
-
 	public long getId() {
 		return id.get();
 	}

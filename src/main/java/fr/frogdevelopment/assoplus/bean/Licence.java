@@ -16,7 +16,7 @@ import java.util.Set;
 		@UniqueConstraint(columnNames = "code"),
 		@UniqueConstraint(columnNames = "label")
 })
-public class Licence implements Reference {
+public class Licence implements Reference, Bean {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)

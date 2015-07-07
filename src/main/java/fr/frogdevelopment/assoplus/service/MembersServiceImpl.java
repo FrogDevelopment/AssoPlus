@@ -32,7 +32,7 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
 		return schoolYearDao.getLastShoolYear();
 	}
 
-	protected MemberDto createDTO(Member member) {
+	public MemberDto createDTO(Member member) {
 		MemberDto memberDto = new MemberDto();
 		memberDto.setId(member.getId());
 		memberDto.setStudentNumber(member.getStudentNumber());
@@ -50,7 +50,7 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
 		return memberDto;
 	}
 
-	protected Member createBean(MemberDto memberDto) {
+	public Member createBean(MemberDto memberDto) {
 		Member member = new Member();
 		member.setId(memberDto.getId());
 		member.setStudentNumber(memberDto.getStudentNumber());

@@ -5,8 +5,9 @@
 package fr.frogdevelopment.assoplus.controller;
 
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.dto.ReferenceDto;
-import javafx.beans.property.ReadOnlyStringWrapper;
+import fr.frogdevelopment.assoplus.service.LicencesService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,51 +19,46 @@ import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 @Controller("licencesController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class LicencesController implements Initializable {
 
+	@Autowired
+	private LicencesService licencesService;
+
 	@FXML
 	private TreeTableView<ReferenceDto> treeTableView;
 	@FXML
-	private TreeTableColumn<ReferenceDto, String> colCode;
+	private TreeTableColumn<ReferenceDto, String> columnCode;
 	@FXML
-	private TreeTableColumn<ReferenceDto, String> colLabel;
+	private TreeTableColumn<ReferenceDto, String> columnLabel;
 
-	private List<LicenceDto> licences;
+	private Set<LicenceDto> licencesDto;
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public void initialize(URL location, ResourceBundle resources) {
-
-		licences = Arrays.<LicenceDto>asList(
-				new LicenceDto(0, "L1", "Licence 1"),
-				new LicenceDto(0, "L2", "Licence 2"),
-				new LicenceDto(0, "L3", "Licence 3"),
-				new LicenceDto(0, "M1", "Master 1"),
-				new LicenceDto(0, "M2", "Master 2"),
-				new LicenceDto(0, "D", "Doctorat")
-		);
+		licencesDto = licencesService.getAllOrderedByCode();
 
 		TreeItem<ReferenceDto> rootItem = new TreeItem<>(new LicenceDto());
 
-		licences.forEach(licence -> {
+		licencesDto.forEach(licence -> {
 			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licence);
 			licence.getOptions().forEach(option -> treeItem.getChildren().add(new TreeItem<>(option)));
 			rootItem.getChildren().add(treeItem);
 		});
 
-		colCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
-		colCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
+		columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
 			@Override
 			public String toString(String object) {
 				return object;
@@ -74,8 +70,8 @@ public class LicencesController implements Initializable {
 			}
 		}));
 
-		colLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
-		colLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+		columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
+		columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
 			@Override
 			public String toString(String object) {
 				return object;
@@ -94,9 +90,34 @@ public class LicencesController implements Initializable {
 		treeTableView.setEditable(true);
 	}
 
-	public void onCancel(Event event) {
-		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-//		window.close();
+	public void onSave(Event event) {
+		licencesService.save(licencesDto);
+
+		close(event);
 	}
 
+	public void onCancel(Event event) {
+		close(event);
+	}
+
+	private void close(Event event) {
+		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+		window.close();
+	}
+
+	public void onAddLicence(Event event) {
+	}
+
+	public void onAddOption(Event event) {
+		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+
+		final TreeItem<ReferenceDto> newItem = new TreeItem<>(new OptionDto());
+		selectedItem.getChildren().add(newItem);
+
+		selectedItem.expandedProperty().set(true);
+		final int rowIndex = treeTableView.getRow(newItem);
+
+		treeTableView.edit(rowIndex, columnCode);//Does 99% not start or get canceled, why?
+
+	}
 }
