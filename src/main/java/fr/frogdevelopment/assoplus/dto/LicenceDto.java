@@ -4,17 +4,18 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleSetProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
-
-import java.io.Serializable;
 
 public class LicenceDto implements ReferenceDto {
 
 	private SimpleLongProperty id = new SimpleLongProperty();
 	private SimpleStringProperty code = new SimpleStringProperty();
 	private SimpleStringProperty label = new SimpleStringProperty();
-	private SimpleSetProperty<OptionDto> options = new SimpleSetProperty<>();
+	private SimpleSetProperty<OptionDto> options = new SimpleSetProperty<>(FXCollections.observableSet());
 
 	public LicenceDto() {
 
@@ -25,7 +26,7 @@ public class LicenceDto implements ReferenceDto {
 		this.code.setValue(code);
 		this.label.setValue(label);
 		for (int i = 0; i < 3; i++) {
-			options.add(new OptionDto(0, String.valueOf(i), "OptionDto " + i));
+			options.get().add(new OptionDto(0, String.valueOf(i), "OptionDto " + i));
 		}
 	}
 
