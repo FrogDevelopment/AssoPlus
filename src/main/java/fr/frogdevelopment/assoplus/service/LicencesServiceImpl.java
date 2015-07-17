@@ -4,12 +4,14 @@
 
 package fr.frogdevelopment.assoplus.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.frogdevelopment.assoplus.bean.Licence;
 import fr.frogdevelopment.assoplus.bean.Option;
+import fr.frogdevelopment.assoplus.dao.OptionDao;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 
@@ -22,6 +24,9 @@ import java.util.stream.Collectors;
 
 @Service("licencesService")
 public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> implements LicencesService {
+
+    @Autowired
+    private OptionDao optionDao;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -66,6 +71,15 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
         return bean;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void deleteOption(LicenceDto licenceDto, OptionDto optionDto) {
+        Licence licence = createBean(licenceDto);
+        Option option = createOptionBean(licence, optionDto);
+
+        optionDao.delete(option);
+    }
+
     private Set<OptionDto> createOptionDtos(Collection<Option> beans) {
         return beans.stream().map((bean) -> {
             OptionDto dto = new OptionDto();
@@ -78,15 +92,17 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     }
 
     private Set<Option> createOptionBeans(Collection<OptionDto> dtos, Licence licence) {
-        return dtos.stream().map((dto) -> {
-            Option bean = new Option();
-            bean.setId(dto.getId());
-            bean.setCode(dto.getCode());
-            bean.setLabel(dto.getLabel());
-            bean.setLicence(licence);
+        return dtos.stream().map((dto) -> createOptionBean(licence, dto)).collect(Collectors.toSet());
+    }
 
-            return bean;
-        }).collect(Collectors.toSet());
+    private Option createOptionBean(Licence licence, OptionDto dto) {
+        Option bean = new Option();
+        bean.setId(dto.getId());
+        bean.setCode(dto.getCode());
+        bean.setLabel(dto.getLabel());
+        bean.setLicence(licence);
+
+        return bean;
     }
 
 }

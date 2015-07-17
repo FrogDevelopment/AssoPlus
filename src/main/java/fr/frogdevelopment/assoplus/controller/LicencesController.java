@@ -35,96 +35,119 @@ import java.util.Set;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class LicencesController implements Initializable {
 
-	@Autowired
-	private LicencesService licencesService;
+    @Autowired
+    private LicencesService licencesService;
 
-	@FXML
-	private TreeTableView<ReferenceDto> treeTableView;
-	@FXML
-	private TreeTableColumn<ReferenceDto, String> columnCode;
-	@FXML
-	private TreeTableColumn<ReferenceDto, String> columnLabel;
+    @FXML
+    private TreeTableView<ReferenceDto> treeTableView;
+    @FXML
+    private TreeTableColumn<ReferenceDto, String> columnCode;
+    @FXML
+    private TreeTableColumn<ReferenceDto, String> columnLabel;
 
-	private Set<LicenceDto> licencesDto;
+    private Set<LicenceDto> licencesDto;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public void initialize(URL location, ResourceBundle resources) {
-		licencesDto = licencesService.getAllOrderedByCode();
+    @Override
+    @SuppressWarnings("unchecked")
+    public void initialize(URL location, ResourceBundle resources) {
+        licencesDto = licencesService.getAllOrderedByCode();
 
-		TreeItem<ReferenceDto> rootItem = new TreeItem<>(new LicenceDto());
+        TreeItem<ReferenceDto> rootItem = new TreeItem<>(new LicenceDto());
 
-		licencesDto.forEach(licenceDto -> {
-			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
-			licenceDto.getOptions().stream().forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
-			rootItem.getChildren().add(treeItem);
+        licencesDto.forEach(licenceDto -> {
+            TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
+            licenceDto.getOptions().stream().forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
+            rootItem.getChildren().add(treeItem);
             rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-		});
+        });
 
-		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
-		columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-			@Override
-			public String toString(String object) {
-				return object;
-			}
+        columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
+        columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return object;
+            }
 
-			@Override
-			public String fromString(String string) {
-				return string;
-			}
-		}));
+            @Override
+            public String fromString(String string) {
+                return string;
+            }
+        }));
 
-		columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
-		columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-			@Override
-			public String toString(String object) {
-				return object;
-			}
+        columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
+        columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return object;
+            }
 
-			@Override
-			public String fromString(String string) {
-				return string;
-			}
-		}));
+            @Override
+            public String fromString(String string) {
+                return string;
+            }
+        }));
 
-		rootItem.setExpanded(true);
-		treeTableView.setRoot(rootItem);
-		treeTableView.setShowRoot(false);
+        rootItem.setExpanded(true);
+        treeTableView.setRoot(rootItem);
+        treeTableView.setShowRoot(false);
 
-		treeTableView.setEditable(true);
-	}
+        treeTableView.setEditable(true);
+    }
 
-	public void onSave(Event event) {
-		licencesService.saveOrUpdateAll(licencesDto);
-	}
+    public void onSave(Event event) {
+        licencesService.saveOrUpdateAll(licencesDto);
+    }
 
-	public void onClose(Event event) {
-		close(event);
-	}
+    public void onClose(Event event) {
+        close(event);
+    }
 
-	private void close(Event event) {
-		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-		window.close();
-	}
+    private void close(Event event) {
+        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        window.close();
+    }
 
-	public void onAddLicence() {
-	}
+    public void onAddLicence() {
+    }
 
-	public void onAddOption() {
-		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+    public void onAddOption() {
+        final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
-		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
-		OptionDto optionDto = new OptionDto();
-		licenceDto.addOption(optionDto);
+        if (!(selectedItem.getValue() instanceof LicenceDto)) {
+            return;
+        }
+
+        LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
+        OptionDto optionDto = new OptionDto();
+        licenceDto.addOption(optionDto);
         optionDto.setLicenceDto(licenceDto);
 
-		final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
-		selectedItem.getChildren().add(newItem);
+        final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
+        selectedItem.getChildren().add(newItem);
 
-		selectedItem.expandedProperty().set(true);
-		final int rowIndex = treeTableView.getRow(newItem);
+        selectedItem.expandedProperty().set(true);
+        final int rowIndex = treeTableView.getRow(newItem);
 
-		treeTableView.edit(rowIndex, columnCode);//Does 99% not start or get canceled, why?
+        treeTableView.edit(rowIndex, columnCode);//Does 99% not start or get canceled, why?
 
-	}
+    }
+
+    public void onRemoveOption() {
+        // fixme ajouter une dialog de confirmation
+        final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+
+        if (!(selectedItem.getValue() instanceof OptionDto)) {
+            return;
+        }
+
+        TreeItem<ReferenceDto> parent = selectedItem.getParent();
+        parent.getChildren().remove(selectedItem);
+
+        OptionDto optionDto = (OptionDto) selectedItem.getValue();
+        LicenceDto licenceDto = (LicenceDto) parent.getValue();
+        licenceDto.getOptions().remove(optionDto);
+
+        licencesService.deleteOption(licenceDto, optionDto);
+
+    }
 }

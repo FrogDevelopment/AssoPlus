@@ -12,90 +12,90 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "option", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "code"),
-		@UniqueConstraint(columnNames = "label")
+        @UniqueConstraint(columnNames = "code"),
+        @UniqueConstraint(columnNames = "label")
 })
-public class Option implements Reference{
+public class Option implements Reference, Bean {
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	@Column(name = "code", unique = true, nullable = false)
-	private String code;
+    @Column(name = "code", unique = true, nullable = false)
+    private String code;
 
-	@Column(name = "label", unique = true, nullable = false)
-	private String label;
+    @Column(name = "label", unique = true, nullable = false)
+    private String label;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "licence_id", nullable = false)
-	private Licence licence;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "licence_id", nullable = false)
+    private Licence licence;
 
-	public long getId() {
-		return id;
-	}
+    @Override
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getLabel() {
-		return label;
-	}
+    public String getLabel() {
+        return label;
+    }
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
+    public void setLabel(String label) {
+        this.label = label;
+    }
 
-	public Licence getLicence() {
-		return licence;
-	}
+    public Licence getLicence() {
+        return licence;
+    }
 
-	public void setLicence(Licence licence) {
-		this.licence = licence;
-	}
+    public void setLicence(Licence licence) {
+        this.licence = licence;
+    }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("code", code)
+                .append("label", label)
+                .append("licence", licence)
+                .toString();
+    }
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this)
-				.append("id", id)
-				.append("code", code)
-				.append("label", label)
-				.append("licence", licence)
-				.toString();
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		if (o == null || getClass() != o.getClass()) return false;
+        Option option = (Option) o;
 
-		Option option = (Option) o;
+        return new EqualsBuilder()
+                .append(id, option.id)
+                .append(code, option.code)
+                .append(label, option.label)
+                .isEquals();
+    }
 
-		return new EqualsBuilder()
-				.append(id, option.id)
-				.append(code, option.code)
-				.append(label, option.label)
-				.isEquals();
-	}
-
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder(17, 37)
-				.append(id)
-				.append(code)
-				.append(label)
-				.toHashCode();
-	}
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(code)
+                .append(label)
+                .toHashCode();
+    }
 }

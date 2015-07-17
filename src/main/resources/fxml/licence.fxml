@@ -11,6 +11,7 @@
         <HBox BorderPane.alignment="CENTER">
             <Button text="Ajouter Diplôme" onMouseClicked="#onAddLicence"/>
             <Button text="Ajouter Option" onMouseClicked="#onAddOption"/>
+            <Button text="Retirer Option" onMouseClicked="#onRemoveOption"/>
         </HBox>
     </top>
     <center>
