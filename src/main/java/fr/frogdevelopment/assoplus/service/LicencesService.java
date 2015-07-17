@@ -13,5 +13,4 @@ public interface LicencesService extends Service<LicenceDto> {
 
 	Set<LicenceDto> getAllOrderedByCode();
 
-	void save(Set<LicenceDto> dtos);
 }

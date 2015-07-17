@@ -75,4 +75,8 @@ public class LicenceDto implements ReferenceDto {
 	public void setOptions(ObservableSet<OptionDto> options) {
 		this.options.set(options);
 	}
+
+	public void addOption(OptionDto dto) {
+		this.options.add(dto);
+	}
 }

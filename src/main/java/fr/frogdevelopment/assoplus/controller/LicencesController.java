@@ -4,10 +4,6 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.dto.ReferenceDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,10 +15,16 @@ import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.dto.ReferenceDto;
+import fr.frogdevelopment.assoplus.service.LicencesService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -91,7 +93,7 @@ public class LicencesController implements Initializable {
 	}
 
 	public void onSave(Event event) {
-		licencesService.save(licencesDto);
+		licencesService.saveAll(licencesDto);
 
 		close(event);
 	}
@@ -105,13 +107,18 @@ public class LicencesController implements Initializable {
 		window.close();
 	}
 
-	public void onAddLicence(Event event) {
+	public void onAddLicence() {
 	}
 
-	public void onAddOption(Event event) {
+	public void onAddOption() {
 		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
-		final TreeItem<ReferenceDto> newItem = new TreeItem<>(new OptionDto());
+		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
+		OptionDto optionDto = new OptionDto();
+		licenceDto.addOption(optionDto);
+        optionDto.setLicenceDto(licenceDto);
+
+		final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
 		selectedItem.getChildren().add(newItem);
 
 		selectedItem.expandedProperty().set(true);
