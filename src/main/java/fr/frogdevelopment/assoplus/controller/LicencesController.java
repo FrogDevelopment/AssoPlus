@@ -27,6 +27,7 @@ import fr.frogdevelopment.assoplus.dto.ReferenceDto;
 import fr.frogdevelopment.assoplus.service.LicencesService;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -53,10 +54,11 @@ public class LicencesController implements Initializable {
 
 		TreeItem<ReferenceDto> rootItem = new TreeItem<>(new LicenceDto());
 
-		licencesDto.forEach(licence -> {
-			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licence);
-			licence.getOptions().forEach(option -> treeItem.getChildren().add(new TreeItem<>(option)));
+		licencesDto.forEach(licenceDto -> {
+			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
+			licenceDto.getOptions().stream().forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
 			rootItem.getChildren().add(treeItem);
+            rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
 		});
 
 		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
