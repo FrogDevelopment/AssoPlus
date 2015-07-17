@@ -2,7 +2,7 @@
  * Copyright (c) Frog Development 2015.
  */
 
-package fr.frogdevelopment.assoplus.bean;
+package fr.frogdevelopment.assoplus.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,7 +10,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,16 +20,16 @@ import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Set;
 
-@Entity
+@javax.persistence.Entity
 @Table(name = "member", uniqueConstraints = {
         @UniqueConstraint(columnNames = "studentNumber")
 })
-public class Member implements Serializable, Bean {
+public class Member implements Serializable, Entity {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "studentNumber", unique = true, nullable = false)
     private Integer studentNumber;
@@ -68,11 +67,11 @@ public class Member implements Serializable, Bean {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members", cascade = CascadeType.PERSIST)
     private Set<SchoolYear> schoolYears;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

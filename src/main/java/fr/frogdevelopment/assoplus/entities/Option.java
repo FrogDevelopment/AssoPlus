@@ -2,7 +2,7 @@
  * Copyright (c) Frog Development 2015.
  */
 
-package fr.frogdevelopment.assoplus.bean;
+package fr.frogdevelopment.assoplus.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,17 +10,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 
-@Entity
+@javax.persistence.Entity
 @Table(name = "option", uniqueConstraints = {
         @UniqueConstraint(columnNames = "code"),
         @UniqueConstraint(columnNames = "label")
 })
-public class Option implements Reference, Bean {
+public class Option implements Reference, Entity {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "code", unique = true, nullable = false)
     private String code;
@@ -33,11 +33,11 @@ public class Option implements Reference, Bean {
     private Licence licence;
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

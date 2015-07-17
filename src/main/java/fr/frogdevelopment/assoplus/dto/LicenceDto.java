@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class LicenceDto implements ReferenceDto {
 
@@ -26,7 +27,7 @@ public class LicenceDto implements ReferenceDto {
 
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id.get();
 	}
 
@@ -34,7 +35,7 @@ public class LicenceDto implements ReferenceDto {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id.set(id);
 	}
 
@@ -78,5 +79,15 @@ public class LicenceDto implements ReferenceDto {
 
 	public void addOption(OptionDto dto) {
 		this.options.add(dto);
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("code", code)
+				.append("label", label)
+				.append("options", options)
+				.toString();
 	}
 }

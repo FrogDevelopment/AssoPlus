@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.frogdevelopment.assoplus.bean.Licence;
-import fr.frogdevelopment.assoplus.bean.Option;
+import fr.frogdevelopment.assoplus.entities.Licence;
+import fr.frogdevelopment.assoplus.entities.Option;
 import fr.frogdevelopment.assoplus.dao.OptionDao;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;

@@ -4,7 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.bean.Option;
+import fr.frogdevelopment.assoplus.entities.Option;
 
 public interface OptionDao extends CommonDao<Option> {
 

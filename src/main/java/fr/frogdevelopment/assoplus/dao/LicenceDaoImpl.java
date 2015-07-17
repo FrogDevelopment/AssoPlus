@@ -4,13 +4,8 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.bean.Licence;
-import fr.frogdevelopment.assoplus.bean.Member;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
+import fr.frogdevelopment.assoplus.entities.Licence;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository("licenceDao")
 public class LicenceDaoImpl extends CommonDaoImpl<Licence> implements LicenceDao {

@@ -15,7 +15,7 @@ public class SchoolYearDto implements Dto {
     private final SimpleStringProperty schoolYear = new SimpleStringProperty();
     private final SimpleListProperty<MemberDto> members = new SimpleListProperty<>();
 
-    public long getId() {
+    public Long getId() {
         return id.get();
     }
 
@@ -23,7 +23,7 @@ public class SchoolYearDto implements Dto {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 

@@ -23,7 +23,7 @@ public class MemberDto implements Dto {
 	private final SimpleStringProperty postalCode = new SimpleStringProperty();
 	private final SimpleStringProperty city = new SimpleStringProperty();
 
-	public long getId() {
+	public Long getId() {
 		return id.get();
 	}
 
@@ -31,7 +31,7 @@ public class MemberDto implements Dto {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id.set(id);
 	}
 

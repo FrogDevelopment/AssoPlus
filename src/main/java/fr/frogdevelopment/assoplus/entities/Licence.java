@@ -2,26 +2,24 @@
  * Copyright (c) Frog Development 2015.
  */
 
-package fr.frogdevelopment.assoplus.bean;
+package fr.frogdevelopment.assoplus.entities;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@javax.persistence.Entity
 @Table(name = "licence", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "code"),
 		@UniqueConstraint(columnNames = "label")
 })
-public class Licence implements Reference, Bean {
+public class Licence implements Reference, Entity {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
@@ -32,11 +30,11 @@ public class Licence implements Reference, Bean {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "licence")
 	private Set<Option> options;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -4,7 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.bean.SchoolYear;
+import fr.frogdevelopment.assoplus.entities.SchoolYear;
 
 public interface SchoolYearDao extends CommonDao<SchoolYear> {
 

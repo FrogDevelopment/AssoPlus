@@ -112,7 +112,7 @@ public class CommonDaoImpl<E> implements CommonDao<E> {
 
 	@Override
 	public void saveOrUpdate(E entity) throws HibernateException {
-		getSession().saveOrUpdate(entity);
+		getSession().save(entity);
 	}
 
 	@Override

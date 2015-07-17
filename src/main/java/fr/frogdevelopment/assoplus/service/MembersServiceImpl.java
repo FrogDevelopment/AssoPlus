@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import fr.frogdevelopment.assoplus.bean.Member;
-import fr.frogdevelopment.assoplus.bean.SchoolYear;
+import fr.frogdevelopment.assoplus.entities.Member;
+import fr.frogdevelopment.assoplus.entities.SchoolYear;
 import fr.frogdevelopment.assoplus.dao.SchoolYearDao;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 

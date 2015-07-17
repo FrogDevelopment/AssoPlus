@@ -4,10 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.bean.Licence;
-import fr.frogdevelopment.assoplus.bean.Member;
-
-import java.util.List;
+import fr.frogdevelopment.assoplus.entities.Licence;
 
 public interface LicenceDao extends CommonDao<Licence> {
 

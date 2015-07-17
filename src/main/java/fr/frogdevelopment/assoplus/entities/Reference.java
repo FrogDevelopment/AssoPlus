@@ -2,7 +2,7 @@
  * Copyright (c) Frog Development 2015.
  */
 
-package fr.frogdevelopment.assoplus.bean;
+package fr.frogdevelopment.assoplus.entities;
 
 import java.io.Serializable;
 

@@ -7,7 +7,7 @@ package fr.frogdevelopment.assoplus.dao;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 
-import fr.frogdevelopment.assoplus.bean.SchoolYear;
+import fr.frogdevelopment.assoplus.entities.SchoolYear;
 
 @Repository("schoolYearDao")
 public class SchoolYearDaoImpl extends CommonDaoImpl<SchoolYear> implements SchoolYearDao {

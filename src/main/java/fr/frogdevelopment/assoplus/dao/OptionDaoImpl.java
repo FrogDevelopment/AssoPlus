@@ -4,7 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.bean.Option;
+import fr.frogdevelopment.assoplus.entities.Option;
 import org.springframework.stereotype.Repository;
 
 @Repository("optionDao")

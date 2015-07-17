@@ -2,13 +2,14 @@
  * Copyright (c) Frog Development 2015.
  */
 
-package fr.frogdevelopment.assoplus.bean;
+package fr.frogdevelopment.assoplus.entities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 

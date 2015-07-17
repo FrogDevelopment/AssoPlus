@@ -4,7 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.bean.Member;
+import fr.frogdevelopment.assoplus.entities.Member;
 
 import java.util.List;
 
