@@ -38,6 +38,7 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
                     new LicenceDto("M2", "Master 2"),
                     new LicenceDto("D", "Doctorat")
             ));
+
         } else {
             licencesDto = createDtos(licences);
         }
@@ -60,35 +61,32 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
         bean.setId(dto.getId());
         bean.setCode(dto.getCode());
         bean.setLabel(dto.getLabel());
-        bean.setOptions(createOptionBeans(dto.getOptions()));
+        bean.setOptions(createOptionBeans(dto.getOptions(), bean));
 
         return bean;
     }
 
     private Set<OptionDto> createOptionDtos(Collection<Option> beans) {
-        return beans.stream().map(this::createOptionDto).collect(Collectors.toSet());
+        return beans.stream().map((bean) -> {
+            OptionDto dto = new OptionDto();
+            dto.setId(bean.getId());
+            dto.setCode(bean.getCode());
+            dto.setLabel(bean.getLabel());
+
+            return dto;
+        }).collect(Collectors.toSet());
     }
 
-    private OptionDto createOptionDto(Option bean) {
-        OptionDto dto = new OptionDto();
-        dto.setId(bean.getId());
-        dto.setCode(bean.getCode());
-        dto.setLabel(bean.getLabel());
+    private Set<Option> createOptionBeans(Collection<OptionDto> dtos, Licence licence) {
+        return dtos.stream().map((dto) -> {
+            Option bean = new Option();
+            bean.setId(dto.getId());
+            bean.setCode(dto.getCode());
+            bean.setLabel(dto.getLabel());
+            bean.setLicence(licence);
 
-        return dto;
-    }
-
-    private Set<Option> createOptionBeans(Collection<OptionDto> dtos) {
-        return dtos.stream().map(this::createOptionBean).collect(Collectors.toSet());
-    }
-
-    private Option createOptionBean(OptionDto dto) {
-        Option bean = new Option();
-        bean.setId(dto.getId());
-        bean.setCode(dto.getCode());
-        bean.setLabel(dto.getLabel());
-
-        return bean;
+            return bean;
+        }).collect(Collectors.toSet());
     }
 
 }

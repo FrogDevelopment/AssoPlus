@@ -18,5 +18,7 @@ interface Service<D> {
 
 	D updateData(D dto);
 
+	void saveOrUpdateAll(Set<D> dtos);
+
 	void deleteData(D dto);
 }

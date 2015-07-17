@@ -28,6 +28,10 @@ public interface CommonDao<E> {
 
 	void updateAll(Set<E> entities) throws HibernateException;
 
+	void saveOrUpdate(E entity) throws HibernateException;
+
+	void saveOrUpdateAll(Set<E> entities) throws HibernateException;
+
 	void delete(E entity);
 
 	void deleteAll(Set<E> entities) throws HibernateException;

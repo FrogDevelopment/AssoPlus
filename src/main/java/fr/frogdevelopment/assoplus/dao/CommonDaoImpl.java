@@ -111,6 +111,16 @@ public class CommonDaoImpl<E> implements CommonDao<E> {
 	}
 
 	@Override
+	public void saveOrUpdate(E entity) throws HibernateException {
+		getSession().saveOrUpdate(entity);
+	}
+
+	@Override
+	public void saveOrUpdateAll(Set<E> entities) throws HibernateException {
+		entities.forEach(this::update);
+	}
+
+	@Override
 	public void delete(E entity) throws HibernateException {
 		getSession().delete(entity);
 	}

@@ -93,7 +93,7 @@ public class LicencesController implements Initializable {
 	}
 
 	public void onSave(Event event) {
-		licencesService.saveAll(licencesDto);
+		licencesService.saveOrUpdateAll(licencesDto);
 
 		close(event);
 	}

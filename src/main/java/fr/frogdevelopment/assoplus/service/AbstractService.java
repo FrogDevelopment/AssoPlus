@@ -52,7 +52,7 @@ abstract class AbstractService<B extends Bean, D extends Dto> implements fr.frog
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveAll(Set<D> dtos) {
         dao.saveAll(createBeans(dtos));
     }
@@ -65,6 +65,12 @@ abstract class AbstractService<B extends Bean, D extends Dto> implements fr.frog
         dto.setId(bean.getId());
 
         return dto;
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void saveOrUpdateAll(Set<D> dtos) {
+        dao.saveOrUpdateAll(createBeans(dtos));
     }
 
     @Override
