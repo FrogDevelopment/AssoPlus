@@ -2,3 +2,4 @@ assoplus.db
 .idea
 target
 lib
+*.lock
