@@ -94,11 +94,9 @@ public class LicencesController implements Initializable {
 
 	public void onSave(Event event) {
 		licencesService.saveOrUpdateAll(licencesDto);
-
-		close(event);
 	}
 
-	public void onCancel(Event event) {
+	public void onClose(Event event) {
 		close(event);
 	}
 

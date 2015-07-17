@@ -24,7 +24,7 @@
     <bottom>
         <HBox BorderPane.alignment="CENTER">
             <Button text="Sauver" onMouseClicked="#onSave"/>
-            <Button text="Annuler" onMouseClicked="#onCancel"/>
+            <Button text="Fermer" onMouseClicked="#onClose"/>
         </HBox>
     </bottom>
 </BorderPane>
