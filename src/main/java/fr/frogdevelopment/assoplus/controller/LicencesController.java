@@ -99,7 +99,7 @@ public class LicencesController implements Initializable {
 
 	public void onSave() {
 		licencesService.saveOrUpdateAll(licencesDto);
-//		init();
+		init();
 	}
 
 	public void onClose(Event event) {

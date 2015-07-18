@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
     <top>
         <HBox BorderPane.alignment="CENTER">
-            <Button text="Ajouter Diplôme" onMouseClicked="#onAddLicence"/>
-            <Button text="Retirer Diplôme" onMouseClicked="#onRemoveLicence"/>
-            <Button text="Ajouter Option" onMouseClicked="#onAddOption"/>
-            <Button text="Retirer Option" onMouseClicked="#onRemoveOption"/>
+            <Button onMouseClicked="#onAddLicence" text="Ajouter Diplôme"/>
+            <Button onMouseClicked="#onRemoveLicence" text="Retirer Diplôme"/>
+            <Separator orientation="VERTICAL"/>
+            <Button onMouseClicked="#onAddOption" text="Ajouter Option"/>
+            <Button onMouseClicked="#onRemoveOption" text="Retirer Option"/>
         </HBox>
     </top>
     <center>
@@ -25,8 +22,8 @@
     </center>
     <bottom>
         <HBox BorderPane.alignment="CENTER">
-            <Button text="Sauver" onMouseClicked="#onSave"/>
-            <Button text="Fermer" onMouseClicked="#onClose"/>
+            <Button onMouseClicked="#onSave" text="Sauver"/>
+            <Button onMouseClicked="#onClose" text="Fermer"/>
         </HBox>
     </bottom>
 </BorderPane>
