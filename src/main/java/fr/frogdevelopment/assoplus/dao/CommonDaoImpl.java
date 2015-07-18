@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
+import fr.frogdevelopment.assoplus.entities.Entity;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 @Transactional(propagation = Propagation.MANDATORY)
-public class CommonDaoImpl<E> implements CommonDao<E> {
+public class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -59,6 +60,7 @@ public class CommonDaoImpl<E> implements CommonDao<E> {
 	protected Criteria getCriteria() {
 		return getSession().createCriteria(persistentClass);
 	}
+
 	protected Criteria getCriteria(String alias) {
 		return getSession().createCriteria(persistentClass, alias);
 	}
@@ -112,12 +114,17 @@ public class CommonDaoImpl<E> implements CommonDao<E> {
 
 	@Override
 	public void saveOrUpdate(E entity) throws HibernateException {
-		getSession().saveOrUpdate(entity);
+//		getSession().saveOrUpdate(entity);
+		if (entity.getId() == 0) {
+			save(entity);
+		} else {
+			update(entity);
+		}
 	}
 
 	@Override
 	public void saveOrUpdateAll(Set<E> entities) throws HibernateException {
-		entities.forEach(this::update);
+		entities.forEach(this::saveOrUpdate);
 	}
 
 	@Override

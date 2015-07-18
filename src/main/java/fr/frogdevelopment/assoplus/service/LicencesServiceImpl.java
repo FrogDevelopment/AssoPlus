@@ -29,7 +29,7 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     private OptionDao optionDao;
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Set<LicenceDto> getAllOrderedByCode() {
         List<Licence> licences = dao.getAllOrderedBy("code");
 

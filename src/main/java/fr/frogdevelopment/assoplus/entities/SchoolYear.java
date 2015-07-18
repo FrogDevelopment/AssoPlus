@@ -9,15 +9,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@javax.persistence.Entity
 @Table(name="school_year", uniqueConstraints = {
         @UniqueConstraint(columnNames = "schoolYear")
 })
-public class SchoolYear {
+public class SchoolYear implements Entity{
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -34,6 +33,7 @@ public class SchoolYear {
     )
     private Set<Member> members = new HashSet<>();
 
+    @Override
     public Long getId() {
         return id;
     }
