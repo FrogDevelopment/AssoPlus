@@ -63,7 +63,7 @@
                     <TextField fx:id="txtFirstname" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
 
                     <Label text="Date de naissance" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <TextField fx:id="txtBirthday" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <DatePicker fx:id="dpBirthday" GridPane.rowIndex="1" GridPane.columnIndex="1" showWeekNumbers="false"/>
 
                     <Label text="%member.student.number" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
                     <NumberTextField fx:id="txtStudentNumber" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
