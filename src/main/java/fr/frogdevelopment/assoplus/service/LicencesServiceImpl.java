@@ -43,7 +43,7 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
                     new LicenceDto("M2", "Master 2"),
                     new LicenceDto("D", "Doctorat")
             ));
-
+            dao.saveAll(createBeans(licencesDto));
         } else {
             licencesDto = createDtos(licences);
         }
