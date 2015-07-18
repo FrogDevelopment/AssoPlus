@@ -4,9 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class OptionDto implements ReferenceDto {
@@ -14,7 +12,6 @@ public class OptionDto implements ReferenceDto {
 	private SimpleLongProperty id = new SimpleLongProperty();
 	private SimpleStringProperty code = new SimpleStringProperty();
 	private SimpleStringProperty label = new SimpleStringProperty();
-	private ObjectProperty<LicenceDto> licenceDto = new SimpleObjectProperty<>();
 
 	public Long getId() {
 		return id.get();
@@ -54,15 +51,4 @@ public class OptionDto implements ReferenceDto {
 		this.label.set(label);
 	}
 
-	public LicenceDto getLicenceDto() {
-		return licenceDto.get();
-	}
-
-	public ObjectProperty<LicenceDto> licenceDtoProperty() {
-		return licenceDto;
-	}
-
-	public void setLicenceDto(LicenceDto licenceDto) {
-		this.licenceDto.set(licenceDto);
-	}
 }

@@ -7,6 +7,7 @@ package fr.frogdevelopment.assoplus.entities;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @javax.persistence.Entity
@@ -29,6 +30,15 @@ public class Licence implements Reference, Entity {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "licence")
 	private Set<Option> options;
+
+	public Licence() {
+	}
+
+	public Licence(String code, String label) {
+		this.code = code;
+		this.label = label;
+		this.options = new HashSet<>();
+	}
 
 	public Long getId() {
 		return id;

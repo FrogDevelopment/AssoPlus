@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Transactional(propagation = Propagation.MANDATORY)
 public class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
@@ -98,7 +98,7 @@ public class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 	}
 
 	@Override
-	public void saveAll(Set<E> entities) {
+	public void saveAll(Collection<E> entities) {
 		entities.forEach(this::save);
 	}
 
@@ -108,7 +108,7 @@ public class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 	}
 
 	@Override
-	public void updateAll(Set<E> entities) throws HibernateException {
+	public void updateAll(Collection<E> entities) throws HibernateException {
 		entities.forEach(this::update);
 	}
 
@@ -123,7 +123,7 @@ public class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 	}
 
 	@Override
-	public void saveOrUpdateAll(Set<E> entities) throws HibernateException {
+	public void saveOrUpdateAll(Collection<E> entities) throws HibernateException {
 		entities.forEach(this::saveOrUpdate);
 	}
 
@@ -133,7 +133,7 @@ public class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 	}
 
 	@Override
-	public void deleteAll(Set<E> entities) throws HibernateException {
+	public void deleteAll(Collection<E> entities) throws HibernateException {
 		entities.forEach(this::delete);
 	}
 

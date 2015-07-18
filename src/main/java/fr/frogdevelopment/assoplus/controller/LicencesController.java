@@ -97,7 +97,7 @@ public class LicencesController implements Initializable {
 		treeTableView.setEditable(true);
 	}
 
-	public void onSave(Event event) {
+	public void onSave() {
 		licencesService.saveOrUpdateAll(licencesDto);
 //		init();
 	}
@@ -126,6 +126,36 @@ public class LicencesController implements Initializable {
 		treeTableView.edit(rowIndex, columnCode);
 	}
 
+	public void onRemoveLicence() {
+		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+
+		if (!(selectedItem.getValue() instanceof LicenceDto)) {
+			return;
+		}
+
+		Dialog<ButtonType> dialog = new Dialog<>();
+		dialog.setHeaderText("ATTENTION");
+		dialog.setContentText("Vous allez supprimer un Diplôme, voulez-vous continuer ?");
+		dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+		dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+
+		dialog.showAndWait()
+				.filter(response -> response == ButtonType.YES)
+				.ifPresent(response -> removeLicence(selectedItem));
+	}
+
+	private void removeLicence(final TreeItem<ReferenceDto> selectedItem) {
+		final TreeItem<ReferenceDto> root = treeTableView.getRoot();
+		root.getChildren().remove(selectedItem);
+
+		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
+		licencesDto.remove(licenceDto);
+
+		if (licenceDto.getId() != 0) {
+			licencesService.deleteLicence(licenceDto);
+		}
+	}
+
 	public void onAddOption() {
 		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
@@ -136,7 +166,6 @@ public class LicencesController implements Initializable {
 		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
 		OptionDto optionDto = new OptionDto();
 		licenceDto.addOption(optionDto);
-		optionDto.setLicenceDto(licenceDto);
 
 		final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
 		selectedItem.getChildren().add(newItem);
@@ -173,10 +202,8 @@ public class LicencesController implements Initializable {
 		LicenceDto licenceDto = (LicenceDto) parent.getValue();
 		licenceDto.getOptions().remove(optionDto);
 
-		if (optionDto.getId() != null) {
+		if (optionDto.getId() != 0) {
 			licencesService.deleteOption(licenceDto, optionDto);
 		}
 	}
-
-
 }

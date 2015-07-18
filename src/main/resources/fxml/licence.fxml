@@ -10,6 +10,7 @@
     <top>
         <HBox BorderPane.alignment="CENTER">
             <Button text="Ajouter Diplôme" onMouseClicked="#onAddLicence"/>
+            <Button text="Retirer Diplôme" onMouseClicked="#onRemoveLicence"/>
             <Button text="Ajouter Option" onMouseClicked="#onAddOption"/>
             <Button text="Retirer Option" onMouseClicked="#onRemoveOption"/>
         </HBox>

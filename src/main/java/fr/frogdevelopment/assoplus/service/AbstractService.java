@@ -47,7 +47,7 @@ abstract class AbstractService<E extends Entity, D extends Dto> implements fr.fr
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void saveAll(Set<D> dtos) {
+    public void saveAll(Collection<D> dtos) {
         dao.saveAll(createBeans(dtos));
     }
 
@@ -63,7 +63,7 @@ abstract class AbstractService<E extends Entity, D extends Dto> implements fr.fr
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void saveOrUpdateAll(Set<D> dtos) {
+    public void saveOrUpdateAll(Collection<D> dtos) {
         dao.saveOrUpdateAll(createBeans(dtos));
     }
 

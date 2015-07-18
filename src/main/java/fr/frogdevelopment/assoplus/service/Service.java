@@ -6,6 +6,7 @@ package fr.frogdevelopment.assoplus.service;
 
 import javafx.collections.ObservableList;
 
+import java.util.Collection;
 import java.util.Set;
 
 interface Service<D> {
@@ -14,11 +15,11 @@ interface Service<D> {
 
 	D saveData(D dto);
 
-	void saveAll(Set<D> dtos);
+	void saveAll(Collection<D> dtos);
 
 	D updateData(D dto);
 
-	void saveOrUpdateAll(Set<D> dtos);
+	void saveOrUpdateAll(Collection<D> dtos);
 
 	void deleteData(D dto);
 }

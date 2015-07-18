@@ -18,15 +18,6 @@ public class LicenceDto implements ReferenceDto {
 	private SimpleStringProperty label = new SimpleStringProperty();
 	private SimpleSetProperty<OptionDto> options = new SimpleSetProperty<>(FXCollections.observableSet());
 
-	public LicenceDto(String code, String label) {
-		this.code.setValue(code);
-		this.label.setValue(label);
-	}
-
-	public LicenceDto() {
-
-	}
-
 	public Long getId() {
 		return id.get();
 	}

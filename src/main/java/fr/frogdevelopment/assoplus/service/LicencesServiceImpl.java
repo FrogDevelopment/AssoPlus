@@ -15,11 +15,7 @@ import fr.frogdevelopment.assoplus.dao.OptionDao;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("licencesService")
@@ -33,22 +29,19 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     public Set<LicenceDto> getAllOrderedByCode() {
         List<Licence> licences = dao.getAllOrderedBy("code");
 
-        Set<LicenceDto> licencesDto;
         if (licences.isEmpty()) {
-            licencesDto = new HashSet<>(Arrays.<LicenceDto>asList(
-                    new LicenceDto("L1", "Licence 1"),
-                    new LicenceDto("L2", "Licence 2"),
-                    new LicenceDto("L3", "Licence 3"),
-                    new LicenceDto("M1", "Master 1"),
-                    new LicenceDto("M2", "Master 2"),
-                    new LicenceDto("D", "Doctorat")
+	        licences = new ArrayList<>(Arrays.<Licence>asList(
+                    new Licence("L1", "Licence 1"),
+                    new Licence("L2", "Licence 2"),
+                    new Licence("L3", "Licence 3"),
+                    new Licence("M1", "Master 1"),
+                    new Licence("M2", "Master 2"),
+                    new Licence("D", "Doctorat")
             ));
-            dao.saveAll(createBeans(licencesDto));
-        } else {
-            licencesDto = createDtos(licences);
+            dao.saveAll(licences);
         }
 
-        return licencesDto;
+	    return createDtos(licences);
     }
 
     LicenceDto createDto(Licence bean) {
@@ -69,6 +62,16 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
         bean.setOptions(createOptionBeans(dto.getOptions(), bean));
 
         return bean;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public void deleteLicence(LicenceDto licenceDto) {
+        Licence licence = createBean(licenceDto);
+
+        // FIXME à vérifier si besoin
+//        licence.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
+        dao.delete(licence);
     }
 
     @Override
