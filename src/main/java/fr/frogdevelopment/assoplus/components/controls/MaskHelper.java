@@ -7,6 +7,9 @@ package fr.frogdevelopment.assoplus.components.controls;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
+/**
+ *
+ */
 public class MaskHelper {
 
 	private static final char MASK_CHARACTER_TO_REPLACE = '#';
@@ -34,21 +37,21 @@ public class MaskHelper {
 			// text limiter
 			if (currentText.length() > maxLenght) {
 				textField.setText(currentText.substring(0, maxLenght));
-				return;
+			} else {
+				textField.setText(applyMask(maxLenght, charsMask, currentText));
 			}
-
-			StringBuilder sb = applyMask(maxLenght, charsMask, currentText);
-
-			textField.setText(sb.toString());
 		});
 	}
 
-	private static StringBuilder applyMask(int maxLenght, char[] charsMask, String currentText) {
+	private static String applyMask(final int maxLenght, final char[] charsMask, final String currentText) {
 		StringBuilder sb = new StringBuilder();
+
 		char[] charsText = currentText.toCharArray();
 		int max = charsText.length;
 		int i;
 		char cMask;
+
+		// replace character on the mask
 		for (i = 0; i < max; i++) {
 			cMask = charsMask[i];
 			if (cMask == MASK_CHARACTER_TO_REPLACE) {
@@ -58,6 +61,7 @@ public class MaskHelper {
 			}
 		}
 
+		// add mask character while needed
 		if (i < maxLenght) {
 			cMask = charsMask[i];
 			while (cMask != MASK_CHARACTER_TO_REPLACE) {
@@ -65,7 +69,9 @@ public class MaskHelper {
 				cMask = charsMask[++i];
 			}
 		}
-		return sb;
+
+
+		return sb.toString();
 	}
 
 	public static void addMaskPhone(final TextField textField) {
