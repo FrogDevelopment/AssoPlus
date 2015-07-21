@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import javafx.collections.ObservableList;
@@ -107,7 +108,10 @@ public class MembersController implements Initializable {
 				}
 			}
 		});
-	}
+
+		MaskHelper.addMaskPhone(txtPhone);
+		MaskHelper.addMaskDate(dpBirthday);
+			}
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

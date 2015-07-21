@@ -77,7 +77,7 @@
                     <Label text="Option" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
                     <TextField fx:id="txtOption" GridPane.rowIndex="3" GridPane.columnIndex="4"/>
 
-                    <Label text="N° téléphone" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <Label text="N° téléphone" GridPane.rowIndex="4" GridPane.columnIndex="0" />
                     <TextField fx:id="txtPhone" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
                     <Label text="Adresse" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
