@@ -5,17 +5,20 @@
 package fr.frogdevelopment.assoplus.controller;
 
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.entities.Licence;
+import fr.frogdevelopment.assoplus.service.LicencesService;
 import fr.frogdevelopment.assoplus.service.MembersService;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +31,7 @@ import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Controller("membersController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -40,6 +43,9 @@ public class MembersController implements Initializable {
 
 	@Autowired
 	private MembersService membersService;
+
+	@Autowired
+	private LicencesService licencesService;
 
 	@FXML
 	private VBox vbTop;
@@ -60,9 +66,9 @@ public class MembersController implements Initializable {
 	@FXML
 	private TextField txtEmail;
 	@FXML
-	private TextField txtLicence;
+	public ComboBox<LicenceDto> cbLicence;
 	@FXML
-	private TextField txtOption;
+	public ComboBox<OptionDto> cbOption;
 	@FXML
 	private TextField txtPhone;
 	@FXML
@@ -77,17 +83,15 @@ public class MembersController implements Initializable {
 
 	private ObservableList<MemberDto> data;
 
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		bundle = resources;
-		try {
-			data = membersService.getAllData();
-			table.setItems(data);
-		} catch (Exception e) {
-			LOGGER.error("FIXME", e);
-		}
+		data = membersService.getAllData();
+		table.setItems(data);
 
+		MaskHelper.addMaskPhone(txtPhone);
+
+		MaskHelper.addMaskDate(dpBirthday);
 		dpBirthday.setPromptText("jj/mm/aaaa");
 		dpBirthday.setConverter(new StringConverter<LocalDate>() {
 			@Override
@@ -109,9 +113,63 @@ public class MembersController implements Initializable {
 			}
 		});
 
-		MaskHelper.addMaskPhone(txtPhone);
-		MaskHelper.addMaskDate(dpBirthday);
+		Set<LicenceDto> entities = licencesService.getAllOrderedByCode();
+		cbLicence.setItems(FXCollections.observableArrayList(entities));
+		cbLicence.setVisibleRowCount(4);
+		cbLicence.setConverter(new StringConverter<LicenceDto>() {
+
+			private final Map<String, LicenceDto> _cache = new HashMap<>();
+
+			@Override
+			public String toString(LicenceDto item) {
+				_cache.put(item.getLabel(), item);
+				return item.getLabel();
 			}
+
+			@Override
+			public LicenceDto fromString(String label) {
+				return _cache.get(label);
+			}
+		});
+
+//		cbLicence.setCellFactory(new Callback<ListView<LicenceDto>, ListCell<LicenceDto>>() {
+//			@Override
+//			public ListCell<LicenceDto> call(ListView<LicenceDto> param) {
+//				return new ListCell<LicenceDto>() {
+//					{
+//						super.setPrefWidth(100);
+//					}
+//
+//					@Override
+//					public void updateItem(LicenceDto item, boolean empty) {
+//						super.updateItem(item, empty);
+//						if (item != null) {
+//							setText(item.getLabel());
+//						} else {
+//							setText(null);
+//						}
+//					}
+//				};
+//			}
+//		});
+
+		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(cbLicence.getSelectionModel().getSelectedItem().getOptions())));
+		cbOption.setConverter(new StringConverter<OptionDto>() {
+
+			private final Map<String, OptionDto> _cache = new HashMap<>();
+
+			@Override
+			public String toString(OptionDto item) {
+				_cache.put(item.getLabel(), item);
+				return item.getLabel();
+			}
+
+			@Override
+			public OptionDto fromString(String label) {
+				return _cache.get(label);
+			}
+		});
+	}
 
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -122,8 +180,8 @@ public class MembersController implements Initializable {
 		member.setFirstname(txtFirstname.getText());
 		member.setBirthday(dpBirthday.getValue().format(dateFormatter));
 		member.setEmail(txtEmail.getText());
-		member.setLicence(txtLicence.getText());
-		member.setOption(txtOption.getText());
+		member.setLicence(cbLicence.getValue().getCode());
+		member.setOption(cbOption.getValue().getCode());
 		member.setPhone(txtPhone.getText());
 		member.setAddress(txtAddress.getText());
 		member.setPostalCode(txtPostalCode.getText());

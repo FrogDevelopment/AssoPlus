@@ -39,40 +39,12 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         return schoolYearDao.getLastShoolYear();
     }
 
-    MemberDto createDto(Member member) {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setId(member.getId());
-        memberDto.setStudentNumber(member.getStudentNumber());
-        memberDto.setLastname(member.getLastname());
-        memberDto.setFirstname(member.getFirstname());
-        memberDto.setBirthday(member.getBirthday());
-        memberDto.setEmail(member.getEmail());
-        memberDto.setLicence(member.getLicence());
-        memberDto.setOption(member.getOption());
-        memberDto.setPhone(member.getPhone());
-        memberDto.setAddress(member.getAddress());
-        memberDto.setPostalCode(member.getPostalCode());
-        memberDto.setCity(member.getCity());
-
-        return memberDto;
+    MemberDto createDto(Member bean) {
+        return MemberDto.createDto(bean);
     }
 
-    Member createBean(MemberDto memberDto) {
-        Member member = new Member();
-        member.setId(memberDto.getId());
-        member.setStudentNumber(memberDto.getStudentNumber());
-        member.setLastname(memberDto.getLastname());
-        member.setFirstname(memberDto.getFirstname());
-        member.setBirthday(memberDto.getBirthday());
-        member.setEmail(memberDto.getEmail());
-        member.setLicence(memberDto.getLicence());
-        member.setOption(memberDto.getOption());
-        member.setPhone(memberDto.getPhone());
-        member.setAddress(memberDto.getAddress());
-        member.setPostalCode(memberDto.getPostalCode());
-        member.setCity(memberDto.getCity());
-
-        return member;
+    Member createBean(MemberDto dto) {
+        return MemberDto.createBean(dto);
     }
 
     @Override

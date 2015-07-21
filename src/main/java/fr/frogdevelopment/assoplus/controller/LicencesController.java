@@ -23,12 +23,8 @@ import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
-
-import static javafx.scene.control.ButtonBar.ButtonData.CANCEL_CLOSE;
-import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
 
 @Controller("licencesController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

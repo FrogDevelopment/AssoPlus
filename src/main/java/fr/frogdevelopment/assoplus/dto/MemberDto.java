@@ -4,9 +4,10 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import javafx.beans.property.*;
-
-import java.io.Serializable;
+import fr.frogdevelopment.assoplus.entities.Member;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class MemberDto implements Dto {
 
@@ -22,6 +23,42 @@ public class MemberDto implements Dto {
 	private final SimpleStringProperty address = new SimpleStringProperty();
 	private final SimpleStringProperty postalCode = new SimpleStringProperty();
 	private final SimpleStringProperty city = new SimpleStringProperty();
+
+	public static MemberDto createDto(Member bean) {
+		MemberDto memberDto = new MemberDto();
+		memberDto.setId(bean.getId());
+		memberDto.setStudentNumber(bean.getStudentNumber());
+		memberDto.setLastname(bean.getLastname());
+		memberDto.setFirstname(bean.getFirstname());
+		memberDto.setBirthday(bean.getBirthday());
+		memberDto.setEmail(bean.getEmail());
+		memberDto.setLicence(bean.getLicence());
+		memberDto.setOption(bean.getOption());
+		memberDto.setPhone(bean.getPhone());
+		memberDto.setAddress(bean.getAddress());
+		memberDto.setPostalCode(bean.getPostalCode());
+		memberDto.setCity(bean.getCity());
+
+		return memberDto;
+	}
+
+	public static Member createBean(MemberDto dto) {
+		Member member = new Member();
+		member.setId(dto.getId());
+		member.setStudentNumber(dto.getStudentNumber());
+		member.setLastname(dto.getLastname());
+		member.setFirstname(dto.getFirstname());
+		member.setBirthday(dto.getBirthday());
+		member.setEmail(dto.getEmail());
+		member.setLicence(dto.getLicence());
+		member.setOption(dto.getOption());
+		member.setPhone(dto.getPhone());
+		member.setAddress(dto.getAddress());
+		member.setPostalCode(dto.getPostalCode());
+		member.setCity(dto.getCity());
+
+		return member;
+	}
 
 	public Long getId() {
 		return id.get();

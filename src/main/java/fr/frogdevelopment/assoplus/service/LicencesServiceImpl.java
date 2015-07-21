@@ -45,29 +45,17 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     }
 
     LicenceDto createDto(Licence bean) {
-        LicenceDto dto = new LicenceDto();
-        dto.setId(bean.getId());
-        dto.setCode(bean.getCode());
-        dto.setLabel(bean.getLabel());
-        dto.getOptions().addAll(createOptionDtos(bean.getOptions()));
-
-        return dto;
+        return LicenceDto.createDto(bean);
     }
 
     Licence createBean(LicenceDto dto) {
-        Licence bean = new Licence();
-        bean.setId(dto.getId());
-        bean.setCode(dto.getCode());
-        bean.setLabel(dto.getLabel());
-        bean.setOptions(createOptionBeans(dto.getOptions(), bean));
-
-        return bean;
+        return LicenceDto.createBean(dto);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void deleteLicence(LicenceDto licenceDto) {
-        Licence licence = createBean(licenceDto);
+        Licence licence = LicenceDto.createBean(licenceDto);
 
         // FIXME à vérifier si besoin
 //        licence.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
@@ -77,35 +65,10 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void deleteOption(LicenceDto licenceDto, OptionDto optionDto) {
-        Licence licence = createBean(licenceDto);
-        Option option = createOptionBean(licence, optionDto);
+        Licence licence = LicenceDto.createBean(licenceDto);
+        Option option = OptionDto.createBean(licence, optionDto);
 
         optionDao.delete(option);
-    }
-
-    private Set<OptionDto> createOptionDtos(Collection<Option> beans) {
-        return beans.stream().map((bean) -> {
-            OptionDto dto = new OptionDto();
-            dto.setId(bean.getId());
-            dto.setCode(bean.getCode());
-            dto.setLabel(bean.getLabel());
-
-            return dto;
-        }).collect(Collectors.toSet());
-    }
-
-    private Set<Option> createOptionBeans(Collection<OptionDto> dtos, Licence licence) {
-        return dtos.stream().map((dto) -> createOptionBean(licence, dto)).collect(Collectors.toSet());
-    }
-
-    private Option createOptionBean(Licence licence, OptionDto dto) {
-        Option bean = new Option();
-        bean.setId(dto.getId());
-        bean.setCode(dto.getCode());
-        bean.setLabel(dto.getLabel());
-        bean.setLicence(licence);
-
-        return bean;
     }
 
 }

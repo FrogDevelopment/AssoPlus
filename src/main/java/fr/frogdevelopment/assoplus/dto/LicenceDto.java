@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
+import fr.frogdevelopment.assoplus.entities.Licence;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +18,26 @@ public class LicenceDto implements ReferenceDto {
 	private SimpleStringProperty code = new SimpleStringProperty();
 	private SimpleStringProperty label = new SimpleStringProperty();
 	private SimpleSetProperty<OptionDto> options = new SimpleSetProperty<>(FXCollections.observableSet());
+
+	public static LicenceDto createDto(Licence bean) {
+		LicenceDto dto = new LicenceDto();
+		dto.setId(bean.getId());
+		dto.setCode(bean.getCode());
+		dto.setLabel(bean.getLabel());
+		dto.getOptions().addAll(OptionDto.createDtos(bean.getOptions()));
+
+		return dto;
+	}
+
+	public static Licence createBean(LicenceDto dto) {
+		Licence bean = new Licence();
+		bean.setId(dto.getId());
+		bean.setCode(dto.getCode());
+		bean.setLabel(dto.getLabel());
+		bean.setOptions(OptionDto.createBeans(dto.getOptions(), bean));
+
+		return bean;
+	}
 
 	public Long getId() {
 		return id.get();
