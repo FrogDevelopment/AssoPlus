@@ -4,12 +4,8 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import org.hibernate.HibernateException;
-
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public interface CommonDao<E> {
 
@@ -17,7 +13,7 @@ public interface CommonDao<E> {
 
 	List<E> getAll();
 
-	E getById(Serializable identifiant) throws HibernateException;
+	E getById(Long identifiant) ;
 
 	List<E> getAllOrderedBy(String propertyName);
 
@@ -27,13 +23,11 @@ public interface CommonDao<E> {
 
 	void update(E entity);
 
-	void updateAll(Collection<E> entities) throws HibernateException;
+	void updateAll(Collection<E> entities) ;
 
-	void saveOrUpdate(E entity) throws HibernateException;
+	void saveOrUpdate(E entity) ;
 
-	void saveOrUpdateAll(Collection<E> entities) throws HibernateException;
+	void saveOrUpdateAll(Collection<E> entities) ;
 
 	void delete(E entity);
-
-	void deleteAll(Collection<E> entities) throws HibernateException;
 }

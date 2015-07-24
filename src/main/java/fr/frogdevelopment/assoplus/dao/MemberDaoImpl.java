@@ -4,10 +4,10 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.entities.Member;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import fr.frogdevelopment.assoplus.entities.Member;
 
 import java.util.List;
 
@@ -15,12 +15,22 @@ import java.util.List;
 public class MemberDaoImpl extends CommonDaoImpl<Member> implements MemberDao {
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<Integer> getAllNumbers() {
-		return getCriteria()
-				.setProjection(Projections.property("number"))
-				.addOrder(Order.asc("number"))
-				.list();
+	protected RowMapper<Member> buildMapper() {
+		return null;
 	}
 
+	@Override
+	public void save(Member entity) {
+
+	}
+
+	@Override
+	public void update(Member entity) {
+
+	}
+
+	@Override
+	public List<Integer> getAllNumbers() {
+		return this.jdbcTemplate.queryForList("SELECT number FROM member ORDER BY number", Integer.class);
+	}
 }

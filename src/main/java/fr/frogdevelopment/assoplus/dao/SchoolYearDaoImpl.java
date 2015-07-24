@@ -4,7 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import org.hibernate.criterion.Order;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import fr.frogdevelopment.assoplus.entities.SchoolYear;
@@ -13,11 +13,22 @@ import fr.frogdevelopment.assoplus.entities.SchoolYear;
 public class SchoolYearDaoImpl extends CommonDaoImpl<SchoolYear> implements SchoolYearDao {
 
     @Override
-    public SchoolYear getLastShoolYear() {
-        return (SchoolYear) getCriteria()
-                .addOrder(Order.desc("schoolYear"))
-                .setMaxResults(1)
-                .uniqueResult();
+    protected RowMapper<SchoolYear> buildMapper() {
+        return null;
     }
 
+    @Override
+    public void save(SchoolYear entity) {
+
+    }
+
+    @Override
+    public void update(SchoolYear entity) {
+
+    }
+
+    @Override
+    public SchoolYear getLastShoolYear() {
+        return this.jdbcTemplate.queryForObject("SELECT * FROM school_year ORDER BY year", mapper);
+    }
 }

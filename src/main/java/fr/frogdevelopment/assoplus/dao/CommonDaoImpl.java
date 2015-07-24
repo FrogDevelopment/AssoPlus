@@ -1,140 +1,105 @@
-/*
- * Copyright (c) Frog Development 2015.
- */
-
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.entities.Entity;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
-import java.io.Serializable;
+import fr.frogdevelopment.assoplus.entities.Entity;
+
+import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.List;
 
-@Transactional(propagation = Propagation.MANDATORY)
-public class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
+public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+    @Autowired
+    protected JdbcTemplate jdbcTemplate;
 
-	private final Class<E> persistentClass;
+    private final Class<E> persistentClass;
 
-	@SuppressWarnings("unchecked")
-	public CommonDaoImpl() {
-		persistentClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-	}
+    protected RowMapper<E> mapper;
 
-	// ******************************************* \\
-	// ********** PROTECTED METHODES ************* \\
-	// ******************************************* \\
+    @SuppressWarnings("unchecked")
+    public CommonDaoImpl() {
+        persistentClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
 
-	protected Session getSession() throws HibernateException {
-		return sessionFactory.getCurrentSession();
-	}
+    @PostConstruct
+    private void init() {
+        mapper = buildMapper();
+    }
 
-	/**
-	 * @return Le nom de l'entitÃ© du DAO.
-	 * @see Class#getSimpleName()
-	 */
-	protected final String getEntityName() {
-		return this.persistentClass.getSimpleName();
-	}
+    protected abstract RowMapper<E> buildMapper();
 
-	/**
-	 * exemple : <br>
-	 * doWork(connection -> connection.createStatement().executeUpdate("DELETE FROM members"));
-	 */
-	protected void doWork(Work work) throws HibernateException {
-		getSession().doWork(work);
-	}
+    // ***************************************** \\
+    // ********** PRIVATE METHODES ************* \\
+    // ***************************************** \\
 
-	protected Criteria getCriteria() {
-		return getSession().createCriteria(persistentClass);
-	}
 
-	protected Criteria getCriteria(String alias) {
-		return getSession().createCriteria(persistentClass, alias);
-	}
+    // ******************************************* \\
+    // ********** PROTECTED METHODES ************* \\
+    // ******************************************* \\
 
-	// **************************************** \\
-	// ********** PUBLIC METHODES ************* \\
-	// **************************************** \\
+    /**
+     * @return Le nom de l'entité du DAO.
+     * @see Class#getSimpleName()
+     */
+    protected final String getEntityName() {
+        return this.persistentClass.getSimpleName(); // fixme récupérer le nom de la table via l'annotation @Table de la classe
+    }
 
-	@Override
-	public void deleteAll() throws HibernateException {
-		getSession().createQuery("DELETE FROM " + getEntityName()).executeUpdate();
-	}
+    // **************************************** \\
+    // ********** PUBLIC METHODES ************* \\
+    // **************************************** \\
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<E> getAll() throws HibernateException {
-		return getCriteria().list();
-	}
+    @Override
+    public List<E> getAll() {
+        return jdbcTemplate.query("SELECT * FROM " + getEntityName(), mapper);
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public E getById(Serializable identifiant) throws HibernateException {
-		return (E) getSession().get(persistentClass, identifiant);
-	}
+    public List<E> getAllOrderedBy(String propertyName) {
+        return jdbcTemplate.query("SELECT * FROM " + getEntityName() + " ORDER BY " + propertyName, mapper); // FIXME voir pour le champ propertyName en dynamique
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<E> getAllOrderedBy(String propertyName) throws HibernateException {
-		return getCriteria().addOrder(Order.asc(propertyName)).list();
-	}
+    public E getById(Long identifiant) {
+        return jdbcTemplate.queryForObject("SELECT * FROM " + getEntityName() + " WHERE ID = ?", new Object[]{identifiant}, mapper);
+    }
 
-	@Override
-	public void save(E entity) throws HibernateException {
-		getSession().save(entity);
-	}
+    abstract public void save(E entity);
 
-	@Override
-	public void saveAll(Collection<E> entities) {
-		entities.forEach(this::save);
-	}
+    public void saveAll(Collection<E> entities) {
+        entities.forEach(this::save);
+    }
 
-	@Override
-	public void update(E entity) throws HibernateException {
-		getSession().update(entity);
-	}
+    abstract public void update(E entity);
 
-	@Override
-	public void updateAll(Collection<E> entities) throws HibernateException {
-		entities.forEach(this::update);
-	}
+    public void updateAll(Collection<E> entities) {
+        entities.forEach(this::update);
+    }
 
-	@Override
-	public void saveOrUpdate(E entity) throws HibernateException {
-//		getSession().saveOrUpdate(entity);
-		if (entity.getId() == 0) {
-			save(entity);
-		} else {
-			update(entity);
-		}
-	}
+    public void saveOrUpdate(E entity) {
+        if (entity.getId() == 0) {
+            save(entity);
+        } else {
+            update(entity);
+        }
+    }
 
-	@Override
-	public void saveOrUpdateAll(Collection<E> entities) throws HibernateException {
-		entities.forEach(this::saveOrUpdate);
-	}
+    public void saveOrUpdateAll(Collection<E> entities) {
+        entities.forEach(this::saveOrUpdate);
+    }
 
-	@Override
-	public void delete(E entity) throws HibernateException {
-		getSession().delete(entity);
-	}
+    public void delete(E entity) {
+        delete(entity.getId());
+    }
 
-	@Override
-	public void deleteAll(Collection<E> entities) throws HibernateException {
-		entities.forEach(this::delete);
-	}
+    public void delete(Long identifiant) {
+        jdbcTemplate.update("DELETE FROM " + getEntityName() + " WHERE ID= ?", identifiant); // FIXME voir pour le champ ID en dynamique
+    }
+
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM " + getEntityName());
+    }
 
 }

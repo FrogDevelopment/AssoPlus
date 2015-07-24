@@ -23,8 +23,8 @@ public class SchoolYear implements Entity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String schoolYear;
+    @Column(name = "year",nullable = false, unique = true)
+    private String year;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "members_years",
@@ -42,12 +42,12 @@ public class SchoolYear implements Entity{
         this.id = id;
     }
 
-    public String getSchoolYear() {
-        return schoolYear;
+    public String getYear() {
+        return year;
     }
 
-    public void setSchoolYear(String schoolYear) {
-        this.schoolYear = schoolYear;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public Set<Member> getMembers() {
@@ -62,7 +62,7 @@ public class SchoolYear implements Entity{
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
-                .append("schoolYear", schoolYear)
+                .append("year", year)
                 .append("members", members)
                 .toString();
     }
@@ -77,7 +77,7 @@ public class SchoolYear implements Entity{
 
         return new EqualsBuilder()
                 .append(id, that.id)
-                .append(schoolYear, that.schoolYear)
+                .append(year, that.year)
                 .isEquals();
     }
 
@@ -85,7 +85,7 @@ public class SchoolYear implements Entity{
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
-                .append(schoolYear)
+                .append(year)
                 .toHashCode();
     }
 }
