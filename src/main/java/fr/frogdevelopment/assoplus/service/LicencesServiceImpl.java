@@ -4,22 +4,19 @@
 
 package fr.frogdevelopment.assoplus.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.entities.Licence;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.frogdevelopment.assoplus.entities.Licence;
-import fr.frogdevelopment.assoplus.dao.OptionDao;
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 @Service("licencesService")
 public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> implements LicencesService {
-
-    @Autowired
-    private OptionDao optionDao;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
