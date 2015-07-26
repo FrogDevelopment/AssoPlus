@@ -122,6 +122,14 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 			Map<String, String> map = new HashMap<>();
 			for (Field field : persistentClass.getDeclaredFields()) {
 				column = field.getAnnotation(Column.class);
+
+				// to be able to write the field's value
+				AccessController.doPrivileged((PrivilegedAction<E>) () -> {
+					field.setAccessible(true);
+
+					return null;
+				});
+
 				Object value = field.get(entity);
 				map.put(column.name(), String.valueOf(value));
 			}
@@ -144,6 +152,14 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 			Collection<String> setValues = new ArrayList<>();
 			for (Field field : persistentClass.getDeclaredFields()) {
 				column = field.getAnnotation(Column.class);
+
+				// to be able to write the field's value
+				AccessController.doPrivileged((PrivilegedAction<E>) () -> {
+					field.setAccessible(true);
+
+					return null;
+				});
+
 				Object value = field.get(entity);
 				setValues.add(column.name() + " = " + String.valueOf(value));
 			}
