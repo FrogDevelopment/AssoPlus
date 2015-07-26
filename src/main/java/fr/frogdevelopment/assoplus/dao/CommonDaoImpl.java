@@ -1,8 +1,7 @@
 package fr.frogdevelopment.assoplus.dao;
 
 import fr.frogdevelopment.assoplus.entities.Entity;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
@@ -45,50 +46,52 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 			throw new IllegalStateException("No table defined !!");
 		}
 
-		if (persistentClass.isAnnotationPresent(Id.class)) {
-			idName = persistentClass.getDeclaredAnnotation(Column.class).name().toUpperCase();
+		String targetId = null;
+		for (Field field : persistentClass.getDeclaredFields()) {
+			if (field.isAnnotationPresent(Id.class)) {
+				targetId = field.getAnnotation(Column.class).name();
+				break;
+			}
+		}
+
+		if (StringUtils.isNoneBlank(targetId)) {
+			idName = targetId;
 		} else {
 			throw new IllegalStateException("No Id defined !!");
 		}
 
-		mapper = buildMapper();
+		mapper = (rs, rowNum) -> buildEntity(rs);
 	}
 
 	// ***************************************** \\
 	// ********** PRIVATE METHODES ************* \\
 	// ***************************************** \\
 
-	private RowMapper<E> buildMapper() {
-		return (rs, rowNum) -> {
-			E entity = null;
+	private E buildEntity(ResultSet rs) throws SQLException {
+		try {
+			E entity = persistentClass.newInstance();
 
-			try {
-				entity = persistentClass.newInstance();
+			Column column;
+			for (Field field : persistentClass.getDeclaredFields()) {
+				// Simple case
+				if (field.isAnnotationPresent(Column.class)) {
+					// to be able to write the field's value
+					AccessController.doPrivileged((PrivilegedAction<E>) () -> {
+						field.setAccessible(true);
 
-				Column column;
-				for (Field field : persistentClass.getDeclaredFields()) {
-					// Simple case
-					if (field.isAnnotationPresent(Column.class)) {
-						// to be able to write the field's value
-						AccessController.doPrivileged((PrivilegedAction<E>) () -> {
-							field.setAccessible(true);
+						return null;
+					});
 
-							return null;
-						});
-
-						column = field.getAnnotation(Column.class);
-						Class<?> type = field.getType();
-						field.set(entity, type.cast(rs.getObject(column.name())));
-					}
+					column = field.getAnnotation(Column.class);
+					Class<?> type = field.getType();
+					field.set(entity, type.cast(rs.getObject(column.name())));
 				}
-
-				// Collection case
-
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
 			}
+
 			return entity;
-		};
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new IllegalStateException("Error while constructing entity", e);
+		}
 	}
 
 	// ******************************************* \\
@@ -134,11 +137,11 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 				map.put(column.name(), String.valueOf(value));
 			}
 
-			String query = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, String.join(",", map.keySet()), String.join(",", map.values()));
+			String query = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, String.join(", ", map.keySet()), String.join(",", map.values()));
 			LOGGER.debug("execute query : {}", query);
 			this.jdbcTemplate.update(query);
 		} catch (IllegalAccessException e) {
-			throw  new IllegalStateException("Error while constructing query", e); // fixme
+			throw new IllegalStateException("Error while constructing query", e); // fixme
 		}
 	}
 
@@ -164,11 +167,11 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 				setValues.add(column.name() + " = " + String.valueOf(value));
 			}
 
-			String query = String.format("UPDATE %s %s WHERE %s = %s", tableName, String.join(",", setValues), idName, entity.getId());
+			String query = String.format("UPDATE %s %s WHERE %s = %s", tableName, String.join(", ", setValues), idName, entity.getId());
 			LOGGER.debug("execute query : {}", query);
 			this.jdbcTemplate.update(query);
 		} catch (IllegalAccessException e) {
-			throw  new IllegalStateException("Error while constructing query", e); // fixme
+			throw new IllegalStateException("Error while constructing query", e); // fixme
 		}
 	}
 
