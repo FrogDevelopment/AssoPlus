@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class MemberDto implements Dto {
 
-	private final SimpleLongProperty id = new SimpleLongProperty();
+	private final SimpleIntegerProperty id = new SimpleIntegerProperty();
 	private final SimpleIntegerProperty studentNumber = new SimpleIntegerProperty();
 	private final SimpleStringProperty lastname = new SimpleStringProperty();
 	private final SimpleStringProperty firstname = new SimpleStringProperty();
@@ -60,15 +60,15 @@ public class MemberDto implements Dto {
 		return member;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id.get();
 	}
 
-	public SimpleLongProperty idProperty() {
+	public SimpleIntegerProperty idProperty() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id.set(id);
 	}
 

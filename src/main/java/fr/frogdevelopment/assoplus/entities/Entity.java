@@ -6,5 +6,5 @@ package fr.frogdevelopment.assoplus.entities;
 
 public interface Entity {
 
-	Long getId();
+	Integer getId();
 }

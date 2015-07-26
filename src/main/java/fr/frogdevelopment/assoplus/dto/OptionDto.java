@@ -6,6 +6,7 @@ package fr.frogdevelopment.assoplus.dto;
 
 import fr.frogdevelopment.assoplus.entities.Licence;
 import fr.frogdevelopment.assoplus.entities.Option;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class OptionDto implements ReferenceDto {
 
-	private SimpleLongProperty id = new SimpleLongProperty();
+	private SimpleIntegerProperty id = new SimpleIntegerProperty();
 	private SimpleStringProperty code = new SimpleStringProperty();
 	private SimpleStringProperty label = new SimpleStringProperty();
 
@@ -46,15 +47,15 @@ public class OptionDto implements ReferenceDto {
 		return bean;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id.get();
 	}
 
-	public SimpleLongProperty idProperty() {
+	public SimpleIntegerProperty idProperty() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id.set(id);
 	}
 

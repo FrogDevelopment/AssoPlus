@@ -20,7 +20,7 @@ public class Option implements Reference, Entity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "code", unique = true, nullable = false)
     private String code;
@@ -33,11 +33,11 @@ public class Option implements Reference, Entity {
     private Licence licence;
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

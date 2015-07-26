@@ -13,7 +13,7 @@ public interface CommonDao<E> {
 
 	List<E> getAll();
 
-	E getById(Long identifiant) ;
+	E getById(Integer identifiant) ;
 
 	List<E> getAllOrderedBy(String propertyName);
 

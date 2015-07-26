@@ -4,11 +4,10 @@
 
 package fr.frogdevelopment.assoplus.entities;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @javax.persistence.Entity
 @Table(name = "licence", uniqueConstraints = {
@@ -20,7 +19,7 @@ public class Licence implements Reference, Entity {
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
@@ -40,11 +39,11 @@ public class Licence implements Reference, Entity {
 		this.options = new HashSet<>();
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
