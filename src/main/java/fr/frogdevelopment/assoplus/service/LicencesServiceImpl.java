@@ -10,13 +10,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.frogdevelopment.assoplus.entities.Licence;
-import fr.frogdevelopment.assoplus.entities.Option;
 import fr.frogdevelopment.assoplus.dao.OptionDao;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service("licencesService")
 public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> implements LicencesService {
@@ -45,17 +42,27 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     }
 
     LicenceDto createDto(Licence bean) {
-        return LicenceDto.createDto(bean);
+        LicenceDto dto = new LicenceDto();
+        dto.setId(bean.getId());
+        dto.setCode(bean.getCode());
+        dto.setLabel(bean.getLabel());
+
+        return dto;
     }
 
     Licence createBean(LicenceDto dto) {
-        return LicenceDto.createBean(dto);
+        Licence bean = new Licence();
+        bean.setId(dto.getId());
+        bean.setCode(dto.getCode());
+        bean.setLabel(dto.getLabel());
+
+        return bean;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void deleteLicence(LicenceDto licenceDto) {
-        Licence licence = LicenceDto.createBean(licenceDto);
+        Licence licence = createBean(licenceDto);
 
         // FIXME à vérifier si besoin
 //        licence.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
@@ -64,11 +71,8 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void deleteOption(LicenceDto licenceDto, OptionDto optionDto) {
-        Licence licence = LicenceDto.createBean(licenceDto);
-        Option option = OptionDto.createBean(licence, optionDto);
-
-        optionDao.delete(option);
+    public void deleteOption(LicenceDto licenceDto) {
+        dao.delete(createBean(licenceDto));
     }
 
 }

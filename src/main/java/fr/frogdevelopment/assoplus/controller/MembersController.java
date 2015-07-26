@@ -8,9 +8,9 @@ import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.entities.Licence;
 import fr.frogdevelopment.assoplus.service.LicencesService;
 import fr.frogdevelopment.assoplus.service.MembersService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +45,10 @@ public class MembersController implements Initializable {
 
 	@Autowired
 	private LicencesService licencesService;
+
+
+	@Autowired
+	private OptionsService optionsService;
 
 	@FXML
 	private VBox vbTop;
@@ -113,8 +116,8 @@ public class MembersController implements Initializable {
 			}
 		});
 
-		Set<LicenceDto> entities = licencesService.getAllOrderedByCode();
-		cbLicence.setItems(FXCollections.observableArrayList(entities));
+		Set<LicenceDto> licenceDtos = licencesService.getAllOrderedByCode();
+		cbLicence.setItems(FXCollections.observableArrayList(licenceDtos));
 		cbLicence.setVisibleRowCount(4);
 		cbLicence.setConverter(new StringConverter<LicenceDto>() {
 
@@ -153,7 +156,11 @@ public class MembersController implements Initializable {
 //			}
 //		});
 
-		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(cbLicence.getSelectionModel().getSelectedItem().getOptions())));
+//		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(cbLicence.getSelectionModel().getSelectedItem().getOptions())));
+//		cbLicence.setOnAction(event -> {cb.fil});
+
+		Set<OptionDto> optionDtos = optionsService.getAllOrderedByCode();
+		cbOption.setItems(FXCollections.observableArrayList(optionDtos));
 		cbOption.setConverter(new StringConverter<OptionDto>() {
 
 			private final Map<String, OptionDto> _cache = new HashMap<>();
@@ -180,8 +187,8 @@ public class MembersController implements Initializable {
 		member.setFirstname(txtFirstname.getText());
 		member.setBirthday(dpBirthday.getValue().format(dateFormatter));
 		member.setEmail(txtEmail.getText());
-		member.setLicence(cbLicence.getValue().getCode());
-		member.setOption(cbOption.getValue().getCode());
+		member.setLicenceCode(cbLicence.getValue().getCode());
+		member.setOptionCode(cbOption.getValue().getCode());
 		member.setPhone(txtPhone.getText());
 		member.setAddress(txtAddress.getText());
 		member.setPostalCode(txtPostalCode.getText());

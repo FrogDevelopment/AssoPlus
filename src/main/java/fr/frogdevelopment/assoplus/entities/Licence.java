@@ -4,10 +4,9 @@
 
 package fr.frogdevelopment.assoplus.entities;
 
-import org.apache.commons.lang3.builder.*;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.util.*;
 
 @javax.persistence.Entity
 @Table(name = "licence", uniqueConstraints = {
@@ -27,16 +26,12 @@ public class Licence implements Reference, Entity {
 	@Column(name = "label", unique = true, nullable = false)
 	private String label;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "licence")
-	private Set<Option> options;
-
 	public Licence() {
 	}
 
 	public Licence(String code, String label) {
 		this.code = code;
 		this.label = label;
-		this.options = new HashSet<>();
 	}
 
 	public Integer getId() {
@@ -63,21 +58,12 @@ public class Licence implements Reference, Entity {
 		this.label = label;
 	}
 
-	public Set<Option> getOptions() {
-		return options;
-	}
-
-	public void setOptions(Set<Option> options) {
-		this.options = options;
-	}
-
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
 				.append("id", id)
 				.append("code", code)
 				.append("label", label)
-				.append("options", options)
 				.toString();
 	}
 
@@ -90,18 +76,14 @@ public class Licence implements Reference, Entity {
 		Licence licence = (Licence) o;
 
 		return new org.apache.commons.lang3.builder.EqualsBuilder()
-				.append(id, licence.id)
 				.append(code, licence.code)
-				.append(label, licence.label)
 				.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
 		return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37)
-				.append(id)
 				.append(code)
-				.append(label)
 				.toHashCode();
 	}
 }

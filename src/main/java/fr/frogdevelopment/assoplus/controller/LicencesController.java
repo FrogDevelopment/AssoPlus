@@ -8,6 +8,7 @@ import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.dto.ReferenceDto;
 import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +34,9 @@ public class LicencesController implements Initializable {
 	@Autowired
 	private LicencesService licencesService;
 
+	@Autowired
+	private OptionsService optionsService;
+
 	@FXML
 	private TreeTableView<ReferenceDto> treeTableView;
 	@FXML
@@ -40,7 +44,8 @@ public class LicencesController implements Initializable {
 	@FXML
 	private TreeTableColumn<ReferenceDto, String> columnLabel;
 
-	private Set<LicenceDto> licencesDto;
+	private Set<LicenceDto> licenceDtos;
+	private Set<OptionDto> optionDtos;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -49,13 +54,14 @@ public class LicencesController implements Initializable {
 
 	@SuppressWarnings("unchecked")
 	private void init() {
-		licencesDto = licencesService.getAllOrderedByCode();
+		licenceDtos = licencesService.getAllOrderedByCode();
+		optionDtos = optionsService.getAllOrderedByCode();
 
 		TreeItem<ReferenceDto> rootItem = new TreeItem<>(new LicenceDto());
 
-		licencesDto.forEach(licenceDto -> {
+		licenceDtos.forEach(licenceDto -> {
 			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
-			licenceDto.getOptions().stream().forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
+//			licenceDto.getOptions().stream().forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
 			rootItem.getChildren().add(treeItem);
 			rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
 		});
@@ -94,7 +100,7 @@ public class LicencesController implements Initializable {
 	}
 
 	public void onSave() {
-		licencesService.saveOrUpdateAll(licencesDto);
+		licencesService.saveOrUpdateAll(licenceDtos);
 		init();
 	}
 
@@ -111,7 +117,7 @@ public class LicencesController implements Initializable {
 		final TreeItem<ReferenceDto> root = treeTableView.getRoot();
 
 		LicenceDto licenceDto = new LicenceDto();
-		licencesDto.add(licenceDto);
+		licenceDtos.add(licenceDto);
 
 		final TreeItem<ReferenceDto> newItem = new TreeItem<>(licenceDto);
 		root.getChildren().add(newItem);
@@ -145,7 +151,7 @@ public class LicencesController implements Initializable {
 		root.getChildren().remove(selectedItem);
 
 		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
-		licencesDto.remove(licenceDto);
+		licenceDtos.remove(licenceDto);
 
 		if (licenceDto.getId() != 0) {
 			licencesService.deleteLicence(licenceDto);
@@ -161,7 +167,7 @@ public class LicencesController implements Initializable {
 
 		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
 		OptionDto optionDto = new OptionDto();
-		licenceDto.addOption(optionDto);
+		optionDto.setLicenceCode(licenceDto.getCode());
 
 		final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
 		selectedItem.getChildren().add(newItem);
@@ -195,11 +201,9 @@ public class LicencesController implements Initializable {
 		parent.getChildren().remove(selectedItem);
 
 		OptionDto optionDto = (OptionDto) selectedItem.getValue();
-		LicenceDto licenceDto = (LicenceDto) parent.getValue();
-		licenceDto.getOptions().remove(optionDto);
 
 		if (optionDto.getId() != 0) {
-			licencesService.deleteOption(licenceDto, optionDto);
+			optionsService.deleteOption(optionDto);
 		}
 	}
 }

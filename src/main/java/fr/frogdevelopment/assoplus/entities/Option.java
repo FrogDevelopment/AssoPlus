@@ -28,9 +28,12 @@ public class Option implements Reference, Entity {
     @Column(name = "label", unique = true, nullable = false)
     private String label;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "licence_id", nullable = false)
-    private Licence licence;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "licence_id", nullable = false)
+//    private Licence licence;
+
+    @Column(name = "licence_code", nullable = false)
+	String licenceCode;
 
     @Override
     public Integer getId() {
@@ -57,13 +60,21 @@ public class Option implements Reference, Entity {
         this.label = label;
     }
 
-    public Licence getLicence() {
-        return licence;
-    }
+	public String getLicenceCode() {
+		return licenceCode;
+	}
 
-    public void setLicence(Licence licence) {
-        this.licence = licence;
-    }
+	public void setLicenceCode(String licenceCode) {
+		this.licenceCode = licenceCode;
+	}
+
+	//    public Licence getLicence() {
+//        return licence;
+//    }
+//
+//    public void setLicence(Licence licence) {
+//        this.licence = licence;
+//    }
 
     @Override
     public String toString() {
@@ -71,7 +82,8 @@ public class Option implements Reference, Entity {
                 .append("id", id)
                 .append("code", code)
                 .append("label", label)
-                .append("licence", licence)
+//                .append("licence", licence)
+                .append("licenceCode", licenceCode)
                 .toString();
     }
 
@@ -84,18 +96,14 @@ public class Option implements Reference, Entity {
         Option option = (Option) o;
 
         return new EqualsBuilder()
-                .append(id, option.id)
                 .append(code, option.code)
-                .append(label, option.label)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(id)
                 .append(code)
-                .append(label)
                 .toHashCode();
     }
 }

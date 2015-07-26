@@ -8,15 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -46,11 +38,11 @@ public class Member implements Serializable, Entity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "licence", nullable = false)
-    private String licence;
+    @Column(name = "licence_code", nullable = false)
+    private String licenceCode;
 
-    @Column(name = "option", nullable = false)
-    private String option;
+    @Column(name = "option_code", nullable = false)
+    private String optionCode;
 
     @Column(name = "phone")
     private String phone;
@@ -64,7 +56,7 @@ public class Member implements Serializable, Entity {
     @Column(name = "city")
     private String city;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members", cascade = CascadeType.PERSIST)
+//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members", cascade = CascadeType.PERSIST)
     private Set<SchoolYear> schoolYears;
 
     public Integer getId() {
@@ -115,20 +107,20 @@ public class Member implements Serializable, Entity {
         this.email = email;
     }
 
-    public String getLicence() {
-        return licence;
+    public String getLicenceCode() {
+        return licenceCode;
     }
 
-    public void setLicence(String licence) {
-        this.licence = licence;
+    public void setLicenceCode(String licenceCode) {
+        this.licenceCode = licenceCode;
     }
 
-    public String getOption() {
-        return option;
+    public String getOptionCode() {
+        return optionCode;
     }
 
-    public void setOption(String option) {
-        this.option = option;
+    public void setOptionCode(String optionCode) {
+        this.optionCode = optionCode;
     }
 
     public String getPhone() {
@@ -180,8 +172,8 @@ public class Member implements Serializable, Entity {
                 .append("firstname", firstname)
                 .append("birthday", birthday)
                 .append("email", email)
-                .append("licence", licence)
-                .append("option", option)
+                .append("licenceCode", licenceCode)
+                .append("optionCode", optionCode)
                 .append("phone", phone)
                 .append("address", address)
                 .append("postalCode", postalCode)
@@ -199,36 +191,14 @@ public class Member implements Serializable, Entity {
         Member member = (Member) o;
 
         return new EqualsBuilder()
-                .append(id, member.id)
                 .append(studentNumber, member.studentNumber)
-                .append(lastname, member.lastname)
-                .append(firstname, member.firstname)
-                .append(birthday, member.birthday)
-                .append(email, member.email)
-                .append(licence, member.licence)
-                .append(option, member.option)
-                .append(phone, member.phone)
-                .append(address, member.address)
-                .append(postalCode, member.postalCode)
-                .append(city, member.city)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(id)
                 .append(studentNumber)
-                .append(lastname)
-                .append(firstname)
-                .append(birthday)
-                .append(email)
-                .append(licence)
-                .append(option)
-                .append(phone)
-                .append(address)
-                .append(postalCode)
-                .append(city)
                 .toHashCode();
     }
 }

@@ -17,5 +17,5 @@ public interface LicencesService extends Service<LicenceDto> {
 	//    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	void deleteLicence(LicenceDto licenceDto);
 
-	void deleteOption(LicenceDto licenceDto, OptionDto optionDto);
+	void deleteOption(LicenceDto licenceDto);
 }

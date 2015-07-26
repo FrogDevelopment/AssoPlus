@@ -124,12 +124,12 @@
                     </TableColumn>
                     <TableColumn text="Diplôme">
                         <cellValueFactory>
-                            <PropertyValueFactory property="licence"/>
+                            <PropertyValueFactory property="licenceCode"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn text="Option">
                         <cellValueFactory>
-                            <PropertyValueFactory property="option"/>
+                            <PropertyValueFactory property="optionCode"/>
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn text="Téléphone">

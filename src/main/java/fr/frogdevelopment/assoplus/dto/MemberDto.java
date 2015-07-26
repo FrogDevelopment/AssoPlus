@@ -4,9 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import fr.frogdevelopment.assoplus.entities.Member;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class MemberDto implements Dto {
@@ -17,48 +15,12 @@ public class MemberDto implements Dto {
 	private final SimpleStringProperty firstname = new SimpleStringProperty();
 	private final SimpleStringProperty birthday = new SimpleStringProperty();
 	private final SimpleStringProperty email = new SimpleStringProperty();
-	private final SimpleStringProperty licence = new SimpleStringProperty();
-	private final SimpleStringProperty option = new SimpleStringProperty();
+	private final SimpleStringProperty licenceCode = new SimpleStringProperty();
+	private final SimpleStringProperty optionCode = new SimpleStringProperty();
 	private final SimpleStringProperty phone = new SimpleStringProperty();
 	private final SimpleStringProperty address = new SimpleStringProperty();
 	private final SimpleStringProperty postalCode = new SimpleStringProperty();
 	private final SimpleStringProperty city = new SimpleStringProperty();
-
-	public static MemberDto createDto(Member bean) {
-		MemberDto memberDto = new MemberDto();
-		memberDto.setId(bean.getId());
-		memberDto.setStudentNumber(bean.getStudentNumber());
-		memberDto.setLastname(bean.getLastname());
-		memberDto.setFirstname(bean.getFirstname());
-		memberDto.setBirthday(bean.getBirthday());
-		memberDto.setEmail(bean.getEmail());
-		memberDto.setLicence(bean.getLicence());
-		memberDto.setOption(bean.getOption());
-		memberDto.setPhone(bean.getPhone());
-		memberDto.setAddress(bean.getAddress());
-		memberDto.setPostalCode(bean.getPostalCode());
-		memberDto.setCity(bean.getCity());
-
-		return memberDto;
-	}
-
-	public static Member createBean(MemberDto dto) {
-		Member member = new Member();
-		member.setId(dto.getId());
-		member.setStudentNumber(dto.getStudentNumber());
-		member.setLastname(dto.getLastname());
-		member.setFirstname(dto.getFirstname());
-		member.setBirthday(dto.getBirthday());
-		member.setEmail(dto.getEmail());
-		member.setLicence(dto.getLicence());
-		member.setOption(dto.getOption());
-		member.setPhone(dto.getPhone());
-		member.setAddress(dto.getAddress());
-		member.setPostalCode(dto.getPostalCode());
-		member.setCity(dto.getCity());
-
-		return member;
-	}
 
 	public Integer getId() {
 		return id.get();
@@ -132,28 +94,28 @@ public class MemberDto implements Dto {
 		this.email.set(email);
 	}
 
-	public String getLicence() {
-		return licence.get();
+	public String getLicenceCode() {
+		return licenceCode.get();
 	}
 
-	public SimpleStringProperty licenceProperty() {
-		return licence;
+	public SimpleStringProperty licenceCodeProperty() {
+		return licenceCode;
 	}
 
-	public void setLicence(String licence) {
-		this.licence.set(licence);
+	public void setLicenceCode(String licenceCode) {
+		this.licenceCode.set(licenceCode);
 	}
 
-	public String getOption() {
-		return option.get();
+	public String getOptionCode() {
+		return optionCode.get();
 	}
 
-	public SimpleStringProperty optionProperty() {
-		return option;
+	public SimpleStringProperty optionCodeProperty() {
+		return optionCode;
 	}
 
-	public void setOption(String option) {
-		this.option.set(option);
+	public void setOptionCode(String optionCode) {
+		this.optionCode.set(optionCode);
 	}
 
 	public String getPhone() {
