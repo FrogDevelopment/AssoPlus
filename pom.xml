@@ -44,14 +44,11 @@
                 <!-- will come with all needed Spring dependencies such as spring-core and spring-beans-->
             </dependency>
 
-            <!-- hibernate -->
             <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>4.3.10.Final</version>
-                <!-- will come with Hibernate core-->
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>1.0.2</version>
             </dependency>
-
 
             <!-- SQLite JDBC library -->
             <dependency>
@@ -122,13 +119,10 @@
             <!-- will come with all needed Spring dependencies such as spring-core and spring-beans-->
         </dependency>
 
-        <!-- hibernate -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <!-- will come with Hibernate core-->
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
         </dependency>
-
 
         <!-- SQLite JDBC library -->
         <dependency>
