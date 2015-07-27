@@ -14,7 +14,7 @@ public class Licence implements Reference, Entity {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	private Integer id;
 
 	@Column(name = "code", unique = true, nullable = false)

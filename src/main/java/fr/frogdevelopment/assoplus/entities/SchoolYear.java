@@ -16,7 +16,7 @@ public class SchoolYear implements Entity{
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @Column(name = "year",nullable = false, unique = true)

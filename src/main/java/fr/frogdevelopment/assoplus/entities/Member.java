@@ -18,7 +18,7 @@ public class Member implements Serializable, Entity {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @Column(name = "studentNumber", unique = true, nullable = false)
