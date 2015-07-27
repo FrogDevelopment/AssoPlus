@@ -174,6 +174,10 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 			Column column;
 			Map<String, String> map = new HashMap<>();
 			for (Field field : persistentClass.getDeclaredFields()) {
+				if (!field.isAnnotationPresent(Column.class)) {
+					continue;
+				}
+
 				if (field.isAnnotationPresent(Id.class)) {
 					continue;
 				}
@@ -218,6 +222,10 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 			Column column;
 			Collection<String> setValues = new ArrayList<>();
 			for (Field field : persistentClass.getDeclaredFields()) {
+				if (!field.isAnnotationPresent(Column.class)) {
+					continue;
+				}
+
 				if (field.isAnnotationPresent(Id.class)) {
 					continue;
 				}
