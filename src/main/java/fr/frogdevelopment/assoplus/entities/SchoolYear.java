@@ -9,13 +9,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @javax.persistence.Entity
-@Table(name="school_year", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "schoolYear")
-})
+@Table(name="school_year")
 public class SchoolYear implements Entity{
 
     @Id
@@ -26,12 +22,12 @@ public class SchoolYear implements Entity{
     @Column(name = "year",nullable = false, unique = true)
     private String year;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "members_years",
-            joinColumns = {@JoinColumn(name = "member_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "school_year_id", nullable = false, updatable = false)}
-    )
-    private Set<Member> members = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = "members_years",
+//            joinColumns = {@JoinColumn(name = "member_id", nullable = false, updatable = false)},
+//            inverseJoinColumns = {@JoinColumn(name = "school_year_id", nullable = false, updatable = false)}
+//    )
+//    private Set<Member> members = new HashSet<>();
 
     @Override
     public Integer getId() {
@@ -50,20 +46,20 @@ public class SchoolYear implements Entity{
         this.year = year;
     }
 
-    public Set<Member> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Set<Member> members) {
-        this.members = members;
-    }
+//    public Set<Member> getMembers() {
+//        return members;
+//    }
+//
+//    public void setMembers(Set<Member> members) {
+//        this.members = members;
+//    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
                 .append("year", year)
-                .append("members", members)
+//                .append("members", members)
                 .toString();
     }
 
@@ -76,7 +72,6 @@ public class SchoolYear implements Entity{
         SchoolYear that = (SchoolYear) o;
 
         return new EqualsBuilder()
-                .append(id, that.id)
                 .append(year, that.year)
                 .isEquals();
     }
@@ -84,7 +79,6 @@ public class SchoolYear implements Entity{
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(id)
                 .append(year)
                 .toHashCode();
     }

@@ -9,10 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
 @javax.persistence.Entity
-@Table(name = "licence", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "code"),
-		@UniqueConstraint(columnNames = "label")
-})
+@Table(name = "licence")
 public class Licence implements Reference, Entity {
 
 	@Id
@@ -23,7 +20,7 @@ public class Licence implements Reference, Entity {
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
 
-	@Column(name = "label", unique = true, nullable = false)
+	@Column(name = "label", unique = false, nullable = false)
 	private String label;
 
 	public Licence() {

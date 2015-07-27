@@ -11,10 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
 @javax.persistence.Entity
-@Table(name = "option", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "code"),
-        @UniqueConstraint(columnNames = "label")
-})
+@Table(name = "option")
 public class Option implements Reference, Entity {
 
     @Id
@@ -25,7 +22,7 @@ public class Option implements Reference, Entity {
     @Column(name = "code", unique = true, nullable = false)
     private String code;
 
-    @Column(name = "label", unique = true, nullable = false)
+    @Column(name = "label", unique = false, nullable = false)
     private String label;
 
 //    @ManyToOne(fetch = FetchType.LAZY, optional = false)

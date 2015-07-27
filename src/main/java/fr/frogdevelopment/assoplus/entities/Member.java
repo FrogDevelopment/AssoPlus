@@ -13,9 +13,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @javax.persistence.Entity
-@Table(name = "member", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "studentNumber")
-})
+@Table(name = "member")
 public class Member implements Serializable, Entity {
 
     @Id

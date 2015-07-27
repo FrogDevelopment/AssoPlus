@@ -6,17 +6,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
@@ -67,6 +71,52 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 	// ********** PRIVATE METHODES ************* \\
 	// ***************************************** \\
 
+	@PostConstruct
+	private void init() {
+		StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
+		sb.append(tableName);
+		sb.append("(");
+
+		List<String> columns = new ArrayList<>();
+		Column column;
+		for (Field field : persistentClass.getDeclaredFields()) {
+			// Simple case
+			if (field.isAnnotationPresent(Column.class)) {
+				column = field.getAnnotation(Column.class);
+				Class<?> type = field.getType();
+				String col = column.name() + " ";
+				if (type == Integer.class) {
+					col += "INTEGER";
+					if (field.isAnnotationPresent(Id.class)) {
+						col += " PRIMARY KEY";
+					}
+					if (field.isAnnotationPresent(GeneratedValue.class)) {
+						col += " AUTOINCREMENT";
+					}
+				} else if (type == String.class) {
+					col += "TEXT";
+				}
+
+				if (!field.isAnnotationPresent(Id.class)) {
+					if (column.unique()) {
+						col += " UNIQUE";
+					}
+
+					if (!column.nullable()) {
+						col += " NOT NULL";
+					}
+				}
+				columns.add(col);
+			}
+		}
+
+		sb.append(String.join(", ", columns));
+		sb.append(")");
+
+		LOGGER.debug("Execute query {}", sb.toString());
+		jdbcTemplate.update(sb.toString());
+	}
+
 	private E buildEntity(ResultSet rs) throws SQLException {
 		try {
 			E entity = persistentClass.newInstance();
@@ -108,15 +158,15 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
 	@Override
 	public List<E> getAll() {
-		return jdbcTemplate.query("SELECT * FROM " + getTableName(), mapper);
+		return jdbcTemplate.query("SELECT * FROM " + tableName, mapper);
 	}
 
 	public List<E> getAllOrderedBy(String propertyName) {
-		return jdbcTemplate.query("SELECT * FROM " + getTableName() + " ORDER BY " + propertyName, mapper); // FIXME voir pour le champ propertyName en dynamique
+		return jdbcTemplate.query("SELECT * FROM " + tableName + " ORDER BY " + propertyName, mapper); // FIXME voir pour le champ propertyName en dynamique
 	}
 
 	public E getById(Integer identifiant) {
-		return jdbcTemplate.queryForObject("SELECT * FROM " + getTableName() + " WHERE " + idName + " = ?", new Object[]{identifiant}, mapper);
+		return jdbcTemplate.queryForObject("SELECT * FROM " + tableName + " WHERE " + idName + " = ?", new Object[]{identifiant}, mapper);
 	}
 
 	public final void save(E entity) {
@@ -124,6 +174,10 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 			Column column;
 			Map<String, String> map = new HashMap<>();
 			for (Field field : persistentClass.getDeclaredFields()) {
+				if (field.isAnnotationPresent(Id.class)) {
+					continue;
+				}
+
 				column = field.getAnnotation(Column.class);
 
 				// to be able to write the field's value
@@ -134,16 +188,26 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 				});
 
 				Object value = field.get(entity);
-				map.put(column.name(), String.valueOf(value));
+				if (field.getType() == String.class) {
+					map.put(column.name(), "'" + String.valueOf(value) + "'");
+				} else {
+					map.put(column.name(), String.valueOf(value));
+				}
 			}
 
 			String query = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, String.join(", ", map.keySet()), String.join(",", map.values()));
 			LOGGER.debug("execute query : {}", query);
-			this.jdbcTemplate.update(query);
+			this.jdbcTemplate.update(con -> {
+				return con.prepareStatement(query, new String[]{idName});
+			}, keyHolder);
+
+			entity.setId(keyHolder.getKey().intValue());
 		} catch (IllegalAccessException e) {
 			throw new IllegalStateException("Error while constructing query", e); // fixme
 		}
 	}
+
+	private final KeyHolder keyHolder = new GeneratedKeyHolder();
 
 	public void saveAll(Collection<E> entities) {
 		entities.forEach(this::save);
@@ -154,6 +218,10 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 			Column column;
 			Collection<String> setValues = new ArrayList<>();
 			for (Field field : persistentClass.getDeclaredFields()) {
+				if (field.isAnnotationPresent(Id.class)) {
+					continue;
+				}
+
 				column = field.getAnnotation(Column.class);
 
 				// to be able to write the field's value
@@ -169,7 +237,11 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
 			String query = String.format("UPDATE %s %s WHERE %s = %s", tableName, String.join(", ", setValues), idName, entity.getId());
 			LOGGER.debug("execute query : {}", query);
-			this.jdbcTemplate.update(query);
+			this.jdbcTemplate.update(con -> {
+				return con.prepareStatement(query, new String[]{idName});
+			}, keyHolder);
+
+			entity.setId(keyHolder.getKey().intValue());
 		} catch (IllegalAccessException e) {
 			throw new IllegalStateException("Error while constructing query", e); // fixme
 		}
@@ -196,11 +268,11 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 	}
 
 	public void delete(Integer identifiant) {
-		jdbcTemplate.update("DELETE FROM " + getTableName() + " WHERE " + idName + " = ?", identifiant);
+		jdbcTemplate.update("DELETE FROM " + tableName + " WHERE " + idName + " = ?", identifiant);
 	}
 
 	public void deleteAll() {
-		jdbcTemplate.update("DELETE FROM " + getTableName());
+		jdbcTemplate.update("DELETE FROM " + tableName);
 	}
 
 }
