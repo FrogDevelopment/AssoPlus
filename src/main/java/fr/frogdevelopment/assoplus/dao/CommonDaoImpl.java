@@ -232,10 +232,14 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 				});
 
 				Object value = field.get(entity);
-				setValues.add(column.name() + " = " + String.valueOf(value));
+				if (field.getType() == String.class) {
+					setValues.add(column.name() + " = " + "'" + String.valueOf(value) + "'");
+				} else {
+					setValues.add(column.name() + " = " + String.valueOf(value));
+				}
 			}
 
-			String query = String.format("UPDATE %s %s WHERE %s = %s", tableName, String.join(", ", setValues), idName, entity.getId());
+			String query = String.format("UPDATE %s SET %s WHERE %s = %s", tableName, String.join(", ", setValues), idName, entity.getId());
 			LOGGER.debug("execute query : {}", query);
 			this.jdbcTemplate.update(con -> {
 				return con.prepareStatement(query, new String[]{idName});
