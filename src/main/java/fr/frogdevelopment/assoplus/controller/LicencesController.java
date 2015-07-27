@@ -61,7 +61,9 @@ public class LicencesController implements Initializable {
 
 		licenceDtos.forEach(licenceDto -> {
 			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
-//			licenceDto.getOptions().stream().forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
+			optionDtos.stream()
+					.filter(optionDto -> optionDto.getLicenceCode().equals(licenceDto.getCode()))
+					.forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
 			rootItem.getChildren().add(treeItem);
 			rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
 		});
@@ -101,6 +103,7 @@ public class LicencesController implements Initializable {
 
 	public void onSave() {
 		licencesService.saveOrUpdateAll(licenceDtos);
+		optionsService.saveOrUpdateAll(optionDtos);
 		init();
 	}
 
@@ -169,6 +172,8 @@ public class LicencesController implements Initializable {
 		OptionDto optionDto = new OptionDto();
 		optionDto.setLicenceCode(licenceDto.getCode());
 
+		optionDtos.add(optionDto);
+
 		final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
 		selectedItem.getChildren().add(newItem);
 
@@ -201,6 +206,7 @@ public class LicencesController implements Initializable {
 		parent.getChildren().remove(selectedItem);
 
 		OptionDto optionDto = (OptionDto) selectedItem.getValue();
+		optionDtos.remove(optionDto);
 
 		if (optionDto.getId() != 0) {
 			optionsService.deleteOption(optionDto);
