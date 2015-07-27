@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,22 +182,74 @@ public class MembersController implements Initializable {
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	public void saveData() {
-		MemberDto member = new MemberDto();
-		member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
-		member.setLastname(txtLastname.getText());
-		member.setFirstname(txtFirstname.getText());
-		member.setBirthday(dpBirthday.getValue().format(dateFormatter));
-		member.setEmail(txtEmail.getText());
-		member.setLicenceCode(cbLicence.getValue().getCode());
-		member.setOptionCode(cbOption.getValue().getCode());
-		member.setPhone(txtPhone.getText());
-		member.setAddress(txtAddress.getText());
-		member.setPostalCode(txtPostalCode.getText());
-		member.setCity(txtCity.getText());
 
-		membersService.saveData(member);
+		boolean isOk = true;
 
-		data.add(member);
+		if (StringUtils.isBlank(txtStudentNumber.getText())) {
+			txtStudentNumber.setStyle("-fx-border-color: red");
+			isOk = false;
+		} else {
+			txtStudentNumber.setStyle("-fx-border-color: null");
+		}
+
+		if (StringUtils.isBlank(txtLastname.getText())) {
+			txtLastname.setStyle("-fx-border-color: red");
+			isOk = false;
+		} else {
+			txtLastname.setStyle("-fx-border-color: null");
+		}
+
+		if (StringUtils.isBlank(txtFirstname.getText())) {
+			txtFirstname.setStyle("-fx-border-color: red");
+			isOk = false;
+		} else {
+			txtFirstname.setStyle("-fx-border-color: null");
+		}
+
+		if (dpBirthday.getValue() == null) {
+			dpBirthday.setStyle("-fx-border-color: red");
+			isOk = false;
+		} else {
+			dpBirthday.setStyle("-fx-border-color: null");
+		}
+		if (StringUtils.isBlank(txtEmail.getText())) {
+			txtEmail.setStyle("-fx-border-color: red");
+			isOk = false;
+		} else {
+			txtEmail.setStyle("-fx-border-color: null");
+		}
+		if (cbLicence.getValue() == null) {
+			cbLicence.setStyle("-fx-border-color: red");
+			isOk = false;
+		} else {
+			cbLicence.setStyle("-fx-border-color: null");
+		}
+		if (cbOption.getValue() == null) {
+			cbOption.setStyle("-fx-border-color: red");
+			isOk = false;
+		} else {
+			cbOption.setStyle("-fx-border-color: null");
+		}
+
+
+		if (isOk) {
+			MemberDto member = new MemberDto();
+			member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
+			member.setLastname(txtLastname.getText());
+			member.setFirstname(txtFirstname.getText());
+			member.setBirthday(dpBirthday.getValue().format(dateFormatter));
+			member.setEmail(txtEmail.getText());
+			member.setLicenceCode(cbLicence.getValue().getCode());
+			member.setOptionCode(cbOption.getValue().getCode());
+			member.setPhone(txtPhone.getText());
+			member.setAddress(txtAddress.getText());
+			member.setPostalCode(txtPostalCode.getText());
+			member.setCity(txtCity.getText());
+
+			membersService.saveData(member);
+
+			data.add(member);
+		}
 	}
 
 	public void importMembers() {
