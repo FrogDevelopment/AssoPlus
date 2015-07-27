@@ -32,6 +32,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller("membersController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -158,16 +159,22 @@ public class MembersController implements Initializable {
 //		});
 
 //		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(cbLicence.getSelectionModel().getSelectedItem().getOptions())));
-//		cbLicence.setOnAction(event -> {cb.fil});
 
-		Set<OptionDto> optionDtos = optionsService.getAllOrderedByCode();
-		cbOption.setItems(FXCollections.observableArrayList(optionDtos));
+		final Set<OptionDto> optionDtos = optionsService.getAllOrderedByCode();
+		cbLicence.setOnAction(event -> {
+			cbOption.setItems(FXCollections.observableArrayList(optionDtos.stream()
+					.filter(optionDto -> optionDto.getLicenceCode().equals(cbLicence.getValue().getCode()))
+					.collect(Collectors.toSet())));
+		});
+		cbOption.setVisibleRowCount(4);
 		cbOption.setConverter(new StringConverter<OptionDto>() {
 
 			private final Map<String, OptionDto> _cache = new HashMap<>();
 
 			@Override
 			public String toString(OptionDto item) {
+				if (item == null) return null;
+
 				_cache.put(item.getLabel(), item);
 				return item.getLabel();
 			}
