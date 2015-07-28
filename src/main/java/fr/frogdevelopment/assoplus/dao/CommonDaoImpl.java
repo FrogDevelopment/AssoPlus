@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Frog Development 2015.
+ */
+
 package fr.frogdevelopment.assoplus.dao;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +54,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 		}
 
 		if (persistentClass.isAnnotationPresent(Table.class)) {
-			tableName = persistentClass.getDeclaredAnnotation(Table.class).name().toUpperCase();
+			tableName = persistentClass.getDeclaredAnnotation(Table.class).name();
 		} else {
 			throw new IllegalStateException("No table defined !!");
 		}
@@ -73,11 +77,11 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 	}
 
 	// ***************************************** \\
-	// ********** PRIVATE METHODES ************* \\
+	// ********** PACKAGE METHODES ************* \\ (visible for tests)
 	// ***************************************** \\
 
 	@PostConstruct
-	private void init() {
+	void init() {
 		StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
 		sb.append(tableName);
 		sb.append("(");
@@ -122,7 +126,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 		jdbcTemplate.update(sb.toString());
 	}
 
-	private E buildEntity(ResultSet rs) throws SQLException {
+	E buildEntity(ResultSet rs) throws SQLException {
 		try {
 			E entity = persistentClass.newInstance();
 
