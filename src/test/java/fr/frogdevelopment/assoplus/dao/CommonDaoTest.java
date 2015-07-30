@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import fr.frogdevelopment.assoplus.entity.TestEntity;
+import fr.frogdevelopment.assoplus.entity.EntityTest;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class CommonDaoTest {
 
-    class MockitoDao extends CommonDaoImpl<TestEntity> {
+    class MockitoDao extends CommonDaoImpl<EntityTest> {
     }
 
     @InjectMocks
@@ -38,11 +38,11 @@ public class CommonDaoTest {
     @Test
     public void testQueryCreation() {
         StrBuilder sb = new StrBuilder("CREATE TABLE IF NOT EXISTS ");
-        sb.append(TestEntity.TABLE_NAME);
+        sb.append(EntityTest.TABLE_NAME);
         sb.append("(");
-        sb.append(TestEntity.COLUMN_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
-        sb.append(TestEntity.COLUMN_CODE).append(" TEXT UNIQUE NOT NULL, ");
-        sb.append(TestEntity.COLUMN_LABEL).append(" TEXT NOT NULL");
+        sb.append(EntityTest.COLUMN_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sb.append(EntityTest.COLUMN_CODE).append(" TEXT UNIQUE NOT NULL, ");
+        sb.append(EntityTest.COLUMN_LABEL).append(" TEXT NOT NULL");
         sb.append(")");
 
         commonDao.init();
@@ -53,72 +53,72 @@ public class CommonDaoTest {
     @Test
     public void testQueryGetAll() {
         commonDao.getAll();
-        verify(jdbcTemplate).query("SELECT * FROM " + TestEntity.TABLE_NAME, commonDao.mapper);
+        verify(jdbcTemplate).query("SELECT * FROM " + EntityTest.TABLE_NAME, commonDao.mapper);
     }
 
     @Test
     public void testQueryGetAllOrderedBy() {
-        commonDao.getAllOrderedBy(TestEntity.COLUMN_CODE);
-        verify(jdbcTemplate).query("SELECT * FROM " + TestEntity.TABLE_NAME + " ORDER BY " + TestEntity.COLUMN_CODE, commonDao.mapper);
+        commonDao.getAllOrderedBy(EntityTest.COLUMN_CODE);
+        verify(jdbcTemplate).query("SELECT * FROM " + EntityTest.TABLE_NAME + " ORDER BY " + EntityTest.COLUMN_CODE, commonDao.mapper);
     }
 
     @Test
     public void testQueryGetById() {
         commonDao.getById(0);
-        verify(jdbcTemplate).queryForObject("SELECT * FROM " + TestEntity.TABLE_NAME + " WHERE " + TestEntity.COLUMN_ID + " = ?", new Object[]{0}, commonDao.mapper);
+        verify(jdbcTemplate).queryForObject("SELECT * FROM " + EntityTest.TABLE_NAME + " WHERE " + EntityTest.COLUMN_ID + " = ?", new Object[]{0}, commonDao.mapper);
     }
 
     @Test
     public void testDelete() {
-        TestEntity test = new TestEntity();
+        EntityTest test = new EntityTest();
         test.setId(0);
         commonDao.delete(test);
-        verify(jdbcTemplate).update("DELETE FROM " + TestEntity.TABLE_NAME + " WHERE " + TestEntity.COLUMN_ID + " = ?", 0);
+        verify(jdbcTemplate).update("DELETE FROM " + EntityTest.TABLE_NAME + " WHERE " + EntityTest.COLUMN_ID + " = ?", 0);
     }
 
     @Test
     public void testDeleteAll() {
         commonDao.deleteAll();
-        verify(jdbcTemplate).update("DELETE FROM " + TestEntity.TABLE_NAME);
+        verify(jdbcTemplate).update("DELETE FROM " + EntityTest.TABLE_NAME);
     }
 
     @Test
     public void testSaveOrUpdateAll() {
-        Collection<TestEntity> testEntities = new ArrayList<>();
-        testEntities.add(new TestEntity(0));
-        testEntities.add(new TestEntity(1));
+        Collection<EntityTest> testEntities = new ArrayList<>();
+        testEntities.add(new EntityTest(0));
+        testEntities.add(new EntityTest(1));
 
         commonDao.saveOrUpdateAll(testEntities);
 
-        doNothing().when(commonDao).save(any(TestEntity.class));
-        doNothing().when(commonDao).update(any(TestEntity.class));
+        doNothing().when(commonDao).save(any(EntityTest.class));
+        doNothing().when(commonDao).update(any(EntityTest.class));
 //        when(commonDao.saveOrUpdate(any(TestEntity.class))).then(invocation -> return);
-        verify(commonDao, times(testEntities.size())).saveOrUpdate(any(TestEntity.class));
+        verify(commonDao, times(testEntities.size())).saveOrUpdate(any(EntityTest.class));
 
-        verify(commonDao, times(1)).save(any(TestEntity.class));
-        verify(commonDao, times(1)).update(any(TestEntity.class));
+        verify(commonDao, times(1)).save(any(EntityTest.class));
+        verify(commonDao, times(1)).update(any(EntityTest.class));
     }
 
     @Test
     public void testSaveAll() {
-        Collection<TestEntity> testEntities = new ArrayList<>();
-        testEntities.add(new TestEntity(0));
+        Collection<EntityTest> testEntities = new ArrayList<>();
+        testEntities.add(new EntityTest(0));
 
         commonDao.saveAll(testEntities);
 
-        doNothing().when(spy(commonDao)).save(any(TestEntity.class));
-        verify(commonDao, times(testEntities.size())).save(any(TestEntity.class));
+        doNothing().when(spy(commonDao)).save(any(EntityTest.class));
+        verify(commonDao, times(testEntities.size())).save(any(EntityTest.class));
     }
 
     @Test
     public void testUpdateAll() {
-        Collection<TestEntity> testEntities = new ArrayList<>();
-        testEntities.add(new TestEntity(1));
+        Collection<EntityTest> testEntities = new ArrayList<>();
+        testEntities.add(new EntityTest(1));
 
         commonDao.updateAll(testEntities);
 
-        doNothing().when(commonDao).update(any(TestEntity.class));
-        verify(commonDao, times(testEntities.size())).save(any(TestEntity.class));
+        doNothing().when(commonDao).update(any(EntityTest.class));
+        verify(commonDao, times(testEntities.size())).save(any(EntityTest.class));
     }
 
 //    @Test

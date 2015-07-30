@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @javax.persistence.Entity
-@Table(name = TestEntity.TABLE_NAME)
-public class TestEntity implements Entity {
+@Table(name = EntityTest.TABLE_NAME)
+public class EntityTest implements Entity {
 
     public static final String TABLE_NAME = "test";
     public static final String COLUMN_ID = "id";
@@ -19,24 +19,24 @@ public class TestEntity implements Entity {
     public static final String COLUMN_LABEL = "label";
 
     @Id
-    @Column(name = TestEntity.COLUMN_ID, unique = true, nullable = false)
+    @Column(name = EntityTest.COLUMN_ID, unique = true, nullable = false)
     @GeneratedValue
     private Integer id;
 
-    @Column(name = TestEntity.COLUMN_CODE, unique = true, nullable = false)
+    @Column(name = EntityTest.COLUMN_CODE, unique = true, nullable = false)
     private String code;
 
-    @Column(name = TestEntity.COLUMN_LABEL, unique = false, nullable = false)
+    @Column(name = EntityTest.COLUMN_LABEL, unique = false, nullable = false)
     private String label;
 
-    public TestEntity() {
+    public EntityTest() {
     }
 
-    public TestEntity(int id) {
+    public EntityTest(int id) {
         this.id = id;
     }
 
-    public TestEntity(String code, String label) {
+    public EntityTest(String code, String label) {
         this.code = code;
         this.label = label;
     }
@@ -80,10 +80,10 @@ public class TestEntity implements Entity {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestEntity testEntity = (TestEntity) o;
+        EntityTest entityTest = (EntityTest) o;
 
         return new org.apache.commons.lang3.builder.EqualsBuilder()
-                .append(code, testEntity.code)
+                .append(code, entityTest.code)
                 .isEquals();
     }
 
