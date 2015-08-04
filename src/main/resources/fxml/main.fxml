@@ -14,8 +14,7 @@
             <Menu mnemonicParsing="false" text="Fichier">
                 <MenuItem mnemonicParsing="false" text="Quitter"/>
             </Menu>
-            <Menu mnemonicParsing="false" text="Paramètres">
-                <MenuItem mnemonicParsing="false" text="Diplômes" onAction="#onLicence"/>
+            <Menu mnemonicParsing="false" text="Paramètres" disable="true">
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                 <MenuItem mnemonicParsing="false" text="About"/>
@@ -28,6 +27,8 @@
                 <fx:include source="members/members.fxml"/>
             </Tab>
             <Tab text="Librairie" disable="true">
+            </Tab>
+            <Tab text="Cbe Bio Android">
             </Tab>
         </TabPane>
     </center>

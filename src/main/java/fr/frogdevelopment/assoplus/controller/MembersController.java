@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.Main;
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
@@ -15,13 +16,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.StringConverter;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -31,16 +36,17 @@ import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller("membersController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MembersController implements Initializable {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MembersController.class);
-
-	private ResourceBundle bundle;
+//	private ResourceBundle bundle;
 
 	@Autowired
 	private MembersService membersService;
@@ -90,7 +96,7 @@ public class MembersController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		bundle = resources;
+//		bundle = resources;
 		data = membersService.getAllData();
 		table.setItems(data);
 
@@ -161,11 +167,9 @@ public class MembersController implements Initializable {
 //		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(cbLicence.getSelectionModel().getSelectedItem().getOptions())));
 
 		final Set<OptionDto> optionDtos = optionsService.getAllOrderedByCode();
-		cbLicence.setOnAction(event -> {
-			cbOption.setItems(FXCollections.observableArrayList(optionDtos.stream()
-					.filter(optionDto -> optionDto.getLicenceCode().equals(cbLicence.getValue().getCode()))
-					.collect(Collectors.toSet())));
-		});
+		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(optionDtos.stream()
+				.filter(optionDto -> optionDto.getLicenceCode().equals(cbLicence.getValue().getCode()))
+				.collect(Collectors.toSet()))));
 		cbOption.setVisibleRowCount(4);
 		cbOption.setConverter(new StringConverter<OptionDto>() {
 
@@ -276,5 +280,20 @@ public class MembersController implements Initializable {
 		vbTop.setVisible(!isVisible);
 
 		btnShowHide.setText(isVisible ? "Montrer" : "Cacher");
+	}
+
+
+	public void manageLicences(MouseEvent event) {
+		Button source = (Button) (event.getSource());
+		Window parent = source.getScene().getWindow();
+
+		Parent root = Main.load("/fxml/members/licence.fxml");
+		Stage dialog = new Stage(/*StageStyle.TRANSPARENT*/);
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.initOwner(parent);
+		dialog.setTitle("test");
+		dialog.setScene(new Scene(root, 450, 450));
+		dialog.show();
+
 	}
 }
