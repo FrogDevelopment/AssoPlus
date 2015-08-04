@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
 @javax.persistence.Entity
-@Table(name = "option")
+@Table(name = "`option`")
 public class Option implements Reference, Entity {
 
     @Id

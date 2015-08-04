@@ -82,48 +82,48 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
 	@PostConstruct
 	void init() {
-		StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
-		sb.append(tableName);
-		sb.append("(");
-
-		List<String> columns = new ArrayList<>();
-		Column column;
-		for (Field field : persistentClass.getDeclaredFields()) {
-			// Simple case
-			if (field.isAnnotationPresent(Column.class)) {
-				column = field.getAnnotation(Column.class);
-				Class<?> type = field.getType();
-				String col = column.name() + " ";
-				if (type == Integer.class) {
-					col += "INTEGER";
-					if (field.isAnnotationPresent(Id.class)) {
-						col += " PRIMARY KEY";
-					}
-					if (field.isAnnotationPresent(GeneratedValue.class)) {
-						col += " AUTOINCREMENT";
-					}
-				} else if (type == String.class) {
-					col += "TEXT";
-				}
-
-				if (!field.isAnnotationPresent(Id.class)) {
-					if (column.unique()) {
-						col += " UNIQUE";
-					}
-
-					if (!column.nullable()) {
-						col += " NOT NULL";
-					}
-				}
-				columns.add(col);
-			}
-		}
-
-		sb.append(String.join(", ", columns));
-		sb.append(")");
-
-		LOGGER.debug("Execute query {}", sb.toString());
-		jdbcTemplate.update(sb.toString());
+//		StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
+//		sb.append(tableName);
+//		sb.append("(");
+//
+//		List<String> columns = new ArrayList<>();
+//		Column column;
+//		for (Field field : persistentClass.getDeclaredFields()) {
+//			// Simple case
+//			if (field.isAnnotationPresent(Column.class)) {
+//				column = field.getAnnotation(Column.class);
+//				Class<?> type = field.getType();
+//				String col = column.name() + " ";
+//				if (type == Integer.class) {
+//					col += "INTEGER";
+//					if (field.isAnnotationPresent(Id.class)) {
+//						col += " PRIMARY KEY";
+//					}
+//					if (field.isAnnotationPresent(GeneratedValue.class)) {
+//						col += " AUTOINCREMENT";
+//					}
+//				} else if (type == String.class) {
+//					col += "TEXT";
+//				}
+//
+//				if (!field.isAnnotationPresent(Id.class)) {
+//					if (column.unique()) {
+//						col += " UNIQUE";
+//					}
+//
+//					if (!column.nullable()) {
+//						col += " NOT NULL";
+//					}
+//				}
+//				columns.add(col);
+//			}
+//		}
+//
+//		sb.append(String.join(", ", columns));
+//		sb.append(")");
+//
+//		LOGGER.debug("Execute query {}", sb.toString());
+//		jdbcTemplate.update(sb.toString());
 	}
 
 	E buildEntity(ResultSet rs) throws SQLException {
@@ -258,11 +258,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
 			String query = String.format("UPDATE %s SET %s WHERE %s = %s", tableName, String.join(", ", setValues), idName, entity.getId());
 			LOGGER.debug("execute query : {}", query);
-			this.jdbcTemplate.update(con -> {
-				return con.prepareStatement(query, new String[]{idName});
-			}, keyHolder);
-
-			entity.setId(keyHolder.getKey().intValue());
+			this.jdbcTemplate.update(query);
 		} catch (IllegalAccessException e) {
 			throw new IllegalStateException("Error while constructing query", e); // fixme
 		}

@@ -48,7 +48,7 @@ public class Member implements Serializable, Entity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "postalCode")
+    @Column(name = "postal_code")
     private String postalCode;
 
     @Column(name = "city")
