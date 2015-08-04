@@ -27,7 +27,7 @@
 
     <center>
         <VBox>
-            <VBox fx:id="vbTop" managed="true" visible="true">
+            <VBox fx:id="vbTop" managed="false" visible="false">
                 <GridPane>
                     <columnConstraints>
                         <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>

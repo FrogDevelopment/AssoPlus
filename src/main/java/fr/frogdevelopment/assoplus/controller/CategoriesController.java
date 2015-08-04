@@ -6,8 +6,10 @@ package fr.frogdevelopment.assoplus.controller;
 
 import fr.frogdevelopment.assoplus.service.CategoriesService;
 import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -20,6 +22,11 @@ import java.util.ResourceBundle;
 @Controller("categoriesController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CategoriesController implements Initializable {
+
+	@FXML
+	private TextField txtLabel;
+	@FXML
+	private TextField txtCode;
 
 	@Autowired
 	private CategoriesService categoriesService;
