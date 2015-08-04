@@ -22,11 +22,11 @@
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Rechercher">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
-            </Button>
+            <!--<Button mnemonicParsing="false" text="Rechercher">-->
+                <!--<VBox.margin>-->
+                    <!--<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
+                <!--</VBox.margin>-->
+            <!--</Button>-->
             <Button mnemonicParsing="false" onMouseClicked="#importMembers" text="Importer">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

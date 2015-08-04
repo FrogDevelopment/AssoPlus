@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.EventsController">
+    <left>
+        <VBox fx:id="vbLeft" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <children>
+
+                <Button fx:id="btnShowHide" mnemonicParsing="false" onMouseClicked="#showHideEvent" text="Montrer">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onMouseClicked="#manageCategories" text="Categories">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox>
+            <children>
+                <VBox fx:id="vbTop" managed="true" visible="true">
+                    <children>
+                        <GridPane>
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="100.0" prefWidth="150.0" />
+                                <ColumnConstraints minWidth="100.0" prefWidth="200.0" />
+                                <ColumnConstraints minWidth="10.0" prefWidth="10.0" />
+                                <ColumnConstraints minWidth="100.0" prefWidth="150.0" />
+                                <ColumnConstraints minWidth="100.0" prefWidth="200.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                            </rowConstraints>
+                            <children>
+
+                                <Label text="%event.title" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <TextField fx:id="txtTitle" prefHeight="25.0" prefWidth="541.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="0" />
+
+                                <Label text="%event.date" GridPane.rowIndex="1" />
+                                <DatePicker fx:id="dpDate" showWeekNumbers="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label text="%event.category" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                <ComboBox fx:id="cbCategory" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+
+                                <Label text="\%event.text" GridPane.rowIndex="2" />
+                                <TextArea fx:id="taText" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" GridPane.rowSpan="2147483647" />
+                            </children>
+
+                        </GridPane>
+                        <Button onAction="#saveData" text="Save" />
+                    </children>
+                </VBox>
+
+                <TableView fx:id="table" managed="true">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn text="%event.title">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="title" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%event.date">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="date" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="%event.category">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="categoryCode" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>
