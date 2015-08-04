@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
     <top>
-        <HBox BorderPane.alignment="CENTER">
+        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Button onMouseClicked="#onAddLicence" text="Ajouter Diplôme"/>
             <Button onMouseClicked="#onRemoveLicence" text="Retirer Diplôme"/>
             <Separator orientation="VERTICAL"/>
             <Button onMouseClicked="#onAddOption" text="Ajouter Option"/>
             <Button onMouseClicked="#onRemoveOption" text="Retirer Option"/>
-        </HBox>
+        </ToolBar>
     </top>
     <center>
         <TreeTableView fx:id="treeTableView" BorderPane.alignment="CENTER">
@@ -21,9 +25,9 @@
         </TreeTableView>
     </center>
     <bottom>
-        <HBox BorderPane.alignment="CENTER">
+        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Button onMouseClicked="#onSave" text="Sauver"/>
             <Button onMouseClicked="#onClose" text="Fermer"/>
-        </HBox>
+        </ToolBar>
     </bottom>
 </BorderPane>

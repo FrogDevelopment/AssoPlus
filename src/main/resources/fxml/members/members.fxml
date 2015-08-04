@@ -12,22 +12,8 @@
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.frogdevelopment.assoplus.controller.MembersController">
     <left>
-        <VBox fx:id="vbLeft" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-
+        <ToolBar prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" orientation="VERTICAL">
             <Button fx:id="btnShowHide" mnemonicParsing="false" text="Montrer" onMouseClicked="#showHideMember">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
-            </Button>
-            <!--<Button mnemonicParsing="false" text="Rechercher">-->
-                <!--<VBox.margin>-->
-                    <!--<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
-                <!--</VBox.margin>-->
-            <!--</Button>-->
-            <Button mnemonicParsing="false" onMouseClicked="#importMembers" text="Importer">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
@@ -37,7 +23,17 @@
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
             </Button>
-        </VBox>
+            <!--<Button mnemonicParsing="false" text="Rechercher">-->
+            <!--<VBox.margin>-->
+            <!--<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
+            <!--</VBox.margin>-->
+            <!--</Button>-->
+            <Button mnemonicParsing="false" onMouseClicked="#importMembers" text="Importer">
+                <VBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+            </Button>
+        </ToolBar>
     </left>
 
     <center>

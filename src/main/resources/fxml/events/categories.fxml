@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.CategoriesController">
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                    <children>
+                        <TextField />
+                        <TextField />
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </HBox>
+                <ListView prefWidth="200.0" />
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+           <items>
+               <Button mnemonicParsing="false" onMouseClicked="#onClose" text="Fermer" />
+               <Button mnemonicParsing="false" text="Button" />
+               <Button mnemonicParsing="false" text="Button" />
+           </items>
+        </ToolBar>
+    </bottom>
+</BorderPane>

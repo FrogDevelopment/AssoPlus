@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.Main;
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.dto.CategoryDto;
 import fr.frogdevelopment.assoplus.dto.EventDto;
@@ -12,9 +13,14 @@ import fr.frogdevelopment.assoplus.service.EventsService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.StringConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +53,6 @@ public class EventsController implements Initializable {
 	private VBox vbTop;
 	@FXML
 	private Button btnShowHide;
-
-	@FXML
-	private VBox vbLeft;
 
 	@FXML
 	private TextField txtTitle;
@@ -169,16 +172,16 @@ public class EventsController implements Initializable {
 
 
 	public void manageCategories(MouseEvent event) {
-//		Button source = (Button) (event.getSource());
-//		Window parent = source.getScene().getWindow();
-//
-//		Parent root = Main.load("/fxml/members/licence.fxml");
-//		Stage dialog = new Stage(/*StageStyle.TRANSPARENT*/);
-//		dialog.initModality(Modality.WINDOW_MODAL);
-//		dialog.initOwner(parent);
-//		dialog.setTitle("test");
-//		dialog.setScene(new Scene(root, 450, 450));
-//		dialog.show();
+		Button source = (Button) (event.getSource());
+		Window parent = source.getScene().getWindow();
+
+		Parent root = Main.load("/fxml/events/categories.fxml");
+		Stage dialog = new Stage(/*StageStyle.TRANSPARENT*/);
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.initOwner(parent);
+		dialog.setTitle("test");
+		dialog.setScene(new Scene(root, 450, 450));
+		dialog.show();
 
 	}
 }

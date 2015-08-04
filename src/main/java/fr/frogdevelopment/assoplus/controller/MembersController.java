@@ -62,10 +62,6 @@ public class MembersController implements Initializable {
 	private VBox vbTop;
 	@FXML
 	private Button btnShowHide;
-
-	@FXML
-	private VBox vbLeft;
-
 	@FXML
 	private TextField txtStudentNumber;
 	@FXML
@@ -263,16 +259,18 @@ public class MembersController implements Initializable {
 		}
 	}
 
-	public void importMembers() {
+	public void importMembers(MouseEvent event) {
+		Button source = (Button) (event.getSource());
+		Window parent = source.getScene().getWindow();
+
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Importer des adhérents");
-		File file = fileChooser.showOpenDialog(vbLeft.getScene().getWindow());
+		File file = fileChooser.showOpenDialog(parent);
 
 		if (file != null) {
 			membersService.importMembers(file);
 		}
 	}
-
 
 	public void showHideMember() {
 		final boolean isVisible = vbTop.isVisible();
@@ -282,12 +280,11 @@ public class MembersController implements Initializable {
 		btnShowHide.setText(isVisible ? "Montrer" : "Cacher");
 	}
 
-
 	public void manageLicences(MouseEvent event) {
 		Button source = (Button) (event.getSource());
 		Window parent = source.getScene().getWindow();
 
-		Parent root = Main.load("/fxml/members/licence.fxml");
+		Parent root = Main.load("/fxml/members/licences.fxml");
 		Stage dialog = new Stage(/*StageStyle.TRANSPARENT*/);
 		dialog.initModality(Modality.WINDOW_MODAL);
 		dialog.initOwner(parent);
