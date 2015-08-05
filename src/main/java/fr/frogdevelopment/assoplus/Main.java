@@ -30,10 +30,10 @@ public class Main extends Application {
 	 * If it succeeds this mean that it is the first instance of the program and if it fails (due to already exist lock) this mean that it is not the first instance of the application.
 	 * Note that we will release the lock once we end the application and there wont be any harm if the application crashed or so as we can re-start it and it will work just fine.
 	 *
-	 * @return <code>true</code> si une instance est d?j? ouverte pour la session utilisateur
+	 * @return <code>true</code> si une instance est déjà ouverte pour la session utilisateur
 	 */
 	public static boolean isInstanceAlreadyLocked() throws IOException {
-		LOGGER.info("================== V?rification du lock de l'application ================== ");
+		LOGGER.info("================== Vérification du lock de l'application ================== ");
 
 		String userHome = System.getProperty("user.dir");
 		String separator = FileSystems.getDefault().getSeparator();

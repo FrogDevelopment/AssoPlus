@@ -4,21 +4,17 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.Main;
-import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
-import fr.frogdevelopment.assoplus.service.MembersService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -26,11 +22,21 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import fr.frogdevelopment.assoplus.Main;
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.components.controls.Validator;
+import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.MembersService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
 
 import java.io.File;
 import java.net.URL;
@@ -190,54 +196,13 @@ public class MembersController implements Initializable {
 
 	public void saveData() {
 
-		boolean isOk = true;
-
-		if (StringUtils.isBlank(txtStudentNumber.getText())) {
-			txtStudentNumber.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			txtStudentNumber.setStyle("-fx-border-color: null");
-		}
-
-		if (StringUtils.isBlank(txtLastname.getText())) {
-			txtLastname.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			txtLastname.setStyle("-fx-border-color: null");
-		}
-
-		if (StringUtils.isBlank(txtFirstname.getText())) {
-			txtFirstname.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			txtFirstname.setStyle("-fx-border-color: null");
-		}
-
-		if (dpBirthday.getValue() == null) {
-			dpBirthday.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			dpBirthday.setStyle("-fx-border-color: null");
-		}
-		if (StringUtils.isBlank(txtEmail.getText())) {
-			txtEmail.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			txtEmail.setStyle("-fx-border-color: null");
-		}
-		if (cbLicence.getValue() == null) {
-			cbLicence.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			cbLicence.setStyle("-fx-border-color: null");
-		}
-		if (cbOption.getValue() == null) {
-			cbOption.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			cbOption.setStyle("-fx-border-color: null");
-		}
-
+		boolean isOk = Validator.validate(txtStudentNumber);
+		isOk &= Validator.validate(txtLastname);
+		isOk &= Validator.validate(txtFirstname);
+		isOk &= Validator.validate(dpBirthday);
+		isOk &= Validator.validate(txtEmail);
+		isOk &= Validator.validate(cbLicence);
+		isOk &= Validator.validate(cbOption);
 
 		if (isOk) {
 			MemberDto member = new MemberDto();
@@ -264,7 +229,7 @@ public class MembersController implements Initializable {
 		Window parent = source.getScene().getWindow();
 
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Importer des adhérents");
+		fileChooser.setTitle("Importer des adhÃ©rents");
 		File file = fileChooser.showOpenDialog(parent);
 
 		if (file != null) {

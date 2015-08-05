@@ -4,29 +4,36 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.Main;
-import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.dto.CategoryDto;
-import fr.frogdevelopment.assoplus.dto.EventDto;
-import fr.frogdevelopment.assoplus.service.CategoriesService;
-import fr.frogdevelopment.assoplus.service.EventsService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
-import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import fr.frogdevelopment.assoplus.Main;
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.components.controls.Validator;
+import fr.frogdevelopment.assoplus.dto.CategoryDto;
+import fr.frogdevelopment.assoplus.dto.EventDto;
+import fr.frogdevelopment.assoplus.service.CategoriesService;
+import fr.frogdevelopment.assoplus.service.EventsService;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -119,35 +126,10 @@ public class EventsController implements Initializable {
 
 	public void saveData() {
 
-		boolean isOk = true;
-
-		if (StringUtils.isBlank(txtTitle.getText())) {
-			txtTitle.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			txtTitle.setStyle("-fx-border-color: null");
-		}
-
-		if (dpDate.getValue() == null) {
-			dpDate.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			dpDate.setStyle("-fx-border-color: null");
-		}
-
-		if (cbCategory.getValue() == null) {
-			cbCategory.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			cbCategory.setStyle("-fx-border-color: null");
-		}
-		if (StringUtils.isBlank(taText.getText())) {
-			taText.setStyle("-fx-border-color: red");
-			isOk = false;
-		} else {
-			taText.setStyle("-fx-border-color: null");
-		}
-
+		boolean isOk = Validator.validate(txtTitle);
+		isOk &= Validator.validate(dpDate);
+		isOk &= Validator.validate(cbCategory);
+		isOk &= Validator.validate(taText);
 
 		if (isOk) {
 			EventDto dto = new EventDto();

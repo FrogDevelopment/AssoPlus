@@ -17,14 +17,14 @@
                 <TextField fx:id="txtCode" promptText="Code"/>
                 <TextField fx:id="txtLabel" promptText="Libellé"/>
             </HBox>
-            <ListView prefWidth="200.0"/>
+            <ListView fx:id="categories" prefWidth="200.0" />
         </VBox>
     </center>
     <bottom>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Button mnemonicParsing="false" onMouseClicked="#onClose" text="Fermer"/>
-            <Button mnemonicParsing="false" text="Button"/>
-            <Button mnemonicParsing="false" text="Button"/>
+            <Button mnemonicParsing="false" onMouseClicked="#onAddCategory" text="Nouveau"/>
+            <Button mnemonicParsing="false" onMouseClicked="#onRemoveCategory" text="Supprimer"/>
         </ToolBar>
     </bottom>
 </BorderPane>

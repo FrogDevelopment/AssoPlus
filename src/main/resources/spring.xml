@@ -27,7 +27,8 @@
         <!--<property name="driverClassName" value="org.sqlite.JDBC"/>-->
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <!--<property name="url" value="jdbc:sqlite:assoplus.db"/>-->
-        <property name="url" value="jdbc:mysql://173.194.243.180/asso_plus"/>
+        <!--<property name="url" value="jdbc:mysql://173.194.243.180/asso_plus"/>-->
+        <property name="url" value="jdbc:mysql://localhost:3306/asso_plus"/>
         <property name="username" value="root"/>
         <property name="password" value="test" />
         <property name="validationQuery" value="SELECT 1"/>
