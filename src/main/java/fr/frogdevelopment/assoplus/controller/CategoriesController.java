@@ -11,9 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -25,84 +30,140 @@ import fr.frogdevelopment.assoplus.dto.CategoryDto;
 import fr.frogdevelopment.assoplus.service.CategoriesService;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 @Controller("categoriesController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CategoriesController implements Initializable {
 
-	@FXML
-	private TextField txtLabel;
-	@FXML
-	private TextField txtCode;
-	@FXML
-	private ListView categories;
+    @FXML
+    private TextField txtLabel;
+    @FXML
+    private TextField txtCode;
+    @FXML
+    private TreeTableView<CategoryDto> treeTableView;
+    @FXML
+    private TreeTableColumn<CategoryDto, String> columnCode;
+    @FXML
+    private TreeTableColumn<CategoryDto, String> columnLabel;
 
-	@Autowired
-	private CategoriesService categoriesService;
+    @Autowired
+    private CategoriesService categoriesService;
 
-	private ObservableList<CategoryDto> dtos;
+    private ObservableList<CategoryDto> dtos;
+    private TreeItem<CategoryDto> rootItem;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		init();
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public void initialize(URL location, ResourceBundle resources) {
+        initData();
 
-	@SuppressWarnings("unchecked")
-	private void init() {
-		dtos = categoriesService.getAllData();
+        columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
+        columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return object;
+            }
 
-		categories.setItems(dtos);
+            @Override
+            public String fromString(String string) {
+                return string;
+            }
+        }));
 
-//		categories.setEditable(true);
-	}
+        columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
+        columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return object;
+            }
 
-	public void onSave() {
-		init();
-	}
+            @Override
+            public String fromString(String string) {
+                return string;
+            }
+        }));
+    }
 
-	public void onClose(Event event) {
-		close(event);
-	}
+    private void initData() {
+        rootItem = new TreeItem<>(new CategoryDto());
 
-	private void close(Event event) {
-		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-		window.close();
-	}
+        dtos = categoriesService.getAllData();
+        dtos.forEach(dto -> {
+            rootItem.getChildren().add(new TreeItem<>(dto));
+        });
 
-	public void onAddCategory() {
+        rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
+        rootItem.setExpanded(true);
+        treeTableView.setRoot(rootItem);
+        treeTableView.setShowRoot(false);
+        treeTableView.setEditable(true);
+    }
 
-		boolean isOk = Validator.validate(txtCode);
-		isOk &= Validator.validate(txtLabel);
+    public void onSave() {
+        initData();
+    }
 
-		if (isOk) {
-			CategoryDto categoryDto = new CategoryDto();
-			categoryDto.setCode(txtCode.getText());
-			categoryDto.setLabel(txtLabel.getText());
-			dtos.add(categoryDto);
-		}
-	}
+    public void onClose(Event event) {
+        close(event);
+    }
 
-	public void onRemoveCategory() {
+    private void close(Event event) {
+        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        window.close();
+    }
 
-		CategoryDto selectedItem = (CategoryDto) categories.getSelectionModel().getSelectedItem();
+    public void onAddCategory() {
 
-		Dialog<ButtonType> dialog = new Dialog<>();
-		dialog.setHeaderText("ATTENTION");
-		dialog.setContentText("Vous allez supprimer une Catégorie, voulez-vous continuer ?");
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        boolean isOk = Validator.validate(txtCode);
+        isOk &= Validator.validate(txtLabel);
 
-		dialog.showAndWait()
-				.filter(response -> response == ButtonType.YES)
-				.ifPresent(response -> removeCategory(selectedItem));
-	}
+        if (isOk) {
+            CategoryDto dto = new CategoryDto();
+            dto.setCode(txtCode.getText());
+            dto.setLabel(txtLabel.getText());
+            if (dtos.contains(dto)) {
+                // fixme
+            } else {
+                dtos.add(dto);
 
-	private void removeCategory(final CategoryDto selectedItem) {
-		dtos.remove(selectedItem);
-		if (selectedItem.getId() != 0) {
-			categoriesService.deleteData(selectedItem);
-		}
-	}
+                final TreeItem<CategoryDto> newItem = new TreeItem<>(dto);
+                rootItem.getChildren().add(newItem);
+                rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
+                rootItem.setExpanded(true);
 
+                txtCode.setText(null);
+                txtLabel.setText(null);
+                txtCode.requestFocus();
+            }
+        }
+    }
+
+    public void onRemoveCategory() {
+        final TreeItem<CategoryDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            return;
+        }
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setHeaderText("ATTENTION");
+        dialog.setContentText("Vous allez supprimer une Catégorie, voulez-vous continuer ?");
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+
+        dialog.showAndWait()
+                .filter(response -> response == ButtonType.YES)
+                .ifPresent(response -> removeCategory(selectedItem));
+    }
+
+    private void removeCategory(final TreeItem<CategoryDto> selectedItem) {
+        rootItem.getChildren().remove(selectedItem);
+
+        CategoryDto dto = selectedItem.getValue();
+        dtos.remove(dto);
+        if (dto.getId() != 0) {
+            categoriesService.deleteData(dto);
+        }
+    }
 }

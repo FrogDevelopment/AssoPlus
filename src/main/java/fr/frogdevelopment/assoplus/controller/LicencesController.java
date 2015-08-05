@@ -4,23 +4,30 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.dto.ReferenceDto;
 import fr.frogdevelopment.assoplus.service.LicencesService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
-import javafx.event.Event;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -46,27 +53,12 @@ public class LicencesController implements Initializable {
 
 	private Set<LicenceDto> licenceDtos;
 	private Set<OptionDto> optionDtos;
+	private TreeItem<ReferenceDto> rootItem;
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		init();
-	}
-
 	@SuppressWarnings("unchecked")
-	private void init() {
-		licenceDtos = licencesService.getAllOrderedByCode();
-		optionDtos = optionsService.getAllOrderedByCode();
-
-		TreeItem<ReferenceDto> rootItem = new TreeItem<>(new LicenceDto());
-
-		licenceDtos.forEach(licenceDto -> {
-			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
-			optionDtos.stream()
-					.filter(optionDto -> optionDto.getLicenceCode().equals(licenceDto.getCode()))
-					.forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
-			rootItem.getChildren().add(treeItem);
-			rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-		});
+	public void initialize(URL location, ResourceBundle resources) {
+		initData();
 
 		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
 		columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
@@ -93,18 +85,33 @@ public class LicencesController implements Initializable {
 				return string;
 			}
 		}));
+	}
 
+	private void initData() {
+		licenceDtos = licencesService.getAllOrderedByCode();
+		optionDtos = optionsService.getAllOrderedByCode();
+
+		rootItem = new TreeItem<>(new LicenceDto());
+
+		licenceDtos.forEach(licenceDto -> {
+			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
+			optionDtos.stream()
+					.filter(optionDto -> optionDto.getLicenceCode().equals(licenceDto.getCode()))
+					.forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
+			rootItem.getChildren().add(treeItem);
+		});
+
+		rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
 		rootItem.setExpanded(true);
 		treeTableView.setRoot(rootItem);
 		treeTableView.setShowRoot(false);
-
 		treeTableView.setEditable(true);
 	}
 
 	public void onSave() {
 		licencesService.saveOrUpdateAll(licenceDtos);
 		optionsService.saveOrUpdateAll(optionDtos);
-		init();
+		initData();
 	}
 
 	public void onClose(Event event) {
@@ -117,15 +124,14 @@ public class LicencesController implements Initializable {
 	}
 
 	public void onAddLicence() {
-		final TreeItem<ReferenceDto> root = treeTableView.getRoot();
-
 		LicenceDto licenceDto = new LicenceDto();
 		licenceDtos.add(licenceDto);
 
 		final TreeItem<ReferenceDto> newItem = new TreeItem<>(licenceDto);
-		root.getChildren().add(newItem);
+		rootItem.getChildren().add(newItem);
 
-		root.expandedProperty().set(true);
+		rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
+		rootItem.setExpanded(true);
 		final int rowIndex = treeTableView.getRow(newItem);
 
 		treeTableView.edit(rowIndex, columnCode);
@@ -150,8 +156,7 @@ public class LicencesController implements Initializable {
 	}
 
 	private void removeLicence(final TreeItem<ReferenceDto> selectedItem) {
-		final TreeItem<ReferenceDto> root = treeTableView.getRoot();
-		root.getChildren().remove(selectedItem);
+		rootItem.getChildren().remove(selectedItem);
 
 		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
 		licenceDtos.remove(licenceDto);

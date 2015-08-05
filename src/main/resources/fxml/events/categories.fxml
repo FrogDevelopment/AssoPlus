@@ -16,14 +16,20 @@
                 </padding>
                 <TextField fx:id="txtCode" promptText="Code"/>
                 <TextField fx:id="txtLabel" promptText="Libellé"/>
+                <Button mnemonicParsing="false" onAction="#onAddCategory" text="Ajouter"/>
             </HBox>
-            <ListView fx:id="categories" prefWidth="200.0" />
+
+            <TreeTableView fx:id="treeTableView" BorderPane.alignment="CENTER" prefWidth="375.0">
+                <columns>
+                    <TreeTableColumn fx:id="columnCode" prefWidth="75.0" resizable="false" text="Code"/>
+                    <TreeTableColumn fx:id="columnLabel" prefWidth="300.0" text="Libellé"/>
+                </columns>
+            </TreeTableView>
         </VBox>
     </center>
     <bottom>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Button mnemonicParsing="false" onMouseClicked="#onClose" text="Fermer"/>
-            <Button mnemonicParsing="false" onMouseClicked="#onAddCategory" text="Nouveau"/>
             <Button mnemonicParsing="false" onMouseClicked="#onRemoveCategory" text="Supprimer"/>
         </ToolBar>
     </bottom>
