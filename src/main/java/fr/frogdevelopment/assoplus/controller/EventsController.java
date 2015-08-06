@@ -16,7 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -49,18 +48,11 @@ public class EventsController implements Initializable {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-//	private ResourceBundle bundle;
-
     @Autowired
     private EventsService eventsService;
 
     @Autowired
     private CategoriesService categoriesService;
-
-    @FXML
-    private VBox vbTop;
-    @FXML
-    private Button btnShowHide;
 
     @FXML
     private TextField txtTitle;
@@ -85,7 +77,6 @@ public class EventsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//		bundle = resources;
         data = eventsService.getAllData();
         tableView.setItems(data);
 
@@ -185,20 +176,12 @@ public class EventsController implements Initializable {
         return dto;
     }
 
-    public void showHideEvent() {
-        final boolean isVisible = vbTop.isVisible();
-        vbTop.setManaged(!isVisible);
-        vbTop.setVisible(!isVisible);
-
-        btnShowHide.setText(isVisible ? "Montrer" : "Cacher");
-    }
-
     public void manageCategories(MouseEvent event) {
         Button source = (Button) (event.getSource());
         Window parent = source.getScene().getWindow();
 
         Parent root = Main.load("/fxml/events/categories.fxml");
-        Stage dialog = new Stage(/*StageStyle.TRANSPARENT*/);
+        Stage dialog = new Stage();
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(parent);
         dialog.setTitle("test");
