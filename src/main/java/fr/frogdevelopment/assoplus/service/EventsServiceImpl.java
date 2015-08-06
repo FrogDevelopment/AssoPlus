@@ -4,18 +4,10 @@
 
 package fr.frogdevelopment.assoplus.service;
 
-import fr.frogdevelopment.assoplus.dto.EventDto;
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.entities.Event;
-import fr.frogdevelopment.assoplus.entities.Licence;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import fr.frogdevelopment.assoplus.dto.EventDto;
+import fr.frogdevelopment.assoplus.entities.Event;
 
 @Service("eventsService")
 public class EventsServiceImpl extends AbstractService<Event, EventDto> implements EventsService {
@@ -23,6 +15,10 @@ public class EventsServiceImpl extends AbstractService<Event, EventDto> implemen
     EventDto createDto(Event bean) {
         EventDto dto = new EventDto();
         dto.setId(bean.getId());
+        dto.setTitle(bean.getTitle());
+        dto.setDate(bean.getDate());
+        dto.setText(bean.getText());
+        dto.setCategoryCode(bean.getCategoryCode());
 
         return dto;
     }
@@ -30,6 +26,10 @@ public class EventsServiceImpl extends AbstractService<Event, EventDto> implemen
     Event createBean(EventDto dto) {
         Event bean = new Event();
         bean.setId(dto.getId());
+        bean.setTitle(dto.getTitle());
+        bean.setDate(dto.getDate());
+        bean.setText(dto.getText());
+        bean.setCategoryCode(dto.getCategoryCode());
 
         return bean;
     }

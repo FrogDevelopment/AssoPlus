@@ -12,12 +12,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +104,7 @@ public class CategoriesController implements Initializable {
     }
 
     public void onSave() {
+        categoriesService.saveOrUpdateAll(dtos);
         initData();
     }
 
@@ -111,7 +114,7 @@ public class CategoriesController implements Initializable {
 
     private void close(Event event) {
         Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.close();
+        Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     public void onAddCategory() {
@@ -125,7 +128,14 @@ public class CategoriesController implements Initializable {
             dto.setLabel(txtLabel.getText());
             if (dtos.contains(dto)) {
                 // fixme
+                txtCode.setStyle("-fx-border-color: red");
+                Tooltip tooltip = new Tooltip("Déjà présent");
+                txtCode.setTooltip(tooltip);
+                tooltip.setAutoHide(true);
             } else {
+                txtCode.setStyle("-fx-border-color: null");
+                txtCode.setTooltip(null);
+
                 dtos.add(dto);
 
                 final TreeItem<CategoryDto> newItem = new TreeItem<>(dto);
