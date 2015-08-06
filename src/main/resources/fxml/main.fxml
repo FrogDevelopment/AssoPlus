@@ -11,7 +11,7 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <Menu mnemonicParsing="false" text="Fichier">
-                <MenuItem mnemonicParsing="false" text="Quitter"/>
+                <MenuItem mnemonicParsing="false" text="Quitter" onAction="#onExit"/>
             </Menu>
             <Menu mnemonicParsing="false" text="Paramètres" disable="true">
             </Menu>

@@ -4,7 +4,9 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
+
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -21,5 +23,7 @@ public class MainController implements Initializable {
 
 	}
 
-
+	public void onExit() {
+		Platform.exit();
+	}
 }
