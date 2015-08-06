@@ -59,10 +59,13 @@
                     <TextArea fx:id="taText" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="3"
                               GridPane.rowSpan="2147483647"/>
                 </GridPane>
-                <Button onAction="#saveData" text="Save"/>
+                <ToolBar>
+                    <Button fx:id="btnSave" onAction="#saveData" text="Ajouter"/>
+                    <Button fx:id="btnUpdate" onAction="#updateData" text="Mettre à jour" disable="true"/>
+                </ToolBar>
             </VBox>
 
-            <TableView fx:id="table" managed="true">
+            <TableView fx:id="tableView" managed="true">
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>

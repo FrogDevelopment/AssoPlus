@@ -40,6 +40,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Controller("eventController")
@@ -66,20 +67,27 @@ public class EventsController implements Initializable {
     @FXML
     private DatePicker dpDate;
     @FXML
-    public ComboBox<CategoryDto> cbCategory;
+    private ComboBox<CategoryDto> cbCategory;
     @FXML
-    public TextArea taText;
+    private TextArea taText;
 
     @FXML
-    private TableView<EventDto> table;
+    private Button btnSave;
+    @FXML
+    private Button btnUpdate;
+
+    @FXML
+    private TableView<EventDto> tableView;
 
     private ObservableList<EventDto> data;
+
+    private EventDto currentData;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //		bundle = resources;
         data = eventsService.getAllData();
-        table.setItems(data);
+        tableView.setItems(data);
 
         MaskHelper.addMaskDate(dpDate);
         dpDate.setPromptText("jj/mm/aaaa");
@@ -121,26 +129,60 @@ public class EventsController implements Initializable {
             }
         });
 
+        tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, eventDto) -> {
+            if (eventDto != null) {
+                currentData = eventDto;
+                txtTitle.setText(eventDto.getTitle());
+                dpDate.setValue(LocalDate.parse(eventDto.getDate(), DATE_TIME_FORMATTER));
+                Optional<CategoryDto> first = cbCategory.getItems().stream().filter(categoryDto -> categoryDto.getCode().equals(eventDto.getCategoryCode())).limit(1).findFirst();
+                cbCategory.setValue(first.get());
+                taText.setText(eventDto.getText());
+
+                btnSave.setDisable(true);
+                btnUpdate.setDisable(false);
+            } else {
+                btnSave.setDisable(false);
+                btnUpdate.setDisable(true);
+
+                txtTitle.setText(null);
+                dpDate.setValue(null);
+                cbCategory.setValue(null);
+                taText.setText(null);
+            }
+        });
     }
 
     public void saveData() {
+        if (isAllFieldsOK()) {
+            EventDto dto = fillDto(new EventDto());
+            eventsService.saveData(dto);
 
+            data.add(dto);
+        }
+    }
+
+    public void updateData() {
+        if (isAllFieldsOK()) {
+            eventsService.updateData(fillDto(currentData));
+        }
+    }
+
+    private boolean isAllFieldsOK() {
         boolean isOk = Validator.validate(txtTitle);
         isOk &= Validator.validate(dpDate);
         isOk &= Validator.validate(cbCategory);
         isOk &= Validator.validate(taText);
 
-        if (isOk) {
-            EventDto dto = new EventDto();
-            dto.setTitle(txtTitle.getText());
-            dto.setDate(dpDate.getValue().format(DATE_TIME_FORMATTER));
-            dto.setCategoryCode(cbCategory.getValue().getCode());
-            dto.setText(taText.getText());
+        return isOk;
+    }
 
-            eventsService.saveData(dto);
+    private EventDto fillDto(EventDto dto) {
+        dto.setTitle(txtTitle.getText());
+        dto.setDate(dpDate.getValue().format(DATE_TIME_FORMATTER));
+        dto.setCategoryCode(cbCategory.getValue().getCode());
+        dto.setText(taText.getText());
 
-            data.add(dto);
-        }
+        return dto;
     }
 
     public void showHideEvent() {
