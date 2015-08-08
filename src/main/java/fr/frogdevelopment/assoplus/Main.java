@@ -88,7 +88,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setControllerFactory(CONTEXT::getBean);
 			loader.setLocation(Class.class.getResource("/fxml/"));
-			loader.setResources(ResourceBundle.getBundle("bundles.label"));
+			loader.setResources(ResourceBundle.getBundle("label"));
 			return loader.load(fxmlStream);
 		} catch (IOException ioException) {
 			throw new RuntimeException(ioException);
