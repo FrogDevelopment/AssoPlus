@@ -10,7 +10,7 @@
 
     <groupId>fr.frogdevelopment</groupId>
     <artifactId>AssoManager</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -201,6 +201,25 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation />
+            <properties>
+                <db.url>jdbc:mysql://localhost:3306/asso_plus</db.url>
+                <db.username>root</db.username>
+                <db.password>test</db.password>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
