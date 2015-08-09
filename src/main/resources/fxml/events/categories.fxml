@@ -23,17 +23,17 @@
                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                    </padding>
                   <children>
-                      <TextField fx:id="txtCode" prefHeight="25.0" prefWidth="100.0" promptText="Code" />
-                      <TextField fx:id="txtLabel" prefHeight="25.0" prefWidth="250.0" promptText="Libellé" />
-                      <Button mnemonicParsing="false" onAction="#onAddCategory" text="Ajouter" />
-                      <Button mnemonicParsing="false" onMouseClicked="#onRemoveCategory" text="Supprimer" />
+                      <TextField fx:id="txtCode" prefHeight="25.0" prefWidth="100.0" promptText="%global.code" />
+                      <TextField fx:id="txtLabel" prefHeight="25.0" prefWidth="250.0" promptText="%global.label" />
+                      <Button mnemonicParsing="false" onAction="#onAddCategory" text="%global.add" />
+                      <Button mnemonicParsing="false" onMouseClicked="#onRemoveCategory" text="%global.remove" />
                   </children>
                </HBox>
    
                <TreeTableView fx:id="treeTableView" maxHeight="350.0" minWidth="350.0" prefWidth="350.0" BorderPane.alignment="CENTER">
                    <columns>
-                       <TreeTableColumn fx:id="columnCode" prefWidth="100.0" resizable="false" text="Code" />
-                       <TreeTableColumn fx:id="columnLabel" prefWidth="250.0" text="Libellé" />
+                       <TreeTableColumn fx:id="columnCode" prefWidth="100.0" resizable="false" text="%global.code" />
+                       <TreeTableColumn fx:id="columnLabel" prefWidth="250.0" text="%global.label" />
                    </columns>
                </TreeTableView>
            </children>
@@ -42,8 +42,8 @@
     <bottom>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
            <items>
-               <Button mnemonicParsing="false" onMouseClicked="#onSave" text="Sauver" />
-               <Button mnemonicParsing="false" onMouseClicked="#onClose" text="Fermer" />
+               <Button mnemonicParsing="false" onMouseClicked="#onSave" text="%gobal.save" />
+               <Button mnemonicParsing="false" onMouseClicked="#onClose" text="%global.close" />
            </items>
 
         </ToolBar>

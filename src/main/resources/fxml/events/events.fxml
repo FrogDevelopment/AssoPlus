@@ -26,52 +26,46 @@
 
     <center>
         <VBox>
-            <children>
-                <GridPane>
-                    <columnConstraints>
-                        <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
-                        <ColumnConstraints minWidth="100.0" prefWidth="200.0"/>
-                        <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                        <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                        <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                        <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                    </rowConstraints>
-                    <children>
+            <GridPane>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
+                    <ColumnConstraints minWidth="100.0" prefWidth="200.0"/>
+                    <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                    <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                    <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                    <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                </rowConstraints>
 
-                        <Label text="%event.title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <TextField fx:id="txtTitle" prefHeight="25.0" prefWidth="541.0" GridPane.columnIndex="1"
-                                   GridPane.columnSpan="2147483647"/>
+                <Label text="%event.title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="txtTitle" prefHeight="25.0" prefWidth="541.0" GridPane.columnIndex="1"
+                           GridPane.columnSpan="2147483647"/>
 
-                        <Label text="%event.date" GridPane.rowIndex="1"/>
-                        <DatePicker fx:id="dpDate" prefHeight="25.0" prefWidth="118.0" showWeekNumbers="false"
-                                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="%event.date" GridPane.rowIndex="1"/>
+                <DatePicker fx:id="dpDate" prefHeight="25.0" prefWidth="118.0" showWeekNumbers="false"
+                            GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                        <Label text="%event.category" GridPane.rowIndex="2"/>
-                        <ComboBox fx:id="cbCategory" prefHeight="25.0" prefWidth="202.0" GridPane.columnIndex="1"
-                                  GridPane.rowIndex="2"/>
+                <Label text="%event.category" GridPane.rowIndex="2"/>
+                <ComboBox fx:id="cbCategory" prefHeight="25.0" prefWidth="202.0" GridPane.columnIndex="1"
+                          GridPane.rowIndex="2"/>
 
-                        <Label text="\%event.text" GridPane.rowIndex="3"/>
-                        <Button fx:id="btnCategories" mnemonicParsing="false" text="todo" GridPane.columnIndex="2"
-                                GridPane.rowIndex="2" onMouseClicked="#manageCategories">
-                            <GridPane.margin>
-                                <Insets left="10.0"/>
-                            </GridPane.margin>
-                        </Button>
-                    </children>
-                </GridPane>
-                <TextArea fx:id="taText" prefWidth="500.0" wrapText="true"/>
-            </children>
+                <Label text="%event.text" GridPane.rowIndex="3"/>
+                <Button fx:id="btnCategories" mnemonicParsing="false" text="%event.categories.manage" GridPane.columnIndex="2"
+                        GridPane.rowIndex="2" onMouseClicked="#manageCategories">
+                    <GridPane.margin>
+                        <Insets left="10.0"/>
+                    </GridPane.margin>
+                </Button>
+            </GridPane>
+            <TextArea fx:id="taText" prefWidth="500.0" wrapText="true"/>
         </VBox>
     </center>
     <bottom>
         <ToolBar BorderPane.alignment="CENTER">
-            <items>
-                <Button fx:id="btnSave" onAction="#saveData" text="Ajouter"/>
-                <Button fx:id="btnUpdate" disable="true" onAction="#updateData" text="Mettre à jour"/>
-            </items>
+            <Button fx:id="btnSave" onAction="#saveData" text="%global.add"/>
+            <Button fx:id="btnUpdate" disable="true" onAction="#updateData" text="%global.update"/>
         </ToolBar>
     </bottom>
     <right>

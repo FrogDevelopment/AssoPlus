@@ -64,6 +64,9 @@ public class EventsController implements Initializable {
     private TextArea taText;
 
     @FXML
+    private Button btnCategories;
+
+    @FXML
     private Button btnSave;
     @FXML
     private Button btnUpdate;
