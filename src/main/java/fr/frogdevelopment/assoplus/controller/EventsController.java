@@ -45,7 +45,6 @@ public class EventsController implements Initializable {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-	@FXML
 	private ResourceBundle resources ;
 
     @Autowired
@@ -80,6 +79,7 @@ public class EventsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+	    this.resources = resources;
 
         data = eventsService.getAllData();
         tableView.setItems(data);
@@ -188,7 +188,7 @@ public class EventsController implements Initializable {
         Stage dialog = new Stage();
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(parent);
-        dialog.setTitle("test");
+        dialog.setTitle(resources.getString("event.categories.manage"));
         dialog.setScene(new Scene(root, 450, 450));
 
         dialog.setOnCloseRequest(event1 -> cbCategory.setItems(categoriesService.getAllData()));
