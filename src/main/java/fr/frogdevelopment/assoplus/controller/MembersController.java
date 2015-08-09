@@ -52,7 +52,9 @@ import java.util.stream.Collectors;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MembersController implements Initializable {
 
-//	private ResourceBundle bundle;
+	private DateTimeFormatter dateTimeFormatter;
+
+	private ResourceBundle resources;
 
 	@Autowired
 	private MembersService membersService;
@@ -98,19 +100,21 @@ public class MembersController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		bundle = resources;
+		this.resources = resources;
+		dateTimeFormatter = DateTimeFormatter.ofPattern(resources.getString("global.date.format"));
+
 		data = membersService.getAllData();
 		table.setItems(data);
 
 		MaskHelper.addMaskPhone(txtPhone);
 
 		MaskHelper.addMaskDate(dpBirthday);
-		dpBirthday.setPromptText("jj/mm/aaaa");
+		dpBirthday.setPromptText(resources.getString("global.date.format.prompt"));
 		dpBirthday.setConverter(new StringConverter<LocalDate>() {
 			@Override
 			public String toString(LocalDate date) {
 				if (date != null) {
-					return dateFormatter.format(date);
+					return dateTimeFormatter.format(date);
 				} else {
 					return "";
 				}
@@ -119,7 +123,7 @@ public class MembersController implements Initializable {
 			@Override
 			public LocalDate fromString(String string) {
 				if (string != null && !string.isEmpty()) {
-					return LocalDate.parse(string, dateFormatter);
+					return LocalDate.parse(string, dateTimeFormatter);
 				} else {
 					return null;
 				}
@@ -192,8 +196,6 @@ public class MembersController implements Initializable {
 		});
 	}
 
-	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
 	public void saveData() {
 
 		boolean isOk = Validator.validate(txtStudentNumber);
@@ -209,7 +211,7 @@ public class MembersController implements Initializable {
 			member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
 			member.setLastname(txtLastname.getText());
 			member.setFirstname(txtFirstname.getText());
-			member.setBirthday(dpBirthday.getValue().format(dateFormatter));
+			member.setBirthday(dpBirthday.getValue().format(dateTimeFormatter));
 			member.setEmail(txtEmail.getText());
 			member.setLicenceCode(cbLicence.getValue().getCode());
 			member.setOptionCode(cbOption.getValue().getCode());
@@ -229,7 +231,7 @@ public class MembersController implements Initializable {
 		Window parent = source.getScene().getWindow();
 
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Importer des adhérents");
+		fileChooser.setTitle(resources.getString("member.import.title"));
 		File file = fileChooser.showOpenDialog(parent);
 
 		if (file != null) {
@@ -242,7 +244,7 @@ public class MembersController implements Initializable {
 		vbTop.setManaged(!isVisible);
 		vbTop.setVisible(!isVisible);
 
-		btnShowHide.setText(isVisible ? "Montrer" : "Cacher");
+		btnShowHide.setText(resources.getString(isVisible ? "global.show" : "global.hide"));
 	}
 
 	public void manageLicences(MouseEvent event) {
@@ -250,10 +252,10 @@ public class MembersController implements Initializable {
 		Window parent = source.getScene().getWindow();
 
 		Parent root = Main.load("/fxml/members/licences.fxml");
-		Stage dialog = new Stage(/*StageStyle.TRANSPARENT*/);
+		Stage dialog = new Stage();
 		dialog.initModality(Modality.WINDOW_MODAL);
 		dialog.initOwner(parent);
-		dialog.setTitle("test");
+		dialog.setTitle(resources.getString("member.licences"));
 		dialog.setScene(new Scene(root, 450, 450));
 		dialog.show();
 

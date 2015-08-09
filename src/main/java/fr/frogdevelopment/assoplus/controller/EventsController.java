@@ -38,7 +38,9 @@ import java.util.*;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class EventsController implements Initializable {
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private static final int MAX_CHAR = 500;
+
+	private DateTimeFormatter dateTimeFormatter;
 
 	private ResourceBundle resources;
 
@@ -77,17 +79,19 @@ public class EventsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.resources = resources;
+		dateTimeFormatter = DateTimeFormatter.ofPattern(resources.getString("global.date.format"));
 
 		data = eventsService.getAllData();
 		tableView.setItems(data);
 
+
 		MaskHelper.addMaskDate(dpDate);
-		dpDate.setPromptText(resources.getString("global.date.format"));
+		dpDate.setPromptText(resources.getString("global.date.format.prompt"));
 		dpDate.setConverter(new StringConverter<LocalDate>() {
 			@Override
 			public String toString(LocalDate date) {
 				if (date != null) {
-					return DATE_TIME_FORMATTER.format(date);
+					return dateTimeFormatter.format(date);
 				} else {
 					return "";
 				}
@@ -96,7 +100,7 @@ public class EventsController implements Initializable {
 			@Override
 			public LocalDate fromString(String string) {
 				if (string != null && !string.isEmpty()) {
-					return LocalDate.parse(string, DATE_TIME_FORMATTER);
+					return LocalDate.parse(string, dateTimeFormatter);
 				} else {
 					return null;
 				}
@@ -125,7 +129,7 @@ public class EventsController implements Initializable {
 			if (eventDto != null) {
 				currentData = eventDto;
 				txtTitle.setText(eventDto.getTitle());
-				dpDate.setValue(LocalDate.parse(eventDto.getDate(), DATE_TIME_FORMATTER));
+				dpDate.setValue(LocalDate.parse(eventDto.getDate(), dateTimeFormatter));
 				Optional<CategoryDto> first = cbCategory.getItems().stream().filter(categoryDto -> categoryDto.getCode().equals(eventDto.getCategoryCode())).limit(1).findFirst();
 				cbCategory.setValue(first.get());
 				taText.setText(eventDto.getText());
@@ -144,14 +148,14 @@ public class EventsController implements Initializable {
 		});
 
 		taText.textProperty().addListener((observable, oldValue, newValue) -> {
-			countChar.setText(newValue.length() + "/500");
+			countChar.setText(newValue.length() + "/" + MAX_CHAR);
 		});
 
 		taText.setOnKeyTyped(event -> {
 			String text = taText.getText();
 			int length = text.length();
-			if (length >= 499) {
-				taText.setText(text.substring(0, 499));
+			if (length >= MAX_CHAR - 1) {
+				taText.setText(text.substring(0, MAX_CHAR - 1));
 				taText.positionCaret(length);
 			}
 		});
@@ -183,7 +187,7 @@ public class EventsController implements Initializable {
 
 	private EventDto fillDto(EventDto dto) {
 		dto.setTitle(txtTitle.getText());
-		dto.setDate(dpDate.getValue().format(DATE_TIME_FORMATTER));
+		dto.setDate(dpDate.getValue().format(dateTimeFormatter));
 		dto.setCategoryCode(cbCategory.getValue().getCode());
 		dto.setText(taText.getText());
 
