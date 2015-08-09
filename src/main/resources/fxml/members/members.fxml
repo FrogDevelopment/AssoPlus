@@ -18,7 +18,7 @@
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#manageLicences" text="Diplômes">
+            <Button mnemonicParsing="false" onMouseClicked="#manageLicences" text="%member.licences">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
@@ -28,7 +28,7 @@
             <!--<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
             <!--</VBox.margin>-->
             <!--</Button>-->
-            <Button mnemonicParsing="false" onMouseClicked="#importMembers" text="Importer">
+            <Button mnemonicParsing="false" onMouseClicked="#importMembers" text="%member.import">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
@@ -103,52 +103,52 @@
                             <PropertyValueFactory property="studentNumber"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Nom">
+                    <TableColumn text="%member.lastname">
                         <cellValueFactory>
                             <PropertyValueFactory property="lastname"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Prénom">
+                    <TableColumn text="%member.firstname">
                         <cellValueFactory>
                             <PropertyValueFactory property="firstname"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Date de naissance">
+                    <TableColumn text="%member.birthday">
                         <cellValueFactory>
                             <PropertyValueFactory property="birthday"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="email">
+                    <TableColumn text="%member.email">
                         <cellValueFactory>
                             <PropertyValueFactory property="email"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Diplôme">
+                    <TableColumn text="%member.licence">
                         <cellValueFactory>
                             <PropertyValueFactory property="licenceCode"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Option">
+                    <TableColumn text="%member.option">
                         <cellValueFactory>
                             <PropertyValueFactory property="optionCode"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Téléphone">
+                    <TableColumn text="%member.phone">
                         <cellValueFactory>
                             <PropertyValueFactory property="phone"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Adresse">
+                    <TableColumn text="%member.address">
                         <cellValueFactory>
                             <PropertyValueFactory property="address"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Code Postal">
+                    <TableColumn text="%member.postal.code">
                         <cellValueFactory>
                             <PropertyValueFactory property="postalCode"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn text="Ville">
+                    <TableColumn text="%member.city">
                         <cellValueFactory>
                             <PropertyValueFactory property="city"/>
                         </cellValueFactory>

@@ -9,25 +9,25 @@
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.LicencesController">
     <top>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button onMouseClicked="#onAddLicence" text="Ajouter Diplôme"/>
-            <Button onMouseClicked="#onRemoveLicence" text="Retirer Diplôme"/>
+            <Button onMouseClicked="#onAddLicence" text="%member.licence.add"/>
+            <Button onMouseClicked="#onRemoveLicence" text="%member.licence.remove"/>
             <Separator orientation="VERTICAL"/>
-            <Button onMouseClicked="#onAddOption" text="Ajouter Option"/>
-            <Button onMouseClicked="#onRemoveOption" text="Retirer Option"/>
+            <Button onMouseClicked="#onAddOption" text="%member.option.add"/>
+            <Button onMouseClicked="#onRemoveOption" text="%member.option.remove"/>
         </ToolBar>
     </top>
     <center>
         <TreeTableView fx:id="treeTableView" BorderPane.alignment="CENTER">
             <columns>
-                <TreeTableColumn fx:id="columnCode" prefWidth="75.0" resizable="false" text="Code"/>
-                <TreeTableColumn fx:id="columnLabel" prefWidth="300.0" text="Libellé"/>
+                <TreeTableColumn fx:id="columnCode" prefWidth="75.0" resizable="false" text="%global.code"/>
+                <TreeTableColumn fx:id="columnLabel" prefWidth="300.0" text="%global.label"/>
             </columns>
         </TreeTableView>
     </center>
     <bottom>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button onMouseClicked="#onSave" text="Sauver"/>
-            <Button onMouseClicked="#onClose" text="Fermer"/>
+            <Button onMouseClicked="#onSave" text="%global.save"/>
+            <Button onMouseClicked="#onClose" text="%global.close"/>
         </ToolBar>
     </bottom>
 </BorderPane>
