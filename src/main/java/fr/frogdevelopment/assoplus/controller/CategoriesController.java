@@ -40,6 +40,9 @@ import java.util.ResourceBundle;
 public class CategoriesController implements Initializable {
 
     @FXML
+    private ResourceBundle resources ;
+
+    @FXML
     private TextField txtLabel;
     @FXML
     private TextField txtCode;
@@ -129,7 +132,7 @@ public class CategoriesController implements Initializable {
             if (dtos.contains(dto)) {
                 // fixme
                 txtCode.setStyle("-fx-border-color: red");
-                Tooltip tooltip = new Tooltip("Déjà présent");
+                Tooltip tooltip = new Tooltip(resources.getString("global.error.already.present"));
                 txtCode.setTooltip(tooltip);
                 tooltip.setAutoHide(true);
             } else {
@@ -157,8 +160,8 @@ public class CategoriesController implements Initializable {
         }
 
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setHeaderText("ATTENTION");
-        dialog.setContentText("Vous allez supprimer une Catégorie, voulez-vous continuer ?");
+        dialog.setHeaderText(resources.getString("global.warning.title"));
+        dialog.setContentText(String.format(resources.getString("global.confirm.delete"),resources.getString("event.category")));
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
 

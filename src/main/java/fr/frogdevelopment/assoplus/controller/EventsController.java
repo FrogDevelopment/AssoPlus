@@ -37,16 +37,16 @@ import fr.frogdevelopment.assoplus.service.EventsService;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Controller("eventController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class EventsController implements Initializable {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	@FXML
+	private ResourceBundle resources ;
 
     @Autowired
     private EventsService eventsService;
@@ -80,11 +80,12 @@ public class EventsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         data = eventsService.getAllData();
         tableView.setItems(data);
 
         MaskHelper.addMaskDate(dpDate);
-        dpDate.setPromptText("jj/mm/aaaa");
+        dpDate.setPromptText(resources.getString("global.date.format"));
         dpDate.setConverter(new StringConverter<LocalDate>() {
             @Override
             public String toString(LocalDate date) {

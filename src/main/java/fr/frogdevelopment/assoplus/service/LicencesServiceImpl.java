@@ -61,7 +61,7 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     public void deleteLicence(LicenceDto licenceDto) {
         Licence licence = createBean(licenceDto);
 
-        // FIXME à vérifier si besoin
+        // FIXME Ã  vÃ©rifier si besoin
 //        licence.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
         dao.delete(licence);
     }
