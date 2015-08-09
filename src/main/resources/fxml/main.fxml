@@ -22,10 +22,10 @@
     </top>
     <center>
         <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-            <Tab text="Adhérents">
+            <Tab text="Adhérents" disable="true">
                 <fx:include source="members/members.fxml"/>
             </Tab>
-            <Tab text="CBE Bio Android">
+            <Tab text="Android">
                 <fx:include source="events/events.fxml"/>
             </Tab>
             <Tab text="Librairie" disable="true">

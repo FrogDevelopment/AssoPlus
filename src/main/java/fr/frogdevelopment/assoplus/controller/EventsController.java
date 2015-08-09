@@ -148,7 +148,11 @@ public class EventsController implements Initializable {
 		});
 
 		taText.textProperty().addListener((observable, oldValue, newValue) -> {
-			countChar.setText(newValue.length() + "/" + MAX_CHAR);
+			if (newValue != null) {
+				countChar.setText(newValue.length() + "/" + MAX_CHAR);
+			} else {
+				countChar.setText("0/" + MAX_CHAR);
+			}
 		});
 
 		taText.setOnKeyTyped(event -> {
