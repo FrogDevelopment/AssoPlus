@@ -52,6 +52,7 @@
                           GridPane.rowIndex="2"/>
 
                 <Label text="%event.text" GridPane.rowIndex="3"/>
+                <Label text="0/500" fx:id="countChar" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
                 <Button fx:id="btnCategories" mnemonicParsing="false" text="%event.categories.manage" GridPane.columnIndex="2"
                         GridPane.rowIndex="2" onMouseClicked="#manageCategories">
                     <GridPane.margin>
