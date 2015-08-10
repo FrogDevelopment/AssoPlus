@@ -77,19 +77,19 @@ public class Validator {
 
     // TextInputControl
     public static boolean validateNotBlank(String keyErrorMsg, TextInputControl textInputControl) {
-        return validate(() -> StringUtils.isBlank(textInputControl.getText()), Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), textInputControl);
+        return validate(() -> StringUtils.isNotBlank(textInputControl.getText()), Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), textInputControl);
+    }
+
+    public static boolean validateNotBlank(TextInputControl textInputControl) {
+        return validateNotBlank("global.error.msg.required", textInputControl);
     }
 
     public static boolean validateNotBlank(String keyErrorMsg, TextInputControl... textInputControles) {
         boolean isOk = true;
         for (TextInputControl textInputControl : textInputControles) {
-            isOk &= validate(() -> StringUtils.isBlank(textInputControl.getText()), Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), textInputControl);
+            isOk &= validateNotBlank(keyErrorMsg, textInputControl);
         }
         return isOk;
-    }
-
-    public static boolean validateNotBlank(TextInputControl textInputControl) {
-        return validateNotBlank("global.error.msg.required", textInputControl);
     }
 
     public static boolean validateNotBlank(TextInputControl... textInputControles) {
@@ -99,13 +99,13 @@ public class Validator {
 
     // ComboBoxBase
     public static boolean validateNotNull(String keyErrorMsg, ComboBoxBase comboBoxBase) {
-        return validate(() -> comboBoxBase.getValue() == null, Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), comboBoxBase);
+        return validate(() -> comboBoxBase.getValue() != null, Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), comboBoxBase);
     }
 
     public static boolean validateNotNull(String keyErrorMsg, ComboBoxBase... comboBoxBases) {
         boolean isOk = true;
         for (ComboBoxBase comboBoxBase : comboBoxBases) {
-            isOk &= validate(() -> comboBoxBase.getValue() == null, Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), comboBoxBase);
+            isOk &= validateNotNull(keyErrorMsg, comboBoxBase);
         }
         return isOk;
     }
