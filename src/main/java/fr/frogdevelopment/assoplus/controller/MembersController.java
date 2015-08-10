@@ -30,7 +30,6 @@ import org.springframework.stereotype.Controller;
 
 import fr.frogdevelopment.assoplus.Main;
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
@@ -48,106 +47,109 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
+import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotNull;
+
 @Controller("membersController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MembersController implements Initializable {
 
-	private DateTimeFormatter dateTimeFormatter;
+    private DateTimeFormatter dateTimeFormatter;
 
-	private ResourceBundle resources;
+    private ResourceBundle resources;
 
-	@Autowired
-	private MembersService membersService;
+    @Autowired
+    private MembersService membersService;
 
-	@Autowired
-	private LicencesService licencesService;
+    @Autowired
+    private LicencesService licencesService;
 
 
-	@Autowired
-	private OptionsService optionsService;
+    @Autowired
+    private OptionsService optionsService;
 
-	@FXML
-	private VBox vbTop;
-	@FXML
-	private Button btnShowHide;
-	@FXML
-	private TextField txtStudentNumber;
-	@FXML
-	private TextField txtLastname;
-	@FXML
-	private TextField txtFirstname;
-	@FXML
-	private DatePicker dpBirthday;
-	@FXML
-	private TextField txtEmail;
-	@FXML
-	public ComboBox<LicenceDto> cbLicence;
-	@FXML
-	public ComboBox<OptionDto> cbOption;
-	@FXML
-	private TextField txtPhone;
-	@FXML
-	private TextField txtAddress;
-	@FXML
-	private TextField txtPostalCode;
-	@FXML
-	private TextField txtCity;
+    @FXML
+    private VBox vbTop;
+    @FXML
+    private Button btnShowHide;
+    @FXML
+    private TextField txtStudentNumber;
+    @FXML
+    private TextField txtLastname;
+    @FXML
+    private TextField txtFirstname;
+    @FXML
+    private DatePicker dpBirthday;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    public ComboBox<LicenceDto> cbLicence;
+    @FXML
+    public ComboBox<OptionDto> cbOption;
+    @FXML
+    private TextField txtPhone;
+    @FXML
+    private TextField txtAddress;
+    @FXML
+    private TextField txtPostalCode;
+    @FXML
+    private TextField txtCity;
 
-	@FXML
-	private TableView<MemberDto> table;
+    @FXML
+    private TableView<MemberDto> table;
 
-	private ObservableList<MemberDto> data;
+    private ObservableList<MemberDto> data;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		this.resources = resources;
-		dateTimeFormatter = DateTimeFormatter.ofPattern(resources.getString("global.date.format"));
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.resources = resources;
+        dateTimeFormatter = DateTimeFormatter.ofPattern(resources.getString("global.date.format"));
 
-		data = membersService.getAllData();
-		table.setItems(data);
+        data = membersService.getAllData();
+        table.setItems(data);
 
-		MaskHelper.addMaskPhone(txtPhone);
+        MaskHelper.addMaskPhone(txtPhone);
 
-		MaskHelper.addMaskDate(dpBirthday);
-		dpBirthday.setPromptText(resources.getString("global.date.format.prompt"));
-		dpBirthday.setConverter(new StringConverter<LocalDate>() {
-			@Override
-			public String toString(LocalDate date) {
-				if (date != null) {
-					return dateTimeFormatter.format(date);
-				} else {
-					return "";
-				}
-			}
+        MaskHelper.addMaskDate(dpBirthday);
+        dpBirthday.setPromptText(resources.getString("global.date.format.prompt"));
+        dpBirthday.setConverter(new StringConverter<LocalDate>() {
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateTimeFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
 
-			@Override
-			public LocalDate fromString(String string) {
-				if (string != null && !string.isEmpty()) {
-					return LocalDate.parse(string, dateTimeFormatter);
-				} else {
-					return null;
-				}
-			}
-		});
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateTimeFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
 
-		Set<LicenceDto> licenceDtos = licencesService.getAllOrderedByCode();
-		cbLicence.setItems(FXCollections.observableArrayList(licenceDtos));
-		cbLicence.setVisibleRowCount(4);
-		cbLicence.setConverter(new StringConverter<LicenceDto>() {
+        Set<LicenceDto> licenceDtos = licencesService.getAllOrderedByCode();
+        cbLicence.setItems(FXCollections.observableArrayList(licenceDtos));
+        cbLicence.setVisibleRowCount(4);
+        cbLicence.setConverter(new StringConverter<LicenceDto>() {
 
-			private final Map<String, LicenceDto> _cache = new HashMap<>();
+            private final Map<String, LicenceDto> _cache = new HashMap<>();
 
-			@Override
-			public String toString(LicenceDto item) {
-				_cache.put(item.getLabel(), item);
-				return item.getLabel();
-			}
+            @Override
+            public String toString(LicenceDto item) {
+                _cache.put(item.getLabel(), item);
+                return item.getLabel();
+            }
 
-			@Override
-			public LicenceDto fromString(String label) {
-				return _cache.get(label);
-			}
-		});
+            @Override
+            public LicenceDto fromString(String label) {
+                return _cache.get(label);
+            }
+        });
 
 //		cbLicence.setCellFactory(new Callback<ListView<LicenceDto>, ListCell<LicenceDto>>() {
 //			@Override
@@ -172,92 +174,87 @@ public class MembersController implements Initializable {
 
 //		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(cbLicence.getSelectionModel().getSelectedItem().getOptions())));
 
-		final Set<OptionDto> optionDtos = optionsService.getAllOrderedByCode();
-		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(optionDtos.stream()
-				.filter(optionDto -> optionDto.getLicenceCode().equals(cbLicence.getValue().getCode()))
-				.collect(Collectors.toSet()))));
-		cbOption.setVisibleRowCount(4);
-		cbOption.setConverter(new StringConverter<OptionDto>() {
+        final Set<OptionDto> optionDtos = optionsService.getAllOrderedByCode();
+        cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(optionDtos.stream()
+                .filter(optionDto -> optionDto.getLicenceCode().equals(cbLicence.getValue().getCode()))
+                .collect(Collectors.toSet()))));
+        cbOption.setVisibleRowCount(4);
+        cbOption.setConverter(new StringConverter<OptionDto>() {
 
-			private final Map<String, OptionDto> _cache = new HashMap<>();
+            private final Map<String, OptionDto> _cache = new HashMap<>();
 
-			@Override
-			public String toString(OptionDto item) {
-				if (item == null) return null;
+            @Override
+            public String toString(OptionDto item) {
+                if (item == null) return null;
 
-				_cache.put(item.getLabel(), item);
-				return item.getLabel();
-			}
+                _cache.put(item.getLabel(), item);
+                return item.getLabel();
+            }
 
-			@Override
-			public OptionDto fromString(String label) {
-				return _cache.get(label);
-			}
-		});
-	}
+            @Override
+            public OptionDto fromString(String label) {
+                return _cache.get(label);
+            }
+        });
+    }
 
-	public void saveData() {
+    public void saveData() {
 
-		boolean isOk = Validator.validate(txtStudentNumber);
-		isOk &= Validator.validate(txtLastname);
-		isOk &= Validator.validate(txtFirstname);
-		isOk &= Validator.validate(dpBirthday);
-		isOk &= Validator.validate(txtEmail);
-		isOk &= Validator.validate(cbLicence);
-		isOk &= Validator.validate(cbOption);
+        boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname, txtEmail)
+                && validateNotNull(dpBirthday, cbLicence, cbOption);
 
-		if (isOk) {
-			MemberDto member = new MemberDto();
-			member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
-			member.setLastname(txtLastname.getText());
-			member.setFirstname(txtFirstname.getText());
-			member.setBirthday(dpBirthday.getValue().format(dateTimeFormatter));
-			member.setEmail(txtEmail.getText());
-			member.setLicenceCode(cbLicence.getValue().getCode());
-			member.setOptionCode(cbOption.getValue().getCode());
-			member.setPhone(txtPhone.getText());
-			member.setAddress(txtAddress.getText());
-			member.setPostalCode(txtPostalCode.getText());
-			member.setCity(txtCity.getText());
+        if (isOk) {
+            MemberDto member = new MemberDto();
+            member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
+            member.setLastname(txtLastname.getText());
+            member.setFirstname(txtFirstname.getText());
+            member.setBirthday(dpBirthday.getValue().format(dateTimeFormatter));
+            member.setEmail(txtEmail.getText());
+            member.setLicenceCode(cbLicence.getValue().getCode());
+            member.setOptionCode(cbOption.getValue().getCode());
+            member.setPhone(txtPhone.getText());
+            member.setAddress(txtAddress.getText());
+            member.setPostalCode(txtPostalCode.getText());
+            member.setCity(txtCity.getText());
 
-			membersService.saveData(member);
+            membersService.saveData(member);
 
-			data.add(member);
-		}
-	}
+            data.add(member);
+        }
+    }
 
-	public void importMembers(MouseEvent event) {
-		Button source = (Button) (event.getSource());
-		Window parent = source.getScene().getWindow();
+    public void importMembers(MouseEvent event) {
+        Button source = (Button) (event.getSource());
+        Window parent = source.getScene().getWindow();
 
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle(resources.getString("member.import.title"));
-		File file = fileChooser.showOpenDialog(parent);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(resources.getString("member.import.title"));
+        File file = fileChooser.showOpenDialog(parent);
 
-		if (file != null) {
-			membersService.importMembers(file);
-		}
-	}
+        if (file != null) {
+            membersService.importMembers(file);
+        }
+    }
 
-	public void showHideMember() {
-		final boolean isVisible = vbTop.isVisible();
-		vbTop.setManaged(!isVisible);
-		vbTop.setVisible(!isVisible);
+    public void showHideMember() {
+        final boolean isVisible = vbTop.isVisible();
+        vbTop.setManaged(!isVisible);
+        vbTop.setVisible(!isVisible);
 
-		btnShowHide.setText(resources.getString(isVisible ? "global.show" : "global.hide"));
-	}
+        btnShowHide.setText(resources.getString(isVisible ? "global.show" : "global.hide"));
+    }
 
-	public void manageLicences(MouseEvent event) {
-		Button source = (Button) (event.getSource());
-		Window parent = source.getScene().getWindow();
+    public void manageLicences(MouseEvent event) {
+        Button source = (Button) (event.getSource());
+        Window parent = source.getScene().getWindow();
 
-		Parent root = Main.load("/fxml/members/licences.fxml");
-		Stage dialog = new Stage();
-		dialog.initModality(Modality.WINDOW_MODAL);
-		dialog.initOwner(parent);
-		dialog.setTitle(resources.getString("member.licences"));
-		dialog.setScene(new Scene(root, 450, 450));
-		dialog.show();
+        Parent root = Main.load("/fxml/members/licences.fxml");
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initOwner(parent);
+        dialog.setTitle(resources.getString("member.licences"));
+        dialog.setScene(new Scene(root, 450, 450));
+        dialog.show();
 
-	}
+    }
 }

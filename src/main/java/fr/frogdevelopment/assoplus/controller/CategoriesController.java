@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
@@ -27,7 +26,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.CategoryDto;
 import fr.frogdevelopment.assoplus.service.CategoriesService;
 
@@ -35,156 +33,153 @@ import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
+import static fr.frogdevelopment.assoplus.components.controls.Validator.validate;
+import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
+
 @Controller("categoriesController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CategoriesController implements Initializable {
 
-	private ResourceBundle resources;
+    private ResourceBundle resources;
 
-	@FXML
-	private TextField txtLabel;
-	@FXML
-	private TextField txtCode;
-	@FXML
-	private TreeTableView<CategoryDto> treeTableView;
-	@FXML
-	private TreeTableColumn<CategoryDto, String> columnCode;
-	@FXML
-	private TreeTableColumn<CategoryDto, String> columnLabel;
-	@FXML
-	private Button btnRemove;
+    @FXML
+    private TextField txtLabel;
+    @FXML
+    private TextField txtCode;
+    @FXML
+    private TreeTableView<CategoryDto> treeTableView;
+    @FXML
+    private TreeTableColumn<CategoryDto, String> columnCode;
+    @FXML
+    private TreeTableColumn<CategoryDto, String> columnLabel;
+    @FXML
+    private Button btnRemove;
 
-	@Autowired
-	private CategoriesService categoriesService;
+    @Autowired
+    private CategoriesService categoriesService;
 
-	private ObservableList<CategoryDto> dtos;
-	private TreeItem<CategoryDto> rootItem;
+    private ObservableList<CategoryDto> dtos;
+    private TreeItem<CategoryDto> rootItem;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public void initialize(URL location, ResourceBundle resources) {
-		this.resources = resources;
-		initData();
+    @Override
+    @SuppressWarnings("unchecked")
+    public void initialize(URL location, ResourceBundle resources) {
+        this.resources = resources;
+        initData();
 
-		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
-		columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-			@Override
-			public String toString(String object) {
-				return object;
-			}
+        columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
+        columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return object;
+            }
 
-			@Override
-			public String fromString(String string) {
-				return string;
-			}
-		}));
+            @Override
+            public String fromString(String string) {
+                return string;
+            }
+        }));
 
-		columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
-		columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-			@Override
-			public String toString(String object) {
-				return object;
-			}
+        columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
+        columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return object;
+            }
 
-			@Override
-			public String fromString(String string) {
-				return string;
-			}
-		}));
+            @Override
+            public String fromString(String string) {
+                return string;
+            }
+        }));
 
-		treeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null) {
-				btnRemove.setDisable(false);
-			} else {
-				btnRemove.setDisable(false);
-			}
-		});
-	}
+        treeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                btnRemove.setDisable(false);
+            } else {
+                btnRemove.setDisable(false);
+            }
+        });
+    }
 
-	private void initData() {
-		rootItem = new TreeItem<>(new CategoryDto());
+    private void initData() {
+        rootItem = new TreeItem<>(new CategoryDto());
 
-		dtos = categoriesService.getAllData();
-		dtos.forEach(dto -> rootItem.getChildren().add(new TreeItem<>(dto)));
+        dtos = categoriesService.getAllData();
+        dtos.forEach(dto -> rootItem.getChildren().add(new TreeItem<>(dto)));
 
-		rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-		rootItem.setExpanded(true);
-		treeTableView.setRoot(rootItem);
-		treeTableView.setShowRoot(false);
-		treeTableView.setEditable(true);
-	}
+        rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
+        rootItem.setExpanded(true);
+        treeTableView.setRoot(rootItem);
+        treeTableView.setShowRoot(false);
+        treeTableView.setEditable(true);
+    }
 
-	public void onSave() {
-		categoriesService.saveOrUpdateAll(dtos);
-		initData();
-	}
+    public void onSave() {
+        categoriesService.saveOrUpdateAll(dtos);
+        initData();
+    }
 
-	public void onClose(Event event) {
-		close(event);
-	}
+    public void onClose(Event event) {
+        close(event);
+    }
 
-	private void close(Event event) {
-		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-		Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
-	}
+    private void close(Event event) {
+        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+    }
 
-	public void onAddCategory() {
+    public void onAddCategory() {
 
-		boolean isOk = Validator.validate(txtCode);
-		isOk &= Validator.validate(txtLabel);
+        boolean isOk = validateNotBlank(txtCode);
+        isOk &= validateNotBlank(txtLabel);
 
-		if (isOk) {
-			CategoryDto dto = new CategoryDto();
-			dto.setCode(txtCode.getText());
-			dto.setLabel(txtLabel.getText());
-			if (dtos.contains(dto)) {
-				// fixme
-				txtCode.setStyle("-fx-border-color: red");
-				Tooltip tooltip = new Tooltip(resources.getString("global.error.already.present"));
-				txtCode.setTooltip(tooltip);
-				tooltip.setAutoHide(true);
-			} else {
-				txtCode.setStyle("-fx-border-color: null");
-				txtCode.setTooltip(null);
+        if (isOk) {
+            CategoryDto dto = new CategoryDto();
+            dto.setCode(txtCode.getText());
+            dto.setLabel(txtLabel.getText());
 
-				dtos.add(dto);
+            boolean validate = validate(() -> dtos.contains(dto), "global.error.msg.already.present", txtCode);
 
-				final TreeItem<CategoryDto> newItem = new TreeItem<>(dto);
-				rootItem.getChildren().add(newItem);
-				rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-				rootItem.setExpanded(true);
+            if (validate) {
+                dtos.add(dto);
 
-				txtCode.setText(null);
-				txtLabel.setText(null);
-				txtCode.requestFocus();
-			}
-		}
-	}
+                final TreeItem<CategoryDto> newItem = new TreeItem<>(dto);
+                rootItem.getChildren().add(newItem);
+                rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
+                rootItem.setExpanded(true);
 
-	public void onRemoveCategory() {
-		final TreeItem<CategoryDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
-		if (selectedItem == null) {
-			return;
-		}
+                txtCode.setText(null);
+                txtLabel.setText(null);
+                txtCode.requestFocus();
+            }
+        }
+    }
 
-		Dialog<ButtonType> dialog = new Dialog<>();
-		dialog.setHeaderText(resources.getString("global.warning.title"));
-		dialog.setContentText(String.format(resources.getString("global.confirm.delete"), resources.getString("event.category")));
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+    public void onRemoveCategory() {
+        final TreeItem<CategoryDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            return;
+        }
 
-		dialog.showAndWait()
-				.filter(response -> response == ButtonType.YES)
-				.ifPresent(response -> removeCategory(selectedItem));
-	}
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setHeaderText(resources.getString("global.warning.title"));
+        dialog.setContentText(String.format(resources.getString("global.confirm.delete"), resources.getString("event.category")));
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
 
-	private void removeCategory(final TreeItem<CategoryDto> selectedItem) {
-		rootItem.getChildren().remove(selectedItem);
+        dialog.showAndWait()
+                .filter(response -> response == ButtonType.YES)
+                .ifPresent(response -> removeCategory(selectedItem));
+    }
 
-		CategoryDto dto = selectedItem.getValue();
-		dtos.remove(dto);
-		if (dto.getId() != 0) {
-			categoriesService.deleteData(dto);
-		}
-	}
+    private void removeCategory(final TreeItem<CategoryDto> selectedItem) {
+        rootItem.getChildren().remove(selectedItem);
+
+        CategoryDto dto = selectedItem.getValue();
+        dtos.remove(dto);
+        if (dto.getId() != 0) {
+            categoriesService.deleteData(dto);
+        }
+    }
 }
