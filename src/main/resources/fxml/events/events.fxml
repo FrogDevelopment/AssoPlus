@@ -94,6 +94,7 @@
         <ToolBar BorderPane.alignment="CENTER">
             <Button fx:id="btnSave" onAction="#saveData" text="%global.add"/>
             <Button fx:id="btnUpdate" disable="true" onAction="#updateData" text="%global.update"/>
+            <Button fx:id="btnDelete" disable="true" onAction="#deleteData" text="%global.delete"/>
         </ToolBar>
     </bottom>
 

@@ -79,6 +79,8 @@ public class EventsController implements Initializable {
     private Button btnSave;
     @FXML
     private Button btnUpdate;
+    @FXML
+    private Button btnDelete;
 
     @FXML
     private TableView<EventDto> tableView;
@@ -147,9 +149,11 @@ public class EventsController implements Initializable {
 
                 btnSave.setDisable(true);
                 btnUpdate.setDisable(false);
+                btnDelete.setDisable(false);
             } else {
                 btnSave.setDisable(false);
                 btnUpdate.setDisable(true);
+                btnDelete.setDisable(true);
 
                 txtTitle.setText(null);
                 dpDate.setValue(null);
@@ -168,6 +172,10 @@ public class EventsController implements Initializable {
 
         taText.setOnKeyTyped(event -> {
             String text = taText.getText();
+            if (text == null) {
+                return;
+            }
+
             int length = text.length();
             if (length >= MAX_CHAR - 1) {
                 taText.setText(text.substring(0, MAX_CHAR - 1));
@@ -189,6 +197,12 @@ public class EventsController implements Initializable {
         if (isAllFieldsOK()) {
             eventsService.updateData(fillDto(currentData));
         }
+    }
+
+    public void deleteData() {
+        eventsService.deleteData(currentData);
+        data.remove(currentData);
+        tableView.getSelectionModel().clearSelection();
     }
 
     private boolean isAllFieldsOK() {
