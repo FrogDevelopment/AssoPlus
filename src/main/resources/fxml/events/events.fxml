@@ -20,12 +20,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="fr.frogdevelopment.assoplus.controller.EventsController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.EventsController">
 
     <center>
         <VBox>
+            <BorderPane.margin>
+                <Insets left="5.0" right="5.0" top="5.0"/>
+            </BorderPane.margin>
             <GridPane>
                 <columnConstraints>
                     <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
@@ -52,15 +53,41 @@
                           GridPane.rowIndex="2"/>
 
                 <Label text="%event.text" GridPane.rowIndex="3"/>
-                <Label text="0/500" fx:id="countChar" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-                <Button fx:id="btnCategories" mnemonicParsing="false" text="%event.categories.manage" GridPane.columnIndex="2"
-                        GridPane.rowIndex="2" onMouseClicked="#manageCategories">
+                <Label fx:id="countChar" text="0/500" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <Button fx:id="btnCategories" mnemonicParsing="false" onMouseClicked="#manageCategories"
+                        text="%event.categories.manage" GridPane.columnIndex="2" GridPane.rowIndex="2">
                     <GridPane.margin>
                         <Insets left="10.0"/>
                     </GridPane.margin>
                 </Button>
             </GridPane>
             <TextArea fx:id="taText" prefWidth="500.0" wrapText="true"/>
+
+            <TableView fx:id="tableView" managed="true">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn text="%event.title">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="title"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="%event.date">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="date"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="%event.category">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="categoryCode"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+                <VBox.margin>
+                    <Insets top="10.0"/>
+                </VBox.margin>
+            </TableView>
         </VBox>
     </center>
     <bottom>
@@ -69,30 +96,5 @@
             <Button fx:id="btnUpdate" disable="true" onAction="#updateData" text="%global.update"/>
         </ToolBar>
     </bottom>
-    <right>
-
-        <TableView fx:id="tableView" managed="true" BorderPane.alignment="CENTER">
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-            </columnResizePolicy>
-            <columns>
-                <TableColumn text="%event.title">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="title"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%event.date">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="date"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%event.category">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="categoryCode"/>
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
-    </right>
 
 </BorderPane>
