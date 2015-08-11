@@ -139,7 +139,7 @@ public class CategoriesController implements Initializable {
             dto.setCode(txtCode.getText());
             dto.setLabel(txtLabel.getText());
 
-            boolean validate = validate(() -> dtos.contains(dto), "global.error.msg.already.present", txtCode);
+            boolean validate = validate(() -> !dtos.contains(dto), "global.error.msg.already.present", txtCode);
 
             if (validate) {
                 dtos.add(dto);
