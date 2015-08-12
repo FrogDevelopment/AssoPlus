@@ -79,7 +79,7 @@ public class MaskHelper {
 	}
 
 	public static void addMaskDate(final DatePicker datePicker) {
-		addMask(datePicker.getEditor(), MASK_DATE);
+        addMask(datePicker.getEditor(), MASK_DATE);
 	}
 
 }

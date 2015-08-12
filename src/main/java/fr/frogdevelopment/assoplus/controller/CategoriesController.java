@@ -11,15 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.StringConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -30,7 +29,6 @@ import fr.frogdevelopment.assoplus.dto.CategoryDto;
 import fr.frogdevelopment.assoplus.service.CategoriesService;
 
 import java.net.URL;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import static fr.frogdevelopment.assoplus.components.controls.Validator.validate;
@@ -43,15 +41,17 @@ public class CategoriesController implements Initializable {
     private ResourceBundle resources;
 
     @FXML
+    private Label lbError;
+    @FXML
     private TextField txtLabel;
     @FXML
     private TextField txtCode;
     @FXML
-    private TreeTableView<CategoryDto> treeTableView;
+    private TableView<CategoryDto> tableView;
     @FXML
-    private TreeTableColumn<CategoryDto, String> columnCode;
+    private TableColumn<CategoryDto, String> columnCode;
     @FXML
-    private TreeTableColumn<CategoryDto, String> columnLabel;
+    private TableColumn<CategoryDto, String> columnLabel;
     @FXML
     private Button btnRemove;
 
@@ -59,68 +59,43 @@ public class CategoriesController implements Initializable {
     private CategoriesService categoriesService;
 
     private ObservableList<CategoryDto> dtos;
-    private TreeItem<CategoryDto> rootItem;
 
     @Override
     @SuppressWarnings("unchecked")
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
-        initData();
 
-        columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
-        columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-            @Override
-            public String toString(String object) {
-                return object;
-            }
+        dtos = categoriesService.getAllData();
+        tableView.setEditable(true);
+        tableView.setItems(dtos);
 
-            @Override
-            public String fromString(String string) {
-                return string;
-            }
-        }));
-
-        columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
-        columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-            @Override
-            public String toString(String object) {
-                return object;
-            }
-
-            @Override
-            public String fromString(String string) {
-                return string;
-            }
-        }));
-
-        treeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 btnRemove.setDisable(false);
             } else {
                 btnRemove.setDisable(false);
             }
         });
+
+        columnCode.setCellFactory(TextFieldTableCell.forTableColumn());
+//        columnCode.setCellFactory(p -> new EditingCell());
+        columnCode.setOnEditCommit(event -> getDto(event).setCode(event.getNewValue()));
+
+        columnLabel.setCellFactory(TextFieldTableCell.forTableColumn());
+//        columnLabel.setCellFactory(p -> new EditingCell());
+        columnLabel.setOnEditCommit(event -> getDto(event).setLabel(event.getNewValue()));
     }
 
-    private void initData() {
-        rootItem = new TreeItem<>(new CategoryDto());
-
-        dtos = categoriesService.getAllData();
-        dtos.forEach(dto -> rootItem.getChildren().add(new TreeItem<>(dto)));
-
-        rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-        rootItem.setExpanded(true);
-        treeTableView.setRoot(rootItem);
-        treeTableView.setShowRoot(false);
-        treeTableView.setEditable(true);
+    protected CategoryDto getDto(TableColumn.CellEditEvent<CategoryDto, String> event) {
+        return event.getTableView().getItems().get(event.getTablePosition().getRow());
     }
 
-    public void onSave() {
+    public void onSave(Event event) {
         categoriesService.saveOrUpdateAll(dtos);
-        initData();
+        close(event);
     }
 
-    public void onClose(Event event) {
+    public void onCancel(Event event) {
         close(event);
     }
 
@@ -143,21 +118,23 @@ public class CategoriesController implements Initializable {
 
             if (validate) {
                 dtos.add(dto);
-
-                final TreeItem<CategoryDto> newItem = new TreeItem<>(dto);
-                rootItem.getChildren().add(newItem);
-                rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-                rootItem.setExpanded(true);
-
-                txtCode.setText(null);
-                txtLabel.setText(null);
+                txtCode.clear();
+                txtLabel.clear();
                 txtCode.requestFocus();
+
+                lbError.setManaged(false);
+                lbError.setVisible(false);
+                lbError.setText("");
+            } else {
+                lbError.setManaged(true);
+                lbError.setVisible(true);
+                lbError.setText(resources.getString("global.error.msg.already.present"));
             }
         }
     }
 
     public void onRemoveCategory() {
-        final TreeItem<CategoryDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+        final CategoryDto selectedItem = tableView.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
             return;
         }
@@ -170,16 +147,73 @@ public class CategoriesController implements Initializable {
 
         dialog.showAndWait()
                 .filter(response -> response == ButtonType.YES)
-                .ifPresent(response -> removeCategory(selectedItem));
+                .ifPresent(response -> {
+                    dtos.remove(selectedItem);
+                    if (selectedItem.getId() != 0) {
+                        categoriesService.deleteData(selectedItem);
+                    }
+                });
     }
 
-    private void removeCategory(final TreeItem<CategoryDto> selectedItem) {
-        rootItem.getChildren().remove(selectedItem);
 
-        CategoryDto dto = selectedItem.getValue();
-        dtos.remove(dto);
-        if (dto.getId() != 0) {
-            categoriesService.deleteData(dto);
+    class EditingCell extends TableCell<CategoryDto, String> {
+
+        private TextField textField;
+
+        public EditingCell() {
+        }
+
+        @Override
+        public void startEdit() {
+            if (!isEmpty()) {
+                super.startEdit();
+                createTextField();
+                setText(null);
+                setGraphic(textField);
+                textField.selectAll();
+            }
+        }
+
+        @Override
+        public void cancelEdit() {
+            super.cancelEdit();
+
+            setText(getItem());
+            setGraphic(null);
+        }
+
+        @Override
+        public void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+
+            if (empty) {
+                setText(null);
+                setGraphic(null);
+            } else if (isEditing()) {
+                if (textField != null) {
+                    textField.setText(getString());
+                }
+                setText(null);
+                setGraphic(textField);
+            } else {
+                setText(getString());
+                setGraphic(null);
+            }
+
+        }
+
+        private void createTextField() {
+            textField = new TextField(getString());
+            textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
+            textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    commitEdit(textField.getText());
+                }
+            });
+        }
+
+        private String getString() {
+            return getItem() == null ? "" : getItem();
         }
     }
 }
