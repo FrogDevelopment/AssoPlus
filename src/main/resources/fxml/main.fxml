@@ -25,9 +25,6 @@
             <Tab text="Adhérents">
                 <fx:include source="members/members.fxml"/>
             </Tab>
-            <Tab text="Android">
-                <fx:include source="events/events.fxml"/>
-            </Tab>
             <Tab text="Librairie" disable="true">
             </Tab>
         </TabPane>

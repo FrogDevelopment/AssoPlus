@@ -100,12 +100,6 @@
                 <version>1.7.0</version>
             </dependency>
 
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.36</version>
-            </dependency>
-
         </dependencies>
 
     </dependencyManagement>
@@ -191,11 +185,6 @@
             <artifactId>assertj-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -218,17 +207,5 @@
             </resource>
         </resources>
     </build>
-
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation />
-            <properties>
-                <db.url>jdbc:mysql://localhost:3306/asso_plus</db.url>
-                <db.username>root</db.username>
-                <db.password>test</db.password>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>
