@@ -11,6 +11,7 @@
     <groupId>fr.frogdevelopment</groupId>
     <artifactId>AssoManager</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -198,6 +199,18 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.1.3</version>
+                <configuration>
+                    <mainClass>fr.frogdevelopment.assoplus.Main</mainClass>
+                    <bundler>EXE</bundler>
+                    <vendor>FrogDevelopment</vendor>
+                </configuration>
+            </plugin>
+
         </plugins>
 
         <resources>
