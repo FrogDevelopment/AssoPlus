@@ -47,8 +47,8 @@
                 </Button>
             </HBox>
 
-            <TableView fx:id="tableView" maxHeight="350.0" minHeight="250.0" prefHeight="250.0" maxWidth="352"
-                       minWidth="352"
+            <TableView fx:id="tableView" maxHeight="350.0" minHeight="250.0" prefHeight="250.0" maxWidth="402"
+                       minWidth="402"
                        BorderPane.alignment="CENTER">
                 <columns>
                     <TableColumn fx:id="columnCode" maxWidth="100.0" minWidth="100.0" prefWidth="-1.0" resizable="false"
@@ -63,14 +63,13 @@
                             <PropertyValueFactory property="label"/>
                         </cellValueFactory>
                     </TableColumn>
+                    <TableColumn fx:id="columnAction" maxWidth="50" minWidth="50" prefWidth="50" text="%global.remove"/>
                 </columns>
             </TableView>
         </VBox>
     </center>
     <bottom>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button fx:id="btnRemove" disable="true" mnemonicParsing="false" onMouseClicked="#onRemoveCategory"
-                    text="%global.remove"/>
             <Button mnemonicParsing="false" onMouseClicked="#onSave" text="%global.save"/>
             <Button mnemonicParsing="false" onMouseClicked="#onCancel" text="%global.cancel"/>
         </ToolBar>
