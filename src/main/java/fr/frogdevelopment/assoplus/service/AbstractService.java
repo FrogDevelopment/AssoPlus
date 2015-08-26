@@ -7,8 +7,10 @@ package fr.frogdevelopment.assoplus.service;
 import fr.frogdevelopment.assoplus.dao.CommonDao;
 import fr.frogdevelopment.assoplus.dto.Dto;
 import fr.frogdevelopment.assoplus.entities.Entity;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,14 +27,8 @@ abstract class AbstractService<E extends Entity, D extends Dto> implements fr.fr
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    public ObservableList<D> getAllData() {
-        ObservableList<D> data = FXCollections.observableArrayList();
-
-        List<E> entities = dao.getAll();
-
-        entities.forEach(member -> data.add(createDto(member)));
-
-        return data;
+    public List<D> getAll() {
+        return dao.getAll().stream().map(this::createDto).collect(Collectors.toList());
     }
 
     @Override

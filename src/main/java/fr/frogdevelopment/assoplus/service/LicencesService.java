@@ -12,8 +12,6 @@ import java.util.Set;
 public interface LicencesService extends Service<LicenceDto> {
 
 
-	Set<LicenceDto> getAllOrderedByCode();
-
 	//    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	void deleteLicence(LicenceDto licenceDto);
 

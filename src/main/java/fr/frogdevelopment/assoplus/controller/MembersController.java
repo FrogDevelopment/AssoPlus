@@ -42,9 +42,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
@@ -99,13 +99,14 @@ public class MembersController implements Initializable {
     private TableView<MemberDto> table;
 
     private ObservableList<MemberDto> data;
+    private ObservableList<OptionDto> optionDtos;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
         dateTimeFormatter = DateTimeFormatter.ofPattern(resources.getString("global.date.format"));
 
-        data = membersService.getAllData();
+        data = FXCollections.observableArrayList(membersService.getAll());
         table.setItems(data);
 
         MaskHelper.addMaskPhone(txtPhone);
@@ -132,9 +133,7 @@ public class MembersController implements Initializable {
             }
         });
 
-        Set<LicenceDto> licenceDtos = licencesService.getAllOrderedByCode();
-        cbLicence.setItems(FXCollections.observableArrayList(licenceDtos));
-        cbLicence.setVisibleRowCount(4);
+        setLicences();
         cbLicence.setConverter(new StringConverter<LicenceDto>() {
 
             private final Map<String, LicenceDto> _cache = new HashMap<>();
@@ -151,34 +150,20 @@ public class MembersController implements Initializable {
             }
         });
 
-//		cbLicence.setCellFactory(new Callback<ListView<LicenceDto>, ListCell<LicenceDto>>() {
-//			@Override
-//			public ListCell<LicenceDto> call(ListView<LicenceDto> param) {
-//				return new ListCell<LicenceDto>() {
-//					{
-//						super.setPrefWidth(100);
-//					}
-//
-//					@Override
-//					public void updateItem(LicenceDto item, boolean empty) {
-//						super.updateItem(item, empty);
-//						if (item != null) {
-//							setText(item.getLabel());
-//						} else {
-//							setText(null);
-//						}
-//					}
-//				};
-//			}
-//		});
+        cbLicence.setOnAction(event -> {
+            final LicenceDto selectedItem = cbLicence.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                final String codeLicence = selectedItem.getCode();
+                final List<OptionDto> dtos = optionDtos
+                        .stream()
+                        .filter(o -> codeLicence.equals(o.getLicenceCode()))
+                        .collect(Collectors.toList());
+                cbOption.setItems(FXCollections.observableArrayList(dtos));
+            } else {
+                cbOption.setItems(null);
+            }
+        });
 
-//		cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(cbLicence.getSelectionModel().getSelectedItem().getOptions())));
-
-        final Set<OptionDto> optionDtos = optionsService.getAllOrderedByCode();
-        cbLicence.setOnAction(event -> cbOption.setItems(FXCollections.observableArrayList(optionDtos.stream()
-                .filter(optionDto -> optionDto.getLicenceCode().equals(cbLicence.getValue().getCode()))
-                .collect(Collectors.toSet()))));
-        cbOption.setVisibleRowCount(4);
         cbOption.setConverter(new StringConverter<OptionDto>() {
 
             private final Map<String, OptionDto> _cache = new HashMap<>();
@@ -196,6 +181,11 @@ public class MembersController implements Initializable {
                 return _cache.get(label);
             }
         });
+    }
+
+    protected void setLicences() {
+        cbLicence.setItems(FXCollections.observableArrayList(licencesService.getAll()));
+        optionDtos = FXCollections.observableArrayList(optionsService.getAll());
     }
 
     public void saveData() {
@@ -254,6 +244,9 @@ public class MembersController implements Initializable {
         dialog.initOwner(parent);
         dialog.setTitle(resources.getString("member.licences"));
         dialog.setScene(new Scene(root, 450, 450));
+
+        dialog.setOnCloseRequest(event1 -> setLicences());
+
         dialog.show();
 
     }

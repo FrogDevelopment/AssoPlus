@@ -4,6 +4,8 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +18,7 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,6 @@ import fr.frogdevelopment.assoplus.service.OptionsService;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 @Controller("licencesController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -51,8 +53,8 @@ public class LicencesController implements Initializable {
 	@FXML
 	private TreeTableColumn<ReferenceDto, String> columnLabel;
 
-	private Set<LicenceDto> licenceDtos;
-	private Set<OptionDto> optionDtos;
+	private ObservableList<LicenceDto> licenceDtos;
+	private ObservableList<OptionDto> optionDtos;
 	private TreeItem<ReferenceDto> rootItem;
 
 	@Override
@@ -88,8 +90,8 @@ public class LicencesController implements Initializable {
 	}
 
 	private void initData() {
-		licenceDtos = licencesService.getAllOrderedByCode();
-		optionDtos = optionsService.getAllOrderedByCode();
+		licenceDtos = FXCollections.observableArrayList(licencesService.getAll());
+		optionDtos = FXCollections.observableArrayList(optionsService.getAll());
 
 		rootItem = new TreeItem<>(new LicenceDto());
 
@@ -120,7 +122,7 @@ public class LicencesController implements Initializable {
 
 	private void close(Event event) {
 		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-		window.close();
+		Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 
 	public void onAddLicence() {
@@ -130,7 +132,6 @@ public class LicencesController implements Initializable {
 		final TreeItem<ReferenceDto> newItem = new TreeItem<>(licenceDto);
 		rootItem.getChildren().add(newItem);
 
-		rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
 		rootItem.setExpanded(true);
 		final int rowIndex = treeTableView.getRow(newItem);
 

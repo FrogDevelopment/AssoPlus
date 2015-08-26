@@ -4,39 +4,15 @@
 
 package fr.frogdevelopment.assoplus.service;
 
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.entities.Licence;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.entities.Licence;
 
 @Service("licencesService")
 public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> implements LicencesService {
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public Set<LicenceDto> getAllOrderedByCode() {
-        List<Licence> licences = dao.getAllOrderedBy("code");
-
-        if (licences.isEmpty()) {
-	        licences = new ArrayList<>(Arrays.<Licence>asList(
-                    new Licence("L1", "Licence 1"),
-                    new Licence("L2", "Licence 2"),
-                    new Licence("L3", "Licence 3"),
-                    new Licence("M1", "Master 1"),
-                    new Licence("M2", "Master 2"),
-                    new Licence("D", "Doctorat")
-            ));
-            dao.saveAll(licences);
-        }
-
-	    return createDtos(licences);
-    }
 
     LicenceDto createDto(Licence bean) {
         LicenceDto dto = new LicenceDto();

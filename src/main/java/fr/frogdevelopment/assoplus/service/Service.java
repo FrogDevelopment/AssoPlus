@@ -4,14 +4,12 @@
 
 package fr.frogdevelopment.assoplus.service;
 
-import javafx.collections.ObservableList;
-
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 interface Service<D> {
 
-	ObservableList<D> getAllData();
+	List<D> getAll();
 
 	D saveData(D dto);
 

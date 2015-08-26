@@ -193,7 +193,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
 				column = field.getAnnotation(Column.class);
 
-				// to be able to write the field's value
+				// to be able to access the field's value
 				AccessController.doPrivileged((PrivilegedAction<E>) () -> {
 					field.setAccessible(true);
 
@@ -202,7 +202,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
 				Object value = field.get(entity);
 				if (field.getType() == String.class) {
-					map.put(column.name(), "'" + String.valueOf(value) + "'");
+					map.put(column.name(), "'" + String.valueOf(value).replace("'", "''") + "'");
 				} else {
 					map.put(column.name(), String.valueOf(value));
 				}
