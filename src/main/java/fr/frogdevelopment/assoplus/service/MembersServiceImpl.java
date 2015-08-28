@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         memberDto.setStudentNumber(bean.getStudentNumber());
         memberDto.setLastname(bean.getLastname());
         memberDto.setFirstname(bean.getFirstname());
-        memberDto.setBirthday(bean.getBirthday());
+        memberDto.setBirthday(LocalDate.parse(bean.getBirthday()));
         memberDto.setEmail(bean.getEmail());
         memberDto.setLicenceCode(bean.getLicenceCode());
         memberDto.setOptionCode(bean.getOptionCode());

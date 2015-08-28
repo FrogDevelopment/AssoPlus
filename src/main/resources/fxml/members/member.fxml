@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import fr.frogdevelopment.assoplus.components.controls.NumberTextField?>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.frogdevelopment.assoplus.controller.MemberController">
+    <center>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
+                <ColumnConstraints minWidth="100.0" prefWidth="200.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="10.0"/>
+                <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
+                <ColumnConstraints minWidth="100.0" prefWidth="200.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+            </rowConstraints>
+
+            <Label text="Nom" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtLastname" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Prénom" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+            <TextField fx:id="txtFirstname" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+
+            <Label text="Date de naissance" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="dpBirthday" GridPane.rowIndex="1" GridPane.columnIndex="1" showWeekNumbers="false"/>
+
+            <Label text="%member.student.number" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+            <NumberTextField fx:id="txtStudentNumber" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+
+            <Label text="Email" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Diplôme" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="cbLicence" GridPane.rowIndex="3" GridPane.columnIndex="1" visibleRowCount="6"/>
+
+            <Label text="Option" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+            <ComboBox fx:id="cbOption" GridPane.rowIndex="3" GridPane.columnIndex="4" visibleRowCount="6"/>
+
+            <Label text="N° téléphone" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtPhone" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Adresse" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <TextField fx:id="txtAddress" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+
+            <Label text="Code Postal" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <NumberTextField fx:id="txtPostalCode" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+            <Label text="Ville" GridPane.rowIndex="6" GridPane.columnIndex="3"/>
+            <TextField fx:id="txtCity" GridPane.rowIndex="6" GridPane.columnIndex="4"/>
+        </GridPane>
+    </center>
+
+    <bottom>
+        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Button onAction="#saveData" text="Save"/>
+        </ToolBar>
+    </bottom>
+
+</BorderPane>

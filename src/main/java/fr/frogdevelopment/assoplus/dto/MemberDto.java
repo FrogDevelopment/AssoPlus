@@ -5,7 +5,10 @@
 package fr.frogdevelopment.assoplus.dto;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+
+import java.time.LocalDate;
 
 public class MemberDto implements Dto {
 
@@ -13,7 +16,7 @@ public class MemberDto implements Dto {
 	private final SimpleIntegerProperty studentNumber = new SimpleIntegerProperty();
 	private final SimpleStringProperty lastname = new SimpleStringProperty();
 	private final SimpleStringProperty firstname = new SimpleStringProperty();
-	private final SimpleStringProperty birthday = new SimpleStringProperty();
+	private final SimpleObjectProperty<LocalDate> birthday = new SimpleObjectProperty<>();
 	private final SimpleStringProperty email = new SimpleStringProperty();
 	private final SimpleStringProperty licenceCode = new SimpleStringProperty();
 	private final SimpleStringProperty optionCode = new SimpleStringProperty();
@@ -70,15 +73,15 @@ public class MemberDto implements Dto {
 		this.firstname.set(firstname);
 	}
 
-	public String getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday.get();
 	}
 
-	public SimpleStringProperty birthdayProperty() {
+	public SimpleObjectProperty<LocalDate> birthdayProperty() {
 		return birthday;
 	}
 
-	public void setBirthday(String birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday.set(birthday);
 	}
 

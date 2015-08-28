@@ -11,17 +11,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.StringConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -29,188 +24,32 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import fr.frogdevelopment.assoplus.Main;
-import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
 import fr.frogdevelopment.assoplus.service.MembersService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
 
 import java.io.File;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
-import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
-import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotNull;
-
-@Controller("membersController")
+@Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MembersController implements Initializable {
-
-    private DateTimeFormatter dateTimeFormatter;
 
     private ResourceBundle resources;
 
     @Autowired
     private MembersService membersService;
 
-    @Autowired
-    private LicencesService licencesService;
-
-
-    @Autowired
-    private OptionsService optionsService;
-
-    @FXML
-    private VBox vbTop;
-    @FXML
-    private Button btnShowHide;
-    @FXML
-    private TextField txtStudentNumber;
-    @FXML
-    private TextField txtLastname;
-    @FXML
-    private TextField txtFirstname;
-    @FXML
-    private DatePicker dpBirthday;
-    @FXML
-    private TextField txtEmail;
-    @FXML
-    public ComboBox<LicenceDto> cbLicence;
-    @FXML
-    public ComboBox<OptionDto> cbOption;
-    @FXML
-    private TextField txtPhone;
-    @FXML
-    private TextField txtAddress;
-    @FXML
-    private TextField txtPostalCode;
-    @FXML
-    private TextField txtCity;
-
     @FXML
     private TableView<MemberDto> table;
-
     private ObservableList<MemberDto> data;
-    private ObservableList<OptionDto> optionDtos;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.resources = resources;
-        dateTimeFormatter = DateTimeFormatter.ofPattern(resources.getString("global.date.format"));
 
         data = FXCollections.observableArrayList(membersService.getAll());
         table.setItems(data);
-
-        MaskHelper.addMaskPhone(txtPhone);
-
-        MaskHelper.addMaskDate(dpBirthday);
-        dpBirthday.setPromptText(resources.getString("global.date.format.prompt"));
-        dpBirthday.setConverter(new StringConverter<LocalDate>() {
-            @Override
-            public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateTimeFormatter.format(date);
-                } else {
-                    return "";
-                }
-            }
-
-            @Override
-            public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateTimeFormatter);
-                } else {
-                    return null;
-                }
-            }
-        });
-
-        setLicences();
-        cbLicence.setConverter(new StringConverter<LicenceDto>() {
-
-            private final Map<String, LicenceDto> _cache = new HashMap<>();
-
-            @Override
-            public String toString(LicenceDto item) {
-                _cache.put(item.getLabel(), item);
-                return item.getLabel();
-            }
-
-            @Override
-            public LicenceDto fromString(String label) {
-                return _cache.get(label);
-            }
-        });
-
-        cbLicence.setOnAction(event -> {
-            final LicenceDto selectedItem = cbLicence.getSelectionModel().getSelectedItem();
-            if (selectedItem != null) {
-                final String codeLicence = selectedItem.getCode();
-                final List<OptionDto> dtos = optionDtos
-                        .stream()
-                        .filter(o -> codeLicence.equals(o.getLicenceCode()))
-                        .collect(Collectors.toList());
-                cbOption.setItems(FXCollections.observableArrayList(dtos));
-            } else {
-                cbOption.setItems(null);
-            }
-        });
-
-        cbOption.setConverter(new StringConverter<OptionDto>() {
-
-            private final Map<String, OptionDto> _cache = new HashMap<>();
-
-            @Override
-            public String toString(OptionDto item) {
-                if (item == null) return null;
-
-                _cache.put(item.getLabel(), item);
-                return item.getLabel();
-            }
-
-            @Override
-            public OptionDto fromString(String label) {
-                return _cache.get(label);
-            }
-        });
-    }
-
-    protected void setLicences() {
-        cbLicence.setItems(FXCollections.observableArrayList(licencesService.getAll()));
-        optionDtos = FXCollections.observableArrayList(optionsService.getAll());
-    }
-
-    public void saveData() {
-
-        boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname, txtEmail)
-                && validateNotNull(dpBirthday, cbLicence, cbOption);
-
-        if (isOk) {
-            MemberDto member = new MemberDto();
-            member.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
-            member.setLastname(txtLastname.getText());
-            member.setFirstname(txtFirstname.getText());
-            member.setBirthday(dpBirthday.getValue().format(dateTimeFormatter));
-            member.setEmail(txtEmail.getText());
-            member.setLicenceCode(cbLicence.getValue().getCode());
-            member.setOptionCode(cbOption.getValue().getCode());
-            member.setPhone(txtPhone.getText());
-            member.setAddress(txtAddress.getText());
-            member.setPostalCode(txtPostalCode.getText());
-            member.setCity(txtCity.getText());
-
-            membersService.saveData(member);
-
-            data.add(member);
-        }
     }
 
     public void importMembers(MouseEvent event) {
@@ -226,12 +65,23 @@ public class MembersController implements Initializable {
         }
     }
 
-    public void showHideMember() {
-        final boolean isVisible = vbTop.isVisible();
-        vbTop.setManaged(!isVisible);
-        vbTop.setVisible(!isVisible);
+    public void manageMember(MouseEvent event) {
+        Button source = (Button) (event.getSource());
+        Window parent = source.getScene().getWindow();
 
-        btnShowHide.setText(resources.getString(isVisible ? "global.show" : "global.hide"));
+        Parent root = Main.load("/fxml/members/member.fxml", fxmlLoader -> {
+            MemberController controller = fxmlLoader.getController();
+            controller.setData(data, table.getSelectionModel().getSelectedItem());
+        });
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initOwner(parent);
+        dialog.setTitle(resources.getString("member.title"));
+        dialog.setScene(new Scene(root, 450, 450));
+
+//        dialog.setOnCloseRequest(event1 -> setLicences());
+
+        dialog.show();
     }
 
     public void manageLicences(MouseEvent event) {
@@ -245,9 +95,6 @@ public class MembersController implements Initializable {
         dialog.setTitle(resources.getString("member.licences"));
         dialog.setScene(new Scene(root, 450, 450));
 
-        dialog.setOnCloseRequest(event1 -> setLicences());
-
         dialog.show();
-
     }
 }
