@@ -26,7 +26,7 @@ import java.util.Comparator;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class DegreeController extends AbstractDIIalogController {
+public class DegreeController extends AbstractDialogController {
 
 	@Autowired
 	private LicencesService licencesService;

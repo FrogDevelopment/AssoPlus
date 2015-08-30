@@ -38,7 +38,7 @@ import static fr.frogdevelopment.assoplus.components.controls.Validator.validate
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MemberController extends AbstractDIIalogController {
+public class MemberController extends AbstractDialogController {
 
     private DateTimeFormatter dateTimeFormatter;
 
