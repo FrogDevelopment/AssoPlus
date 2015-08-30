@@ -4,7 +4,6 @@
 
 package fr.frogdevelopment.assoplus.utils;
 
-import fr.frogdevelopment.assoplus.controller.MemberController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,16 +22,19 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileLock;
 import java.nio.file.FileSystems;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public class ApplicationUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationUtils.class);
 
-    private ApplicationUtils() {}
+    public static final Image ICON_16 = new Image("/img/frog_16.png");
+    public static final Image ICON_32 = new Image("/img/frog_32.png");
+    public static final Image ICON_48 = new Image("/img/frog_48.png");
+
+    private ApplicationUtils() {
+    }
 
     /**
      * Acquire a lock on the lock file and when the main starts it will try to acquire lock on this file.
@@ -97,13 +99,6 @@ public class ApplicationUtils {
         }
     }
 
-    public static final Set<Image> ICONS = new HashSet<>();
-    {
-        ICONS.add(new Image("/img/frog_16.png"));
-        ICONS.add(new Image("/img/frog_32.png"));
-        ICONS.add(new Image("/img/frog_48.png"));
-    }
-
     public static Stage openDialog(Window parent, String url) {
         return openDialog(parent, url, null);
     }
@@ -113,7 +108,7 @@ public class ApplicationUtils {
         Stage dialog = new Stage();
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(parent);
-        dialog.getIcons().addAll(ICONS);
+        dialog.getIcons().addAll(ICON_16, ICON_32, ICON_48);
         dialog.setScene(new Scene(root));
 //        dialog.setOnCloseRequest(event1 -> setLicences());
 

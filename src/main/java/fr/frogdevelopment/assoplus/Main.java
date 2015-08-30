@@ -26,6 +26,8 @@ import java.nio.file.FileSystems;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.*;
+
 public class Main extends Application {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
@@ -37,7 +39,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        if (ApplicationUtils.isInstanceAlreadyLocked()) {
+        if (isInstanceAlreadyLocked()) {
             System.err.println("********************************** Already running ********************************** ");
             LOGGER.error("Exit cause already running.");
             System.exit(-1);
@@ -45,11 +47,11 @@ public class Main extends Application {
 
         LOGGER.info("Chargement de la configuration");
 
-        Parent root = ApplicationUtils.load("/fxml/main.fxml");
+        Parent root = load("/fxml/main.fxml");
 
         primaryStage.setTitle("AssoManager");
         primaryStage.setScene(new Scene(root, 600, 600));
-        primaryStage.getIcons().addAll(ApplicationUtils.ICONS);
+        primaryStage.getIcons().addAll(ICON_16, ICON_32, ICON_48);
 
         LOGGER.info("Ouverture de l'application");
         primaryStage.show();
