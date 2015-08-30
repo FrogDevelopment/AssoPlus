@@ -81,7 +81,7 @@ public class ApplicationUtils {
         return load(url, null);
     }
 
-    public static Parent load(String url, Consumer<FXMLLoader> consumer) {
+    public static <T> Parent load(String url, Consumer<T> controllerConsumer) {
         try (InputStream fxmlStream = Class.class.getResourceAsStream(url)) {
             FXMLLoader loader = new FXMLLoader();
             loader.setControllerFactory(CONTEXT::getBean);
@@ -89,8 +89,8 @@ public class ApplicationUtils {
             loader.setResources(ResourceBundle.getBundle("label"));
             final Parent parent = loader.load(fxmlStream);
 
-            if (consumer != null) {
-                consumer.accept(loader);
+            if (controllerConsumer != null) {
+                controllerConsumer.accept(loader.getController());
             }
 
             return parent;
@@ -103,14 +103,13 @@ public class ApplicationUtils {
         return openDialog(parent, url, null);
     }
 
-    public static Stage openDialog(Window parent, String url, Consumer<FXMLLoader> consumer) {
-        Parent root = load(url, consumer);
+    public static <T> Stage openDialog(Window parent, String url, Consumer<T> controllerConsumer) {
+        Parent root = load(url, controllerConsumer);
         Stage dialog = new Stage();
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(parent);
         dialog.getIcons().addAll(ICON_16, ICON_32, ICON_48);
         dialog.setScene(new Scene(root));
-//        dialog.setOnCloseRequest(event1 -> setLicences());
 
         return dialog;
     }

@@ -30,6 +30,7 @@ import fr.frogdevelopment.assoplus.service.MembersService;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -69,9 +70,11 @@ public class MembersController implements Initializable {
         Button source = (Button) (event.getSource());
         Window parent = source.getScene().getWindow();
 
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", fxmlLoader -> {
-            MemberController controller = fxmlLoader.getController();
-            controller.setData(data, table.getSelectionModel().getSelectedItem());
+        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", new Consumer<MemberController>() {
+            @Override
+            public void accept(MemberController memberController) {
+                memberController.setData(data, table.getSelectionModel().getSelectedItem());
+            }
         });
 
         dialog.setTitle(resources.getString("member.title"));
