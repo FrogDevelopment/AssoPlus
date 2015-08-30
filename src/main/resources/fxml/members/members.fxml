@@ -45,9 +45,9 @@
                         <PropertyValueFactory property="email"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="%member.licence">
+                <TableColumn text="%member.degree">
                     <cellValueFactory>
-                        <PropertyValueFactory property="licenceCode"/>
+                        <PropertyValueFactory property="degreeCode"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.option">
@@ -58,21 +58,6 @@
                 <TableColumn text="%member.phone">
                     <cellValueFactory>
                         <PropertyValueFactory property="phone"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%member.address">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="address"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%member.postal.code">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="postalCode"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%member.city">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="city"/>
                     </cellValueFactory>
                 </TableColumn>
             </columns>
@@ -86,7 +71,7 @@
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#manageLicences" text="%member.licences">
+            <Button mnemonicParsing="false" onMouseClicked="#manageDegrees" text="%member.degrees">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>

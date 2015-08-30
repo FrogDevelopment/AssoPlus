@@ -18,12 +18,9 @@ public class MemberDto implements Dto {
 	private final SimpleStringProperty firstname = new SimpleStringProperty();
 	private final SimpleObjectProperty<LocalDate> birthday = new SimpleObjectProperty<>();
 	private final SimpleStringProperty email = new SimpleStringProperty();
-	private final SimpleStringProperty licenceCode = new SimpleStringProperty();
+	private final SimpleStringProperty degreeCode = new SimpleStringProperty();
 	private final SimpleStringProperty optionCode = new SimpleStringProperty();
 	private final SimpleStringProperty phone = new SimpleStringProperty();
-	private final SimpleStringProperty address = new SimpleStringProperty();
-	private final SimpleStringProperty postalCode = new SimpleStringProperty();
-	private final SimpleStringProperty city = new SimpleStringProperty();
 
 	public Integer getId() {
 		return id.get();
@@ -97,16 +94,16 @@ public class MemberDto implements Dto {
 		this.email.set(email);
 	}
 
-	public String getLicenceCode() {
-		return licenceCode.get();
+	public String getDegreeCode() {
+		return degreeCode.get();
 	}
 
-	public SimpleStringProperty licenceCodeProperty() {
-		return licenceCode;
+	public SimpleStringProperty degreeCodeProperty() {
+		return degreeCode;
 	}
 
-	public void setLicenceCode(String licenceCode) {
-		this.licenceCode.set(licenceCode);
+	public void setDegreeCode(String degreeCode) {
+		this.degreeCode.set(degreeCode);
 	}
 
 	public String getOptionCode() {
@@ -133,39 +130,4 @@ public class MemberDto implements Dto {
 		this.phone.set(phone);
 	}
 
-	public String getAddress() {
-		return address.get();
-	}
-
-	public SimpleStringProperty addressProperty() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address.set(address);
-	}
-
-	public String getPostalCode() {
-		return postalCode.get();
-	}
-
-	public SimpleStringProperty postalCodeProperty() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode.set(postalCode);
-	}
-
-	public String getCity() {
-		return city.get();
-	}
-
-	public SimpleStringProperty cityProperty() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city.set(city);
-	}
 }

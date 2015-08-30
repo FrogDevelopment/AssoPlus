@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class LicencesController implements Initializable {
+public class DegreeController implements Initializable {
 
 	@Autowired
 	private LicencesService licencesService;

@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @javax.persistence.Entity
 @Table(name = "licence")
-public class Licence implements Reference, Entity {
+public class Degree implements Reference, Entity {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
@@ -23,10 +23,10 @@ public class Licence implements Reference, Entity {
 	@Column(name = "label", unique = false, nullable = false)
 	private String label;
 
-	public Licence() {
+	public Degree() {
 	}
 
-	public Licence(String code, String label) {
+	public Degree(String code, String label) {
 		this.code = code;
 		this.label = label;
 	}
@@ -70,10 +70,10 @@ public class Licence implements Reference, Entity {
 
 		if (o == null || getClass() != o.getClass()) return false;
 
-		Licence licence = (Licence) o;
+		Degree degree = (Degree) o;
 
 		return new org.apache.commons.lang3.builder.EqualsBuilder()
-				.append(code, licence.code)
+				.append(code, degree.code)
 				.isEquals();
 	}
 

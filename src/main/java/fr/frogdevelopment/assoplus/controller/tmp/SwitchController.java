@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller.tmp;
 
+import fr.frogdevelopment.assoplus.utils.ApplicationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,7 +48,7 @@ public class SwitchController implements Initializable {
 			return;
 		}
 		content.getChildren().clear();
-		content.getChildren().add(Main.load(view));
+		content.getChildren().add(ApplicationUtils.load(view));
 		CURRENT = view;
 	}
 

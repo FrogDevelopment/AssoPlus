@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.utils.ApplicationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,7 +24,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.Main;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.service.MembersService;
 
@@ -69,31 +69,28 @@ public class MembersController implements Initializable {
         Button source = (Button) (event.getSource());
         Window parent = source.getScene().getWindow();
 
-        Parent root = Main.load("/fxml/members/member.fxml", fxmlLoader -> {
+        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", fxmlLoader -> {
             MemberController controller = fxmlLoader.getController();
             controller.setData(data, table.getSelectionModel().getSelectedItem());
         });
-        Stage dialog = new Stage();
-        dialog.initModality(Modality.WINDOW_MODAL);
-        dialog.initOwner(parent);
+
         dialog.setTitle(resources.getString("member.title"));
-        dialog.setScene(new Scene(root, 450, 450));
+        dialog.setWidth(450);
+        dialog.setHeight(450);
 
 //        dialog.setOnCloseRequest(event1 -> setLicences());
 
         dialog.show();
     }
 
-    public void manageLicences(MouseEvent event) {
+    public void manageDegrees(MouseEvent event) {
         Button source = (Button) (event.getSource());
         Window parent = source.getScene().getWindow();
 
-        Parent root = Main.load("/fxml/members/licences.fxml");
-        Stage dialog = new Stage();
-        dialog.initModality(Modality.WINDOW_MODAL);
-        dialog.initOwner(parent);
-        dialog.setTitle(resources.getString("member.licences"));
-        dialog.setScene(new Scene(root, 450, 450));
+        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/degrees.fxml");
+        dialog.setTitle(resources.getString("member.degrees"));
+        dialog.setWidth(450);
+        dialog.setHeight(450);
 
         dialog.show();
     }

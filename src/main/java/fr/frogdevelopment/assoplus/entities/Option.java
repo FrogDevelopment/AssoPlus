@@ -27,7 +27,7 @@ public class Option implements Reference, Entity {
 
 //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "licence_id", nullable = false)
-//    private Licence licence;
+//    private Degree licence;
 
     @Column(name = "licence_code", nullable = false)
 	String licenceCode;
@@ -65,11 +65,11 @@ public class Option implements Reference, Entity {
 		this.licenceCode = licenceCode;
 	}
 
-	//    public Licence getLicence() {
+	//    public Degree getLicence() {
 //        return licence;
 //    }
 //
-//    public void setLicence(Licence licence) {
+//    public void setLicence(Degree licence) {
 //        this.licence = licence;
 //    }
 

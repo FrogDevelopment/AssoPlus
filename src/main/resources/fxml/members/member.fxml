@@ -59,15 +59,6 @@
 
             <Label text="N° téléphone" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
             <TextField fx:id="txtPhone" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-
-            <Label text="Adresse" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-            <TextField fx:id="txtAddress" GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
-
-            <Label text="Code Postal" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-            <NumberTextField fx:id="txtPostalCode" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-
-            <Label text="Ville" GridPane.rowIndex="6" GridPane.columnIndex="3"/>
-            <TextField fx:id="txtCity" GridPane.rowIndex="6" GridPane.columnIndex="4"/>
         </GridPane>
     </center>
 

@@ -28,7 +28,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Service("memberService")
+@Service
 public class MembersServiceImpl extends AbstractService<Member, MemberDto> implements MembersService {
 
     @Autowired
@@ -48,12 +48,9 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         memberDto.setFirstname(bean.getFirstname());
         memberDto.setBirthday(LocalDate.parse(bean.getBirthday()));
         memberDto.setEmail(bean.getEmail());
-        memberDto.setLicenceCode(bean.getLicenceCode());
+        memberDto.setDegreeCode(bean.getDegreeCode());
         memberDto.setOptionCode(bean.getOptionCode());
         memberDto.setPhone(bean.getPhone());
-        memberDto.setAddress(bean.getAddress());
-        memberDto.setPostalCode(bean.getPostalCode());
-        memberDto.setCity(bean.getCity());
 
         return memberDto;
     }
@@ -64,14 +61,11 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         member.setStudentNumber(dto.getStudentNumber());
         member.setLastname(dto.getLastname());
         member.setFirstname(dto.getFirstname());
-        member.setBirthday(dto.getBirthday());
+        member.setBirthday(dto.getBirthday().toString());
         member.setEmail(dto.getEmail());
-        member.setLicenceCode(dto.getLicenceCode());
+        member.setDegreeCode(dto.getDegreeCode());
         member.setOptionCode(dto.getOptionCode());
         member.setPhone(dto.getPhone());
-        member.setAddress(dto.getAddress());
-        member.setPostalCode(dto.getPostalCode());
-        member.setCity(dto.getCity());
 
         return member;
     }
@@ -93,7 +87,7 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
                     member.setStudentNumber(Integer.valueOf(studentNumber));
                     member.setLastname(line.get("NOM"));
                     member.setFirstname(line.get("PRENOM"));
-                    member.setLicenceCode(line.get("DEGRES"));
+                    member.setDegreeCode(line.get("DEGRES"));
                     member.setOptionCode(line.get("OPTION"));
                     member.setPhone(line.get("TELEPHONE"));
                     member.setEmail(line.get("E-MAIL"));

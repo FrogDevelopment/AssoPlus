@@ -4,8 +4,8 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.entities.Licence;
+import fr.frogdevelopment.assoplus.entities.Degree;
 
-public interface LicenceDao extends CommonDao<Licence> {
+public interface LicenceDao extends CommonDao<Degree> {
 
 }

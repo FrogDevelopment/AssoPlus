@@ -6,9 +6,9 @@ package fr.frogdevelopment.assoplus.dao;
 
 import org.springframework.stereotype.Repository;
 
-import fr.frogdevelopment.assoplus.entities.Licence;
+import fr.frogdevelopment.assoplus.entities.Degree;
 
 @Repository("licenceDao")
-public class LicenceDaoImpl extends CommonDaoImpl<Licence> implements LicenceDao {
+public class LicenceDaoImpl extends CommonDaoImpl<Degree> implements LicenceDao {
 
 }

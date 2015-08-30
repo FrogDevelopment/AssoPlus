@@ -80,12 +80,6 @@ public class MemberController implements Initializable {
     public ComboBox<OptionDto> cbOption;
     @FXML
     private TextField txtPhone;
-    @FXML
-    private TextField txtAddress;
-    @FXML
-    private TextField txtPostalCode;
-    @FXML
-    private TextField txtCity;
 
     private MemberDto memberDto;
     private ObservableList<MemberDto> data;
@@ -182,17 +176,14 @@ public class MemberController implements Initializable {
             memberDto = new MemberDto();
         }
 
-        txtFirstname.textProperty().bindBidirectional(dto.firstnameProperty());
-        txtLastname.textProperty().bindBidirectional(dto.lastnameProperty());
-        dpBirthday.valueProperty().bindBidirectional(dto.birthdayProperty());
-        txtStudentNumber.textProperty().bindBidirectional(dto.studentNumberProperty(), new NumberStringConverter());
-        txtEmail.textProperty().bindBidirectional(dto.emailProperty());
-//        cbLicence.setValue();
-//                cbOption
-        txtPhone.textProperty().bindBidirectional(dto.phoneProperty());
-        txtAddress.textProperty().bindBidirectional(dto.addressProperty());
-        txtPostalCode.textProperty().bindBidirectional(dto.postalCodeProperty());
-        txtCity.textProperty().bindBidirectional(dto.cityProperty());
+//        txtFirstname.textProperty().bindBidirectional(dto.firstnameProperty());
+//        txtLastname.textProperty().bindBidirectional(dto.lastnameProperty());
+//        dpBirthday.valueProperty().bindBidirectional(dto.birthdayProperty());
+//        txtStudentNumber.textProperty().bindBidirectional(dto.studentNumberProperty(), new NumberStringConverter());
+//        txtEmail.textProperty().bindBidirectional(dto.emailProperty());
+////        cbLicence.setValue();
+////                cbOption
+//        txtPhone.textProperty().bindBidirectional(dto.phoneProperty());
 
 //        txtFirstname.setText(dto.getFirstname());
 //        txtLastname.setText(dto.getLastname());
@@ -202,9 +193,6 @@ public class MemberController implements Initializable {
 ////        cbLicence.setValue();
 ////                cbOption
 //        txtPhone.setText(dto.getPhone());
-//        txtAddress.setText(dto.getAddress());
-//        txtPostalCode.setText(dto.getPostalCode());
-//        txtCity.setText(dto.getCity());
     }
 
     public void saveData() {
@@ -217,12 +205,9 @@ public class MemberController implements Initializable {
             memberDto.setFirstname(txtFirstname.getText());
             memberDto.setBirthday(dpBirthday.getValue());
             memberDto.setEmail(txtEmail.getText());
-            memberDto.setLicenceCode(cbLicence.getValue().getCode());
+            memberDto.setDegreeCode(cbLicence.getValue().getCode());
             memberDto.setOptionCode(cbOption.getValue().getCode());
             memberDto.setPhone(txtPhone.getText());
-            memberDto.setAddress(txtAddress.getText());
-            memberDto.setPostalCode(txtPostalCode.getText());
-            memberDto.setCity(txtCity.getText());
 
             if (memberDto.getId() == null) {
                 membersService.saveData(memberDto);

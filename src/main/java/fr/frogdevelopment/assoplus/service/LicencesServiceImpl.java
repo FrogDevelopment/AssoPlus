@@ -4,17 +4,17 @@
 
 package fr.frogdevelopment.assoplus.service;
 
+import fr.frogdevelopment.assoplus.entities.Degree;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.entities.Licence;
 
 @Service("licencesService")
-public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> implements LicencesService {
+public class LicencesServiceImpl extends AbstractService<Degree, LicenceDto> implements LicencesService {
 
-    LicenceDto createDto(Licence bean) {
+    LicenceDto createDto(Degree bean) {
         LicenceDto dto = new LicenceDto();
         dto.setId(bean.getId());
         dto.setCode(bean.getCode());
@@ -23,8 +23,8 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
         return dto;
     }
 
-    Licence createBean(LicenceDto dto) {
-        Licence bean = new Licence();
+    Degree createBean(LicenceDto dto) {
+        Degree bean = new Degree();
         bean.setId(dto.getId());
         bean.setCode(dto.getCode());
         bean.setLabel(dto.getLabel());
@@ -35,11 +35,11 @@ public class LicencesServiceImpl extends AbstractService<Licence, LicenceDto> im
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void deleteLicence(LicenceDto licenceDto) {
-        Licence licence = createBean(licenceDto);
+        Degree degree = createBean(licenceDto);
 
         // FIXME à vérifier si besoin
-//        licence.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
-        dao.delete(licence);
+//        degree.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
+        dao.delete(degree);
     }
 
     @Override
