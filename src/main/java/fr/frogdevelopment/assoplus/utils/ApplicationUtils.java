@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,6 +108,7 @@ public class ApplicationUtils {
         Parent root = load(url, controllerConsumer);
         Stage dialog = new Stage();
         dialog.initModality(Modality.WINDOW_MODAL);
+//        dialog.initStyle(StageStyle.UTILITY);
         dialog.initOwner(parent);
         dialog.getIcons().addAll(ICON_16, ICON_32, ICON_48);
         dialog.setScene(new Scene(root));

@@ -60,13 +60,15 @@
                         <PropertyValueFactory property="phone"/>
                     </cellValueFactory>
                 </TableColumn>
+                <TableColumn fx:id="actionCol" text="%member.actions" sortable="false">
+                </TableColumn>
             </columns>
         </TableView>
     </center>
 
     <bottom>
         <ToolBar BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" fx:id="btnCreateOrUpdate" text="%member.create.title" onMouseClicked="#manageMember">
+            <Button mnemonicParsing="false" text="%member.create.title" onMouseClicked="#addMember">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
