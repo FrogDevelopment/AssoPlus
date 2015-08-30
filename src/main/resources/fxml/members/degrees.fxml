@@ -6,7 +6,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.DegreeController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.AbstractCustomDialogController">
     <top>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Button onMouseClicked="#onAddLicence" text="%member.degree.add"/>

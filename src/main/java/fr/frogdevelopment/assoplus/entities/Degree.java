@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
 @javax.persistence.Entity
-@Table(name = "licence")
+@Table(name = "degree")
 public class Degree implements Reference, Entity {
 
 	@Id

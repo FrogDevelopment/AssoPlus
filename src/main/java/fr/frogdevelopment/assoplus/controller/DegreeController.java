@@ -26,7 +26,7 @@ import java.util.Comparator;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class DegreeController extends AbstractDialogController {
+public class DegreeController extends AbstractCustomDialogController {
 
 	@Autowired
 	private LicencesService licencesService;
@@ -47,7 +47,7 @@ public class DegreeController extends AbstractDialogController {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void initialize() {
+	protected void initialize() {
 		initData();
 
 		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));

@@ -38,7 +38,7 @@ import static fr.frogdevelopment.assoplus.components.controls.Validator.validate
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MemberController extends AbstractDialogController {
+public class MemberController extends AbstractCustomDialogController {
 
     private DateTimeFormatter dateTimeFormatter;
 
@@ -77,7 +77,7 @@ public class MemberController extends AbstractDialogController {
     private ObservableList<OptionDto> optionDtos;
 
     @Override
-    public void initialize() {
+    protected void initialize() {
         dateTimeFormatter = DateTimeFormatter.ofPattern(getMessage("global.date.format"));
 
         MaskHelper.addMaskPhone(txtPhone);
@@ -160,6 +160,7 @@ public class MemberController extends AbstractDialogController {
     }
 
     public void setData(ObservableList<MemberDto> data, MemberDto dto) {
+        this.data = data;
         memberDto = dto;
 
         if (memberDto == null) {
@@ -199,7 +200,7 @@ public class MemberController extends AbstractDialogController {
             memberDto.setOptionCode(cbOption.getValue().getCode());
             memberDto.setPhone(txtPhone.getText());
 
-            if (memberDto.getId() == null) {
+            if (memberDto.getId() == 0) {
                 membersService.saveData(memberDto);
                 data.add(memberDto);
             } else {

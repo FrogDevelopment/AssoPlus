@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import fr.frogdevelopment.assoplus.entities.Degree;
 
 @Repository("licenceDao")
-public class LicenceDaoImpl extends CommonDaoImpl<Degree> implements LicenceDao {
+public class DegreeDaoImpl extends CommonDaoImpl<Degree> implements DegreeDao {
 
 }

@@ -4,7 +4,10 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import javafx.event.Event;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.stage.Window;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,5 +26,10 @@ abstract class AbstractCustomController implements Initializable {
         return resources.getString(key);
     }
 
-    abstract void initialize();
+    protected Window getParent(Event event) {
+        Node source = (Node) (event.getSource());
+        return source.getScene().getWindow();
+    }
+
+    protected abstract void initialize();
 }

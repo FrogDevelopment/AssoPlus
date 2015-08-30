@@ -33,17 +33,29 @@ public class MembersController extends AbstractCustomController {
 
     @FXML
     private TableView<MemberDto> table;
-    private ObservableList<MemberDto> data;
+
+    @FXML
+    private Button btnCreateOrUpdate;
+
+    private MemberDto selectedItem;
 
     @Override
-    public void initialize() {
-        data = FXCollections.observableArrayList(membersService.getAll());
+    protected void initialize() {
+        ObservableList<MemberDto> data = FXCollections.observableArrayList(membersService.getAll());
         table.setItems(data);
+
+        table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, dto) -> {
+            selectedItem = dto;
+            if (selectedItem != null) {
+                btnCreateOrUpdate.setText(getMessage("member.update.title"));
+            } else {
+                btnCreateOrUpdate.setText(getMessage("member.create.title"));
+            }
+        });
     }
 
     public void importMembers(MouseEvent event) {
-        Button source = (Button) (event.getSource());
-        Window parent = source.getScene().getWindow();
+        Window parent = getParent(event);
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(getMessage("member.import.title"));
@@ -55,17 +67,21 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void manageMember(MouseEvent event) {
-        Button source = (Button) (event.getSource());
-        Window parent = source.getScene().getWindow();
+        Window parent = getParent(event);
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.setData(data, table.getSelectionModel().getSelectedItem());
+                memberController.setData(table.getItems(), selectedItem);
             }
         });
 
-        dialog.setTitle(getMessage("member.title"));
+        if (selectedItem != null) {
+            dialog.setTitle(getMessage("member.update.title"));
+        } else {
+            dialog.setTitle(getMessage("member.create.title"));
+        }
+
         dialog.setWidth(450);
         dialog.setHeight(450);
 
@@ -75,8 +91,7 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void manageDegrees(MouseEvent event) {
-        Button source = (Button) (event.getSource());
-        Window parent = source.getScene().getWindow();
+        Window parent = getParent(event);
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/degrees.fxml");
         dialog.setTitle(getMessage("member.degrees"));
