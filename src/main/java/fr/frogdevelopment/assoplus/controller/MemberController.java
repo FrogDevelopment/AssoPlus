@@ -4,23 +4,6 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.NumberTextField;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
@@ -29,14 +12,25 @@ import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.service.LicencesService;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
@@ -44,18 +38,15 @@ import static fr.frogdevelopment.assoplus.components.controls.Validator.validate
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MemberController implements Initializable {
+public class MemberController extends AbstractDIIalogController {
 
     private DateTimeFormatter dateTimeFormatter;
-
-    private ResourceBundle resources;
 
     @Autowired
     private MembersService membersService;
 
     @Autowired
     private LicencesService licencesService;
-
 
     @Autowired
     private OptionsService optionsService;
@@ -86,14 +77,13 @@ public class MemberController implements Initializable {
     private ObservableList<OptionDto> optionDtos;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.resources = resources;
-        dateTimeFormatter = DateTimeFormatter.ofPattern(resources.getString("global.date.format"));
+    public void initialize() {
+        dateTimeFormatter = DateTimeFormatter.ofPattern(getMessage("global.date.format"));
 
         MaskHelper.addMaskPhone(txtPhone);
 
         MaskHelper.addMaskDate(dpBirthday);
-        dpBirthday.setPromptText(resources.getString("global.date.format.prompt"));
+        dpBirthday.setPromptText(getMessage("global.date.format.prompt"));
         dpBirthday.setConverter(new StringConverter<LocalDate>() {
             @Override
             public String toString(LocalDate date) {

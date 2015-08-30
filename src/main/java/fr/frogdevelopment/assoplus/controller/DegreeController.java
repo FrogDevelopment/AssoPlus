@@ -4,41 +4,29 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.util.StringConverter;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.dto.ReferenceDto;
 import fr.frogdevelopment.assoplus.service.LicencesService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.util.StringConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
-import java.net.URL;
 import java.util.Comparator;
-import java.util.ResourceBundle;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class DegreeController implements Initializable {
+public class DegreeController extends AbstractDIIalogController {
 
 	@Autowired
 	private LicencesService licencesService;
@@ -59,7 +47,7 @@ public class DegreeController implements Initializable {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize() {
 		initData();
 
 		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
@@ -118,11 +106,6 @@ public class DegreeController implements Initializable {
 
 	public void onClose(Event event) {
 		close(event);
-	}
-
-	private void close(Event event) {
-		Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-		Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
 	}
 
 	public void onAddLicence() {

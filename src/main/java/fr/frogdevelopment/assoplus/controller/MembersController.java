@@ -4,39 +4,29 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.utils.ApplicationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.service.MembersService;
-
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MembersController implements Initializable {
-
-    private ResourceBundle resources;
+public class MembersController extends AbstractCustomController {
 
     @Autowired
     private MembersService membersService;
@@ -46,9 +36,7 @@ public class MembersController implements Initializable {
     private ObservableList<MemberDto> data;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.resources = resources;
-
+    public void initialize() {
         data = FXCollections.observableArrayList(membersService.getAll());
         table.setItems(data);
     }
@@ -58,7 +46,7 @@ public class MembersController implements Initializable {
         Window parent = source.getScene().getWindow();
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(resources.getString("member.import.title"));
+        fileChooser.setTitle(getMessage("member.import.title"));
         File file = fileChooser.showOpenDialog(parent);
 
         if (file != null) {
@@ -77,7 +65,7 @@ public class MembersController implements Initializable {
             }
         });
 
-        dialog.setTitle(resources.getString("member.title"));
+        dialog.setTitle(getMessage("member.title"));
         dialog.setWidth(450);
         dialog.setHeight(450);
 
@@ -91,7 +79,7 @@ public class MembersController implements Initializable {
         Window parent = source.getScene().getWindow();
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/degrees.fxml");
-        dialog.setTitle(resources.getString("member.degrees"));
+        dialog.setTitle(getMessage("member.degrees"));
         dialog.setWidth(450);
         dialog.setHeight(450);
 
