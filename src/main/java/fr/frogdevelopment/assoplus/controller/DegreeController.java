@@ -4,201 +4,185 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.dto.ReferenceDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.util.StringConverter;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.dto.ReferenceDto;
+import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
+
 import java.util.Comparator;
+import java.util.function.Consumer;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class DegreeController extends AbstractCustomDialogController {
 
-	@Autowired
-	private LicencesService licencesService;
+    @Autowired
+    private LicencesService licencesService;
 
-	@Autowired
-	private OptionsService optionsService;
+    @Autowired
+    private OptionsService optionsService;
 
-	@FXML
-	private TreeTableView<ReferenceDto> treeTableView;
-	@FXML
-	private TreeTableColumn<ReferenceDto, String> columnCode;
-	@FXML
-	private TreeTableColumn<ReferenceDto, String> columnLabel;
+    @FXML
+    private TreeTableView<ReferenceDto> treeTableView;
+    @FXML
+    private TreeTableColumn<ReferenceDto, String> columnCode;
+    @FXML
+    private TreeTableColumn<ReferenceDto, String> columnLabel;
+    @FXML
+    private TextField tfLabel;
+    @FXML
+    private TextField tfCode;
+    @FXML
+    private Button btnRemove;
 
-	private ObservableList<LicenceDto> licenceDtos;
-	private ObservableList<OptionDto> optionDtos;
-	private TreeItem<ReferenceDto> rootItem;
+    private ObservableList<LicenceDto> licenceDtos;
+    private ObservableList<OptionDto> optionDtos;
+    private TreeItem<ReferenceDto> rootItem;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	protected void initialize() {
-		initData();
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void initialize() {
+        initData();
 
-		columnCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
-		columnCode.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-			@Override
-			public String toString(String object) {
-				return object;
-			}
+        treeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                tfCode.textProperty().unbindBidirectional(oldValue.getValue().codeProperty());
+                tfLabel.textProperty().unbindBidirectional(oldValue.getValue().labelProperty());
+            }
 
-			@Override
-			public String fromString(String string) {
-				return string;
-			}
-		}));
+            if (newValue != null) {
+                tfCode.textProperty().bindBidirectional(newValue.getValue().codeProperty());
+                tfLabel.textProperty().bindBidirectional(newValue.getValue().labelProperty());
 
-		columnLabel.setCellValueFactory(new TreeItemPropertyValueFactory<>("label"));
-		columnLabel.setCellFactory(p -> new TextFieldTreeTableCell(new StringConverter<String>() {
-			@Override
-			public String toString(String object) {
-				return object;
-			}
+                btnRemove.setDisable(false);
+            } else {
+                tfCode.setText(null);
+                tfLabel.setText(null);
 
-			@Override
-			public String fromString(String string) {
-				return string;
-			}
-		}));
-	}
+                btnRemove.setDisable(true);
+            }
+        });
+    }
 
-	private void initData() {
-		licenceDtos = FXCollections.observableArrayList(licencesService.getAll());
-		optionDtos = FXCollections.observableArrayList(optionsService.getAll());
+    private void initData() {
+        licenceDtos = FXCollections.observableArrayList(licencesService.getAll());
+        optionDtos = FXCollections.observableArrayList(optionsService.getAll());
 
-		rootItem = new TreeItem<>(new LicenceDto());
+        rootItem = new TreeItem<>(new LicenceDto());
 
-		licenceDtos.forEach(licenceDto -> {
-			TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
-			optionDtos.stream()
-					.filter(optionDto -> optionDto.getLicenceCode().equals(licenceDto.getCode()))
-					.forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
-			rootItem.getChildren().add(treeItem);
-		});
+        licenceDtos.forEach(licenceDto -> {
+            TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
+            optionDtos.stream()
+                    .filter(optionDto -> optionDto.getLicenceCode().equals(licenceDto.getCode()))
+                    .forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
+            rootItem.getChildren().add(treeItem);
+        });
 
-		rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-		rootItem.setExpanded(true);
-		treeTableView.setRoot(rootItem);
-		treeTableView.setShowRoot(false);
-		treeTableView.setEditable(true);
-	}
+        rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
+        rootItem.setExpanded(true);
+        treeTableView.setRoot(rootItem);
+        treeTableView.setShowRoot(false);
+    }
 
-	public void onSave() {
-		licencesService.saveOrUpdateAll(licenceDtos);
-		optionsService.saveOrUpdateAll(optionDtos);
-		initData();
-	}
+    public void onSave() {
+        licencesService.saveOrUpdateAll(licenceDtos);
+        optionsService.saveOrUpdateAll(optionDtos);
+        initData();
+    }
 
-	public void onClose(Event event) {
-		close(event);
-	}
+    public void onClose(Event event) {
+        close(event);
+    }
 
-	public void onAddLicence() {
-		LicenceDto licenceDto = new LicenceDto();
-		licenceDtos.add(licenceDto);
+    public void onAddLicence() {
+        LicenceDto licenceDto = new LicenceDto();
+        licenceDtos.add(licenceDto);
 
-		final TreeItem<ReferenceDto> newItem = new TreeItem<>(licenceDto);
-		rootItem.getChildren().add(newItem);
+        final TreeItem<ReferenceDto> newItem = new TreeItem<>(licenceDto);
+        rootItem.getChildren().add(newItem);
 
-		rootItem.setExpanded(true);
-		final int rowIndex = treeTableView.getRow(newItem);
+        rootItem.setExpanded(true);
+        final int rowIndex = treeTableView.getRow(newItem);
 
-		treeTableView.edit(rowIndex, columnCode);
-	}
+        treeTableView.edit(rowIndex, columnCode);
+    }
 
-	public void onRemoveLicence() {
-		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+    public void onAddOption() {
+        final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
-		if (!(selectedItem.getValue() instanceof LicenceDto)) {
-			return;
-		}
+        if (!(selectedItem.getValue() instanceof LicenceDto)) {
+            return;
+        }
 
-		Dialog<ButtonType> dialog = new Dialog<>();
-		dialog.setHeaderText("ATTENTION");
-		dialog.setContentText("Vous allez supprimer un Diplôme, voulez-vous continuer ?");
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
+        OptionDto optionDto = new OptionDto();
+        optionDto.setLicenceCode(licenceDto.getCode());
 
-		dialog.showAndWait()
-				.filter(response -> response == ButtonType.YES)
-				.ifPresent(response -> removeLicence(selectedItem));
-	}
+        optionDtos.add(optionDto);
 
-	private void removeLicence(final TreeItem<ReferenceDto> selectedItem) {
-		rootItem.getChildren().remove(selectedItem);
+        final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
+        selectedItem.getChildren().add(newItem);
 
-		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
-		licenceDtos.remove(licenceDto);
+        selectedItem.expandedProperty().set(true);
+        final int rowIndex = treeTableView.getRow(newItem);
 
-		if (licenceDto.getId() != 0) {
-			licencesService.deleteLicence(licenceDto);
-		}
-	}
+        treeTableView.edit(rowIndex, columnCode);
+    }
 
-	public void onAddOption() {
-		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+    public void onRemove() {
+        final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
-		if (!(selectedItem.getValue() instanceof LicenceDto)) {
-			return;
-		}
+        String message = getMessage("global.confirm.delete");
+        Consumer onYes;
+        if ((selectedItem.getValue() instanceof LicenceDto)) {
+            message = String.format(message, "un Diplôme"); // fixme
+            onYes = o -> removeLicence(selectedItem);
+        } else if ((selectedItem.getValue() instanceof OptionDto)) {
+            message = String.format(message, "une Option"); // fixme
+            onYes = o -> removeOption(selectedItem);
+        } else {
+            return;
+        }
 
-		LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
-		OptionDto optionDto = new OptionDto();
-		optionDto.setLicenceCode(licenceDto.getCode());
+        showYesNoDialog(message, onYes);
+    }
 
-		optionDtos.add(optionDto);
+    private void removeLicence(final TreeItem<ReferenceDto> selectedItem) {
+        rootItem.getChildren().remove(selectedItem);
 
-		final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
-		selectedItem.getChildren().add(newItem);
+        LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
+        licenceDtos.remove(licenceDto);
 
-		selectedItem.expandedProperty().set(true);
-		final int rowIndex = treeTableView.getRow(newItem);
+        if (licenceDto.getId() != 0) {
+            licencesService.deleteLicence(licenceDto);
+        }
+    }
 
-		treeTableView.edit(rowIndex, columnCode);
-	}
+    private void removeOption(final TreeItem<ReferenceDto> selectedItem) {
+        TreeItem<ReferenceDto> parent = selectedItem.getParent();
+        parent.getChildren().remove(selectedItem);
 
-	public void onRemoveOption() {
-		final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+        OptionDto optionDto = (OptionDto) selectedItem.getValue();
+        optionDtos.remove(optionDto);
 
-		if (!(selectedItem.getValue() instanceof OptionDto)) {
-			return;
-		}
-
-		Dialog<ButtonType> dialog = new Dialog<>();
-		dialog.setHeaderText("ATTENTION");
-		dialog.setContentText("Vous allez supprimer une Option, voulez-vous continuer ?");
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-		dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
-
-		dialog.showAndWait()
-				.filter(response -> response == ButtonType.YES)
-				.ifPresent(response -> removeOption(selectedItem));
-	}
-
-	private void removeOption(final TreeItem<ReferenceDto> selectedItem) {
-		TreeItem<ReferenceDto> parent = selectedItem.getParent();
-		parent.getChildren().remove(selectedItem);
-
-		OptionDto optionDto = (OptionDto) selectedItem.getValue();
-		optionDtos.remove(optionDto);
-
-		if (optionDto.getId() != 0) {
-			optionsService.deleteOption(optionDto);
-		}
-	}
+        if (optionDto.getId() != 0) {
+            optionsService.deleteOption(optionDto);
+        }
+    }
 }

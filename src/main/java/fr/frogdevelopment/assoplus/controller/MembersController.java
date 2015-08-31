@@ -60,7 +60,6 @@ public class MembersController extends AbstractCustomController {
         actionCol.setCellFactory(personBooleanTableColumn -> new ActionCell());
     }
 
-
     /** A table cell containing a button for adding a new person. */
     private class ActionCell extends TableCell<MemberDto, Boolean> {
         final HBox hBox = new HBox();
@@ -76,7 +75,7 @@ public class MembersController extends AbstractCustomController {
             hBox.getChildren().add(updateBtn);
             updateBtn.setOnAction(event -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
-                addMember(event);
+                manageMember(event);
             });
 
             Button deleteBtn = new Button();
