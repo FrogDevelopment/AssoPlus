@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,8 +13,8 @@ import java.time.LocalDate;
 
 public class MemberDto implements Dto {
 
-    private final SimpleLongProperty id = new SimpleLongProperty();
-    private final SimpleLongProperty studentNumber = new SimpleLongProperty();
+    private final SimpleIntegerProperty id = new SimpleIntegerProperty();
+    private final SimpleStringProperty studentNumber = new SimpleStringProperty("");
     private final SimpleStringProperty lastname = new SimpleStringProperty("");
     private final SimpleStringProperty firstname = new SimpleStringProperty("");
     private final SimpleObjectProperty<LocalDate> birthday = new SimpleObjectProperty<>();
@@ -22,27 +23,27 @@ public class MemberDto implements Dto {
     private final SimpleStringProperty optionCode = new SimpleStringProperty("");
     private final SimpleStringProperty phone = new SimpleStringProperty("");
 
-    public Long getId() {
+    public Integer getId() {
         return id.get();
     }
 
-    public SimpleLongProperty idProperty() {
+    public SimpleIntegerProperty idProperty() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id.set(id);
     }
 
-    public Long getStudentNumber() {
+    public String getStudentNumber() {
         return studentNumber.get();
     }
 
-    public SimpleLongProperty studentNumberProperty() {
+    public SimpleStringProperty studentNumberProperty() {
         return studentNumber;
     }
 
-    public void setStudentNumber(Long studentNumber) {
+    public void setStudentNumber(String studentNumber) {
         this.studentNumber.set(studentNumber);
     }
 

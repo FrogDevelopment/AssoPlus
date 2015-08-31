@@ -8,5 +8,7 @@ import java.io.Serializable;
 
 public interface Dto extends Serializable {
 
-	void setId(Long id);
+	void setId(Integer id);
+
+	Integer getId();
 }

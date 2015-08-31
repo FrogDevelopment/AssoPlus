@@ -6,6 +6,7 @@ package fr.frogdevelopment.assoplus.controller;
 
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.NumberTextField;
+import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
@@ -15,11 +16,10 @@ import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -52,9 +52,7 @@ public class MemberController extends AbstractCustomDialogController {
     private OptionsService optionsService;
 
     @FXML
-    private VBox vbTop;
-    @FXML
-    private Button btnShowHide;
+    private Label lblError;
     @FXML
     private NumberTextField txtStudentNumber;
     @FXML
@@ -163,35 +161,40 @@ public class MemberController extends AbstractCustomDialogController {
         this.data = data;
         memberDto = dto;
 
-        if (memberDto == null) {
-            memberDto = new MemberDto();
-        }
+        txtFirstname.textProperty().bindBidirectional(dto.firstnameProperty());
+        txtLastname.textProperty().bindBidirectional(dto.lastnameProperty());
+        dpBirthday.valueProperty().bindBidirectional(dto.birthdayProperty());
+        txtStudentNumber.textProperty().bindBidirectional(dto.studentNumberProperty());
+        txtEmail.textProperty().bindBidirectional(dto.emailProperty());
+//        cbLicence.setValue();
+//                cbOption
+        txtPhone.textProperty().bindBidirectional(dto.phoneProperty());
 
-//        txtFirstname.textProperty().bindBidirectional(dto.firstnameProperty());
-//        txtLastname.textProperty().bindBidirectional(dto.lastnameProperty());
-//        dpBirthday.valueProperty().bindBidirectional(dto.birthdayProperty());
-//        txtStudentNumber.textProperty().bindBidirectional(dto.studentNumberProperty(), new NumberStringConverter());
-//        txtEmail.textProperty().bindBidirectional(dto.emailProperty());
-////        cbLicence.setValue();
-////                cbOption
-//        txtPhone.textProperty().bindBidirectional(dto.phoneProperty());
-
-//        txtFirstname.setText(dto.getFirstname());
-//        txtLastname.setText(dto.getLastname());
-//        dpBirthday.setValue(getLocalDate(dto.getBirthday()));
-//        txtStudentNumber.setValue(dto.getStudentNumber());
-//        txtEmail.setText(dto.getEmail());
-////        cbLicence.setValue();
-////                cbOption
-//        txtPhone.setText(dto.getPhone());
+        txtFirstname.setText(dto.getFirstname());
+        txtLastname.setText(dto.getLastname());
+        dpBirthday.setValue(dto.getBirthday());
+        txtStudentNumber.setText(dto.getStudentNumber());
+        txtEmail.setText(dto.getEmail());
+//        cbLicence.setValue();
+//                cbOption
+        txtPhone.setText(dto.getPhone());
     }
 
     public void saveData() {
         boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname, txtEmail)
                 && validateNotNull(dpBirthday, cbLicence, cbOption);
 
+        String studentNumber = txtStudentNumber.getText();
+        isOk &= Validator.validate(() -> data
+                        .stream()
+                        .anyMatch(dto -> dto.getStudentNumber().equals(studentNumber)),
+                "member.error.msg.already.present",
+                txtStudentNumber);
+
         if (isOk) {
-            memberDto.setStudentNumber(Integer.parseInt(txtStudentNumber.getText()));
+            lblError.setText(null);
+
+            memberDto.setStudentNumber(studentNumber);
             memberDto.setLastname(txtLastname.getText());
             memberDto.setFirstname(txtFirstname.getText());
             memberDto.setBirthday(dpBirthday.getValue());
@@ -206,7 +209,10 @@ public class MemberController extends AbstractCustomDialogController {
             } else {
                 membersService.updateData(memberDto);
             }
+        }else {
+            lblError.setText(getMessage("global.error.msg.check"));
         }
+
     }
 
 }

@@ -73,7 +73,7 @@ public class CommonDaoTest {
     @Test
     public void testDelete() {
         EntityTest test = new EntityTest();
-        test.setId(0L);
+        test.setId(0);
         commonDao.delete(test);
         verify(jdbcTemplate).update("DELETE FROM " + EntityTest.TABLE_NAME + " WHERE " + EntityTest.COLUMN_ID + " = ?", 0);
     }
@@ -88,8 +88,8 @@ public class CommonDaoTest {
     @Ignore
     public void testSaveOrUpdateAll() {
         Collection<EntityTest> testEntities = new ArrayList<>();
-        testEntities.add(new EntityTest(0L));
-        testEntities.add(new EntityTest(1L));
+        testEntities.add(new EntityTest(0));
+        testEntities.add(new EntityTest(1));
 
         commonDao.saveOrUpdateAll(testEntities);
 
@@ -106,7 +106,7 @@ public class CommonDaoTest {
     @Ignore
     public void testSaveAll() {
         Collection<EntityTest> testEntities = new ArrayList<>();
-        testEntities.add(new EntityTest(0L));
+        testEntities.add(new EntityTest(0));
 
         commonDao.saveAll(testEntities);
 
@@ -118,7 +118,7 @@ public class CommonDaoTest {
     @Ignore
     public void testUpdateAll() {
         Collection<EntityTest> testEntities = new ArrayList<>();
-        testEntities.add(new EntityTest(1L));
+        testEntities.add(new EntityTest(1));
 
         commonDao.updateAll(testEntities);
 

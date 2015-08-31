@@ -6,7 +6,7 @@ package fr.frogdevelopment.assoplus.entities;
 
 public interface Entity {
 
-	Long getId();
+	Integer getId();
 
-	void setId(Long id);
+	void setId(Integer id);
 }

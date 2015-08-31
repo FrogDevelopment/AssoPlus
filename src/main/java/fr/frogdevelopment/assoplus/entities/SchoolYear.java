@@ -17,7 +17,7 @@ public class SchoolYear implements Entity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @Column(name = "year", nullable = false, unique = true)
     private String year;
@@ -30,11 +30,11 @@ public class SchoolYear implements Entity {
 //    private Set<Member> members = new HashSet<>();
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

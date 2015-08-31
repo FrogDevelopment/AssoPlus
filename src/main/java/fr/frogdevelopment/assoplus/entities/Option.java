@@ -17,7 +17,7 @@ public class Option implements Reference, Entity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @Column(name = "code", unique = true, nullable = false)
     private String code;
@@ -29,11 +29,11 @@ public class Option implements Reference, Entity {
 	String licenceCode;
 
     @Override
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

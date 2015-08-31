@@ -4,25 +4,15 @@
   Copyright (c) Frog Development 2015.
   -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import fr.frogdevelopment.assoplus.components.controls.NumberTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.frogdevelopment.assoplus.controller.MemberController">
     <center>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
-                <ColumnConstraints minWidth="100.0" prefWidth="200.0"/>
-                <ColumnConstraints minWidth="10.0" prefWidth="10.0"/>
                 <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
                 <ColumnConstraints minWidth="100.0" prefWidth="200.0"/>
             </columnConstraints>
@@ -34,31 +24,36 @@
                 <RowConstraints minHeight="30.0" prefHeight="30.0"/>
                 <RowConstraints minHeight="30.0" prefHeight="30.0"/>
                 <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
             </rowConstraints>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
 
-            <Label text="Nom" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="txtLastname" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="%member.student.number"/>
+            <NumberTextField fx:id="txtStudentNumber" GridPane.columnIndex="1"/>
+            <!--<TextField GridPane.columnIndex="1" />-->
 
-            <Label text="Prénom" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
-            <TextField fx:id="txtFirstname" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+            <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-            <Label text="Date de naissance" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <DatePicker fx:id="dpBirthday" GridPane.rowIndex="1" GridPane.columnIndex="1" showWeekNumbers="false"/>
+            <Label text="Prénom" GridPane.rowIndex="2"/>
+            <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-            <Label text="%member.student.number" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
-            <NumberTextField fx:id="txtStudentNumber" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+            <Label text="Date de naissance" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <DatePicker fx:id="dpBirthday" showWeekNumbers="false" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-            <Label text="Email" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="txtEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-            <Label text="Diplôme" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="cbLicence" GridPane.rowIndex="3" GridPane.columnIndex="1" visibleRowCount="6"/>
+            <Label text="Diplôme" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <ComboBox fx:id="cbLicence" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-            <Label text="Option" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
-            <ComboBox fx:id="cbOption" GridPane.rowIndex="3" GridPane.columnIndex="4" visibleRowCount="6"/>
+            <Label text="Option" GridPane.rowIndex="6"/>
+            <ComboBox fx:id="cbOption" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
-            <Label text="N° téléphone" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <TextField fx:id="txtPhone" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <Label text="N° téléphone" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+            <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
         </GridPane>
     </center>
 
@@ -67,5 +62,12 @@
             <Button onAction="#saveData" text="Save"/>
         </ToolBar>
     </bottom>
+    <top>
+        <Label fx:id="lblError" textFill="RED" BorderPane.alignment="CENTER_LEFT">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </Label>
+    </top>
 
 </BorderPane>

@@ -4,25 +4,26 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class LicenceDto implements ReferenceDto {
 
-	private SimpleLongProperty id = new SimpleLongProperty();
+	private SimpleIntegerProperty id = new SimpleIntegerProperty();
 	private SimpleStringProperty code = new SimpleStringProperty();
 	private SimpleStringProperty label = new SimpleStringProperty();
 
-	public Long getId() {
+	public Integer getId() {
 		return id.get();
 	}
 
-	public SimpleLongProperty idProperty() {
+	public SimpleIntegerProperty idProperty() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id.set(id);
 	}
 

@@ -121,13 +121,14 @@ public class MembersController extends AbstractCustomController {
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.setData(table.getItems(), null);
+                memberController.setData(table.getItems(), new MemberDto());
             }
         });
 
         dialog.setTitle(getMessage("member.create.title"));
-        dialog.setWidth(450);
-        dialog.setHeight(450);
+        dialog.setWidth(300);
+        dialog.setHeight(350);
+        dialog.setResizable(false);
 
         dialog.show();
     }
@@ -143,8 +144,9 @@ public class MembersController extends AbstractCustomController {
         });
 
         dialog.setTitle(getMessage("member.create.title"));
-        dialog.setWidth(450);
-        dialog.setHeight(450);
+        dialog.setWidth(200);
+        dialog.setHeight(200);
+        dialog.setResizable(false);
 
         dialog.show();
     }
