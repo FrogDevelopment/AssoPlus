@@ -19,7 +19,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.dto.ReferenceDto;
 import fr.frogdevelopment.assoplus.service.LicencesService;
@@ -51,7 +51,7 @@ public class DegreeController extends AbstractCustomDialogController {
     @FXML
     private Button btnRemove;
 
-    private ObservableList<LicenceDto> licenceDtos;
+    private ObservableList<DegreeDto> degreeDtos;
     private ObservableList<OptionDto> optionDtos;
     private TreeItem<ReferenceDto> rootItem;
 
@@ -81,15 +81,15 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     private void initData() {
-        licenceDtos = FXCollections.observableArrayList(licencesService.getAll());
+        degreeDtos = FXCollections.observableArrayList(licencesService.getAll());
         optionDtos = FXCollections.observableArrayList(optionsService.getAll());
 
-        rootItem = new TreeItem<>(new LicenceDto());
+        rootItem = new TreeItem<>(new DegreeDto());
 
-        licenceDtos.forEach(licenceDto -> {
+        degreeDtos.forEach(licenceDto -> {
             TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
             optionDtos.stream()
-                    .filter(optionDto -> optionDto.getLicenceCode().equals(licenceDto.getCode()))
+                    .filter(optionDto -> optionDto.getDegreeCode().equals(licenceDto.getCode()))
                     .forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
             rootItem.getChildren().add(treeItem);
         });
@@ -101,7 +101,7 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     public void onSave() {
-        licencesService.saveOrUpdateAll(licenceDtos);
+        licencesService.saveOrUpdateAll(degreeDtos);
         optionsService.saveOrUpdateAll(optionDtos);
         initData();
     }
@@ -111,10 +111,10 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     public void onAddLicence() {
-        LicenceDto licenceDto = new LicenceDto();
-        licenceDtos.add(licenceDto);
+        DegreeDto degreeDto = new DegreeDto();
+        degreeDtos.add(degreeDto);
 
-        final TreeItem<ReferenceDto> newItem = new TreeItem<>(licenceDto);
+        final TreeItem<ReferenceDto> newItem = new TreeItem<>(degreeDto);
         rootItem.getChildren().add(newItem);
 
         rootItem.setExpanded(true);
@@ -126,13 +126,13 @@ public class DegreeController extends AbstractCustomDialogController {
     public void onAddOption() {
         final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
-        if (!(selectedItem.getValue() instanceof LicenceDto)) {
+        if (!(selectedItem.getValue() instanceof DegreeDto)) {
             return;
         }
 
-        LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
+        DegreeDto degreeDto = (DegreeDto) selectedItem.getValue();
         OptionDto optionDto = new OptionDto();
-        optionDto.setLicenceCode(licenceDto.getCode());
+        optionDto.setDegreeCode(degreeDto.getCode());
 
         optionDtos.add(optionDto);
 
@@ -150,7 +150,7 @@ public class DegreeController extends AbstractCustomDialogController {
 
         String message = getMessage("global.confirm.delete");
         Consumer onYes;
-        if ((selectedItem.getValue() instanceof LicenceDto)) {
+        if ((selectedItem.getValue() instanceof DegreeDto)) {
             message = String.format(message, "un Diplôme"); // fixme
             onYes = o -> removeLicence(selectedItem);
         } else if ((selectedItem.getValue() instanceof OptionDto)) {
@@ -166,11 +166,11 @@ public class DegreeController extends AbstractCustomDialogController {
     private void removeLicence(final TreeItem<ReferenceDto> selectedItem) {
         rootItem.getChildren().remove(selectedItem);
 
-        LicenceDto licenceDto = (LicenceDto) selectedItem.getValue();
-        licenceDtos.remove(licenceDto);
+        DegreeDto degreeDto = (DegreeDto) selectedItem.getValue();
+        degreeDtos.remove(degreeDto);
 
-        if (licenceDto.getId() != 0) {
-            licencesService.deleteLicence(licenceDto);
+        if (degreeDto.getId() != 0) {
+            licencesService.deleteLicence(degreeDto);
         }
     }
 

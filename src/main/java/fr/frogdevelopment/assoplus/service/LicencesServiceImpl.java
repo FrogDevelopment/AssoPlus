@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
 
 @Service("licencesService")
-public class LicencesServiceImpl extends AbstractService<Degree, LicenceDto> implements LicencesService {
+public class LicencesServiceImpl extends AbstractService<Degree, DegreeDto> implements LicencesService {
 
-    LicenceDto createDto(Degree bean) {
-        LicenceDto dto = new LicenceDto();
+    DegreeDto createDto(Degree bean) {
+        DegreeDto dto = new DegreeDto();
         dto.setId(bean.getId());
         dto.setCode(bean.getCode());
         dto.setLabel(bean.getLabel());
@@ -23,7 +23,7 @@ public class LicencesServiceImpl extends AbstractService<Degree, LicenceDto> imp
         return dto;
     }
 
-    Degree createBean(LicenceDto dto) {
+    Degree createBean(DegreeDto dto) {
         Degree bean = new Degree();
         bean.setId(dto.getId());
         bean.setCode(dto.getCode());
@@ -34,8 +34,8 @@ public class LicencesServiceImpl extends AbstractService<Degree, LicenceDto> imp
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void deleteLicence(LicenceDto licenceDto) {
-        Degree degree = createBean(licenceDto);
+    public void deleteLicence(DegreeDto degreeDto) {
+        Degree degree = createBean(degreeDto);
 
         // FIXME à vérifier si besoin
 //        degree.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
@@ -44,8 +44,8 @@ public class LicencesServiceImpl extends AbstractService<Degree, LicenceDto> imp
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void deleteOption(LicenceDto licenceDto) {
-        dao.delete(createBean(licenceDto));
+    public void deleteOption(DegreeDto degreeDto) {
+        dao.delete(createBean(degreeDto));
     }
 
 }

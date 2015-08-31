@@ -5,7 +5,6 @@
 package fr.frogdevelopment.assoplus.dto;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -14,7 +13,7 @@ public class OptionDto implements ReferenceDto {
 	private SimpleIntegerProperty id = new SimpleIntegerProperty();
 	private SimpleStringProperty code = new SimpleStringProperty();
 	private SimpleStringProperty label = new SimpleStringProperty();
-	private SimpleStringProperty licenceCode = new SimpleStringProperty();
+	private SimpleStringProperty degreeCode = new SimpleStringProperty();
 
 	public Integer getId() {
 		return id.get();
@@ -54,16 +53,16 @@ public class OptionDto implements ReferenceDto {
 		this.label.set(label);
 	}
 
-	public String getLicenceCode() {
-		return licenceCode.get();
+	public String getDegreeCode() {
+		return degreeCode.get();
 	}
 
-	public SimpleStringProperty licenceCodeProperty() {
-		return licenceCode;
+	public SimpleStringProperty degreeCodeProperty() {
+		return degreeCode;
 	}
 
-	public void setLicenceCode(String licenceCode) {
-		this.licenceCode.set(licenceCode);
+	public void setDegreeCode(String degreeCode) {
+		this.degreeCode.set(degreeCode);
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class OptionDto implements ReferenceDto {
 				.append("id", id)
 				.append("code", code)
 				.append("label", label)
-				.append("licenceCode", licenceCode)
+				.append("degreeCode", degreeCode)
 				.toString();
 	}
 }

@@ -5,8 +5,9 @@
 package fr.frogdevelopment.assoplus.controller;
 
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.components.controls.NumberTextField;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.service.LicencesService;
@@ -20,6 +21,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -53,7 +55,7 @@ public class MemberController extends AbstractCustomDialogController {
     @FXML
     private Label lblError;
     @FXML
-    private TextField txtStudentNumber;
+    private NumberTextField txtStudentNumber;
     @FXML
     private TextField txtLastname;
     @FXML
@@ -63,7 +65,7 @@ public class MemberController extends AbstractCustomDialogController {
     @FXML
     private TextField txtEmail;
     @FXML
-    public ComboBox<LicenceDto> cbLicence;
+    public ComboBox<DegreeDto> cbDegree;
     @FXML
     public ComboBox<OptionDto> cbOption;
     @FXML
@@ -71,6 +73,7 @@ public class MemberController extends AbstractCustomDialogController {
 
     private MemberDto memberDto;
     private ObservableList<MemberDto> data;
+    private ObservableList<DegreeDto> degreeDtos;
     private ObservableList<OptionDto> optionDtos;
 
     @Override
@@ -97,31 +100,32 @@ public class MemberController extends AbstractCustomDialogController {
             }
         });
 
-        cbLicence.setItems(FXCollections.observableArrayList(licencesService.getAll()));
+        degreeDtos = FXCollections.observableArrayList(licencesService.getAll());
+        cbDegree.setItems(degreeDtos);
         optionDtos = FXCollections.observableArrayList(optionsService.getAll());
-        cbLicence.setConverter(new StringConverter<LicenceDto>() {
+        cbDegree.setConverter(new StringConverter<DegreeDto>() {
 
-            private final Map<String, LicenceDto> _cache = new HashMap<>();
+            private final Map<String, DegreeDto> _cache = new HashMap<>();
 
             @Override
-            public String toString(LicenceDto item) {
+            public String toString(DegreeDto item) {
                 _cache.put(item.getLabel(), item);
                 return item.getLabel();
             }
 
             @Override
-            public LicenceDto fromString(String label) {
+            public DegreeDto fromString(String label) {
                 return _cache.get(label);
             }
         });
 
-        cbLicence.setOnAction(event -> {
-            final LicenceDto selectedItem = cbLicence.getSelectionModel().getSelectedItem();
+        cbDegree.setOnAction(event -> {
+            final DegreeDto selectedItem = cbDegree.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
                 final String codeLicence = selectedItem.getCode();
                 final List<OptionDto> dtos = optionDtos
                         .stream()
-                        .filter(o -> codeLicence.equals(o.getLicenceCode()))
+                        .filter(o -> codeLicence.equals(o.getDegreeCode()))
                         .collect(Collectors.toList());
                 cbOption.setItems(FXCollections.observableArrayList(dtos));
             } else {
@@ -160,28 +164,41 @@ public class MemberController extends AbstractCustomDialogController {
         this.data = data;
         memberDto = dto;
 
-        txtFirstname.textProperty().bindBidirectional(dto.firstnameProperty());
-        txtLastname.textProperty().bindBidirectional(dto.lastnameProperty());
-        dpBirthday.valueProperty().bindBidirectional(dto.birthdayProperty());
-        txtStudentNumber.textProperty().bindBidirectional(dto.studentNumberProperty());
-        txtEmail.textProperty().bindBidirectional(dto.emailProperty());
-//        cbLicence.setValue();
-//                cbOption
-        txtPhone.textProperty().bindBidirectional(dto.phoneProperty());
-
-        txtFirstname.setText(dto.getFirstname());
-        txtLastname.setText(dto.getLastname());
-        dpBirthday.setValue(dto.getBirthday());
         txtStudentNumber.setText(dto.getStudentNumber());
+        txtStudentNumber.setDisable((memberDto.getId() != 0));
+        txtLastname.setText(dto.getLastname());
+        txtFirstname.setText(dto.getFirstname());
+        dpBirthday.setValue(dto.getBirthday());
         txtEmail.setText(dto.getEmail());
-//        cbLicence.setValue();
-//                cbOption
+
+        degreeDtos.stream().forEach(degreeDto -> {
+            if (degreeDto.getCode().equals(memberDto.getDegreeCode())) {
+                cbDegree.getSelectionModel().select(degreeDto);
+            }
+        });
+
+        final String codeDegree = memberDto.getDegreeCode();
+        if (StringUtils.isNoneBlank(codeDegree)) {
+            final List<OptionDto> dtos = optionDtos
+                    .stream()
+                    .filter(o -> codeDegree.equals(o.getDegreeCode()))
+                    .collect(Collectors.toList());
+            cbOption.setItems(FXCollections.observableArrayList(dtos));
+        } else {
+            cbOption.setItems(null);
+        }
+        optionDtos.stream().forEach(optionDto -> {
+            if (optionDto.getCode().equals(memberDto.getOptionCode())) {
+                cbOption.getSelectionModel().select(optionDto);
+            }
+        });
+
         txtPhone.setText(dto.getPhone());
     }
 
     public void saveData() {
         boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname, txtEmail)
-                && validateNotNull(dpBirthday, cbLicence, cbOption);
+                && validateNotNull(dpBirthday, cbDegree, cbOption);
 
         String studentNumber = txtStudentNumber.getText();
         isOk &= Validator.validate(() -> data
@@ -198,7 +215,7 @@ public class MemberController extends AbstractCustomDialogController {
             memberDto.setFirstname(txtFirstname.getText());
             memberDto.setBirthday(dpBirthday.getValue());
             memberDto.setEmail(txtEmail.getText());
-            memberDto.setDegreeCode(cbLicence.getValue().getCode());
+            memberDto.setDegreeCode(cbDegree.getValue().getCode());
             memberDto.setOptionCode(cbOption.getValue().getCode());
             memberDto.setPhone(txtPhone.getText());
 
@@ -208,7 +225,7 @@ public class MemberController extends AbstractCustomDialogController {
             } else {
                 membersService.updateData(memberDto);
             }
-        }else {
+        } else {
             lblError.setText(getMessage("global.error.msg.check"));
         }
 

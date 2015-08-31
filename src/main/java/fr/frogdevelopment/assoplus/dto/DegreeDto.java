@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class LicenceDto implements ReferenceDto {
+public class DegreeDto implements ReferenceDto {
 
 	private SimpleIntegerProperty id = new SimpleIntegerProperty();
 	private SimpleStringProperty code = new SimpleStringProperty();

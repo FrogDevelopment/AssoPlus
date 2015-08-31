@@ -19,7 +19,7 @@ public class OptionsServiceImpl extends AbstractService<Option, OptionDto> imple
         dto.setId(bean.getId());
         dto.setCode(bean.getCode());
         dto.setLabel(bean.getLabel());
-        dto.setLicenceCode(bean.getLicenceCode());
+        dto.setDegreeCode(bean.getLicenceCode());
 
         return dto;
     }
@@ -29,7 +29,7 @@ public class OptionsServiceImpl extends AbstractService<Option, OptionDto> imple
         bean.setId(dto.getId());
         bean.setCode(dto.getCode());
         bean.setLabel(dto.getLabel());
-        bean.setLicenceCode(dto.getLicenceCode());
+        bean.setLicenceCode(dto.getDegreeCode());
 
         return bean;
     }

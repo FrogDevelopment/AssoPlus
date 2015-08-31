@@ -4,16 +4,13 @@
 
 package fr.frogdevelopment.assoplus.service;
 
-import fr.frogdevelopment.assoplus.dto.LicenceDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
 
-import java.util.Set;
-
-public interface LicencesService extends Service<LicenceDto> {
+public interface LicencesService extends Service<DegreeDto> {
 
 
 	//    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-	void deleteLicence(LicenceDto licenceDto);
+	void deleteLicence(DegreeDto degreeDto);
 
-	void deleteOption(LicenceDto licenceDto);
+	void deleteOption(DegreeDto degreeDto);
 }
