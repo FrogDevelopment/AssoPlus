@@ -4,6 +4,11 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.dto.ReferenceDto;
+import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -11,22 +16,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.dto.ReferenceDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
-
 import java.util.Comparator;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -41,10 +39,6 @@ public class DegreeController extends AbstractCustomDialogController {
     @FXML
     private TreeTableView<ReferenceDto> treeTableView;
     @FXML
-    private TreeTableColumn<ReferenceDto, String> columnCode;
-    @FXML
-    private TreeTableColumn<ReferenceDto, String> columnLabel;
-    @FXML
     private TextField tfLabel;
     @FXML
     private TextField tfCode;
@@ -56,7 +50,6 @@ public class DegreeController extends AbstractCustomDialogController {
     private TreeItem<ReferenceDto> rootItem;
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void initialize() {
         initData();
 
@@ -70,11 +63,15 @@ public class DegreeController extends AbstractCustomDialogController {
                 tfCode.textProperty().bindBidirectional(newValue.getValue().codeProperty());
                 tfLabel.textProperty().bindBidirectional(newValue.getValue().labelProperty());
 
+                tfCode.setDisable(false);
+                tfLabel.setDisable(false);
                 btnRemove.setDisable(false);
             } else {
                 tfCode.setText(null);
                 tfLabel.setText(null);
 
+                tfCode.setDisable(true);
+                tfLabel.setDisable(true);
                 btnRemove.setDisable(true);
             }
         });
@@ -95,9 +92,9 @@ public class DegreeController extends AbstractCustomDialogController {
         });
 
         rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
-        rootItem.setExpanded(true);
         treeTableView.setRoot(rootItem);
         treeTableView.setShowRoot(false);
+        rootItem.setExpanded(true);
     }
 
     public void onSave() {
@@ -120,14 +117,15 @@ public class DegreeController extends AbstractCustomDialogController {
         rootItem.setExpanded(true);
         final int rowIndex = treeTableView.getRow(newItem);
 
-        treeTableView.edit(rowIndex, columnCode);
+        treeTableView.getSelectionModel().select(rowIndex);
+        tfCode.requestFocus();
     }
 
     public void onAddOption() {
-        final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+        TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
-        if (!(selectedItem.getValue() instanceof DegreeDto)) {
-            return;
+        if (selectedItem.getValue() instanceof OptionDto) {
+            selectedItem = selectedItem.getParent();
         }
 
         DegreeDto degreeDto = (DegreeDto) selectedItem.getValue();
@@ -142,7 +140,8 @@ public class DegreeController extends AbstractCustomDialogController {
         selectedItem.expandedProperty().set(true);
         final int rowIndex = treeTableView.getRow(newItem);
 
-        treeTableView.edit(rowIndex, columnCode);
+        treeTableView.getSelectionModel().select(rowIndex);
+        tfCode.requestFocus();
     }
 
     public void onRemove() {
@@ -150,11 +149,12 @@ public class DegreeController extends AbstractCustomDialogController {
 
         String message = getMessage("global.confirm.delete");
         Consumer onYes;
-        if ((selectedItem.getValue() instanceof DegreeDto)) {
-            message = String.format(message, "un Diplôme"); // fixme
+        ReferenceDto value = selectedItem.getValue();
+        if ((value instanceof DegreeDto)) {
+            message = String.format(message, "le Diplôme '" + value.getCode() + "'"); // fixme
             onYes = o -> removeLicence(selectedItem);
-        } else if ((selectedItem.getValue() instanceof OptionDto)) {
-            message = String.format(message, "une Option"); // fixme
+        } else if ((value instanceof OptionDto)) {
+            message = String.format(message, "l'Option '" + value.getCode() + "'"); // fixme
             onYes = o -> removeOption(selectedItem);
         } else {
             return;
@@ -169,8 +169,15 @@ public class DegreeController extends AbstractCustomDialogController {
         DegreeDto degreeDto = (DegreeDto) selectedItem.getValue();
         degreeDtos.remove(degreeDto);
 
+
         if (degreeDto.getId() != 0) {
             licencesService.deleteLicence(degreeDto);
+
+            // suppression des options et maj liste
+            optionDtos = FXCollections.observableArrayList(optionDtos.stream()
+                    .filter(optionDto -> optionDto.getDegreeCode().equals(degreeDto.getCode()))
+                    .peek(optionsService::deleteData)
+                    .collect(Collectors.toList()));
         }
     }
 

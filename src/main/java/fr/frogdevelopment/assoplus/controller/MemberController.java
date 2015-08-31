@@ -179,7 +179,6 @@ public class MemberController extends AbstractCustomDialogController {
         dpBirthday.setValue(dto.getBirthday());
         txtEmail.setText(dto.getEmail());
 
-        cbDegree.setItems(null);
         degreeDtos.stream().forEach(degreeDto -> {
             if (degreeDto.getCode().equals(memberDto.getDegreeCode())) {
                 cbDegree.getSelectionModel().select(degreeDto);

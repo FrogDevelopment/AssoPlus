@@ -151,8 +151,8 @@ public class MembersController extends AbstractCustomController {
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/degrees.fxml");
         dialog.setTitle(getMessage("member.degrees"));
-        dialog.setWidth(450);
-        dialog.setHeight(450);
+        dialog.setWidth(600);
+        dialog.setHeight(300);
 
         dialog.show();
     }
