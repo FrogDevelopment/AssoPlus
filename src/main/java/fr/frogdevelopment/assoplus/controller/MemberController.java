@@ -160,7 +160,7 @@ public class MemberController extends AbstractCustomDialogController {
         }
     }
 
-    public void setData(ObservableList<MemberDto> data, MemberDto dto) {
+    void setData(ObservableList<MemberDto> data, MemberDto dto) {
         this.data = data;
         memberDto = dto;
 
@@ -184,14 +184,15 @@ public class MemberController extends AbstractCustomDialogController {
                     .filter(o -> codeDegree.equals(o.getDegreeCode()))
                     .collect(Collectors.toList());
             cbOption.setItems(FXCollections.observableArrayList(dtos));
+
+            optionDtos.stream().forEach(optionDto -> {
+                if (optionDto.getCode().equals(memberDto.getOptionCode())) {
+                    cbOption.getSelectionModel().select(optionDto);
+                }
+            });
         } else {
             cbOption.setItems(null);
         }
-        optionDtos.stream().forEach(optionDto -> {
-            if (optionDto.getCode().equals(memberDto.getOptionCode())) {
-                cbOption.getSelectionModel().select(optionDto);
-            }
-        });
 
         txtPhone.setText(dto.getPhone());
     }
