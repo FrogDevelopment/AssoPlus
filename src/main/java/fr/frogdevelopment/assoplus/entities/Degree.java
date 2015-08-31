@@ -15,7 +15,7 @@ public class Degree implements Reference, Entity {
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue
-	private Integer id;
+	private Long id;
 
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
@@ -31,11 +31,11 @@ public class Degree implements Reference, Entity {
 		this.label = label;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

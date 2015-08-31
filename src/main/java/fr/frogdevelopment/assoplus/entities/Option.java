@@ -17,7 +17,7 @@ public class Option implements Reference, Entity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(name = "code", unique = true, nullable = false)
     private String code;
@@ -25,19 +25,15 @@ public class Option implements Reference, Entity {
     @Column(name = "label", unique = false, nullable = false)
     private String label;
 
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "licence_id", nullable = false)
-//    private Degree licence;
-
     @Column(name = "licence_code", nullable = false)
 	String licenceCode;
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,21 +61,12 @@ public class Option implements Reference, Entity {
 		this.licenceCode = licenceCode;
 	}
 
-	//    public Degree getLicence() {
-//        return licence;
-//    }
-//
-//    public void setLicence(Degree licence) {
-//        this.licence = licence;
-//    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
                 .append("code", code)
                 .append("label", label)
-//                .append("licence", licence)
                 .append("licenceCode", licenceCode)
                 .toString();
     }

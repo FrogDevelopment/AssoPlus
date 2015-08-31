@@ -4,7 +4,6 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,19 +11,19 @@ import javafx.collections.ObservableList;
 
 public class SchoolYearDto implements Dto {
 
-    private final SimpleIntegerProperty id = new SimpleIntegerProperty();
+    private final SimpleLongProperty id = new SimpleLongProperty();
     private final SimpleStringProperty schoolYear = new SimpleStringProperty();
     private final SimpleListProperty<MemberDto> members = new SimpleListProperty<>();
 
-    public Integer getId() {
+    public Long getId() {
         return id.get();
     }
 
-    public SimpleIntegerProperty idProperty() {
+    public SimpleLongProperty idProperty() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 

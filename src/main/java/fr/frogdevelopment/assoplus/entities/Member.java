@@ -19,10 +19,10 @@ public class Member implements Serializable, Entity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(name = "studentNumber", unique = true, nullable = false)
-    private Integer studentNumber;
+    private Long studentNumber;
 
     @Column(name = "lastname", nullable = false)
     private String lastname;
@@ -48,19 +48,19 @@ public class Member implements Serializable, Entity {
 //    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members", cascade = CascadeType.PERSIST)
     private Set<SchoolYear> schoolYears;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getStudentNumber() {
+    public Long getStudentNumber() {
         return studentNumber;
     }
 
-    public void setStudentNumber(Integer studentNumber) {
+    public void setStudentNumber(Long studentNumber) {
         this.studentNumber = studentNumber;
     }
 

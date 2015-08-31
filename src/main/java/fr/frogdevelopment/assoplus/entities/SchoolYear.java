@@ -11,15 +11,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
 @javax.persistence.Entity
-@Table(name="school_year")
-public class SchoolYear implements Entity{
+@Table(name = "school_year")
+public class SchoolYear implements Entity {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
-    @Column(name = "year",nullable = false, unique = true)
+    @Column(name = "year", nullable = false, unique = true)
     private String year;
 
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -30,11 +30,11 @@ public class SchoolYear implements Entity{
 //    private Set<Member> members = new HashSet<>();
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
