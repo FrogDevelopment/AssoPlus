@@ -60,7 +60,9 @@ public class MembersController extends AbstractCustomController {
         actionCol.setCellFactory(personBooleanTableColumn -> new ActionCell());
     }
 
-    /** A table cell containing a button for adding a new person. */
+    /**
+     * A table cell containing a button for adding a new person.
+     */
     private class ActionCell extends TableCell<MemberDto, Boolean> {
         final HBox hBox = new HBox();
 
@@ -75,17 +77,21 @@ public class MembersController extends AbstractCustomController {
             hBox.getChildren().add(updateBtn);
             updateBtn.setOnAction(event -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
-                manageMember(event);
+                manageMember(event, table.getSelectionModel().getSelectedItem(), "member.update.title");
             });
 
             Button deleteBtn = new Button();
             deleteBtn.setGraphic(new ImageView(new Image("/img/remove_user_32.png")));
             hBox.getChildren().add(deleteBtn);
-            deleteBtn.setOnAction(event -> showYesNoDialog("todo", o -> removeMember()));
+            // FIXME
+            deleteBtn.setOnAction(event -> showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'utilisateur FIXME"), o -> removeMember()));
         }
 
-        /** places an add button in the row only if the row is not empty. */
-        @Override protected void updateItem(Boolean item, boolean empty) {
+        /**
+         * places an add button in the row only if the row is not empty.
+         */
+        @Override
+        protected void updateItem(Boolean item, boolean empty) {
             super.updateItem(item, empty);
             if (!empty) {
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -116,36 +122,22 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void addMember(Event event) {
-        Window parent = getParent(event);
-
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", new Consumer<MemberController>() {
-            @Override
-            public void accept(MemberController memberController) {
-                memberController.setData(table.getItems(), new MemberDto());
-            }
-        });
-
-        dialog.setTitle(getMessage("member.create.title"));
-        dialog.setWidth(300);
-        dialog.setHeight(350);
-        dialog.setResizable(false);
-
-        dialog.show();
+        manageMember(event, new MemberDto(), "member.create.title");
     }
 
-    private void manageMember(Event event) {
+    private void manageMember(Event event, MemberDto dto, String keyTitle) {
         Window parent = getParent(event);
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.setData(table.getItems(), table.getSelectionModel().getSelectedItem());
+                memberController.setData(table.getItems(), dto);
             }
         });
 
-        dialog.setTitle(getMessage("member.create.title"));
-        dialog.setWidth(200);
-        dialog.setHeight(200);
+        dialog.setTitle(getMessage(keyTitle));
+        dialog.setWidth(300);
+        dialog.setHeight(350);
         dialog.setResizable(false);
 
         dialog.show();

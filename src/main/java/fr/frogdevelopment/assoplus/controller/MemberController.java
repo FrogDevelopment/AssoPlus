@@ -5,7 +5,6 @@
 package fr.frogdevelopment.assoplus.controller;
 
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.components.controls.NumberTextField;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.LicenceDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
@@ -54,7 +53,7 @@ public class MemberController extends AbstractCustomDialogController {
     @FXML
     private Label lblError;
     @FXML
-    private NumberTextField txtStudentNumber;
+    private TextField txtStudentNumber;
     @FXML
     private TextField txtLastname;
     @FXML
@@ -187,7 +186,7 @@ public class MemberController extends AbstractCustomDialogController {
         String studentNumber = txtStudentNumber.getText();
         isOk &= Validator.validate(() -> data
                         .stream()
-                        .anyMatch(dto -> dto.getStudentNumber().equals(studentNumber)),
+                        .noneMatch(dto -> dto.getStudentNumber().equals(studentNumber)),
                 "member.error.msg.already.present",
                 txtStudentNumber);
 

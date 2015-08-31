@@ -74,7 +74,6 @@ public class Validator {
         return isOk;
     }
 
-
     // TextInputControl
     public static boolean validateNotBlank(String keyErrorMsg, TextInputControl textInputControl) {
         return validate(() -> StringUtils.isNotBlank(textInputControl.getText()), Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), textInputControl);
@@ -95,7 +94,6 @@ public class Validator {
     public static boolean validateNotBlank(TextInputControl... textInputControles) {
         return validateNotBlank("global.error.msg.required", textInputControles);
     }
-
 
     // ComboBoxBase
     public static boolean validateNotNull(String keyErrorMsg, ComboBoxBase comboBoxBase) {

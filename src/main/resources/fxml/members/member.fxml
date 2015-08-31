@@ -8,66 +8,68 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="fr.frogdevelopment.assoplus.controller.MemberController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.MemberController">
     <center>
         <GridPane>
             <columnConstraints>
-                <ColumnConstraints minWidth="100.0" prefWidth="150.0"/>
-                <ColumnConstraints minWidth="100.0" prefWidth="200.0"/>
+                <ColumnConstraints minWidth="100.0" prefWidth="150.0" />
+                <ColumnConstraints minWidth="100.0" prefWidth="200.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
+                <RowConstraints minHeight="30.0" prefHeight="30.0" />
             </rowConstraints>
             <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
+           <children>
 
-            <Label text="%member.student.number"/>
-            <NumberTextField fx:id="txtStudentNumber" GridPane.columnIndex="1"/>
-            <!--<TextField GridPane.columnIndex="1" />-->
+               <Label text="%member.student.number" />
+               <NumberTextField fx:id="txtStudentNumber"  GridPane.columnIndex="1"/>
+               <!--<TextField GridPane.columnIndex="1" />-->
 
-            <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+               <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+               <TextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <Label text="Prénom" GridPane.rowIndex="2"/>
-            <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+               <Label text="Prénom" GridPane.rowIndex="2" />
+               <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <Label text="Date de naissance" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <DatePicker fx:id="dpBirthday" showWeekNumbers="false" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+               <Label text="Date de naissance" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+               <DatePicker fx:id="dpBirthday" showWeekNumbers="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-            <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-            <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+               <Label text="Email" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+               <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-            <Label text="Diplôme" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-            <ComboBox fx:id="cbLicence" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+               <Label text="Diplôme" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+               <ComboBox fx:id="cbLicence" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-            <Label text="Option" GridPane.rowIndex="6"/>
-            <ComboBox fx:id="cbOption" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+               <Label text="Option" GridPane.rowIndex="6" />
+               <ComboBox fx:id="cbOption" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-            <Label text="N° téléphone" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
-            <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+               <Label text="N° téléphone" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+               <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+           </children>
         </GridPane>
     </center>
 
     <bottom>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button onAction="#saveData" text="Save"/>
+            <items>
+                <Button onAction="#saveData" text="Save" />
+            </items>
         </ToolBar>
     </bottom>
     <top>
         <Label fx:id="lblError" textFill="RED" BorderPane.alignment="CENTER_LEFT">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-        </Label>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></Label>
     </top>
 
 </BorderPane>
