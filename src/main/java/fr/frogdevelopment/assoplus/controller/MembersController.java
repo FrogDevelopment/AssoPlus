@@ -84,7 +84,10 @@ public class MembersController extends AbstractCustomController {
             deleteBtn.setGraphic(new ImageView(new Image("/img/remove_user_32.png")));
             hBox.getChildren().add(deleteBtn);
             // FIXME
-            deleteBtn.setOnAction(event -> showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'utilisateur FIXME"), o -> removeMember()));
+            deleteBtn.setOnAction(event -> {
+                showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'utilisateur FIXME"), o -> removeMember());
+                table.getSelectionModel().select(getTableRow().getIndex());
+            });
         }
 
         /**
@@ -136,7 +139,7 @@ public class MembersController extends AbstractCustomController {
         });
 
         dialog.setTitle(getMessage(keyTitle));
-        dialog.setWidth(300);
+        dialog.setWidth(330);
         dialog.setHeight(350);
         dialog.setResizable(false);
 

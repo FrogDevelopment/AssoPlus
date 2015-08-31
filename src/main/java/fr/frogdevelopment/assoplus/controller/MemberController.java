@@ -15,6 +15,7 @@ import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -99,6 +100,13 @@ public class MemberController extends AbstractCustomDialogController {
                 return getLocalDate(string);
             }
         });
+        dpBirthday.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (oldValue) {
+                        String value = dpBirthday.getEditor().getText();
+                        dpBirthday.setValue(getLocalDate(value));
+                    }
+                }
+        );
 
         degreeDtos = FXCollections.observableArrayList(licencesService.getAll());
         cbDegree.setItems(degreeDtos);
@@ -171,12 +179,14 @@ public class MemberController extends AbstractCustomDialogController {
         dpBirthday.setValue(dto.getBirthday());
         txtEmail.setText(dto.getEmail());
 
+        cbDegree.setItems(null);
         degreeDtos.stream().forEach(degreeDto -> {
             if (degreeDto.getCode().equals(memberDto.getDegreeCode())) {
                 cbDegree.getSelectionModel().select(degreeDto);
             }
         });
 
+        cbOption.setItems(null);
         final String codeDegree = memberDto.getDegreeCode();
         if (StringUtils.isNoneBlank(codeDegree)) {
             final List<OptionDto> dtos = optionDtos
@@ -190,14 +200,26 @@ public class MemberController extends AbstractCustomDialogController {
                     cbOption.getSelectionModel().select(optionDto);
                 }
             });
-        } else {
-            cbOption.setItems(null);
         }
 
         txtPhone.setText(dto.getPhone());
+
+        txtStudentNumber.requestFocus();
     }
 
-    public void saveData() {
+    public void saveDataAndClose(Event event) {
+        if (save()) {
+            close(event);
+        }
+    }
+
+    public void saveDataAndContinue() {
+        if (save()) {
+            setData(data, new MemberDto());
+        }
+    }
+
+    private boolean save() {
         boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname, txtEmail)
                 && validateNotNull(dpBirthday, cbDegree, cbOption);
 
@@ -230,6 +252,7 @@ public class MemberController extends AbstractCustomDialogController {
             lblError.setText(getMessage("global.error.msg.check"));
         }
 
+        return isOk;
     }
 
 }

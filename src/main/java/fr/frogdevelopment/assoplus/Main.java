@@ -35,7 +35,9 @@ public class Main extends Application {
         Parent root = load("/fxml/main.fxml");
 
         primaryStage.setTitle("AssoManager");
-        primaryStage.setScene(new Scene(root, 600, 600));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setHeight(600);
+        primaryStage.setWidth(1000);
         primaryStage.getIcons().addAll(ICON_16, ICON_32, ICON_48);
 
         LOGGER.info("Ouverture de l'application");

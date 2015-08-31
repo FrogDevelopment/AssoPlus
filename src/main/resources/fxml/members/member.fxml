@@ -11,6 +11,14 @@
 <BorderPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.frogdevelopment.assoplus.controller.MemberController">
+    <top>
+        <Label fx:id="lblError" textFill="RED" BorderPane.alignment="CENTER_LEFT">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </Label>
+    </top>
+
     <center>
         <GridPane>
             <columnConstraints>
@@ -59,16 +67,10 @@
     </center>
 
     <bottom>
-        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button onAction="#saveData" text="Save"/>
+        <ToolBar prefHeight="40.0" prefWidth="200.0" nodeOrientation="RIGHT_TO_LEFT">
+            <Button onAction="#saveDataAndClose" text="%global.save.and.close"/>
+            <Button onAction="#saveDataAndContinue" text="%global.save.and.continue"/>
         </ToolBar>
     </bottom>
-    <top>
-        <Label fx:id="lblError" textFill="RED" BorderPane.alignment="CENTER_LEFT">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-        </Label>
-    </top>
 
 </BorderPane>
