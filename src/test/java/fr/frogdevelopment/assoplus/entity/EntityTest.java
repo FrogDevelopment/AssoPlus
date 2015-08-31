@@ -21,7 +21,7 @@ public class EntityTest implements Entity {
     @Id
     @Column(name = EntityTest.COLUMN_ID, unique = true, nullable = false)
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(name = EntityTest.COLUMN_CODE, unique = true, nullable = false)
     private String code;
@@ -32,7 +32,7 @@ public class EntityTest implements Entity {
     public EntityTest() {
     }
 
-    public EntityTest(int id) {
+    public EntityTest(Long id) {
         this.id = id;
     }
 
@@ -41,11 +41,11 @@ public class EntityTest implements Entity {
         this.label = label;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

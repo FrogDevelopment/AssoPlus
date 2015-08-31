@@ -84,7 +84,7 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
 
                 String studentNumber = line.get("NUMERO ETUDIANT");
                 if (!StringUtils.isEmpty(studentNumber)) {
-                    member.setStudentNumber(Integer.valueOf(studentNumber));
+                    member.setStudentNumber(Long.valueOf(studentNumber));
                     member.setLastname(line.get("NOM"));
                     member.setFirstname(line.get("PRENOM"));
                     member.setDegreeCode(line.get("DEGRES"));

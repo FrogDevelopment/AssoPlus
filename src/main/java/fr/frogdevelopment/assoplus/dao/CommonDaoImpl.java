@@ -214,7 +214,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 				return con.prepareStatement(query, new String[]{idName});
 			}, keyHolder);
 
-			entity.setId(keyHolder.getKey().intValue());
+			entity.setId(keyHolder.getKey().longValue());
 		} catch (IllegalAccessException e) {
 			throw new IllegalStateException("Error while constructing query", e); // fixme
 		}
@@ -284,7 +284,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 		delete(entity.getId());
 	}
 
-	public void delete(Integer identifiant) {
+	public void delete(Long identifiant) {
 		jdbcTemplate.update("DELETE FROM " + tableName + " WHERE " + idName + " = ?", identifiant);
 	}
 

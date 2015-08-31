@@ -31,7 +31,11 @@ public class NumberTextField extends TextField
 		return ("".equals(text) || text.matches("[0-9]"));
 	}
 
-	public void setValue(int value) {
+	public void setValue(long value) {
 		setText(String.valueOf(value));
+	}
+
+	public long getValue() {
+		return Long.parseLong(getText());
 	}
 }
