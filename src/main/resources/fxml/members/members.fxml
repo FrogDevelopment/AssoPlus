@@ -10,8 +10,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.frogdevelopment.assoplus.controller.MembersController">
     <center>
@@ -72,11 +74,21 @@
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
+                <graphic>
+                    <ImageView>
+                        <Image url="@../../img/add_user_32.png" />
+                    </ImageView>
+                </graphic>
             </Button>
             <Button mnemonicParsing="false" onMouseClicked="#manageDegrees" text="%member.degrees">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
+                <graphic>
+                    <ImageView>
+                        <Image url="@../../img/list_32.png" />
+                    </ImageView>
+                </graphic>
             </Button>
             <!--<Button mnemonicParsing="false" text="Rechercher">-->
             <!--<VBox.margin>-->
@@ -87,6 +99,11 @@
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
+                <graphic>
+                    <ImageView>
+                        <Image url="@../../img/data_32.png" />
+                    </ImageView>
+                </graphic>
             </Button>
         </ToolBar>
     </bottom>
