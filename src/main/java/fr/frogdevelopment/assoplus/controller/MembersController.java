@@ -73,7 +73,7 @@ public class MembersController extends AbstractCustomController {
             hBox.setAlignment(Pos.CENTER);
 
             Button updateBtn = new Button();
-            updateBtn.setGraphic(new ImageView(new Image("/img/edit_user_32.png")));
+            updateBtn.setGraphic(new ImageView(new Image("/img/edit_user_24.png")));
             hBox.getChildren().add(updateBtn);
             updateBtn.setOnAction(event -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
@@ -81,12 +81,13 @@ public class MembersController extends AbstractCustomController {
             });
 
             Button deleteBtn = new Button();
-            deleteBtn.setGraphic(new ImageView(new Image("/img/remove_user_32.png")));
+            deleteBtn.setGraphic(new ImageView(new Image("/img/remove_user_24.png")));
             hBox.getChildren().add(deleteBtn);
-            // FIXME
             deleteBtn.setOnAction(event -> {
-                showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'utilisateur FIXME"), o -> removeMember());
                 table.getSelectionModel().select(getTableRow().getIndex());
+                MemberDto selectedItem = table.getSelectionModel().getSelectedItem();
+                // FIXME
+                showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
             });
         }
 
@@ -105,9 +106,7 @@ public class MembersController extends AbstractCustomController {
         }
     }
 
-    private void removeMember() {
-        MemberDto selectedItem = table.getSelectionModel().getSelectedItem();
-
+    private void removeMember(MemberDto selectedItem) {
         membersService.deleteData(selectedItem);
         data.remove(selectedItem);
     }
