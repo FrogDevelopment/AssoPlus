@@ -4,15 +4,6 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.components.controls.NumberTextField;
-import fr.frogdevelopment.assoplus.components.controls.Validator;
-import fr.frogdevelopment.assoplus.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
-import fr.frogdevelopment.assoplus.service.MembersService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -22,17 +13,29 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.components.controls.NumberTextField;
+import fr.frogdevelopment.assoplus.components.controls.Validator;
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.MembersService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
@@ -218,16 +221,26 @@ public class MemberController extends AbstractCustomDialogController {
         }
     }
 
+    // see http://howtodoinjava.com/2014/11/11/java-regex-validate-email-address/
+    private static final String REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+    private static final Pattern pattern = Pattern.compile(REGEX);
+
     private boolean save() {
         boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname, txtEmail)
                 && validateNotNull(dpBirthday, cbDegree, cbOption);
 
         String studentNumber = txtStudentNumber.getText();
-        isOk &= Validator.validate(() -> data
-                        .stream()
-                        .noneMatch(dto -> dto.getStudentNumber().equals(studentNumber)),
-                "member.error.msg.already.present",
-                txtStudentNumber);
+        if (memberDto.getId() == 0) {
+            isOk &= Validator.validate(() -> data
+                            .stream()
+                            .noneMatch(dto -> dto.getStudentNumber().equals(studentNumber)),
+                    "member.error.msg.already.present",
+                    txtStudentNumber);
+        }
+
+        isOk &= Validator.validate(() -> pattern.matcher(txtEmail.getText()).matches(),
+                "member.error.msg.email.incorrect",
+                txtEmail);
 
         if (isOk) {
             lblError.setText(null);
