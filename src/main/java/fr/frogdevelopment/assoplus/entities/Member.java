@@ -30,16 +30,16 @@ public class Member implements Serializable, Entity {
     @Column(name = "firstname", nullable = false)
     private String firstname;
 
-    @Column(name = "birthday", nullable = false)
+    @Column(name = "birthday", nullable = true)
     private String birthday;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = true)
     private String email;
 
-    @Column(name = "degree_code", nullable = false)
+    @Column(name = "degree_code", nullable = true)
     private String degreeCode;
 
-    @Column(name = "option_code", nullable = false)
+    @Column(name = "option_code", nullable = true)
     private String optionCode;
 
     @Column(name = "phone", nullable = true)

@@ -226,8 +226,7 @@ public class MemberController extends AbstractCustomDialogController {
     private static final Pattern pattern = Pattern.compile(REGEX);
 
     private boolean save() {
-        boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname, txtEmail)
-                && validateNotNull(dpBirthday, cbDegree, cbOption);
+        boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname);
 
         String studentNumber = txtStudentNumber.getText();
         if (memberDto.getId() == 0) {
