@@ -7,6 +7,7 @@ package fr.frogdevelopment.assoplus.controller;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
@@ -56,14 +57,29 @@ abstract class AbstractCustomController implements Initializable {
                 .ifPresent(onYes);
     }
 
-//    protected void showAlert(String messageKey, Consumer onYes) {
-//
-//        Alert alert = new Alert(Alert.AlertType.OK);
-//        alert.setTitle(getMessage("global.warning.title"));
-//        alert.setContentText(messageKey);
-//
-//        alert.showAndWait()
-//                .filter(response -> response == ButtonType.YES)
-//                .ifPresent(onYes);
-//    }
+    protected void showWarning(String messageKey, String message) {
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(getMessage("global.warning.title"));
+        alert.setHeaderText(getMessage(messageKey));
+        alert.setContentText(message);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/shield-warning_16.png"));
+
+        alert.show();
+    }
+
+    protected void showError(String messageKey, String message) {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(getMessage("global.error.title"));
+        alert.setHeaderText(getMessage(messageKey));
+        alert.setContentText(message);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/shield-error_16.png"));
+
+        alert.show();
+    }
 }

@@ -113,7 +113,7 @@ public class MembersController extends AbstractCustomController {
         Window parent = getParent(event);
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/import_members.fxml");
-//        dialog.setTitle(getMessage("member.degrees"));
+        dialog.setTitle(getMessage("import.title"));
         dialog.setWidth(1000);
         dialog.setHeight(400);
 
@@ -147,8 +147,8 @@ public class MembersController extends AbstractCustomController {
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/degrees.fxml");
         dialog.setTitle(getMessage("member.degrees"));
-        dialog.setWidth(600);
-        dialog.setHeight(300);
+        dialog.setWidth(550);
+        dialog.setHeight(400);
 
         dialog.show();
     }

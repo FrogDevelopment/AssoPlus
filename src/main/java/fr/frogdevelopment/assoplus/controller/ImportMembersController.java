@@ -4,36 +4,29 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.service.MembersService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.service.MembersService;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,16 +34,64 @@ import java.util.Map;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ImportMembersController extends AbstractCustomDialogController {
 
-    @Autowired
     private MembersService membersService;
+
+    @FXML
+    private Parent parent;
+
+    @FXML
+    private GridPane top;
+    @FXML
+    private CheckBox cbLastname;
+    @FXML
+    private TextField tfLastname;
+    @FXML
+    private CheckBox cbFirstname;
+    @FXML
+    private TextField tfFirstname;
+    @FXML
+    private CheckBox cbStudentNumber;
+    @FXML
+    private TextField tfStudentNumber;
+    @FXML
+    private CheckBox cbBirthday;
+    @FXML
+    private TextField tfBirthday;
+    @FXML
+    private CheckBox cbEmail;
+    @FXML
+    private TextField tfEmail;
+    @FXML
+    private CheckBox cbPhone;
+    @FXML
+    private TextField tfPhone;
+    @FXML
+    private CheckBox cbDegree;
+    @FXML
+    private TextField tfDegree;
+    @FXML
+    private CheckBox cbOption;
+    @FXML
+    private TextField tfOption;
 
     @FXML
     private TableView<MemberDto> tableView;
     @FXML
     private TableColumn<MemberDto, Boolean> selectCol;
+    @FXML
+    private ToolBar toolBar;
 
     @Override
     protected void initialize() {
+
+        top.setVisible(true);
+        top.setManaged(true);
+
+        tableView.setVisible(false);
+        tableView.setManaged(false);
+        toolBar.setVisible(false);
+        toolBar.setManaged(false);
+
         selectCol.setCellValueFactory(new PropertyValueFactory<>("selected"));
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
         selectCol.setEditable(true);
@@ -62,24 +103,28 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(getMessage("member.import.title"));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV, XLS, XLSX", "*.csv", "*.xls", "*.xlsx")
+        );
         File file = fileChooser.showOpenDialog(parent);
 
         if (file != null) {
-            importMembers(file);
+            String filename = file.getName();
+            String extension = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
+
+            if (extension.equals("csv")
+                    || extension.equals("xls")
+                    || extension.equals("xlsx")) {
+                importMembers(file);
+            } else {
+                showError("global.warning.header", "Format du fichier incorrect");
+            }
         }
     }
 
 
     private void importMembers(File file) {
-
-        Map<String, String> mapping = new HashMap<>();
-        mapping.put("student_number", "NUMERO ETUDIANT ");
-        mapping.put("last_name", "NOM ");
-        mapping.put("first_name", "PRENOM ");
-        mapping.put("degree", "DEGRES ");
-        mapping.put("option", "OPTION ");
-        mapping.put("email", "E-MAIL ");
-        mapping.put("phone", "TELEPHONE ");
+        Map<String, String> mapping = getMapping();
 
         char delimiter = ',';
 
@@ -146,9 +191,52 @@ public class ImportMembersController extends AbstractCustomDialogController {
             }
 
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            showError("global.error.header", ExceptionUtils.getMessage(e));
         }
 
         tableView.setItems(data);
+
+        tableView.setVisible(true);
+        tableView.setManaged(true);
+        toolBar.setVisible(true);
+        toolBar.setManaged(true);
+
+
+//        top.setVisible(false);
+//        top.setManaged(false);
+    }
+
+    private Map<String, String> getMapping() {
+        Map<String, String> mapping = new HashMap<>();
+
+        if (cbStudentNumber.isSelected()) {
+            mapping.put("student_number", tfStudentNumber.getText());
+        }
+
+        if (cbLastname.isSelected()) {
+            mapping.put("last_name", tfLastname.getText());
+        }
+
+        if (cbFirstname.isSelected()) {
+            mapping.put("first_name", tfFirstname.getText());
+        }
+
+        if (cbDegree.isSelected()) {
+            mapping.put("degree", tfDegree.getText());
+        }
+
+        if (cbOption.isSelected()) {
+            mapping.put("option", tfOption.getText());
+        }
+
+        if (cbEmail.isSelected()) {
+            mapping.put("email", tfEmail.getText());
+        }
+
+        if (cbPhone.isSelected()) {
+            mapping.put("phone", tfPhone.getText());
+        }
+
+        return mapping;
     }
 }
