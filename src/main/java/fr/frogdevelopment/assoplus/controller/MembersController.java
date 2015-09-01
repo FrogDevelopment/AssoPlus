@@ -19,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -32,7 +31,6 @@ import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.utils.ApplicationUtils;
 
-import java.io.File;
 import java.util.function.Consumer;
 
 @Controller
@@ -114,13 +112,12 @@ public class MembersController extends AbstractCustomController {
     public void importMembers(MouseEvent event) {
         Window parent = getParent(event);
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(getMessage("member.import.title"));
-        File file = fileChooser.showOpenDialog(parent);
+        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/import_members.fxml");
+//        dialog.setTitle(getMessage("member.degrees"));
+        dialog.setWidth(1000);
+        dialog.setHeight(400);
 
-        if (file != null) {
-            membersService.importMembers(file);
-        }
+        dialog.show();
     }
 
     public void addMember(Event event) {
@@ -130,7 +127,7 @@ public class MembersController extends AbstractCustomController {
     private void manageMember(Event event, MemberDto dto, String keyTitle) {
         Window parent = getParent(event);
 
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/member.fxml", new Consumer<MemberController>() {
+        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
                 memberController.setData(table.getItems(), dto);
@@ -148,7 +145,7 @@ public class MembersController extends AbstractCustomController {
     public void manageDegrees(MouseEvent event) {
         Window parent = getParent(event);
 
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/members/degrees.fxml");
+        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/degrees.fxml");
         dialog.setTitle(getMessage("member.degrees"));
         dialog.setWidth(600);
         dialog.setHeight(300);

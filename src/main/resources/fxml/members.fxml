@@ -76,7 +76,7 @@
                 </VBox.margin>
                 <graphic>
                     <ImageView>
-                        <Image url="@../../img/add_user_32.png" />
+                        <Image url="@../img/add_user_32.png" />
                     </ImageView>
                 </graphic>
             </Button>
@@ -86,7 +86,7 @@
                 </VBox.margin>
                 <graphic>
                     <ImageView>
-                        <Image url="@../../img/list_32.png" />
+                        <Image url="@../img/list_32.png" />
                     </ImageView>
                 </graphic>
             </Button>
@@ -101,7 +101,7 @@
                 </VBox.margin>
                 <graphic>
                     <ImageView>
-                        <Image url="@../../img/data_32.png" />
+                        <Image url="@../img/data_32.png" />
                     </ImageView>
                 </graphic>
             </Button>
