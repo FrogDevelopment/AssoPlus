@@ -1,0 +1,655 @@
+NUMERO ETUDIANT ,NOM ,PRENOM ,DEGRES ,OPTION ,TELEPHONE ,E-MAIL 
+001,Humez- Brugnot ,Corentin ,L1 ,SV,07 81 42 83 71 ,coco.21000@live.fr
+002,Mourez,Morgane,L1 ,SV,07 60 42 05 20,morganedance@laposte.net
+004,Dudzyak,Nicolas ,L1 ,SV,06 07 73 80 01 ,nicod2012@hotmail.fr
+005,Hadjin ,Julien ,L1 ,SV,06 11 43 17 43 ,julien.hadjin@hotmail.fr
+006,Bourgeois ,Alexis ,L1 ,SV,06 73 92 03 31 ,alexis.bourgeois21@gmail.com
+007,Legorgne ,Ilias ,L1 ,SV,06 60 89 64 34 ,ilias.leborgne@gmail.com
+009,Nguyen ,Sylvie,L1 ,SV,06 67 72 06 13 ,sylvie.nguyen71@gmail.com
+010,Barrault,Maud,L1 ,SV,06 28 68 09 11 ,happy-sweet@hotmail.fr 
+011,Mauny ,Romain ,L1 ,,07 80 05 31 19 ,romainlm.mauny@gmail.com
+012,Sauvain ,Emmanuelle,L1 ,SV,06 95 91 65 81 ,manue.sauvain@gmail.com
+013,Rossignol,Carole,L1  ,SV ,07 81 31 62 83 ,rossignol.carole@hotmail.fr
+014,Ardoin ,Lisa,L1 ,ST ,06 17 81 60 63,lna.ardoin@gmail.com
+015,Tuema,Sarah,L1,SV,06 13 88 30 05 ,tuema.sarah@gmail.com
+016,Lhuillier ,Lisa,L1,SV ,06 61 69 48 33 ,lisadu89@gmail.com 
+018,Putzu,Loic,L1,SV,06 77 51 19 27 ,loic.putzu@laposte.net
+019,Quetier ,Sebastien ,L1,,07 81 88 73 67 ,sebastien.quetier@hotmail.fr
+020,Mairot ,Jérome ,L1,ST ,,
+021,Montagne ,Antoine ,L1,SV,07 87 87 58 41 ,ant.montagne@laposte.net 
+022,Foquet ,Laure,L1 ,SV ,06 14 37 15 98 ,laurefouquet@laposte.net
+023,Jacquot ,Floriane ,L1 ,SV ,06 72 38 74 03 ,floriane.jacquot@icloud.com
+024,Champignon,Mélanie ,L1 ,,06 13 66 39 10 ,mela21310@hotmail.fr
+027,Colin ,Alyson ,L1 ,SV ,06 82 59 22 37 ,alyson.colin@orange.fr
+028,Lamiral ,Diane ,L1 ,SV ,06 59 07 68 04 ,diane.lamiral@sfr.fr
+029,Choppin Haudry ,Juliette ,L1 ,,06 27 39 83 10 ,jujuchppin@aol.com
+030,Dijoux ,Juliette ,L1,,06 49 56 28 99,juliette_dijoux@orange.fr
+032,Lassoued ,Mehdi,L1,SV ,06 28 96 76 85 ,melassoued@gmal.com 
+034,Rossi ,Stan ,L1 ,SV ,,
+035,Bonin ,Angélina ,L1 ,SV ,06 87 75 97 11 ,angy.fonin@orange.fr
+036,Rathier ,Eloise ,L1,SV ,06 43 10 73 75 ,eloiserathier@gmail.com
+037,Bombart ,Raphaele,L1,SV,06 72 73 52 46 ,raphaëlebomnart@gmail.com
+038,Pellet ,Solene ,L1,SV,06 78 67 51 57,solene.pellel@gmail.com 
+040,Marchand ,Paul - Aimé ,L1,SV,06 25 56 54 96 ,paul-aime7@hotmail.fr
+041,Ancoub ,Siti- amadati ,L1,SV,07 81 48 05 34 ,SITTIAMADATI@laposte.fr
+043,Pinto ,Eugenie ,L1,,06 30 85 25 26 ,eugenie-pinto@live.fr
+045,Charrier ,Thomas ,L1,,06 43 78 60 91 ,tpjcharrier@gmail.com
+046,Laurent ,Florian ,L1,SV ,06 89 64 12 40 ,mc.laurent3@wanadoo.fr
+047,Ducodé,Justine,L1 ,SV ,06 77 50 45 72 ,ducotejustine@gmail.com
+048,Granet ,Lucie ,L1,SV,06 37 91 21 99,lucie.granet1694@yahoo.fr
+049,Lhoste ,Marine ,L1,SV,06 31 28 10 71 ,marine.lhoste@hotmail.fr
+050,Thabussot,Hugo ,L1 ,SV,07 70 57 63 00 ,hugo.thabussot@gmail.com
+051,Roussez ,Mathilde ,L1,SV,07 89 49 90 85 ,mathilde_rssl@orange.fr
+052,Dath ,Chloé,L1,SV,06 83 18 19 67 ,
+053,Idczak,Léo,L1,SV,06 35 14 63 25 ,leo.idczak@gmail.com 
+054,Nguyen ,Davy,L1,SV,07 50 94 03 80 ,nguyen_dauvy@ymail.com
+055,Dinthonagxay,Mathilde ,L1,SV,06 69 24 41 97,mathilde.dinthongxay@hotmail.fr
+056,Bredelet,Elodie,L1,SV,06 72 11 06 87 ,bredelet.elodie@laposte.net
+057,Butel ,Amandine ,L1,,06 76 99 61 47 ,
+058,Jorsin ,Valentin ,L1,SV,06 69 44 07 83 ,valentin.jorsin@hotmail.fr
+059,Levi,Adrien,L1,SV,06 07 12 28 16 ,ad.levi@laposte.net
+060,Herouard ,Lise ,L1,SV ,06 46 26 17 51 ,lise.herouard@orange.fr
+061,Roux,Rémi,L1,SV,06 83 58 32 39 ,rouxremi58@gmail.com
+062,Kitupa,Lase héritier ,L1,SV,06 28 54 51 12 ,lasegiyanze@yahoo.fr
+063,Lim ,Vita ,L1 ,SV,06 68 80 27 28 ,vitalim@hotmail.fr
+064,Grigoryan ,Armine ,L1,SV ,06 24 39 31 52 ,armine1006@hotmail.fr
+065,Cip ,Alban ,L1 ,SV ,06 30 82 18 09 ,alban.cip@gmail.com
+067,Laroche ,Caroline ,L1,SV,06 95 21 97 90 ,caroline.laroche.01@orange.fr
+068,Frangi,Margaux ,L1,,06 87 67 20 57 ,margaux.2103@hotmail.fr
+069,Chkheidze ,Liana ,L1,SV ,06 64 21 01 37 ,lianou.21@hotmail.fr
+070,Lizé,Eleonore,L1,SV,06 35 55 02 12 ,eleonore.lizé@gmail.com
+071,Aubé ,Corentin ,L1 ,SV ,06 48 34 08 49 ,aubecorentin21@gmail.com
+072,Rendina,Elsa ,L1,SV ,06 43 18 04 77 ,rendina.elsa@gmail.com
+073,Bouillon ,Elora ,L1,SV ,07 71 21 05 15 ,elora.bouillon@hotmail.fr
+074,Merot ,Alexis ,L1,SV ,07 86 44 28 21 ,alexis.merot@orange.fr
+075,Theis,Amandine ,L1,,06 45 42 12 32 ,theis.amandine12@gmail.com
+076,Simonnet,Alexia ,L1,,06 76 34 14 51 ,alexia.rimonnet@hotmail.fr
+077,Mateos,Amélie ,L1,SV ,06 75 43 48 03 ,amel-mateos@hotmail.fr
+079,Da silva bizouard ,Mégane ,L1,SV,06 3 86 87 59 ,ganinha@hotmail.fr
+080,Bernard ,Sandra ,L1,SV,07 81 56 07 10 ,mzll-sandra@live.fr
+081,Perschke ,Mélanie ,L1,SV ,06 49 14 73 59,melanie.perschke@hotamil.fr
+082,Person ,Ophélie ,L1,SV ,06 46 88 16 76 ,ophelie.person@hotmail.fr
+083,Gayraud,Pauline ,L1 ,SV ,07 60 88 00 85 ,gayraudpauline@gmail.com
+084,Bourgeois ,Léa ,L1,SV ,06 52 66 86 80 ,leabour@free.fr
+085,Espaullard ,Hector,L1 ,SV ,06 33 01 04 38 ,h3ctor-espaullard@hotmail.fr
+086,Suchet ,Océane ,L1 ,SV ,06 06 59 52 55 ,gensesrien@live.fr 
+087,Maulne ,Léa ,L1,,,maulne.léa@gmail.com 
+088,Lambert ,Laurine ,L1,SV ,06 21 68 73 22 ,laureen.lambert@hotmail.fr
+089,Moureaux,Adrien,L1,SV ,06 02 34 96 41 ,didi.238@hotmail.fr
+090,Germain ,Margaux ,L1,SV ,06 33 63 17 21 ,margot.germain21540@gmail.com 
+091,Maladrier  ,Laurine ,L1,SV ,06 38 38 03 82 ,laurine_58@hotmail.fr
+092,Benali ,Lysa ,L1,SV ,07 87 10 69 58 ,lysa1021@live.fr
+093,Pelletier ,Clémence ,L1,SV ,,clemence.pelletier@gmail.com
+094,Kosacicler,céline ,L1,SV,06 70 44 16 71 ,celine.koscicler@gmail.com
+095,Poirault,Florent ,L1,ST ,07 86 35 24 50 ,florent0073@gmail.com
+096,Doriot ,Matthieu,L1,,06 36 01 17 96 ,mattbasket21@gmail.com
+097,Ramette ,Lois ,L1,,06 50 38 56 57 ,lois.ramette@orange.fr
+098,Bley ,Aurélie ,L1,,06 36 81 21 20 ,aurelie.bley@gmail.com
+099,Vannieuwenhuyse,Natika,L1,,06 84 09 32 85 ,nitikavannieu@yahoo.com
+100,Kennel ,Salomé ,L1,,06 02 38 07 61 ,salome.rennel@gmail.com
+101,Bettencourt ,Soline ,L1,SV ,06 71 82 35 17 ,solinebettencourt@orange.fr
+102,Chevalier,Louis,L1,ST ,06 76 60 77 22 ,l.chevalier685@laposte.net
+105,Goudot ,Alysé ,L1,SV,06 22 48 23 66 ,greywolf.og@gmail.com
+106,Maréchal ,Marie ,L1,SV,06 25 92 02 96,mariie-71100@hotmail.fr
+108,Maniere,Corentin ,L1,,06 21 45 85 11 ,corentin.maniere@gmail.com
+109,Sochon ,Akhésa ,L1,SV,06 52 76 48 03 ,akhesa.sochon@hotmail.fr
+110,Leggieri,Anthony ,L1,SV,06 68 85 90 76,anthony-leggieri@etu.u-bourgogne.fr
+111,Congnard ,Donatien ,L1,SV,06 68 48 61 06 ,donatien-cognard@etu.u-bourgogne.fr
+115,Maga ,Ytabelle,L1,,06 61 55 76 53 ,y.tabelle@hotmail.fr
+119,Grellot,Pierre,L1,SV,,grelpierre@yahoo.fr
+123,Bruere ,Helene,L1,SV,06 42 27 62 66 ,helene.bruere@orange.fr
+125,Cognet ,Zéphirine,L1,SV,06 67 46 37 55 ,zephirco@yahoo.fr
+128,Messagé ,Alicia ,L1,,06 30 71 24 73 ,alicia.message@outlook.fr
+132,Salis,Ambre,L1,,06 02 29 35 13 ,salis.ambre@hotmail.fr
+133,Piroche ,Ludovic,L1,SV,06 65 62 13 76 ,ludovic.piroche@laposte.net
+134,Piot ,Lucie ,L1,SV,07 87 39 79 41 ,piot.lucie@gmail.com
+140,Fichet ,Charlène ,L1,ST ,06 79 34 60 97 ,c.fichet@outlook.fr
+141,Oeverchere,Soraya ,L1,SV,06 58 89 03 76,soraya.deverchere@hotmail.fr
+142,Brusson ,Anais,L1,SV,06 11 67 83 27 ,anaisbrusson71@gmail.com
+143,Duhaut ,Laurène,L1,SV,06 32 38 34 92 ,la.duhaut@laposte.net
+144,Kerlo ,Zoé ,L1,,07 70 88 83 00 ,zoe.kerlo@free.fr
+146,Lyautey ,Romane,L1,,06 24 16 77 89 ,romane_lyautey@hotmail.fr
+147,Simon ,Felix,L1,,06 82 87 11 45,flix.circus@gmail.com
+149,Moreau ,Matthieu,L1,,06 95 47 66 25 ,matt.moreau05@gmail.com
+151,Coulon ,Adeline,L1,SV,07 82 69 66 83 ,couladeline@gmail.com
+152,Senegal ,Caroline ,L1 ,SV ,06 65 56 21 75 ,senegal.carloine@gmail.com
+155,Paladino ,Nicolas ,L1,SV,06 88 21 17 30,nicolas.polo@orange.fr
+156,Kudlinski ,Antoine ,L1,SV,06 08 35 39 83 ,kudjo@free.fr
+157,Laval ,Léa ,L1,SV,06 21 97 89 67 ,lealaval7@gmail.com 
+158,Bizet ,Elias ,L1 ,SV ,06 45 86 45 62 ,bizetelias@gmail.com
+159,Guyard ,Valentin ,L1 ,SV ,06 71 29 77 39 ,v.guyard7@laposte.net
+161,Dimonte ,Cristal ,L1 ,SV ,06 85 46 50 49 ,cristal.dmp@gmail.com
+162,Frerot ,Camille,L1 ,SV,,cams21720@hotmail.fr
+163,Petit clair ,Florian ,L1,SV,07 70 64 17 98 ,
+164,Barthelemy ,Thomas ,L1 ,SV,06 30 39 37 85 ,
+165,Nicaisé,Charlotte,L1 ,SV ,06 86 84 28 41 ,charlotteavery89@gmail.com
+166,Guerin ,Zoé ,L1 ,SV ,06 88 75 88 56 ,zo.guerin@orange.fr
+167,Da costa louva ,Axel ,L1 ,SV ,06 71 34 91 34 ,axel.daco@outlook.fr
+170,Vannier ,Thomas ,L1 ,SV,06 24 97 93 75 ,t.vannier71@gmail.com
+173,Magnosi,François ,L1,SV ,06 32 04 15 01,f.magnosi@gmail.com
+174,Michelin ,Rémi ,L1 ,,06 04 48 08 70 ,remi.michein@laposte.net
+175,Mougeot ,Clarisse,L1,,06 82 38 02 28 ,lutin.52@hotmail.fr
+181,Labranche,Kevin,L1,SV,06 67 66 55 28 ,kevin21000@hotmail.com
+183,Guyader ,Morgane ,L1,,06 42 10 17 07 ,morgane.guyader@hotmail.com
+184,Launay ,Sarah ,L1,,06 35 52 93 01 ,sarah.l71@hotmail.fr
+185,Poisot ,Lauranne ,L1,SV ,06 20 54 03 73 ,l.bargeton@hotmail.fr
+186,Modot ,Ludivine ,L1,,07 81 84 87 56,ludivinemodot@hotmail.fr
+187,Philippe ,Quentin ,L1,SV ,06 24 40 56 51 ,philippequentin89@gmail.com
+188,Garde ,Amélia,L1 ,SV,03 80 52 09 47 ,amelia.msn@hotmail.fr
+190,Thomas,Matthieu ,L1,SV,06 22 75 64 24 ,nattlion@hotmail.fr
+191,Mouat ,Alicia ,L1,SV,06 79 14 11 63 ,
+193,Dambrine ,Benoit,L1,,06 76 51 14 12 ,benoit.dambrine@wanadoo.fr
+194,Nunes ,Corentin ,L1,,06 67 99 04 11 ,corentin.nunes89@orange.fr
+195,D'argent merle ,Mariere,L1,SV ,06 12 30 49 13 ,mel_588@hotmail.fr
+196,Charton ,Clara ,L1 ,SV,06 46 77 39 78 ,charton.clara@hotmail.fr
+197,Domin ,Fanny ,L1,SV,06 11 46 00 83 ,fanny.domin33@gmail.com
+199,Simonel ,Alexandre ,L1,SV,06 74 79 33 74 ,alex.21121@hotmail.fr
+200,Senez ,Clémence ,L1,SV,06 30 67 31 64 ,cleenez@hotmail.fr
+201,Tchernishoff ,Alexandre ,L1,SV ,06 70 32 16 78 ,alexandre.tchermishoff@gmail.com 
+205,Darbeau ,Chloé,L1,SV ,06 24 07 23 65 ,chloe-darbeau@hotmail.fr
+206,Bouvard Morel ,Mélissandre ,L1,SV,06 42 09 70 44 ,melissandre.bm@orange.fr
+207,Nieto ,Yohan ,L1,SV,06 16 29 51 45 ,yohan.nieto@live.fr
+208,Chapillon,Elise,L1,SV ,06 48 55 36 09 ,elise.chapillon@hotmail.fr
+211,Bruderer,Noah ,L1,SV ,06 50 22 71 71 ,noah.bruderer@gmail.com
+212,Da rocha ,Morgane ,L1,,06 31 60 85 66 ,morgane.darocha@yahoo.com
+213,Ladaurade ,Justine,L1,,06 99 27 29 46 ,justineladaurade@gmail.com
+214,Moureaux ,Nicolas ,L1,,06 02 34 96 39 ,nico.moureaux@hotmail.fr
+217,Billard ,Julie ,L1 ,SV,06 29 68 76 98 ,juliebillard95@gmail.com
+221,Petitlaurent,Quentin ,L1,SV,06 36 34 44 40 ,q.petitlaurent@gmail.com
+222,Guillot ,Margot ,L1 ,SV ,06 86 62 94 24 ,margotguillot@orange.fr
+225,Derouet ,Adrien ,L1,,06 33 79 94 54,adriaja89@outlook.fr
+226,Rakotosaona,Rado ,L1,SV ,06 14 83 21 48 ,radorakotosaona@laposte.net
+227,Delaup,Clara ,L1,SV,,mme-tsonga@hotmail.fr
+228,Malnoury ,Camille,L1,SV ,06 25 97 43 99 ,camillemalnoury@icloud.com
+229,Marie ,Morgane ,L1 ,,06 31 11 55 69 ,morgane.marie@neuf.fr
+230,Perrigault ,Julia ,L1,SV ,06 31 30 61 65 ,julialaure@hotmail.fr
+231,Bon ,Marjorie ,L1 ,SV ,06 26 22 22 62 ,marjorie.bon21@gmail.com
+232,Regimbeau,Mathilde ,L1,SV,06 35 19 45 48 ,matou52@msn.com
+233,Thomas,Luc ,L1,SV ,06 33 19 85 02 ,luc.thomas@gmail.com
+234,Cussonneau,Laura ,L1,SV ,06 31 31 71 20 ,laura.cussonneau@free.fr
+235,Bailles ,Eleonore ,L1,SV ,07 61 09 42 33 ,eleonore.bailles@gmail.com
+242,Ratnam,Monisha,L1,,06 19 70 44 82 ,monisharatnam@hotmail.com
+243,Dvalichvili,Isa,L1,,06  47 10 45 90 ,
+245,Lozano ,Quentin ,L1,,06 45 01 24 24 ,quentin.lozano@hotmail.fr
+249,Mativet ,Louis ,L1,,06 64 10 95 01 ,mativetlouis@gmail.com
+250,Durieux ,Erwan ,L1,,06 17 55 06 72 ,erwandurieux@gmail.com
+253,Giroux ,Anaelle,L1,,06 25 84 53 39 ,anaellegiroux@gmail.com
+254,El mardini,Mausaolah,L1,SV,06 52 68 60 74 ,maw_mardini@hotmail.com
+255,Duny ,Mathilde ,L1,SV,06 33 02 58 63 ,dunymathilde@gmail.com
+256,Aminot ,Meggane ,L1,SV,06 61 44 98 94 ,meggane.amiot@gmail.com
+257,Campion ,Sarah ,L1,SV,06 56 74 03 20 ,sarah.campion@live.fr
+258,Martin,Aude ,L1,,06 78 95 14 69 ,m-aude-89@hotmail.fr
+259,Galland ,Ellie,L1,,06 78 32 32 21 ,ellie.galland@gmail.fr
+260,Bosquet ,Caroline ,L1,SV,06 03 89 06 34 ,carolineb34@hotmail.fr
+261,Kuzmin,Ruddy,L1,,06 50 32 54 58 ,ruddy.kuzmin@aol.fr
+262,Bayle ,Mathilde ,L1,SV,06 75 97 78 66 ,mathilde.bayle@laposte.net 
+263,Grebot ,Sevrine ,L1,SV,,seve71590@hotmail.fr
+264,Vandoorsselaere,Laurie ,L1,SV,06 99 22 77 17 ,laurie.vand@outlook.fr
+265,Lassey ,Axel ,L1,SV,06 23 43 76 17 ,xxfurorxx@live.fr
+266,Madiot,Lisa,L1,SV,06 06 59 33 62 ,lily-of-the-valley@hotmail.fr
+267,Subra ,Melody,L1,SV,06 25 79 74 56 ,melody.07111996@gmail.com
+270,Bouveret ,Aurélie ,L1,,06 71 76 90 86 ,bouveretaurélie@gmail.com
+271,Benlebna kerrache,Asnia ,L1,SV,06 22 58 58 42 ,asnia.kerrache@outlook.com
+273,Fresnea geoffray ,Tiphaine ,L1,SV,06 51 22 07 37 ,tiphaine.fresnea@outlook.fr
+274,Petit,Alexia,L1,,,alexia.petit13@orange.fr
+275,Asdrubal ,Pauline ,L1,,06 83 99 04 58 ,pauline.a021@me.com
+276,Guifrind,Baptiste ,L1,,06 58 74 15 85 ,baptistegutfrind.tf@hotmail.fr
+277,Collomb ,Cheyenne ,L1,,06 71 92 80 12 ,153cheyennecollomb@gmail.com
+278,Turrel ,Floriane ,L1 ,SV,07 89 58 15 51 ,florianeturrel@msn.com
+279,Clerc ,Marine ,L1,SV,06 59 15 52 04 ,marinda21@gmail.com
+280,Cornille ,Lucie ,L1 ,SV,06 59 05 85 16 ,c-lucie-@live.fr
+281,Bussy ,Coline ,L1,SV,06 67 26 62 25 ,bussycoline@gmail.com
+283,Rousseau ,Maxime ,L1,SV,06 30 94 17 82 ,maxime.rousseau1995@free.fr
+285,Lucas,Nicolas ,L1 ,SV,06 88 55 52 60 ,nicolas.lucas531@orange.fr
+286,Licina,Benjamin ,L1,,06 29 82 17 33 ,ben.licina@gmail.com
+287,Geoffron ,Clara ,L1,,,geoffroyclara@hotmail.com
+288,Liné ,Yvon ,L1,,06 70 12 68 06 ,yvon.line@hotmail.com
+292,Sberna,Anthony ,L1,,,sbernaanthony@gmail.com
+294,Petraz ,Jeanne Marie ,L1,SV,06 76 35 83 69 ,marie-picasso@hotmail.fr
+295,Pelkowski,Manon ,L1,SV,06 95 51 87 25 ,pelkowski.manon@gmail.com
+296,Douillard ,Laura,L1 ,SV,06 29 54 08 95 ,lauradouillard@gmail.com
+297,Bonnet ,Alicia ,L1,,06 12 06 57 78 ,bonnet.alicia@voila.fr
+299,Gaudry ,Jonathan ,L1,,06 98 12 25 79 ,j.gaudry89330@gmail.com
+304,Descannevelle,gwendoline,L1,,06 42 96 12 45 ,gwen.desca@hotmail.fr
+305,Nerzic,Mathilde ,L1,,06 84 72 59 69 ,nerztcmathilde@laposte.net
+306,Bussy ,Solene ,L1,,06 58 23 56 01 ,solene.bussy@gmail.com
+308,Batté ,Eleonore ,L1,SV,03 85 47 78 07 ,eleonore.bafté@sfr.fr
+310,Laporte,Dylan ,L1,SV,06 30 04 59 15 ,thedydy71@gmail.com
+312,Leon de treverret ,Manon ,L1,SV,06 21 94 23 84 ,manon.leondetreverret@gmail.com
+313,Pionnier ,Clara ,L1,SV,06 78 52 64 77 ,clara.pionnier@gmai.com
+315,Pothier ,Adrien ,L1,,06 49 63 24 57 ,adrien-96@live.fr
+316,Raclot ,Anthony ,L1,,06 71 52 76 85 ,thony528001@hotmail.fr
+319,Marande ,Laura ,L1,SV,06 09 14 33 88 ,xlaura.liloox@gmail.com
+320,Valette ,Marine ,L1,SV,,maarinevalette@gmail.com
+321,Bourgeois ,Benjamin ,L1 ,ST ,06 76 30 72 26 ,benjamin-bourgeois89@gmail.com
+322,Thomas ,Edwige,L1,SV,06 82 38 57 93 ,edwige-oasis136@hotmail.fr
+323,Arslan,Serhat ,L1,,07 81 40 94 15 ,serhat_arslan@hotmail.fr
+324,Gay ,Arnaud ,L1,SV,06 89 10 41 19 ,arnaudokate52@gmail.com
+326,Blanchet ,Valentin ,L1,,03 80 73 89 91 ,sidiganor@gmail.com
+328,Azerot ,Maxime ,L1,SV,06 79 36 45 55 ,madimina-max@hotmail.fr
+329,Heriche ,Mathilde ,L1,SV ,06 42 82 69 61 ,duval.g.60@gmail.com
+332,Durand,Pierre,L1,,06 87 62 92 35 ,durand.pierre.518@gmail.com
+333,Genin ,Marie ,L1,,07 87 54 16 92 ,mariegenin17@gmail.com
+334,Girard ,Alexandra ,L1,ST ,,
+338,Kerriou ,Sara ,L1 ,SV ,06 45 86 60 91 ,sara.kerriou@gmail.com
+339,Darphin ,Aurélie ,L1,SV ,06 37 43 20 86 ,aurelie.darphin@free.fr
+340,Bonnet ,Mathilde ,L1,SV ,06 95 17 32 46 ,louve19@live.fr
+341,Delagneau ,Audrey ,L1,SV ,06 83 11 77 55 ,audrey.delagneau96@icloud.com
+342,Devillard ,Audrey ,L1,SV ,07 89 52 38 20 ,audrey-devillard@hotmail.fr
+343,Molza abinne ,Mélanie ,L1,SV ,06 58 82 71 45 ,mel.molza.abinne@gmail.com
+346,Bouthiaux ,Florian,L1,SV ,06 07 58 55 92 ,fbouthiaux@gmail.com
+348,Perrin ,Aymeric ,L1,,07 70 10 39 11 ,ayperrin@laposte.net
+349,Garon,Corentin ,L1,,06 61 33 18 77 ,kowenten@live.fr
+350,Sebillon,Morrane ,L1,SV ,06 62 36 70 03,morrane1@gmail.com
+351,Kerneis,Basile ,L1,SV ,06 32 80 21 31 ,basilekerneis@hotmail.fr
+352,Miont ,Manon ,L1 ,SV ,06 48 78 87 17 ,manon.miont@hotmail.fr
+353,Billard ,Théo ,L1,SV ,06 50 84 74 75 ,bilardtheo@hotmail.fr
+356,Jones ,Théo ,L1,SV ,06 74 90 23 78 ,theo.jones7@gmail.com
+357,Mongin ,florian ,L1 ,SV ,06 46 01 00 19 ,florian0396@live.fr
+358,Plique,Hugo,L1 ,SV ,07 85 52 66 34 ,hugo.plique@gmail.com
+359,Haberkorn,Chloé ,L1 ,SV ,06 79 54 33 01,chloe.hbk@aol.com
+360,Luc ,cécile ,L1,,06 29 74 03 55 ,cecile.luc21@gmail.com
+361,Cantz ,Lilian ,L1,,06 30 06 57 85 ,lilianc71@hotmail.fr
+362,Bevin ,Gaelle ,L1,SV ,06 45 10 61 46 ,gaellebevin@gmail.com
+363,Cambreling ,Mathis ,L1 ,SV ,06 02 04 54 90 ,mathiscambreling@gmail.com
+365,Olive ,Coraline ,L1,SV ,06 13 58 86 18 ,olivecoraline10@gmail.com
+367,Chevalier ,Adrien ,L1,SV ,06 03 20 43 73 ,
+369,Balaguer,Alexia,L1 ,SV ,06 29 44 63 98 ,alexia.balaguer@hotmail.fr
+371,Hamici,Célia ,L1,,06 74 90 68 79 ,hamcel03@outlook.fr
+373,Buriez ,Aurélien ,L1,SV ,06 68 86 74 46 ,aurelien.bubu@hotmail.fr
+374,Werts ,Louis ,L1,,06 75 97 81 37 ,louiswerts@outlook.fr
+375,Drageon,Jérome ,L1 ,SV ,06 76 20 31 61 ,drageonj@gmail.com
+379,Bouchard ,Elodie ,L1,,06 52 81 58 79 ,elodie.bouchard@outlook.com
+381,Carnet ,Jeanne ,L1,SV ,06 82 91 39 03 ,jeanne.carnet@hotmail.fr
+382,Kazaz,Sarah ,L1,SV ,06 85 26 27 08 ,sarah.kazaz@hotmail.fr
+383,Raymond ,Laeticia ,L1,,06 44 16 05 68 ,laeti-raym@hotmail.fr
+384,Voisin,Camille ,L1,SV ,06 51 93 18 13 ,camille.voisin@me.com
+385,Masson,Baptiste ,L1,SV ,06 43 00 13 36 ,baptiste.masson71@gmail.com
+386,Lachkar ,Samy Ilias,L1,SV ,06 76 32 71 94 ,samilias21@hotmail.fr
+387,Isly ,Sarra ,L1,,06 46 40 03 23 ,sarra.isly@free.fr
+388,Mercier ,Margaux ,L1 ,SV ,06 03 22 28 28 ,marg.mrc@gmail.com
+389,Theulin,Clara ,L1,SV ,06 40 12 30 81 ,clara.theulin@hotmail.fr
+390,Plassard ,Flavian,L1,SV ,06 08 02 01 30 ,plassardf@gmail.com
+392,Audas ,Constance ,L1,,06 47 79 96 24 ,constanceaudas@hotmail.fr
+393,Delesque ,Justine ,L1,,06 19 10 78 09 ,delesque.justine@neuf.fr
+394,Depousieu,Marie ,L1,SV ,06 25 85 45 29 ,marie.depousieu@live.fr
+395,Barbier ,Emeline ,L1,SV ,06 23 57 71 44 ,e.barbier7@laposte.net 
+396,Barbey ,Louis ,L1,SV ,06 78 46 87 55 ,louis.barbey.89@hotmail.fr
+397,Arcadias,Clément ,L1,SV ,06 01 76 69 23 ,c.arcadias@laposte.net
+398,Dessedgne,Alexis ,L1,SV ,06 75 77 18 52 ,dessedgne.alexis@gmail.com
+401,Labonde ,Marine ,L1,SV ,,marinelabonde@free.fr
+402,Cordier ,Clement ,L1,,06 38 41 49 93 ,clementcor@hotamail.fr
+404,Pagnotta ,Léa,L1,,06 46 67 28 86 ,lea.pagnotta@hotmail.fr
+411,tchang-tchong ,Laurie ,L1,,06 42 85 37 12 ,1s3tchangtchonglaurie@gmail.com
+412,Seguin ,Marie ,L1,SV ,06 32 21 99 85 ,marie.seguin01@u-bourgogne.fr
+413,Demuynck,Laeticia ,L1,ST,06 46 89 49 42 ,leaticiadens@gmail.com
+414,Coste ,Victor ,L1,,06 95 48 32 33 ,costevictor6@gmail.com
+415,guillebault,Léa,L1 ,SV ,06 32 92 17 31 ,pifrachulculcu@outlook.fr
+418,Dion ,Ophélie ,L1,SV ,06 18 23 56 46 ,ophelie--71@hotmail.fr
+419,Del…,Basile ,L1,,06 11 32 19 00 ,basile9524@hotmail.fr
+420,Berland,Antoine ,L1,,06 72 69 46 34 ,berlandant@gmail.com
+421,trotti ,Barbara ,L1,SV ,06 37 79 77 18 ,
+422,Prudon ,Aurore ,L1, SV,06 43 26 08 69 ,aurore_prudon@etu.u-bourgogne.fr
+423,Millot,Guillaume ,L1,SV ,06 78 26 82 29 ,millot_g@yahoo.fr
+424,Pajot ,Yannick,L1,SV ,06 07 67 75 54 ,yannick-5032@hotmail.fr
+425,Charton ,Quentin ,L1,,,sunny_zalco@hotmail.fr
+430,Cuzenard ,Cassandra ,L1 ,SV ,06 15 11 56 41 ,cassandra_cuz@hotmail.fr
+431,Heyou,William ,L1,SV ,06 41 77 44 01,william.21@hotmail.fr
+432,Moana Vola ,Nazmi ,L1,,06 41 83 01 19 ,nazminoana@gmail.com
+435,Latti,Djémila,L1,SV ,06 12 08 07 38 ,djemila.latti@gmail.com
+436,Pierre ,Axel ,L1 ,ST ,06 99 42 82 56 ,ap-nevermind@hotmail.fr
+439,Laroche ,Noemie ,L1,,06 84 43 20 47 ,larochenoemie58@outlook.fr
+440,Dorego,Clara ,L1,SV ,,dorego.clara@gmail.com
+441,Hervieu,Mathilde ,L1,,06 58 04 56 15 ,mamath.tiptop@gmail.com
+458,Sonvico ,loleiiane ,L1 ,SV ,06 16 60 22 33 ,lderiane.sonvico@outlook.fr
+466,Chapuis ,Manon ,L1 ,SV ,07 50 34 60 11 ,chapuismanon@hotmail.fr
+474,Le duc ,Baptiste ,L1 ,SV ,06 27 54 29 28 ,baptisteleduc21@gmail.com
+475,Titraoui,Fatima ,L1 ,,06 52 06 05 41 ,
+479,Marc ,Helene ,L1,,,famille.marc@hotmail.fr
+480,Canovas ,Lola ,L1 ,,06 78 21 17 48,lola-cano@hotmail.fr
+481,Karabiyik,Leyla,L1,,07 82 21 90 30 ,leyla0295@live.fr
+495,Racovitan ,Manouchka ,L1 ,SV ,06 50 84 62 77 ,
+498,Salomon ,Guillaume ,L1,,06 47 59 00 60 ,guillaume5056@gmail.com
+506,Colmart ,Lisa ,L1 ,SV ,06 80 21 77 70 ,colmart.lisa@gmail.com
+507,Guichard ,Emeric ,L1,,06 47 97 10 67 ,emericguichard@hotmail.fr
+510,Delagneau,Benjamin ,L1,SV ,06 79 89 54 34 ,benjamin-delagnau@hotmail.fr
+511,Bosseuot,Adrien,L1,,06 81 32 96 43 ,adrienbosseuot89@gmail.com
+513,Ouhaddou ,Karim ,L1,SV ,06 69 44 31 53 ,karima.ouhaddou1@gmail.com
+514,Fadhlaoui,Sélim ,L1,SV ,06 24 16 96 45 ,selim_fadhlaoui@hotmail.fr
+518,Moreau ,Elodie ,L1,SV ,06 99 93 77 60 ,elodie.m1995@orange.fr
+522,Coulon ,Adrien ,L1,,06 47 49 96 39 ,certadri@gmail.com
+524,Thievenaz ,Lucile ,L1,SV ,06 42 23 61 89 ,lucile.thievenz@hotmail.fr
+526,Vezian ,Baptiste ,L1,,06 40 76 79 73 ,paptiste@hotmail.fr
+530,Chatelain ,Pauline ,L1,SV ,06 02 15 14 39 ,paulinechatelain@yahoo.fr
+531,Lourenço ,Maxime ,L1,SV ,06 13 67 76 26 ,max-lou71@gmail.com
+535,Andriot ,Claudie ,L1,SV ,,claudette_71@hotmail.fr
+537,Meziani,Firdousse,L1,SV ,06 22 39 07 40 ,firdousse.meziani@gmail.com
+538,Merabi,Abdelnaur ,L1,SV ,07 81 40 38 81,abdelnaur.merabi@gmail.com
+539,Gabillet ,Jeremy ,L1,SV ,06 10 87 35 67 ,jeremy.gabillet@gmail.com
+542,Wurtz,Christopher ,L1,SV ,06 49 84 71 18 ,wurtz.christopher52@gmail.com
+543,Ville,Audrey ,L1,SV ,06 61 91 44 09 ,odey18@hotmail.com
+544,Mayeur ,Elisa,L1,SV ,06 09 79 06 47,elisa.mayeur0109@gmail.com
+545,Sauvage,Jenny ,L1 ,SV ,,
+546,Raou,Maéva ,L1,SV ,06 01 84 50 23 ,maeva.raou@gmail.com
+547,Menard ,Jéromine,L1,,,jeromine.menard@hotmail.fr
+556,Vaudoisey,Sophie ,L1,SV ,06 04 53 43 01 ,sophie.vaudoisey@live.fr
+557,Salime ,Cheryl ,L1,SV ,06 58 23 51 95 ,salime-cheryl@yahoo.fr
+618,Chynel ,Mathias ,L1,,06 38 81 28 19 ,mathias.garchy@free.fr
+619,Lagneau,Julien ,L1,SV ,06 43 68 79 08 ,jul_28@hotmail.fr
+622,Chauve ,Romain ,L1,,06 31 17 95 49 ,romain_chauve@etu.u.bourogne.fr
+627,Aubert ,Deborah ,L1,SV ,06 87 15 10 86 ,
+628,Clerc ,Marine ,L1,,06 66 47 96 76 ,marinafonceeè@gmail.com
+629,Merle ,Isabelle ,L1,,06 86 20 85 01 ,isabelle.merle58@laposte.net 
+640,Luszczeuska,Gabriela ,L1,SV ,06 40 19 65 10 ,gabriela.luszczeuska@gmailcom
+649,Marival ,Wylene esther ,L1,,06 47 78 05 40 ,wylene-esther@hotmail.fr
+650,Lancelot ,Marion ,L1,,06 59 76 85 58 ,mar_i_on@hotmail.fr
+653,Albespy ,Paul ,L1,SV ,06 73 77 61 55 ,paulalbespy@gmail.com
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+160,,,,,,
+409,,,,,,
+410,,,,,,
+426,,,,,,
+428,,,,,,
+433,,,,,,
+434,,,,,,
+438,,,,,,
+442,,,,,,
+447,,,,,,
+450,,,,,,
+451,,,,,,
+453,,,,,,
+455,,,,,,
+456,,,,,,
+461,,,,,,
+462,,,,,,
+463,,,,,,
+465,,,,,,
+467,,,,,,
+468,,,,,,
+472,,,,,,
+476,,,,,,
+477,,,,,,
+483,,,,,,
+484,,,,,,
+488,,,,,,
+489,,,,,,
+494,,,,,,
+496,,,,,,
+497,,,,,,
+528,,,,,,
+561,,,,,,
+565,,,,,,
+572,,,,,,
+591,,,,,,
+595,,,,,,
+600,,,,,,
+605,,,,,,
+606,,,,,,
+631,,,,,,
+632,,,,,,
+633,,,,,,
+634,,,,,,
+635,,,,,,
+652,,,,,,
+654,,,,,,

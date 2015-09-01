@@ -4,10 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 import java.time.LocalDate;
 
@@ -22,6 +19,8 @@ public class MemberDto implements Dto {
     private final SimpleStringProperty degreeCode = new SimpleStringProperty("");
     private final SimpleStringProperty optionCode = new SimpleStringProperty("");
     private final SimpleStringProperty phone = new SimpleStringProperty("");
+
+    private final BooleanProperty selected = new SimpleBooleanProperty(false);
 
     public Integer getId() {
         return id.get();
@@ -129,6 +128,18 @@ public class MemberDto implements Dto {
 
     public void setPhone(String phone) {
         this.phone.set(phone);
+    }
+
+    public boolean getSelected() {
+        return selected.get();
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
     }
 
 }

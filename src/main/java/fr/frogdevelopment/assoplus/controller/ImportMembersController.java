@@ -7,13 +7,17 @@ package fr.frogdevelopment.assoplus.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -41,11 +45,16 @@ public class ImportMembersController extends AbstractCustomDialogController {
     private MembersService membersService;
 
     @FXML
-    private TableView<MemberDto> table;
+    private TableView<MemberDto> tableView;
+    @FXML
+    private TableColumn<MemberDto, Boolean> selectCol;
 
     @Override
     protected void initialize() {
-
+        selectCol.setCellValueFactory(new PropertyValueFactory<>("selected"));
+        selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
+        selectCol.setEditable(true);
+        tableView.setEditable(true);
     }
 
     public void importMembers(MouseEvent event) {
@@ -64,13 +73,13 @@ public class ImportMembersController extends AbstractCustomDialogController {
     private void importMembers(File file) {
 
         Map<String, String> mapping = new HashMap<>();
-        mapping.put("student_number", "NUMERO ETUDIANT");
-        mapping.put("last_name", "NOM");
-        mapping.put("first_name", "PRENOM");
-        mapping.put("degree", "DEGRES");
-        mapping.put("option", "OPTION");
-        mapping.put("email", "E-MAIL");
-        mapping.put("phone", "TELEPHONE");
+        mapping.put("student_number", "NUMERO ETUDIANT ");
+        mapping.put("last_name", "NOM ");
+        mapping.put("first_name", "PRENOM ");
+        mapping.put("degree", "DEGRES ");
+        mapping.put("option", "OPTION ");
+        mapping.put("email", "E-MAIL ");
+        mapping.put("phone", "TELEPHONE ");
 
         char delimiter = ',';
 
@@ -84,8 +93,9 @@ public class ImportMembersController extends AbstractCustomDialogController {
              final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
              final CSVParser parser = new CSVParser(reader, csvFormat)) {
 
-            parser.forEach(line -> {
-                MemberDto memberDto = new MemberDto();
+            MemberDto memberDto;
+            for (CSVRecord line : parser) {
+                memberDto = new MemberDto();
 
                 String studentNumber = line.get(mapping.get("student_number"));
                 if (StringUtils.isNotEmpty(studentNumber)) {
@@ -102,6 +112,10 @@ public class ImportMembersController extends AbstractCustomDialogController {
                         memberDto.setFirstname(line.get(mapping.get("first_name")));
                     } else {
                         memberDto.setFirstname("");
+                    }
+
+                    if (StringUtils.isBlank(memberDto.getFirstname()) && StringUtils.isBlank(memberDto.getLastname())) {
+                        continue;
                     }
 
                     if (mapping.containsKey("degree")) {
@@ -126,14 +140,15 @@ public class ImportMembersController extends AbstractCustomDialogController {
                         memberDto.setPhone(line.get(mapping.get("phone")));
                     }
 
+                    memberDto.setSelected(true);
                     data.add(memberDto);
                 }
-            });
+            }
 
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        table.setItems(data);
+        tableView.setItems(data);
     }
 }
