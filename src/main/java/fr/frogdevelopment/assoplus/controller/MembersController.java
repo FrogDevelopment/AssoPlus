@@ -84,7 +84,7 @@ public class MembersController extends AbstractCustomController {
             hBox.getChildren().add(updateBtn);
             updateBtn.setOnAction(event -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
-                manageMember(event, table.getSelectionModel().getSelectedItem(), "member.update.title");
+                updateMember(event);
             });
 
             Button deleteBtn = new Button();
@@ -130,20 +130,34 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void addMember(Event event) {
-        manageMember(event, new MemberDto(), "member.create.title");
-    }
-
-    private void manageMember(Event event, MemberDto dto, String keyTitle) {
         Window parent = getParent(event);
 
         Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.setData(table.getItems(), dto);
+                memberController.newData(table.getItems());
             }
         });
 
-        dialog.setTitle(getMessage(keyTitle));
+        dialog.setTitle(getMessage("member.create.title"));
+        dialog.setWidth(330);
+        dialog.setHeight(375);
+        dialog.setResizable(false);
+
+        dialog.show();
+    }
+
+    private void updateMember(Event event) {
+        Window parent = getParent(event);
+
+        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/member.fxml", new Consumer<MemberController>() {
+            @Override
+            public void accept(MemberController memberController) {
+                memberController.updateData(table.getItems(), table.getSelectionModel().getSelectedIndex());
+            }
+        });
+
+        dialog.setTitle(getMessage("member.update.title"));
         dialog.setWidth(330);
         dialog.setHeight(375);
         dialog.setResizable(false);

@@ -4,23 +4,24 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.dto.ReferenceDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.dto.ReferenceDto;
+import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
 
 import java.util.Comparator;
 import java.util.function.Consumer;
@@ -101,10 +102,6 @@ public class DegreeController extends AbstractCustomDialogController {
         licencesService.saveOrUpdateAll(degreeDtos);
         optionsService.saveOrUpdateAll(optionDtos);
         initData();
-    }
-
-    public void onClose(Event event) {
-        close(event);
     }
 
     public void onAddLicence() {

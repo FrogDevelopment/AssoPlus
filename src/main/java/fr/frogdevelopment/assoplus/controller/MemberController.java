@@ -6,8 +6,8 @@ package fr.frogdevelopment.assoplus.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.components.controls.NumberTextField;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
@@ -59,7 +58,7 @@ public class MemberController extends AbstractCustomDialogController {
     @FXML
     private Label lblError;
     @FXML
-    private NumberTextField txtStudentNumber;
+    private TextField txtStudentNumber;
     @FXML
     private TextField txtLastname;
     @FXML
@@ -79,10 +78,20 @@ public class MemberController extends AbstractCustomDialogController {
     @FXML
     private CheckBox cbAnnals;
 
+    @FXML
+    private Button btnPrevious;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Button btnNew;
+    @FXML
+    private Button btnNext;
+
     private MemberDto memberDto;
     private ObservableList<MemberDto> data;
     private ObservableList<DegreeDto> degreeDtos;
     private ObservableList<OptionDto> optionDtos;
+    private int currentIndex;
 
     @Override
     protected void initialize() {
@@ -175,16 +184,30 @@ public class MemberController extends AbstractCustomDialogController {
         }
     }
 
-    void setData(ObservableList<MemberDto> data, MemberDto dto) {
+    void newData(ObservableList<MemberDto> data) {
         this.data = data;
-        memberDto = dto;
+        memberDto = new MemberDto();
 
-        txtStudentNumber.setText(dto.getStudentNumber());
+        currentIndex = data.size() - 1;
+
+        todo();
+    }
+
+    void updateData(ObservableList<MemberDto> data, int index) {
+        this.data = data;
+        memberDto = data.get(index);
+        currentIndex = index;
+
+        todo();
+    }
+
+    private void todo() {
+        txtStudentNumber.setText(memberDto.getStudentNumber());
         txtStudentNumber.setDisable((memberDto.getId() != 0));
-        txtLastname.setText(dto.getLastname());
-        txtFirstname.setText(dto.getFirstname());
-        dpBirthday.setValue(dto.getBirthday());
-        txtEmail.setText(dto.getEmail());
+        txtLastname.setText(memberDto.getLastname());
+        txtFirstname.setText(memberDto.getFirstname());
+        dpBirthday.setValue(memberDto.getBirthday());
+        txtEmail.setText(memberDto.getEmail());
 
         degreeDtos.stream().forEach(degreeDto -> {
             if (degreeDto.getCode().equals(memberDto.getDegreeCode())) {
@@ -208,23 +231,30 @@ public class MemberController extends AbstractCustomDialogController {
             });
         }
 
-        txtPhone.setText(dto.getPhone());
-        cbSubscription.setSelected(dto.getSubscription());
-        cbAnnals.setSelected(dto.getAnnals());
+        txtPhone.setText(memberDto.getPhone());
+        cbSubscription.setSelected(memberDto.getSubscription());
+        cbAnnals.setSelected(memberDto.getAnnals());
 
         txtStudentNumber.requestFocus();
+
+        btnPrevious.setDisable(currentIndex == 0);
+        btnNext.setDisable(currentIndex == data.size() - 1);
     }
 
-    public void saveDataAndClose(Event event) {
-        if (save()) {
-            close(event);
-        }
+    public void previousData() {
+        updateData(data, --currentIndex);
     }
 
-    public void saveDataAndContinue() {
-        if (save()) {
-            setData(data, new MemberDto());
-        }
+    public void saveData() {
+        save();
+    }
+
+    public void newData() {
+        newData(data);
+    }
+
+    public void nextData() {
+        updateData(data, ++currentIndex);
     }
 
     // see http://howtodoinjava.com/2014/11/11/java-regex-validate-email-address/
@@ -260,12 +290,12 @@ public class MemberController extends AbstractCustomDialogController {
             memberDto.setEmail(txtEmail.getText());
             if (cbDegree.getValue() != null) {
                 memberDto.setDegreeCode(cbDegree.getValue().getCode());
-            }else {
+            } else {
                 memberDto.setDegreeCode(null);
             }
             if (cbOption.getValue() != null) {
                 memberDto.setOptionCode(cbOption.getValue().getCode());
-            }else {
+            } else {
                 memberDto.setOptionCode(null);
             }
             memberDto.setPhone(txtPhone.getText());

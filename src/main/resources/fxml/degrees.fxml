@@ -29,7 +29,6 @@
         <bottom>
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="35.0" prefWidth="627.0"
                      BorderPane.alignment="CENTER">
-                <Button onMouseClicked="#onClose" text="%global.close"/>
                 <Button onMouseClicked="#onSave" text="%global.save"/>
             </ToolBar>
         </bottom>
