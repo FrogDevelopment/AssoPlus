@@ -15,6 +15,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -44,12 +45,20 @@ public class MembersController extends AbstractCustomController {
     private TableView<MemberDto> table;
     @FXML
     private TableColumn<MemberDto, Boolean> actionCol;
+    @FXML
+    private TableColumn<MemberDto, Boolean> subsciptionCol;
+    @FXML
+    private TableColumn<MemberDto, Boolean> annalsCol;
+
     private ObservableList<MemberDto> data;
 
     @Override
     protected void initialize() {
         data = FXCollections.observableArrayList(membersService.getAll());
         table.setItems(data);
+
+        subsciptionCol.setCellFactory(CheckBoxTableCell.forTableColumn(subsciptionCol));
+        annalsCol.setCellFactory(CheckBoxTableCell.forTableColumn(annalsCol));
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
         actionCol.setCellValueFactory(features -> new SimpleBooleanProperty(features.getValue() != null));

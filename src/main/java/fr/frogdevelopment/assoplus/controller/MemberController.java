@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
-import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotNull;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -237,9 +236,11 @@ public class MemberController extends AbstractCustomDialogController {
                     txtStudentNumber);
         }
 
-        isOk &= Validator.validate(() -> pattern.matcher(txtEmail.getText()).matches(),
-                "member.error.msg.email.incorrect",
-                txtEmail);
+        if (StringUtils.isNotBlank(txtEmail.getText())) {
+            isOk &= Validator.validate(() -> pattern.matcher(txtEmail.getText()).matches(),
+                    "member.error.msg.email.incorrect",
+                    txtEmail);
+        }
 
         if (isOk) {
             lblError.setText(null);
@@ -247,10 +248,19 @@ public class MemberController extends AbstractCustomDialogController {
             memberDto.setStudentNumber(studentNumber);
             memberDto.setLastname(txtLastname.getText());
             memberDto.setFirstname(txtFirstname.getText());
+
             memberDto.setBirthday(dpBirthday.getValue());
             memberDto.setEmail(txtEmail.getText());
-            memberDto.setDegreeCode(cbDegree.getValue().getCode());
-            memberDto.setOptionCode(cbOption.getValue().getCode());
+            if (cbDegree.getValue() != null) {
+                memberDto.setDegreeCode(cbDegree.getValue().getCode());
+            }else {
+                memberDto.setDegreeCode(null);
+            }
+            if (cbOption.getValue() != null) {
+                memberDto.setOptionCode(cbOption.getValue().getCode());
+            }else {
+                memberDto.setOptionCode(null);
+            }
             memberDto.setPhone(txtPhone.getText());
 
             if (memberDto.getId() == 0) {

@@ -6,6 +6,8 @@ package fr.frogdevelopment.assoplus.dto;
 
 import javafx.beans.property.*;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.time.LocalDate;
 
 public class MemberDto implements Dto {
@@ -19,9 +21,12 @@ public class MemberDto implements Dto {
     private final SimpleStringProperty degreeCode = new SimpleStringProperty("");
     private final SimpleStringProperty optionCode = new SimpleStringProperty("");
     private final SimpleStringProperty phone = new SimpleStringProperty("");
+    private final SimpleBooleanProperty subscription = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty annals = new SimpleBooleanProperty(false);
 
-    private final BooleanProperty selected = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
 
+    @Override
     public Integer getId() {
         return id.get();
     }
@@ -30,6 +35,7 @@ public class MemberDto implements Dto {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id.set(id);
     }
@@ -130,11 +136,35 @@ public class MemberDto implements Dto {
         this.phone.set(phone);
     }
 
+    public boolean getAnnals() {
+        return annals.get();
+    }
+
+    public SimpleBooleanProperty annalsProperty() {
+        return annals;
+    }
+
+    public void setAnnals(boolean annals) {
+        this.annals.set(annals);
+    }
+
+    public boolean getSubscription() {
+        return subscription.get();
+    }
+
+    public SimpleBooleanProperty subscriptionProperty() {
+        return subscription;
+    }
+
+    public void setSubscription(boolean subscription) {
+        this.subscription.set(subscription);
+    }
+
     public boolean getSelected() {
         return selected.get();
     }
 
-    public BooleanProperty selectedProperty() {
+    public SimpleBooleanProperty selectedProperty() {
         return selected;
     }
 
@@ -142,4 +172,21 @@ public class MemberDto implements Dto {
         this.selected.set(selected);
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("studentNumber", studentNumber)
+                .append("lastname", lastname)
+                .append("firstname", firstname)
+                .append("birthday", birthday)
+                .append("email", email)
+                .append("degreeCode", degreeCode)
+                .append("optionCode", optionCode)
+                .append("phone", phone)
+                .append("subscription", subscription)
+                .append("annals", annals)
+                .append("selected", selected)
+                .toString();
+    }
 }

@@ -62,7 +62,17 @@
                         <PropertyValueFactory property="phone"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="actionCol" text="%member.actions" sortable="false">
+                <TableColumn fx:id="subsciptionCol" text="%member.subscription" minWidth="60" maxWidth="60" resizable="false">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="subscription"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="annalsCol" text="%member.annals" minWidth="60" maxWidth="60" resizable="false">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="annals"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="actionCol" text="%member.actions" sortable="false" minWidth="100" maxWidth="100" resizable="false">
                 </TableColumn>
             </columns>
         </TableView>

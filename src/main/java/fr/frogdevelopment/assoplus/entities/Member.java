@@ -8,9 +8,11 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Set;
 
 @javax.persistence.Entity
 @Table(name = "member")
@@ -45,8 +47,11 @@ public class Member implements Serializable, Entity {
     @Column(name = "phone", nullable = true)
     private String phone;
 
-//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members", cascade = CascadeType.PERSIST)
-    private Set<SchoolYear> schoolYears;
+    @Column(name="subscription", nullable = false)
+    private boolean subscription;
+
+    @Column(name="annals", nullable = false)
+    private boolean annals;
 
     public Integer getId() {
         return id;
@@ -120,12 +125,20 @@ public class Member implements Serializable, Entity {
         this.phone = phone;
     }
 
-    public Set<SchoolYear> getSchoolYears() {
-        return schoolYears;
+    public boolean isSubscription() {
+        return subscription;
     }
 
-    public void setSchoolYears(Set<SchoolYear> schoolYears) {
-        this.schoolYears = schoolYears;
+    public void setSubscription(boolean subscription) {
+        this.subscription = subscription;
+    }
+
+    public boolean isAnnals() {
+        return annals;
+    }
+
+    public void setAnnals(boolean annals) {
+        this.annals = annals;
     }
 
     @Override
@@ -140,7 +153,8 @@ public class Member implements Serializable, Entity {
                 .append("degreeCode", degreeCode)
                 .append("optionCode", optionCode)
                 .append("phone", phone)
-                .append("schoolYears", schoolYears)
+                .append("subscription", subscription)
+                .append("annals", annals)
                 .toString();
     }
 
