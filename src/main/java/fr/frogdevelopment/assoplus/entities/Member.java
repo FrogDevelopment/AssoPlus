@@ -48,10 +48,10 @@ public class Member implements Serializable, Entity {
     private String phone;
 
     @Column(name="subscription", nullable = false)
-    private boolean subscription;
+    private Integer subscription;
 
     @Column(name="annals", nullable = false)
-    private boolean annals;
+    private Integer annals;
 
     public Integer getId() {
         return id;
@@ -125,19 +125,19 @@ public class Member implements Serializable, Entity {
         this.phone = phone;
     }
 
-    public boolean isSubscription() {
+    public Integer getSubscription() {
         return subscription;
     }
 
-    public void setSubscription(boolean subscription) {
+    public void setSubscription(Integer subscription) {
         this.subscription = subscription;
     }
 
-    public boolean isAnnals() {
+    public Integer getAnnals() {
         return annals;
     }
 
-    public void setAnnals(boolean annals) {
+    public void setAnnals(Integer annals) {
         this.annals = annals;
     }
 

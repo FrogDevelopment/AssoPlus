@@ -4,12 +4,20 @@
   Copyright (c) Frog Development 2015.
   -->
 
-<?import fr.frogdevelopment.assoplus.components.controls.NumberTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import fr.frogdevelopment.assoplus.components.controls.NumberTextField?>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.frogdevelopment.assoplus.controller.MemberController">
     <top>
         <Label fx:id="lblError" textFill="RED" BorderPane.alignment="CENTER_LEFT">
@@ -34,6 +42,7 @@
                 <RowConstraints minHeight="30.0" prefHeight="30.0"/>
                 <RowConstraints minHeight="30.0" prefHeight="30.0"/>
                 <RowConstraints minHeight="30.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="30.0" prefHeight="30.0"/>
             </rowConstraints>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
@@ -41,7 +50,7 @@
 
             <Label text="%member.student.number"/>
             <NumberTextField fx:id="txtStudentNumber" GridPane.columnIndex="1"/>
-            <!--<TextField GridPane.columnIndex="1" />-->
+            <!--<TextField GridPane.columnIndex="1"/>-->
 
             <Label text="%member.lastname" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
             <TextField fx:id="txtLastname" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
@@ -50,24 +59,27 @@
             <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
             <Label text="%member.birthday" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <DatePicker fx:id="dpBirthday" GridPane.columnIndex="1" GridPane.rowIndex="3" showWeekNumbers="false"/>
+            <DatePicker fx:id="dpBirthday" showWeekNumbers="false" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
             <Label text="%member.email" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
             <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
             <Label text="%member.degree" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-            <ComboBox fx:id="cbDegree" GridPane.columnIndex="1" GridPane.rowIndex="5" visibleRowCount="6"/>
+            <ComboBox fx:id="cbDegree" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
             <Label text="%member.option" GridPane.rowIndex="6"/>
-            <ComboBox fx:id="cbOption" GridPane.columnIndex="1" GridPane.rowIndex="6" visibleRowCount="6"/>
+            <ComboBox fx:id="cbOption" visibleRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
             <Label text="%member.phone" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
             <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+            <CheckBox mnemonicParsing="false" fx:id="cbSubscription" text="%member.subscription" GridPane.rowIndex="8"/>
+            <CheckBox mnemonicParsing="false" fx:id="cbAnnals" text="%member.annals" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
         </GridPane>
     </center>
 
     <bottom>
-        <ToolBar prefHeight="40.0" prefWidth="200.0" nodeOrientation="RIGHT_TO_LEFT">
+        <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
             <Button onAction="#saveDataAndClose" text="%global.save.and.close"/>
             <Button onAction="#saveDataAndContinue" text="%global.save.and.continue"/>
         </ToolBar>

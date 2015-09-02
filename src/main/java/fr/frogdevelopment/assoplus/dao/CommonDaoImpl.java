@@ -207,8 +207,6 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
                     final String valueOf = String.valueOf(value);
                     if (field.getType() == String.class) {
                         map.put(column.name(), "'" + valueOf.replace("'", "''") + "'");
-                    }else if (field.getType() == Boolean.class || field.getType() == Boolean.TYPE) {
-                        map.put(column.name(), "true".equals(valueOf) ? "1" : "0");
                     } else {
                         map.put(column.name(), valueOf);
                     }
@@ -256,10 +254,14 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
                 });
 
                 Object value = field.get(entity);
-                if (field.getType() == String.class) {
-                    setValues.add(column.name() + " = " + "'" + String.valueOf(value) + "'");
+                if (value == null) {
+                    setValues.add(column.name() + " = " + null);
                 } else {
-                    setValues.add(column.name() + " = " + String.valueOf(value));
+                    if (field.getType() == String.class) {
+                        setValues.add(column.name() + "=" + "'" + String.valueOf(value) + "'");
+                    } else {
+                        setValues.add(column.name() + "=" + String.valueOf(value));
+                    }
                 }
             }
 

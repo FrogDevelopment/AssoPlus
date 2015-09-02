@@ -28,8 +28,8 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         memberDto.setDegreeCode(bean.getDegreeCode());
         memberDto.setOptionCode(bean.getOptionCode());
         memberDto.setPhone(bean.getPhone());
-        memberDto.setSubscription(bean.isSubscription());
-        memberDto.setAnnals(bean.isAnnals());
+        memberDto.setSubscription(1 == bean.getSubscription());
+        memberDto.setAnnals(1 == bean.getAnnals());
 
         return memberDto;
     }
@@ -47,8 +47,8 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         member.setDegreeCode(dto.getDegreeCode());
         member.setOptionCode(dto.getOptionCode());
         member.setPhone(dto.getPhone());
-        member.setSubscription(dto.getSubscription());
-        member.setAnnals(dto.getAnnals());
+        member.setSubscription(dto.getSubscription() ? 1 : 0);
+        member.setAnnals(dto.getAnnals() ? 1 : 0);
 
         return member;
     }

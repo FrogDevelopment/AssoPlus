@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -73,6 +74,10 @@ public class MemberController extends AbstractCustomDialogController {
     public ComboBox<OptionDto> cbOption;
     @FXML
     private TextField txtPhone;
+    @FXML
+    private CheckBox cbSubscription;
+    @FXML
+    private CheckBox cbAnnals;
 
     private MemberDto memberDto;
     private ObservableList<MemberDto> data;
@@ -204,6 +209,8 @@ public class MemberController extends AbstractCustomDialogController {
         }
 
         txtPhone.setText(dto.getPhone());
+        cbSubscription.setSelected(dto.getSubscription());
+        cbAnnals.setSelected(dto.getAnnals());
 
         txtStudentNumber.requestFocus();
     }
@@ -262,6 +269,9 @@ public class MemberController extends AbstractCustomDialogController {
                 memberDto.setOptionCode(null);
             }
             memberDto.setPhone(txtPhone.getText());
+
+            memberDto.setSubscription(cbSubscription.isSelected());
+            memberDto.setAnnals(cbAnnals.isSelected());
 
             if (memberDto.getId() == 0) {
                 membersService.saveData(memberDto);

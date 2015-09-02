@@ -145,7 +145,7 @@ public class MembersController extends AbstractCustomController {
 
         dialog.setTitle(getMessage(keyTitle));
         dialog.setWidth(330);
-        dialog.setHeight(350);
+        dialog.setHeight(375);
         dialog.setResizable(false);
 
         dialog.show();
