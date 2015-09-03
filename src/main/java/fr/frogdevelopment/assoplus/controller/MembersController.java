@@ -4,24 +4,18 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.TableCell;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -30,7 +24,6 @@ import org.springframework.stereotype.Controller;
 
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.service.MembersService;
-import fr.frogdevelopment.assoplus.utils.ApplicationUtils;
 
 import java.util.function.Consumer;
 
@@ -42,9 +35,7 @@ public class MembersController extends AbstractCustomController {
     private MembersService membersService;
 
     @FXML
-    private TableView<MemberDto> table;
-    @FXML
-    private TableColumn<MemberDto, Boolean> actionCol;
+    private TableView<MemberDto> tableView;
     @FXML
     private TableColumn<MemberDto, Boolean> subsciptionCol;
     @FXML
@@ -55,62 +46,39 @@ public class MembersController extends AbstractCustomController {
     @Override
     protected void initialize() {
         data = FXCollections.observableArrayList(membersService.getAll());
-        table.setItems(data);
+        tableView.setItems(data);
+
+        tableView.setRowFactory(param -> {
+            TableRow<MemberDto> tableRow = new TableRow<>();
+            tableRow.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !tableRow.isEmpty()) {
+                    updateMember();
+                }
+
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    final ContextMenu contextMenu = new ContextMenu();
+                    MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
+                    deleteItem.setOnAction(event1 -> {
+                        MemberDto selectedItem = tableView.getSelectionModel().getSelectedItem();
+                        // FIXME
+                        showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
+                    });
+                    contextMenu.getItems().add(deleteItem);
+
+                    // only display context menu for non-null items:
+                    tableRow.contextMenuProperty().bind(
+                            Bindings.when(Bindings.isNotNull(tableRow.itemProperty()))
+                                    .then(contextMenu)
+                                    .otherwise((ContextMenu) null)
+                    );
+                }
+            });
+            return tableRow;
+        });
+
 
         subsciptionCol.setCellFactory(CheckBoxTableCell.forTableColumn(subsciptionCol));
         annalsCol.setCellFactory(CheckBoxTableCell.forTableColumn(annalsCol));
-
-        // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
-        actionCol.setCellValueFactory(features -> new SimpleBooleanProperty(features.getValue() != null));
-
-        // create a cell value factory with an add button for each row in the table.
-        actionCol.setCellFactory(personBooleanTableColumn -> new ActionCell());
-    }
-
-    /**
-     * A table cell containing a button for adding a new person.
-     */
-    private class ActionCell extends TableCell<MemberDto, Boolean> {
-        final HBox hBox = new HBox();
-
-        /**
-         * ActionCell constructor
-         */
-        ActionCell() {
-            hBox.setAlignment(Pos.CENTER);
-
-            Button updateBtn = new Button();
-            updateBtn.setGraphic(new ImageView(new Image("/img/edit_user_24.png")));
-            hBox.getChildren().add(updateBtn);
-            updateBtn.setOnAction(event -> {
-                table.getSelectionModel().select(getTableRow().getIndex());
-                updateMember(event);
-            });
-
-            Button deleteBtn = new Button();
-            deleteBtn.setGraphic(new ImageView(new Image("/img/remove_user_24.png")));
-            hBox.getChildren().add(deleteBtn);
-            deleteBtn.setOnAction(event -> {
-                table.getSelectionModel().select(getTableRow().getIndex());
-                MemberDto selectedItem = table.getSelectionModel().getSelectedItem();
-                // FIXME
-                showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
-            });
-        }
-
-        /**
-         * places an add button in the row only if the row is not empty.
-         */
-        @Override
-        protected void updateItem(Boolean item, boolean empty) {
-            super.updateItem(item, empty);
-            if (!empty) {
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                setGraphic(hBox);
-            } else {
-                setGraphic(null);
-            }
-        }
     }
 
     private void removeMember(MemberDto selectedItem) {
@@ -118,24 +86,11 @@ public class MembersController extends AbstractCustomController {
         data.remove(selectedItem);
     }
 
-    public void importMembers(MouseEvent event) {
-        Window parent = getParent(event);
-
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/import_members.fxml");
-        dialog.setTitle(getMessage("import.title"));
-        dialog.setWidth(1000);
-        dialog.setHeight(400);
-
-        dialog.show();
-    }
-
-    public void addMember(Event event) {
-        Window parent = getParent(event);
-
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/member.fxml", new Consumer<MemberController>() {
+    public void addMember() {
+        Stage dialog = openDialog("/fxml/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.newData(table.getItems());
+                memberController.newData(tableView.getItems());
             }
         });
 
@@ -147,13 +102,11 @@ public class MembersController extends AbstractCustomController {
         dialog.show();
     }
 
-    private void updateMember(Event event) {
-        Window parent = getParent(event);
-
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/member.fxml", new Consumer<MemberController>() {
+    private void updateMember() {
+        Stage dialog = openDialog("/fxml/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.updateData(table.getItems(), table.getSelectionModel().getSelectedIndex());
+                memberController.updateData(tableView.getItems(), tableView.getSelectionModel().getSelectedIndex());
             }
         });
 
@@ -165,10 +118,8 @@ public class MembersController extends AbstractCustomController {
         dialog.show();
     }
 
-    public void manageDegrees(MouseEvent event) {
-        Window parent = getParent(event);
-
-        Stage dialog = ApplicationUtils.openDialog(parent, "/fxml/degrees.fxml");
+    public void manageDegrees() {
+        Stage dialog = openDialog("/fxml/degrees.fxml");
         dialog.setTitle(getMessage("member.degrees"));
         dialog.setWidth(550);
         dialog.setHeight(400);

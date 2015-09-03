@@ -4,13 +4,16 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -18,7 +21,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_16;
+import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_32;
+import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_48;
+import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.load;
+
 abstract class AbstractCustomController implements Initializable {
+
+    @FXML
+    protected Pane child;
 
     private ResourceBundle resources;
 
@@ -32,15 +43,30 @@ abstract class AbstractCustomController implements Initializable {
         return resources.getString(key);
     }
 
-    protected Window getParent(Event event) {
-        Node source = (Node) (event.getSource());
-        return source.getScene().getWindow();
+    protected Window getParent() {
+        return child.getScene().getWindow();
     }
 
     protected abstract void initialize();
 
+    protected Stage openDialog(String url) {
+        return openDialog(url, null);
+    }
 
-    protected void showYesNoDialog(String messageKey, Consumer onYes) {
+    protected <T> Stage openDialog(String url, Consumer<T> controllerConsumer) {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.WINDOW_MODAL);
+//        dialog.initStyle(StageStyle.UTILITY);
+        dialog.initOwner(getParent());
+        dialog.getIcons().addAll(ICON_16, ICON_32, ICON_48);
+
+        Parent root = load(url, controllerConsumer);
+        dialog.setScene(new Scene(root));
+
+        return dialog;
+    }
+
+    protected void showYesNoDialog(String messageKey, Consumer<? super ButtonType> onYes) {
 
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle(getMessage("global.warning.title"));

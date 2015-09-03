@@ -15,9 +15,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="child"
             fx:controller="fr.frogdevelopment.assoplus.controller.MembersController">
     <center>
-        <TableView fx:id="table" managed="true">
+        <TableView fx:id="tableView" managed="true">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
@@ -62,7 +63,8 @@
                         <PropertyValueFactory property="phone"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="subsciptionCol" text="%member.subscription" minWidth="70" maxWidth="70" resizable="false">
+                <TableColumn fx:id="subsciptionCol" text="%member.subscription" minWidth="70" maxWidth="70"
+                             resizable="false">
                     <cellValueFactory>
                         <PropertyValueFactory property="subscription"/>
                     </cellValueFactory>
@@ -71,8 +73,6 @@
                     <cellValueFactory>
                         <PropertyValueFactory property="annals"/>
                     </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="actionCol" text="%member.actions" sortable="false" minWidth="100" maxWidth="100" resizable="false">
                 </TableColumn>
             </columns>
         </TableView>
@@ -86,7 +86,7 @@
                 </VBox.margin>
                 <graphic>
                     <ImageView>
-                        <Image url="@../img/add_user_32.png" />
+                        <Image url="@../img/add_user_32.png"/>
                     </ImageView>
                 </graphic>
             </Button>
@@ -96,7 +96,7 @@
                 </VBox.margin>
                 <graphic>
                     <ImageView>
-                        <Image url="@../img/list_32.png" />
+                        <Image url="@../img/list_32.png"/>
                     </ImageView>
                 </graphic>
             </Button>
@@ -105,16 +105,6 @@
             <!--<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
             <!--</VBox.margin>-->
             <!--</Button>-->
-            <Button mnemonicParsing="false" onMouseClicked="#importMembers" text="%member.import">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
-                <graphic>
-                    <ImageView>
-                        <Image url="@../img/data_32.png" />
-                    </ImageView>
-                </graphic>
-            </Button>
         </ToolBar>
     </bottom>
 

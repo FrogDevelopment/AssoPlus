@@ -6,11 +6,13 @@
   Copyright (c) Frog Development 2015.
   -->
 
-<BorderPane xmlns="http://javafx.com/javafx/8"
+<BorderPane fx:id="child" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.MainController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <Menu mnemonicParsing="false" text="Fichier">
+                <MenuItem mnemonicParsing="false" text="%member.import" onAction="#importMembers"/>
+                <SeparatorMenuItem />
                 <MenuItem mnemonicParsing="false" text="Quitter" onAction="#onExit"/>
             </Menu>
             <Menu mnemonicParsing="false" text="Paramètres" disable="true">
