@@ -58,7 +58,12 @@ public class MembersController extends AbstractCustomController {
                 if (event.getButton() == MouseButton.SECONDARY) {
                     final ContextMenu contextMenu = new ContextMenu();
                     MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
-                    deleteItem.setOnAction(event1 -> {
+
+                    MenuItem updateItem = new MenuItem(getMessage("global.update"));
+                    updateItem.setOnAction(e -> updateMember());
+                    contextMenu.getItems().add(updateItem);
+
+                    deleteItem.setOnAction(e -> {
                         MemberDto selectedItem = tableView.getSelectionModel().getSelectedItem();
                         // FIXME
                         showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
