@@ -131,7 +131,7 @@
     <bottom>
         <ToolBar fx:id="toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0"
                  BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" text="%import.import"/>
+            <Button mnemonicParsing="false" text="%import.import" onAction="#importData"/>
         </ToolBar>
     </bottom>
 
