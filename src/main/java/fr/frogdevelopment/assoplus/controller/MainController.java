@@ -7,6 +7,7 @@ package fr.frogdevelopment.assoplus.controller;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MainController extends AbstractCustomController {
+
+    @Autowired
+    private MembersController membersController;
     
     @Override
     protected void initialize() {
@@ -24,6 +28,10 @@ public class MainController extends AbstractCustomController {
         dialog.setTitle(getMessage("import.title"));
         dialog.setWidth(1000);
         dialog.setHeight(400);
+
+        dialog.setOnCloseRequest(event -> {
+            membersController.initialize();
+        });
 
         dialog.show();
     }

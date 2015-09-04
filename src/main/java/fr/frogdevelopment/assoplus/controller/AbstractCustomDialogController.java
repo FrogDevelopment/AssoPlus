@@ -5,13 +5,13 @@
 package fr.frogdevelopment.assoplus.controller;
 
 import javafx.event.Event;
-import javafx.stage.Window;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 abstract class AbstractCustomDialogController extends AbstractCustomController {
 
     protected void close() {
-        Window window = getParent();
-        Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+        Stage window = (Stage) getParent();
+        Event.fireEvent(child, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 }

@@ -28,7 +28,7 @@ import fr.frogdevelopment.assoplus.service.MembersService;
 import java.util.function.Consumer;
 
 @Controller
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class MembersController extends AbstractCustomController {
 
     @Autowired
