@@ -16,6 +16,7 @@ import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -23,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -37,6 +39,9 @@ import org.springframework.stereotype.Controller;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isAnyBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -111,6 +116,12 @@ public class ImportMembersController extends AbstractCustomDialogController {
         toolBar.setManaged(false);
 
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
+        CheckBox checkBoxAll = new CheckBox();
+        checkBoxAll.setSelected(true);
+        checkBoxAll.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            data.forEach(dto -> dto.setSelected(newValue));
+        });
+        selectCol.setGraphic(checkBoxAll);
         tableView.setEditable(true);
 
         MaskHelper.addTextLimiter(tfDelimiter, 1);
@@ -401,7 +412,45 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
 
     public void saveSelectedData() {
-        membersService.saveAll(data.filtered(MemberDto::getSelected));
+
+        final Map<String, MemberDto> mapOnBaseByStudentNumber = membersService.getAll()
+                .stream()
+                .collect(Collectors.toMap(MemberDto::getStudentNumber, Function.identity()));
+
+        Map<String, MemberDto> mapToSaveByStudentNumber = data
+                .stream()
+                .filter(MemberDto::getSelected)
+                .collect(Collectors.toMap(MemberDto::getStudentNumber, Function.identity()));
+
+        mapOnBaseByStudentNumber.keySet().retainAll(mapToSaveByStudentNumber.keySet());
+
+        if (mapOnBaseByStudentNumber.keySet().size() > 0) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        if (StringUtils.isNotBlank(headerKey)) {
+//            alert.setHeaderText(getMessage(headerKey));
+//        }
+            alert.setContentText("Ecraser ou ignorer les données ?");
+
+            alert.getButtonTypes().clear();
+            ButtonType overrideBtn = new ButtonType("Écraser", ButtonBar.ButtonData.YES);
+            alert.getButtonTypes().add(overrideBtn);
+            ButtonType ignoreBtn = new ButtonType("Ignorer", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().add(ignoreBtn);
+
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image("/img/dialog-confirm_16.png"));
+
+            Optional<ButtonType> response = alert.showAndWait();
+
+            if (overrideBtn.equals(response.get())) {
+                mapOnBaseByStudentNumber.entrySet().forEach(entry -> mapToSaveByStudentNumber.get(entry.getKey()).setId(entry.getValue().getId()));
+            } else {
+                mapOnBaseByStudentNumber.keySet().forEach(mapToSaveByStudentNumber::remove);
+            }
+        }
+
+        membersService.saveOrUpdateAll(mapToSaveByStudentNumber.values());
+
         close();
     }
 }
