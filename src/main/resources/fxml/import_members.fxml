@@ -4,134 +4,128 @@
   Copyright (c) Frog Development 2015.
   -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<BorderPane fx:id="child" prefHeight="520.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.ImportMembersController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="child" prefHeight="520.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.frogdevelopment.assoplus.controller.ImportMembersController">
     <top>
-        <GridPane fx:id="top" BorderPane.alignment="CENTER">
+        <GridPane BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="363.0" minWidth="10.0" prefWidth="162.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="251.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="363.0" minWidth="10.0" prefWidth="176.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="667.0" minWidth="10.0" prefWidth="274.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="193.0" minWidth="25.0" prefWidth="178.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="209.0"/>
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="208.0" minWidth="25.0" prefWidth="162.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="667.0" minWidth="10.0" prefWidth="326.0"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
-            <children>
 
-                <Button mnemonicParsing="false" onMouseClicked="#selectFile" text="%import.select.file" GridPane.columnIndex="1" />
-                <Label fx:id="labelFileName" GridPane.columnIndex="2" />
-                <Button mnemonicParsing="false" onMouseClicked="#testHeader" text="%import.find.headers" GridPane.columnIndex="4" />
+            <Button mnemonicParsing="false" onMouseClicked="#selectFile" text="%import.select.file"/>
+            <Label fx:id="labelFileName" GridPane.columnIndex="1"/>
 
-                <CheckBox fx:id="cbStudentNumber" disable="true" mnemonicParsing="false" selected="true" GridPane.rowIndex="2" />
-                <Label text="%member.student.number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <TextField fx:id="tfStudentNumber" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label text="Delimiter" GridPane.columnIndex="2" GridPane.halignment="LEFT"/>
+            <HBox spacing="10.0" GridPane.columnIndex="3" GridPane.valignment="CENTER">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <TextField fx:id="tfDelimiter" maxWidth="20" minWidth="20" prefWidth="20"/>
+                <Button fx:id="btnHeaders" disable="true" text="%import.find.headers"
+                        mnemonicParsing="false" onMouseClicked="#findHeaders"/>
+            </HBox>
 
-                <CheckBox fx:id="cbLastname" mnemonicParsing="false" selected="true" GridPane.rowIndex="3" />
-                <Label text="%member.lastname" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <TextField fx:id="tfLastname" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label text="Headers" GridPane.rowIndex="1"/>
+            <HBox fx:id="hboxTest" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1"
+                  GridPane.columnSpan="2147483647" GridPane.rowIndex="1"/>
 
-                <CheckBox fx:id="cbFirstname" mnemonicParsing="false" selected="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <Label text="%member.firstname" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <TextField fx:id="tfFirstname" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Label fx:id="lbStudentNumber" text="%member.student.number" GridPane.rowIndex="2"/>
+            <TextField fx:id="tfStudentNumber" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                <CheckBox fx:id="cbBirthday" mnemonicParsing="false" selected="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <Label text="%member.birthday" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <TextField fx:id="tfBirthday" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <Label fx:id="lbLastname" text="%member.lastname" GridPane.rowIndex="3"/>
+            <TextField fx:id="tfLastname" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-                <CheckBox fx:id="cbEmail" mnemonicParsing="false" selected="true" GridPane.rowIndex="4" />
-                <Label text="%member.email" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <TextField fx:id="tfEmail" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="lbFirstname" text="%member.firstname" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+            <TextField fx:id="tfFirstname" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
 
-                <CheckBox fx:id="cbPhone" mnemonicParsing="false" selected="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                <Label text="%member.phone" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                <TextField fx:id="tfPhone" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <Label fx:id="lbBirthday" text="%member.birthday" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <TextField fx:id="tfBirthday" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
 
-                <CheckBox fx:id="cbDegree" mnemonicParsing="false" selected="true" GridPane.rowIndex="5" />
-                <Label text="%member.degree" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <TextField fx:id="tfDegree" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="lbEmail" text="%member.email" GridPane.rowIndex="4"/>
+            <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-                <CheckBox fx:id="cbOption" mnemonicParsing="false" selected="true" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                <Label text="%member.option" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                <TextField fx:id="tfOption" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            <Label fx:id="lbPhone" text="%member.phone" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+            <TextField fx:id="tfPhone" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
 
-                <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="6">
-                    <items>
-                        <Button mnemonicParsing="false" onMouseClicked="#importMembers" text="%import.import" />
-                    </items>
-                </ToolBar>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="1"  fx:id="hboxTest"/>
+            <Label fx:id="lbDegree" text="%member.degree" GridPane.rowIndex="5"/>
+            <TextField fx:id="tfDegree" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-            </children>
+            <Label fx:id="lbOption" text="%member.option" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+            <TextField fx:id="tfOption" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="6"
+                     GridPane.rowIndex="6">
+                <Button fx:id="btnLoadData" disable="true"
+                        mnemonicParsing="false" text="%import.load"
+                        onMouseClicked="#importMembers"/>
+            </ToolBar>
         </GridPane>
     </top>
 
     <center>
         <TableView fx:id="tableView" managed="true" prefHeight="400.0" prefWidth="1045.0">
             <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
             <columns>
-                <TableColumn fx:id="selectCol" maxWidth="20" minWidth="20" prefWidth="20" resizable="false" sortable="false">
+                <TableColumn fx:id="selectCol" maxWidth="20" minWidth="20" prefWidth="20" resizable="false"
+                             sortable="false">
                 </TableColumn>
                 <TableColumn text="%member.student.number">
                     <cellValueFactory>
-                        <PropertyValueFactory property="studentNumber" />
+                        <PropertyValueFactory property="studentNumber"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.lastname">
                     <cellValueFactory>
-                        <PropertyValueFactory property="lastname" />
+                        <PropertyValueFactory property="lastname"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.firstname">
                     <cellValueFactory>
-                        <PropertyValueFactory property="firstname" />
+                        <PropertyValueFactory property="firstname"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.birthday">
                     <cellValueFactory>
-                        <PropertyValueFactory property="birthday" />
+                        <PropertyValueFactory property="birthday"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.email">
                     <cellValueFactory>
-                        <PropertyValueFactory property="email" />
+                        <PropertyValueFactory property="email"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.degree">
                     <cellValueFactory>
-                        <PropertyValueFactory property="degreeCode" />
+                        <PropertyValueFactory property="degreeCode"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.option">
                     <cellValueFactory>
-                        <PropertyValueFactory property="optionCode" />
+                        <PropertyValueFactory property="optionCode"/>
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn text="%member.phone">
                     <cellValueFactory>
-                        <PropertyValueFactory property="phone" />
+                        <PropertyValueFactory property="phone"/>
                     </cellValueFactory>
                 </TableColumn>
             </columns>
@@ -139,10 +133,9 @@
     </center>
 
     <bottom>
-        <ToolBar fx:id="toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <items>
-                <Button mnemonicParsing="false" onAction="#saveSelectedData" text="%global.save" />
-            </items>
+        <ToolBar fx:id="toolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0"
+                 BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#saveSelectedData" text="%global.save"/>
         </ToolBar>
     </bottom>
 

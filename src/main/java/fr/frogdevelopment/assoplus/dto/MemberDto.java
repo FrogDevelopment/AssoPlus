@@ -4,13 +4,15 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
-import javafx.beans.property.*;
-
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.time.LocalDate;
 
-public class MemberDto implements Dto {
+public class MemberDto implements Dto, Comparable<MemberDto> {
 
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
     private final SimpleStringProperty studentNumber = new SimpleStringProperty("");
@@ -188,5 +190,13 @@ public class MemberDto implements Dto {
                 .append("annals", annals)
                 .append("selected", selected)
                 .toString();
+    }
+
+    @Override
+    public int compareTo(MemberDto o) {
+        if (o == null) {
+            return -1;
+        }
+        return this.getStudentNumber().compareTo(o.getStudentNumber());
     }
 }

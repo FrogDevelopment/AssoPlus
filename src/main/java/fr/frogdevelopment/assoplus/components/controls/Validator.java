@@ -83,7 +83,7 @@ public class Validator {
         return validateNotBlank("global.error.msg.required", textInputControl);
     }
 
-    public static boolean validateNotBlank(String keyErrorMsg, TextInputControl... textInputControles) {
+    public static boolean validateNoneBlank(String keyErrorMsg, TextInputControl... textInputControles) {
         boolean isOk = true;
         for (TextInputControl textInputControl : textInputControles) {
             isOk &= validateNotBlank(keyErrorMsg, textInputControl);
@@ -91,8 +91,8 @@ public class Validator {
         return isOk;
     }
 
-    public static boolean validateNotBlank(TextInputControl... textInputControles) {
-        return validateNotBlank("global.error.msg.required", textInputControles);
+    public static boolean validateNoneBlank(TextInputControl... textInputControles) {
+        return validateNoneBlank("global.error.msg.required", textInputControles);
     }
 
     // ComboBoxBase
@@ -100,7 +100,7 @@ public class Validator {
         return validate(() -> comboBoxBase.getValue() != null, Validator::clearTooltip, control -> setTooltip(control, keyErrorMsg), comboBoxBase);
     }
 
-    public static boolean validateNotNull(String keyErrorMsg, ComboBoxBase... comboBoxBases) {
+    public static boolean validateNoneNull(String keyErrorMsg, ComboBoxBase... comboBoxBases) {
         boolean isOk = true;
         for (ComboBoxBase comboBoxBase : comboBoxBases) {
             isOk &= validateNotNull(keyErrorMsg, comboBoxBase);
@@ -112,8 +112,8 @@ public class Validator {
         return validateNotNull("global.error.msg.required", comboBoxBase);
     }
 
-    public static boolean validateNotNull(ComboBoxBase... comboBoxBases) {
-        return validateNotNull("global.error.msg.required", comboBoxBases);
+    public static boolean validateNoneNull(ComboBoxBase... comboBoxBases) {
+        return validateNoneNull("global.error.msg.required", comboBoxBases);
     }
 
 

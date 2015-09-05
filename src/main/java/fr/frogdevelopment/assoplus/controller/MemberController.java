@@ -262,7 +262,7 @@ public class MemberController extends AbstractCustomDialogController {
     private static final Pattern pattern = Pattern.compile(REGEX);
 
     private boolean save() {
-        boolean isOk = validateNotBlank(txtStudentNumber, txtLastname, txtFirstname);
+        boolean isOk = Validator.validateNoneBlank(txtStudentNumber, txtLastname, txtFirstname);
 
         String studentNumber = txtStudentNumber.getText();
         if (memberDto.getId() == 0) {
