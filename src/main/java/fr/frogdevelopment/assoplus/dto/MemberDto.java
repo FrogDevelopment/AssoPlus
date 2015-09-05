@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.time.LocalDate;
@@ -88,6 +89,11 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday.set(birthday);
+    }
+    public void setBirthday(String birthday) {
+        if (StringUtils.isNotBlank(birthday)) {
+            this.birthday.set(LocalDate.parse(birthday));
+        }
     }
 
     public String getEmail() {

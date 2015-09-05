@@ -4,13 +4,9 @@
 
 package fr.frogdevelopment.assoplus.service;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.entities.Member;
-
-import java.time.LocalDate;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MembersServiceImpl extends AbstractService<Member, MemberDto> implements MembersService {
@@ -21,9 +17,7 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         memberDto.setStudentNumber(bean.getStudentNumber());
         memberDto.setLastname(bean.getLastname());
         memberDto.setFirstname(bean.getFirstname());
-        if (StringUtils.isNotBlank(bean.getBirthday())) {
-            memberDto.setBirthday(LocalDate.parse(bean.getBirthday()));
-        }
+        memberDto.setBirthday(bean.getBirthday());
         memberDto.setEmail(bean.getEmail());
         memberDto.setDegreeCode(bean.getDegreeCode());
         memberDto.setOptionCode(bean.getOptionCode());

@@ -16,7 +16,6 @@ import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -111,9 +110,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
         toolBar.setVisible(false);
         toolBar.setManaged(false);
 
-        selectCol.setCellValueFactory(new PropertyValueFactory<>("selected"));
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
-        selectCol.setEditable(true);
         tableView.setEditable(true);
 
         MaskHelper.addTextLimiter(tfDelimiter, 1);
@@ -309,9 +306,9 @@ public class ImportMembersController extends AbstractCustomDialogController {
             for (CSVRecord line : parser) {
                 memberDto = new MemberDto();
 
-                String studentNumber = line.get(mapping.get("student_number"));
-                String lastName = line.get(mapping.get("last_name"));
-                String firstName = line.get(mapping.get("first_name"));
+                String studentNumber = line.get(mapping.get("member.student.number"));
+                String lastName = line.get(mapping.get("member.lastname"));
+                String firstName = line.get(mapping.get("member.firstname"));
 
                 // check if the 3 required fiels are presents
                 if (isAnyBlank(studentNumber, lastName, firstName)) {
@@ -323,26 +320,32 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 memberDto.setLastname(lastName);
                 memberDto.setFirstname(firstName);
 
-                if (mapping.containsKey("degree")) {
-                    memberDto.setDegreeCode(line.get(mapping.get("degree")));
+                if (mapping.containsKey("member.degree")) {
+                    memberDto.setDegreeCode(line.get(mapping.get("member.degree")));
                 } else {
                     memberDto.setDegreeCode("");
                 }
 
-                if (mapping.containsKey("option")) {
-                    memberDto.setOptionCode(line.get(mapping.get("option")));
+                if (mapping.containsKey("member.option")) {
+                    memberDto.setOptionCode(line.get(mapping.get("member.option")));
                 } else {
                     memberDto.setOptionCode("");
                 }
 
-                if (mapping.containsKey("email")) {
-                    memberDto.setEmail(line.get(mapping.get("email")));
+                if (mapping.containsKey("member.birthday")) {
+                    memberDto.setBirthday(line.get(mapping.get("member.birthday")));
+                } else {
+                    memberDto.setBirthday("");
+                }
+
+                if (mapping.containsKey("member.email")) {
+                    memberDto.setEmail(line.get(mapping.get("member.email")));
                 } else {
                     memberDto.setEmail("");
                 }
 
-                if (mapping.containsKey("phone")) {
-                    memberDto.setPhone(line.get(mapping.get("phone")));
+                if (mapping.containsKey("member.phone")) {
+                    memberDto.setPhone(line.get(mapping.get("member.phone")));
                 }
 
                 memberDto.setSelected(true);
@@ -355,38 +358,42 @@ public class ImportMembersController extends AbstractCustomDialogController {
         }
 
         tableView.setItems(data);
-
-        getParent().setHeight(600);
-
         tableView.setVisible(true);
         tableView.setManaged(true);
+
         toolBar.setVisible(true);
         toolBar.setManaged(true);
+
+        getParent().setHeight(600);
     }
 
     private Map<String, String> fetchHeaderMapping() {
         Map<String, String> mapping = new HashMap<>();
 
         // REQUIRED
-        mapping.put("student_number", tfStudentNumber.getText());
-        mapping.put("last_name", tfLastname.getText());
-        mapping.put("first_name", tfFirstname.getText());
+        mapping.put("member.student.number", tfStudentNumber.getText());
+        mapping.put("member.lastname", tfLastname.getText());
+        mapping.put("member.firstname", tfFirstname.getText());
 
         // OPTIONNALS (but better if present)
-        if (isNotBlank(tfDegree.getText())) {
-            mapping.put("degree", tfDegree.getText());
-        }
-
-        if (isNotBlank(tfOption.getText())) {
-            mapping.put("option", tfOption.getText());
+        if (isNotBlank(tfBirthday.getText())) {
+            mapping.put("member.birthday", tfBirthday.getText());
         }
 
         if (isNotBlank(tfEmail.getText())) {
-            mapping.put("email", tfEmail.getText());
+            mapping.put("member.email", tfEmail.getText());
+        }
+
+        if (isNotBlank(tfDegree.getText())) {
+            mapping.put("member.degree", tfDegree.getText());
+        }
+
+        if (isNotBlank(tfOption.getText())) {
+            mapping.put("member.option", tfOption.getText());
         }
 
         if (isNotBlank(tfPhone.getText())) {
-            mapping.put("phone", tfPhone.getText());
+            mapping.put("member.phone", tfPhone.getText());
         }
 
         return mapping;
