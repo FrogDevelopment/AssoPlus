@@ -16,8 +16,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -25,6 +27,7 @@ import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_16;
 import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_32;
 import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_48;
 import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.load;
+import static javafx.scene.control.Alert.AlertType.*;
 
 abstract class AbstractCustomController implements Initializable {
 
@@ -74,7 +77,7 @@ abstract class AbstractCustomController implements Initializable {
     }
 
     protected void showYesNoDialog(String headerKey, String message, Consumer<? super ButtonType> onYes) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(CONFIRMATION);
         if (StringUtils.isNotBlank(headerKey)) {
             alert.setHeaderText(getMessage(headerKey));
         }
@@ -97,7 +100,7 @@ abstract class AbstractCustomController implements Initializable {
     }
 
     protected void showConfirmation(String headerKey, String message, Consumer<? super ButtonType> onOK) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(CONFIRMATION);
         if (StringUtils.isNotBlank(headerKey)) {
             alert.setHeaderText(getMessage(headerKey));
         }
@@ -117,7 +120,7 @@ abstract class AbstractCustomController implements Initializable {
 
     protected void showWarning(String headerKey, String message) {
 
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+        Alert alert = new Alert(WARNING);
         alert.setHeaderText(getMessage(headerKey));
         if (StringUtils.isNotBlank(message)) {
             alert.setContentText(message);
@@ -129,15 +132,43 @@ abstract class AbstractCustomController implements Initializable {
         alert.show();
     }
 
-    protected void showError(String headerKey, String message) {
+    protected void showError(String headerKey, Exception e) {
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(ERROR);
         alert.setHeaderText(getMessage(headerKey));
-        alert.setContentText(message);
+        alert.setContentText(ExceptionUtils.getMessage(e));
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("/img/dialog-error_16.png"));
 
         alert.show();
+    }
+
+    protected void showError(String headerKey, String messageKey) {
+
+        Alert alert = new Alert(ERROR);
+        alert.setHeaderText(getMessage(headerKey));
+        alert.setContentText(getMessage(messageKey));
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/dialog-error_16.png"));
+
+        alert.show();
+    }
+
+
+    protected Optional<ButtonType> showCustomConfirmation(String headerKey, String contentKey, ButtonType overrideBtn, ButtonType ignoreBtn) {
+        Alert alert = new Alert(CONFIRMATION);
+        alert.setHeaderText(getMessage(headerKey));
+        alert.setContentText(getMessage(contentKey));
+
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().add(overrideBtn);
+        alert.getButtonTypes().add(ignoreBtn);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/dialog-confirm_16.png"));
+
+        return alert.showAndWait();
     }
 }

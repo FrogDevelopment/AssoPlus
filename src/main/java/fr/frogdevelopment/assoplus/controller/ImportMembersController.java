@@ -22,7 +22,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -31,11 +30,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,7 +215,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 btnHeaders.setDisable(false);
                 btnLoadData.setDisable(false);
             } else {
-                showError("global.warning.header", "Format du fichier incorrect"); // fixme use bundle
+                showError("global.warning.header", "import.file.incorrect");
             }
         }
     }
@@ -248,7 +245,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
         } catch (Exception e) {
             LOGGER.error("Error during import", e);
-            showError("global.error.header", ExceptionUtils.getMessage(e));
+            showError("global.error.header", e);
         }
     }
 
@@ -381,7 +378,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
         } catch (Exception e) {
             LOGGER.error("Error during import", e);
-            showError("global.error.header", ExceptionUtils.getMessage(e));
+            showError("global.error.header", e);
         }
 
         tableView.setItems(data);
@@ -426,7 +423,6 @@ public class ImportMembersController extends AbstractCustomDialogController {
         return mapping;
     }
 
-
     public void saveSelectedData() {
 
         final Map<String, MemberDto> mapOnBaseByStudentNumber = membersService.getAll()
@@ -441,22 +437,13 @@ public class ImportMembersController extends AbstractCustomDialogController {
         mapOnBaseByStudentNumber.keySet().retainAll(mapToSaveByStudentNumber.keySet());
 
         if (mapOnBaseByStudentNumber.keySet().size() > 0) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        if (StringUtils.isNotBlank(headerKey)) {
-//            alert.setHeaderText(getMessage(headerKey));
-//        }
-            alert.setContentText("Ecraser ou ignorer les données ?");
+            ButtonType overrideBtn = new ButtonType(getMessage("import.data.override"), ButtonBar.ButtonData.YES);
+            ButtonType ignoreBtn = new ButtonType(getMessage("import.data.ignore"), ButtonBar.ButtonData.NO);
 
-            alert.getButtonTypes().clear();
-            ButtonType overrideBtn = new ButtonType("Écraser", ButtonBar.ButtonData.YES);
-            alert.getButtonTypes().add(overrideBtn);
-            ButtonType ignoreBtn = new ButtonType("Ignorer", ButtonBar.ButtonData.NO);
-            alert.getButtonTypes().add(ignoreBtn);
-
-            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-            stage.getIcons().add(new Image("/img/dialog-confirm_16.png"));
-
-            Optional<ButtonType> response = alert.showAndWait();
+            Optional<ButtonType> response = showCustomConfirmation(
+                    "import.data.already.present.header",
+                    "import.data.already.present.message",
+                    overrideBtn, ignoreBtn);
 
             if (overrideBtn.equals(response.get())) {
                 mapOnBaseByStudentNumber.entrySet().forEach(entry -> mapToSaveByStudentNumber.get(entry.getKey()).setId(entry.getValue().getId()));
