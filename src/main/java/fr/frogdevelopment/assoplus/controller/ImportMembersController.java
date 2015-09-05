@@ -4,12 +4,14 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
@@ -114,6 +116,9 @@ public class ImportMembersController extends AbstractCustomDialogController {
         selectCol.setEditable(true);
         tableView.setEditable(true);
 
+        MaskHelper.addTextLimiter(tfDelimiter, 1);
+        tfDelimiter.setText(",");
+
         manageDrop(tfStudentNumber);
         manageDrop(tfLastname);
         manageDrop(tfFirstname);
@@ -131,7 +136,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
             if (event.getGestureSource() != textField
                     && event.getDragboard().hasString()) {
             /* allow for both copying and moving, whatever user chooses */
-                event.acceptTransferModes(TransferMode.MOVE);
+                event.acceptTransferModes(TransferMode.COPY);
             }
 
             event.consume();
@@ -195,9 +200,21 @@ public class ImportMembersController extends AbstractCustomDialogController {
     }
 
     public void findHeaders() {
+        if (!Validator.validateNotBlank(tfDelimiter)) {
+            showWarning("global.warning.msg.check");
+            return;
+        }
+
+        char delimiter = tfDelimiter.getText().charAt(0);
+
+        CSVFormat format = CSVFormat.EXCEL
+                .withDelimiter(delimiter)
+                .withHeader()
+                .withSkipHeaderRecord();
+
         try (final InputStream is = new FileInputStream(file);
              final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-             final CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader().withSkipHeaderRecord())) {
+             final CSVParser parser = new CSVParser(reader, format)) {
 
             final Map<String, Integer> headerMap = parser.getHeaderMap();
             hboxTest.getChildren().clear();
@@ -222,7 +239,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
             /* drag was detected, start a drag-and-drop gesture*/
             /* allow any transfer mode */
-            Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+            Dragboard db = source.startDragAndDrop(TransferMode.COPY);
 
             SnapshotParameters snapshotParameters = new SnapshotParameters();
             snapshotParameters.setFill(Color.TRANSPARENT);
@@ -236,30 +253,40 @@ public class ImportMembersController extends AbstractCustomDialogController {
             event.consume();
         });
 
-        source.setOnDragDone(event -> {
-
-            /* the drag and drop gesture ended */
-            /* if the data was successfully moved, clear it */
-            if (event.getTransferMode() == TransferMode.MOVE) {
-                source.setText("");
-            }
-            event.consume();
-        });
+//        source.setOnDragDone(event -> {
+//
+//            /* the drag and drop gesture ended */
+//            /* if the data was successfully moved, clear it */
+//            if (event.getTransferMode() == TransferMode.COPY) {
+//                source.setText("");
+//            }
+//            event.consume();
+//        });
         hboxTest.getChildren().add(source);
+
+        Separator separator = new Separator(Orientation.VERTICAL);
+        hboxTest.getChildren().add(separator);
     }
 
     public void importMembers() {
-        if (!Validator.validateNoneBlank(tfStudentNumber, tfLastname, tfFirstname)) {
+        if (!Validator.validateNoneBlank(tfDelimiter, tfStudentNumber, tfLastname, tfFirstname)) {
             showWarning("global.warning.msg.check");
             return;
         }
 
         Map<String, String> mapping = fetchHeaderMapping();
 
+        char delimiter = tfDelimiter.getText().charAt(0);
+        CSVFormat format = CSVFormat.EXCEL
+                .withDelimiter(delimiter)
+                .withHeader()
+                .withSkipHeaderRecord();
+
         data = FXCollections.observableArrayList();
+
         try (final InputStream is = new FileInputStream(file);
              final BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-             final CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader().withSkipHeaderRecord())) {
+             final CSVParser parser = new CSVParser(reader, format)) {
 
             StringBuilder sb = new StringBuilder();
             boolean incorrectHeaderPresent = false;
@@ -328,6 +355,8 @@ public class ImportMembersController extends AbstractCustomDialogController {
         }
 
         tableView.setItems(data);
+
+        getParent().setHeight(600);
 
         tableView.setVisible(true);
         tableView.setManaged(true);

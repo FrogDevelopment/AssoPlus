@@ -26,8 +26,8 @@ public class MainController extends AbstractCustomController {
     public void importMembers() {
         Stage dialog = openDialog("/fxml/import_members.fxml");
         dialog.setTitle(getMessage("import.title"));
-        dialog.setWidth(1000);
-        dialog.setHeight(400);
+        dialog.setWidth(800);
+        dialog.setHeight(200);
 
         dialog.setOnCloseRequest(event -> {
             membersController.initialize();

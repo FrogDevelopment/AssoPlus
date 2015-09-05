@@ -8,16 +8,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane fx:id="child" prefHeight="520.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="child"
             fx:controller="fr.frogdevelopment.assoplus.controller.ImportMembersController">
     <top>
-        <GridPane BorderPane.alignment="CENTER">
+        <GridPane hgap="5.0" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="193.0" minWidth="25.0" prefWidth="178.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="518.0" minWidth="10.0" prefWidth="209.0"/>
-                <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="208.0" minWidth="25.0" prefWidth="162.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="667.0" minWidth="10.0" prefWidth="326.0"/>
+                <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="NEVER" minWidth="-Infinity"
+                                   percentWidth="16.67"/>
+                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="16.67"/>
+                <ColumnConstraints fillWidth="false" halignment="LEFT" hgrow="NEVER" percentWidth="16.67"/>
+                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="16.67"/>
+                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="16.67"/>
+                <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" percentWidth="16.67"/>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
@@ -25,57 +30,52 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
+            <BorderPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </BorderPane.margin>
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
 
             <Button mnemonicParsing="false" onMouseClicked="#selectFile" text="%import.select.file"/>
             <Label fx:id="labelFileName" GridPane.columnIndex="1"/>
 
             <Label text="Delimiter" GridPane.columnIndex="2" GridPane.halignment="LEFT"/>
-            <HBox spacing="10.0" GridPane.columnIndex="3" GridPane.valignment="CENTER">
-                <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </padding>
-                <TextField fx:id="tfDelimiter" maxWidth="20" minWidth="20" prefWidth="20"/>
-                <Button fx:id="btnHeaders" disable="true" text="%import.find.headers"
-                        mnemonicParsing="false" onMouseClicked="#findHeaders"/>
-            </HBox>
 
             <Label text="Headers" GridPane.rowIndex="1"/>
-            <HBox fx:id="hboxTest" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1"
-                  GridPane.columnSpan="2147483647" GridPane.rowIndex="1"/>
+            <HBox fx:id="hboxTest" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0"
+                  GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1"
+                  GridPane.valignment="CENTER"/>
 
             <Label fx:id="lbStudentNumber" text="%member.student.number" GridPane.rowIndex="2"/>
             <TextField fx:id="tfStudentNumber" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-            <Label fx:id="lbLastname" text="%member.lastname" GridPane.rowIndex="3"/>
-            <TextField fx:id="tfLastname" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label fx:id="lbLastname" text="%member.lastname" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <TextField fx:id="tfLastname" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
 
-            <Label fx:id="lbFirstname" text="%member.firstname" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-            <TextField fx:id="tfFirstname" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+            <Label fx:id="lbFirstname" text="%member.firstname" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+            <TextField fx:id="tfFirstname" GridPane.columnIndex="5" GridPane.rowIndex="2"/>
 
-            <Label fx:id="lbBirthday" text="%member.birthday" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-            <TextField fx:id="tfBirthday" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+            <Label fx:id="lbBirthday" text="%member.birthday" GridPane.rowIndex="3"/>
+            <TextField fx:id="tfBirthday" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-            <Label fx:id="lbEmail" text="%member.email" GridPane.rowIndex="4"/>
-            <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <Label fx:id="lbEmail" text="%member.email" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+            <TextField fx:id="tfEmail" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
 
-            <Label fx:id="lbPhone" text="%member.phone" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
-            <TextField fx:id="tfPhone" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+            <Label fx:id="lbPhone" text="%member.phone" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+            <TextField fx:id="tfPhone" GridPane.columnIndex="5" GridPane.rowIndex="3"/>
 
-            <Label fx:id="lbDegree" text="%member.degree" GridPane.rowIndex="5"/>
-            <TextField fx:id="tfDegree" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            <Label fx:id="lbDegree" text="%member.degree" GridPane.rowIndex="4"/>
+            <TextField fx:id="tfDegree" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-            <Label fx:id="lbOption" text="%member.option" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-            <TextField fx:id="tfOption" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
-
-            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="6"
-                     GridPane.rowIndex="6">
-                <Button fx:id="btnLoadData" disable="true"
-                        mnemonicParsing="false" text="%import.load"
-                        onMouseClicked="#importMembers"/>
-            </ToolBar>
+            <Label fx:id="lbOption" text="%member.option" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+            <TextField fx:id="tfOption" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+            <Button fx:id="btnLoadData" disable="true" mnemonicParsing="false" onMouseClicked="#importMembers"
+                    text="%import.load" GridPane.columnIndex="5" GridPane.rowIndex="4"/>
+            <Button fx:id="btnHeaders" disable="true" mnemonicParsing="false" onMouseClicked="#findHeaders"
+                    text="%import.find.headers" GridPane.columnIndex="4"/>
+            <TextField fx:id="tfDelimiter" maxWidth="20" minWidth="20" prefWidth="20" GridPane.columnIndex="3"/>
         </GridPane>
     </top>
 

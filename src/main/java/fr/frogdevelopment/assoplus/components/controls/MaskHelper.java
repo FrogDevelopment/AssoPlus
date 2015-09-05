@@ -4,6 +4,8 @@
 
 package fr.frogdevelopment.assoplus.components.controls;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
@@ -72,6 +74,14 @@ public class MaskHelper {
 
 
 		return sb.toString();
+	}
+
+	public static void addTextLimiter(final TextField tf, final int maxLength) {
+		tf.textProperty().addListener((ov, oldValue, newValue) -> {
+            if (tf.getText().length() > maxLength) {
+                tf.setText(tf.getText().substring(0, maxLength));
+            }
+        });
 	}
 
 	public static void addMaskPhone(final TextField textField) {
