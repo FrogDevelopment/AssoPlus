@@ -257,10 +257,11 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
                 if (value == null) {
                     setValues.add(column.name() + " = " + null);
                 } else {
+                    String valueOf = String.valueOf(value);
                     if (field.getType() == String.class) {
-                        setValues.add(column.name() + "=" + "'" + String.valueOf(value) + "'");
+                        setValues.add(column.name() + "=" + "'" + valueOf.replace("'", "''") + "'");
                     } else {
-                        setValues.add(column.name() + "=" + String.valueOf(value));
+                        setValues.add(column.name() + "=" + valueOf);
                     }
                 }
             }
