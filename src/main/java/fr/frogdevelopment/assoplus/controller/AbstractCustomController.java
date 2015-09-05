@@ -10,12 +10,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,45 +66,77 @@ abstract class AbstractCustomController implements Initializable {
         return dialog;
     }
 
-    protected void showYesNoDialog(String messageKey, Consumer<? super ButtonType> onYes) {
 
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle(getMessage("global.warning.title"));
-        dialog.setContentText(messageKey);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+    // TODO http://ux.stackexchange.com/questions/9946/should-i-use-yes-no-or-ok-cancel-on-my-message-box
 
-        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("/img/shield-warning_16.png"));
+    protected void showYesNoDialog(String message, Consumer<? super ButtonType> onYes) {
+        showYesNoDialog(null, message, onYes);
+    }
 
+    protected void showYesNoDialog(String headerKey, String message, Consumer<? super ButtonType> onYes) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        if (StringUtils.isNotBlank(headerKey)) {
+            alert.setHeaderText(getMessage(headerKey));
+        }
+        alert.setContentText(message);
 
-        dialog.showAndWait()
+        alert.getButtonTypes().clear();
+        ButtonType[] buttons = {ButtonType.YES, ButtonType.NO};
+        alert.getButtonTypes().addAll(buttons);
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/dialog-confirm_16.png"));
+
+        alert.showAndWait()
                 .filter(response -> response == ButtonType.YES)
                 .ifPresent(onYes);
     }
 
-    protected void showWarning(String messageKey, String message) {
+    protected void showConfirmation(String message, Consumer<? super ButtonType> onOK) {
+        showConfirmation(null, message, onOK);
+    }
 
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(getMessage("global.warning.title"));
-        alert.setHeaderText(getMessage(messageKey));
+    protected void showConfirmation(String headerKey, String message, Consumer<? super ButtonType> onOK) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        if (StringUtils.isNotBlank(headerKey)) {
+            alert.setHeaderText(getMessage(headerKey));
+        }
         alert.setContentText(message);
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("/img/shield-warning_16.png"));
+        stage.getIcons().add(new Image("/img/dialog-confirm_16.png"));
+
+        alert.showAndWait()
+                .filter(response -> response == ButtonType.OK)
+                .ifPresent(onOK);
+    }
+
+    protected void showWarning(String headerKey) {
+        showWarning(headerKey, null);
+    }
+
+    protected void showWarning(String headerKey, String message) {
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(getMessage(headerKey));
+        if (StringUtils.isNotBlank(message)) {
+            alert.setContentText(message);
+        }
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/dialog-warning_16.png"));
 
         alert.show();
     }
 
-    protected void showError(String messageKey, String message) {
+    protected void showError(String headerKey, String message) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(getMessage("global.error.title"));
-        alert.setHeaderText(getMessage(messageKey));
+        alert.setHeaderText(getMessage(headerKey));
         alert.setContentText(message);
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("/img/shield-error_16.png"));
+        stage.getIcons().add(new Image("/img/dialog-error_16.png"));
 
         alert.show();
     }

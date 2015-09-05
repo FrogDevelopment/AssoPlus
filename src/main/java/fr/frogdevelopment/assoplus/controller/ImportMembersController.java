@@ -201,7 +201,6 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
             final Map<String, Integer> headerMap = parser.getHeaderMap();
             hboxTest.getChildren().clear();
-
             headerMap.keySet().forEach(this::addDraggableHeader);
 
 //            final long recordNumber = parser.getRecordNumber(); todo à exploiter ?
@@ -251,6 +250,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
     public void importMembers() {
         if (!Validator.validateNoneBlank(tfStudentNumber, tfLastname, tfFirstname)) {
+            showWarning("global.warning.msg.check");
             return;
         }
 
@@ -260,6 +260,23 @@ public class ImportMembersController extends AbstractCustomDialogController {
         try (final InputStream is = new FileInputStream(file);
              final BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              final CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader().withSkipHeaderRecord())) {
+
+            StringBuilder sb = new StringBuilder();
+            boolean incorrectHeaderPresent = false;
+            final Map<String, Integer> headerMap = parser.getHeaderMap();
+            for (String s : mapping.values()) {
+                if (headerMap.containsKey(s)) {
+                    continue;
+                }
+
+                incorrectHeaderPresent = true;
+                sb.append("\t- ").append(s).append("\n");
+            }
+
+            if (incorrectHeaderPresent) {
+                showWarning("import.error.incorrect.header", sb.toString());
+                return;
+            }
 
             MemberDto memberDto;
             for (CSVRecord line : parser) {

@@ -310,7 +310,7 @@ public class MemberController extends AbstractCustomDialogController {
                 membersService.updateData(memberDto);
             }
         } else {
-            lblError.setText(getMessage("global.error.msg.check"));
+            lblError.setText(getMessage("global.warning.msg.check"));
         }
 
         return isOk;
