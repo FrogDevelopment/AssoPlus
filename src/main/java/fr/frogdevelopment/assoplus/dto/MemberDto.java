@@ -90,6 +90,7 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
     public void setBirthday(LocalDate birthday) {
         this.birthday.set(birthday);
     }
+
     public void setBirthday(String birthday) {
         if (StringUtils.isNotBlank(birthday)) {
             this.birthday.set(LocalDate.parse(birthday));
@@ -204,5 +205,25 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
             return -1;
         }
         return this.getStudentNumber().compareTo(o.getStudentNumber());
+    }
+
+    public String[] toCSV() {
+        String[] line = new String[10];
+        line[0] = getStudentNumber();
+        line[1] = getLastname();
+        line[2] = getFirstname();
+        if (getBirthday() != null) {
+            line[3] = getBirthday().toString();
+        } else {
+            line[3] = "";
+        }
+        line[4] = getEmail();
+        line[5] = getDegreeCode();
+        line[6] = getOptionCode();
+        line[7] = getPhone();
+        line[8] = String.valueOf(getSubscription());
+        line[9] = String.valueOf(getAnnals());
+
+        return line;
     }
 }

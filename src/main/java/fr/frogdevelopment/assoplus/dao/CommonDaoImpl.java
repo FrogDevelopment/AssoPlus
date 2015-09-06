@@ -4,16 +4,16 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
+import fr.frogdevelopment.assoplus.entities.Entity;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
-import fr.frogdevelopment.assoplus.entities.Entity;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.Column;
@@ -26,11 +26,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
@@ -40,7 +36,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     protected JdbcTemplate jdbcTemplate;
 
     private final Class<E> persistentClass;
-    protected final RowMapper<E> mapper;
+    protected final RowMapper<E> mapper = (rs, rowNum) -> buildEntity(rs);
 
     private final String idName;
     private final String tableName;
@@ -73,7 +69,6 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
             throw new IllegalStateException("No Id defined !!");
         }
 
-        mapper = (rs, rowNum) -> buildEntity(rs);
     }
 
     // ***************************************** \\
@@ -153,14 +148,6 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
         }
     }
 
-    // ******************************************* \\
-    // ********** PROTECTED METHODES ************* \\
-    // ******************************************* \\
-
-    protected final String getTableName() {
-        return tableName;
-    }
-
     // **************************************** \\
     // ********** PUBLIC METHODES ************* \\
     // **************************************** \\
@@ -168,10 +155,6 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     @Override
     public List<E> getAll() {
         return jdbcTemplate.query("SELECT * FROM " + tableName, mapper);
-    }
-
-    public List<E> getAllOrderedBy(String propertyName) {
-        return jdbcTemplate.query("SELECT * FROM " + tableName + " ORDER BY " + propertyName, mapper); // FIXME voir pour le champ propertyName en dynamique
     }
 
     public E getById(Integer identifiant) {

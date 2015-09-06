@@ -84,6 +84,16 @@
             <!--<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
             <!--</VBox.margin>-->
             <!--</Button>-->
+            <Button mnemonicParsing="false" onMouseClicked="#exportCSV" text="ExportCSV">
+                <VBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+                <graphic>
+                    <ImageView>
+                        <Image url="@../img/list_32.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
         </ToolBar>
     </bottom>
 

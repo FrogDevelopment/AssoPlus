@@ -18,6 +18,8 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -205,5 +207,26 @@ public class MembersController extends AbstractCustomController {
         dialog.setHeight(400);
 
         dialog.show();
+    }
+
+    public void exportCSV() {
+        CSVFormat csvFormat = CSVFormat.EXCEL.withDelimiter(';').withHeaderComments("test de comentaire")
+                ;
+
+        try (FileWriter fileWriter = new FileWriter("test.csv");
+             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
+
+            data.stream().map(MemberDto::toCSV).forEach(csv -> {
+                try {
+                    csvPrinter.printRecord(csv);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            });
+        } catch (IOException e) {
+
+        } finally {
+        }
+
     }
 }

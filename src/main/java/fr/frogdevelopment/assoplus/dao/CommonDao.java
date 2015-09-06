@@ -4,6 +4,8 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
+import org.springframework.jdbc.core.ResultSetExtractor;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -14,8 +16,6 @@ public interface CommonDao<E> {
 	List<E> getAll();
 
 	E getById(Integer identifiant) ;
-
-	List<E> getAllOrderedBy(String propertyName);
 
 	void save(E entity);
 
@@ -30,4 +30,5 @@ public interface CommonDao<E> {
 	void saveOrUpdateAll(Collection<E> entities) ;
 
 	void delete(E entity);
+
 }

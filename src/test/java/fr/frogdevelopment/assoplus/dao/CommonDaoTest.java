@@ -59,12 +59,6 @@ public class CommonDaoTest {
     }
 
     @Test
-    public void testQueryGetAllOrderedBy() {
-        commonDao.getAllOrderedBy(EntityTest.COLUMN_CODE);
-        verify(jdbcTemplate).query("SELECT * FROM " + EntityTest.TABLE_NAME + " ORDER BY " + EntityTest.COLUMN_CODE, commonDao.mapper);
-    }
-
-    @Test
     public void testQueryGetById() {
         commonDao.getById(0);
         verify(jdbcTemplate).queryForObject("SELECT * FROM " + EntityTest.TABLE_NAME + " WHERE " + EntityTest.COLUMN_ID + " = ?", new Object[]{0}, commonDao.mapper);
