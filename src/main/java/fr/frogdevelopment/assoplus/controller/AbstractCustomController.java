@@ -72,6 +72,24 @@ abstract class AbstractCustomController implements Initializable {
 
     // TODO http://ux.stackexchange.com/questions/9946/should-i-use-yes-no-or-ok-cancel-on-my-message-box
 
+    protected void showInformation(String headerKey) {
+        showInformation(headerKey, null);
+    }
+
+    protected void showInformation(String headerKey, String message) {
+
+        Alert alert = new Alert(INFORMATION);
+        alert.setHeaderText(getMessage(headerKey));
+        if (StringUtils.isNotBlank(message)) {
+            alert.setContentText(message);
+        }
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/dialog-information_16.png"));
+
+        alert.show();
+    }
+
     protected void showYesNoDialog(String message, Consumer<? super ButtonType> onYes) {
         showYesNoDialog(null, message, onYes);
     }
@@ -128,6 +146,18 @@ abstract class AbstractCustomController implements Initializable {
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("/img/dialog-warning_16.png"));
+
+        alert.show();
+    }
+
+    protected void showError(Exception e) {
+
+        Alert alert = new Alert(ERROR);
+        alert.setHeaderText(getMessage("global.error.header"));
+        alert.setContentText(ExceptionUtils.getMessage(e));
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/img/dialog-error_16.png"));
 
         alert.show();
     }

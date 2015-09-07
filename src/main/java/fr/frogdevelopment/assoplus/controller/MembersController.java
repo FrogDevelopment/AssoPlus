@@ -22,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -31,6 +32,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -355,9 +357,19 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void exportCSV() {
-        CSVFormat csvFormat = CSVFormat.EXCEL.withDelimiter(';').withHeaderComments("test de comentaire");
 
-        try (FileWriter fileWriter = new FileWriter("test.csv");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV, XLS, XLSX", "*.csv", "*.xls", "*.xlsx"));
+        File file = fileChooser.showSaveDialog(getParent());
+        if (file == null) {
+            return;
+        }
+
+
+        CSVFormat csvFormat = CSVFormat.EXCEL.withDelimiter(';').withHeaderComments("test de commentaire");
+
+        try (FileWriter fileWriter = new FileWriter(file);
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
 
             filteredData.stream().map(MemberDto::toCSV).forEach(csv -> {
@@ -367,9 +379,9 @@ public class MembersController extends AbstractCustomController {
                     throw new UncheckedIOException(e);
                 }
             });
+            showInformation("export.success");
         } catch (IOException e) {
-
-        } finally {
+            showError(e);
         }
 
     }
