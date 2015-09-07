@@ -63,7 +63,7 @@
                         <PropertyValueFactory property="phone"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="subsciptionCol" text="%member.subscription" minWidth="70" maxWidth="70"
+                <TableColumn fx:id="subscriptionCol" text="%member.subscription" minWidth="70" maxWidth="70"
                              resizable="false">
                     <cellValueFactory>
                         <PropertyValueFactory property="subscription"/>

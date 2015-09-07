@@ -37,7 +37,7 @@ public class MembersController extends AbstractCustomController {
     @FXML
     private TableView<MemberDto> tableView;
     @FXML
-    private TableColumn<MemberDto, Boolean> subsciptionCol;
+    private TableColumn<MemberDto, Boolean> subscriptionCol;
     @FXML
     private TableColumn<MemberDto, Boolean> annalsCol;
 
@@ -47,15 +47,14 @@ public class MembersController extends AbstractCustomController {
     protected void initialize() {
         data = FXCollections.observableArrayList(membersService.getAll());
         tableView.setItems(data);
+        tableView.setEditable(true);
 
         tableView.setRowFactory(param -> {
             TableRow<MemberDto> tableRow = new TableRow<>();
             tableRow.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && !tableRow.isEmpty()) {
-                    updateMember();
-                }
-
-                if (event.getButton() == MouseButton.SECONDARY) {
+                if (event.getClickCount() == 1
+                        && !tableRow.isEmpty()
+                        && event.getButton() == MouseButton.SECONDARY) {
                     final ContextMenu contextMenu = new ContextMenu();
                     MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
 
@@ -76,14 +75,32 @@ public class MembersController extends AbstractCustomController {
                                     .then(contextMenu)
                                     .otherwise((ContextMenu) null)
                     );
+                } else if (event.getClickCount() == 2
+                        && !tableRow.isEmpty()
+                        && !(event.getTarget() instanceof CheckBoxTableCell)) {
+                    updateMember();
                 }
             });
             return tableRow;
         });
 
 
-        subsciptionCol.setCellFactory(CheckBoxTableCell.forTableColumn(subsciptionCol));
-        annalsCol.setCellFactory(CheckBoxTableCell.forTableColumn(annalsCol));
+        subscriptionCol.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
+            final MemberDto memberDto = data.get(index);
+            memberDto.subscriptionProperty().addListener((obs, wasSelected, isSelected) -> {
+                membersService.updateData(memberDto);
+            });
+            return memberDto.subscriptionProperty();
+        }));
+        subscriptionCol.setEditable(true);
+        annalsCol.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
+            final MemberDto memberDto = data.get(index);
+            memberDto.annalsProperty().addListener((obs, wasSelected, isSelected) -> {
+                membersService.updateData(memberDto);
+            });
+            return memberDto.annalsProperty();
+        }));
+        annalsCol.setEditable(true);
     }
 
     private void removeMember(MemberDto selectedItem) {
