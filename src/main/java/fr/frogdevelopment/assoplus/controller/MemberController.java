@@ -4,23 +4,6 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
@@ -29,6 +12,16 @@ import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.service.DegreeService;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.util.StringConverter;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,8 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static fr.frogdevelopment.assoplus.components.controls.Validator.validateNotBlank;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
