@@ -234,7 +234,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 .withSkipHeaderRecord();
 
         try (final InputStream is = new FileInputStream(file);
-             final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+             final BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              final CSVParser parser = new CSVParser(reader, format)) {
 
             final Map<String, Integer> headerMap = parser.getHeaderMap();
@@ -330,9 +330,9 @@ public class ImportMembersController extends AbstractCustomDialogController {
             for (CSVRecord line : parser) {
                 memberDto = new MemberDto();
 
-                String studentNumber = line.get(mapping.get("member.student.number"));
-                String lastName = line.get(mapping.get("member.lastname"));
-                String firstName = line.get(mapping.get("member.firstname"));
+                String studentNumber = line.get(mapping.get("member.student.number")).trim();
+                String lastName = line.get(mapping.get("member.lastname")).trim();
+                String firstName = line.get(mapping.get("member.firstname")).trim();
 
                 // check if the 3 required fiels are presents
                 if (isAnyBlank(studentNumber, lastName, firstName)) {

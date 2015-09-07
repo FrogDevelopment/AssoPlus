@@ -32,10 +32,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -366,11 +363,24 @@ public class MembersController extends AbstractCustomController {
             return;
         }
 
+        String[] headers = {
+                getMessage("member.student.number"),
+                getMessage("member.lastname"),
+                getMessage("member.firstname"),
+                getMessage("member.birthday"),
+                getMessage("member.email"),
+                getMessage("member.degree"),
+                getMessage("member.option"),
+                getMessage("member.phone")
+        };
 
-        CSVFormat csvFormat = CSVFormat.EXCEL.withDelimiter(';').withHeaderComments("test de commentaire");
+        CSVFormat csvFormat = CSVFormat.EXCEL
+                .withDelimiter(';')
+                .withHeader(headers);
 
-        try (FileWriter fileWriter = new FileWriter(file);
-             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
+        try (final OutputStream outputStream = new FileOutputStream(file);
+             final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+             final CSVPrinter csvPrinter = new CSVPrinter(out, csvFormat)) {
 
             filteredData.stream().map(MemberDto::toCSV).forEach(csv -> {
                 try {
