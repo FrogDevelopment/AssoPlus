@@ -20,7 +20,7 @@ import org.springframework.stereotype.Controller;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.dto.ReferenceDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.DegreeService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
 
 import java.util.Comparator;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class DegreeController extends AbstractCustomDialogController {
 
     @Autowired
-    private LicencesService licencesService;
+    private DegreeService degreeService;
 
     @Autowired
     private OptionsService optionsService;
@@ -79,7 +79,7 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     private void initData() {
-        degreeDtos = FXCollections.observableArrayList(licencesService.getAll());
+        degreeDtos = FXCollections.observableArrayList(degreeService.getAll());
         optionDtos = FXCollections.observableArrayList(optionsService.getAll());
 
         rootItem = new TreeItem<>(new DegreeDto());
@@ -99,7 +99,7 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     public void onSave() {
-        licencesService.saveOrUpdateAll(degreeDtos);
+        degreeService.saveOrUpdateAll(degreeDtos);
         optionsService.saveOrUpdateAll(optionDtos);
         initData();
     }
@@ -168,7 +168,7 @@ public class DegreeController extends AbstractCustomDialogController {
 
 
         if (degreeDto.getId() != 0) {
-            licencesService.deleteLicence(degreeDto);
+            degreeService.deleteLicence(degreeDto);
 
             // suppression des options et maj liste
             optionDtos = FXCollections.observableArrayList(optionDtos.stream()

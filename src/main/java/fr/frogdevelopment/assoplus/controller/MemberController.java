@@ -26,7 +26,7 @@ import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.service.LicencesService;
+import fr.frogdevelopment.assoplus.service.DegreeService;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
 
@@ -50,7 +50,7 @@ public class MemberController extends AbstractCustomDialogController {
     private MembersService membersService;
 
     @Autowired
-    private LicencesService licencesService;
+    private DegreeService degreeService;
 
     @Autowired
     private OptionsService optionsService;
@@ -124,7 +124,7 @@ public class MemberController extends AbstractCustomDialogController {
                 }
         );
 
-        degreeDtos = FXCollections.observableArrayList(licencesService.getAll());
+        degreeDtos = FXCollections.observableArrayList(degreeService.getAll());
         cbDegree.setItems(degreeDtos);
         optionDtos = FXCollections.observableArrayList(optionsService.getAll());
         cbDegree.setConverter(new StringConverter<DegreeDto>() {

@@ -6,7 +6,7 @@ package fr.frogdevelopment.assoplus.service;
 
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
 
-public interface LicencesService extends Service<DegreeDto> {
+public interface DegreeService extends Service<DegreeDto> {
 
 
 	//    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)

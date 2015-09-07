@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
 
 @Service("licencesService")
-public class LicencesServiceImpl extends AbstractService<Degree, DegreeDto> implements LicencesService {
+public class DegreeServiceImpl extends AbstractService<Degree, DegreeDto> implements DegreeService {
 
     DegreeDto createDto(Degree bean) {
         DegreeDto dto = new DegreeDto();

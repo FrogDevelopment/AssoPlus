@@ -5,6 +5,7 @@
 package fr.frogdevelopment.assoplus.controller;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,10 +23,18 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.service.DegreeService;
 import fr.frogdevelopment.assoplus.service.MembersService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -34,8 +43,20 @@ public class MembersController extends AbstractCustomController {
     @Autowired
     private MembersService membersService;
 
+    @Autowired
+    private DegreeService degreeService;
+
+    @Autowired
+    private OptionsService optionsService;
+
     @FXML
     private TableView<MemberDto> tableView;
+    @FXML
+    private TableColumn<MemberDto, String> birthdayCol;
+    @FXML
+    private TableColumn<MemberDto, String> degreeCol;
+    @FXML
+    private TableColumn<MemberDto, String> optionCol;
     @FXML
     private TableColumn<MemberDto, Boolean> subscriptionCol;
     @FXML
@@ -84,6 +105,43 @@ public class MembersController extends AbstractCustomController {
             return tableRow;
         });
 
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(getMessage("global.date.format"));
+
+        birthdayCol.setCellValueFactory(param -> {
+            SimpleStringProperty property = new SimpleStringProperty();
+            final LocalDate birthday = param.getValue().getBirthday();
+            if (birthday != null) {
+                property.setValue(dateFormatter.format(birthday));
+            }
+
+            return property;
+        });
+
+        final Map<String, DegreeDto> mapDegrees = degreeService.getAll().stream().collect(Collectors.toMap(DegreeDto::getCode, dto -> dto));
+        degreeCol.setCellValueFactory(param -> {
+            final String degreeCode = param.getValue().getDegreeCode();
+            String value;
+            if (mapDegrees.containsKey(degreeCode)) {
+                value = mapDegrees.get(degreeCode).getLabel();
+            } else {
+                value = degreeCode;
+            }
+
+            return new SimpleStringProperty(value);
+        });
+
+        final Map<String, OptionDto> mapOptions = optionsService.getAll().stream().collect(Collectors.toMap(OptionDto::getCode, dto -> dto));
+        optionCol.setCellValueFactory(param -> {
+            final String optionCode = param.getValue().getOptionCode();
+            String value;
+            if (mapOptions.containsKey(optionCode)) {
+                value = mapOptions.get(optionCode).getLabel();
+            } else {
+                value = optionCode;
+            }
+
+            return new SimpleStringProperty(value);
+        });
 
         subscriptionCol.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
             final MemberDto memberDto = data.get(index);

@@ -38,42 +38,21 @@
                         <PropertyValueFactory property="firstname"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="%member.birthday">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="birthday"/>
-                    </cellValueFactory>
-                </TableColumn>
+                <TableColumn fx:id="birthdayCol" text="%member.birthday"/>
                 <TableColumn text="%member.email">
                     <cellValueFactory>
                         <PropertyValueFactory property="email"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="%member.degree">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="degreeCode"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="%member.option">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="optionCode"/>
-                    </cellValueFactory>
-                </TableColumn>
+                <TableColumn fx:id="degreeCol" text="%member.degree" />
+                <TableColumn fx:id="optionCol" text="%member.option"/>
                 <TableColumn text="%member.phone">
                     <cellValueFactory>
                         <PropertyValueFactory property="phone"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="subscriptionCol" text="%member.subscription" minWidth="70" maxWidth="70"
-                             resizable="false">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="subscription"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="annalsCol" text="%member.annals" minWidth="60" maxWidth="60" resizable="false">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="annals"/>
-                    </cellValueFactory>
-                </TableColumn>
+                <TableColumn fx:id="subscriptionCol" text="%member.subscription" minWidth="70" maxWidth="70" resizable="false"/>
+                <TableColumn fx:id="annalsCol" text="%member.annals" minWidth="60" maxWidth="60" resizable="false"/>
             </columns>
         </TableView>
     </center>
