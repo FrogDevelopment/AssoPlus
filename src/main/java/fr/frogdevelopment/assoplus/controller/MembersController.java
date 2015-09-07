@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.dto.MemberDto;
 import fr.frogdevelopment.assoplus.dto.OptionDto;
@@ -16,10 +17,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -34,7 +37,9 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -77,6 +82,8 @@ public class MembersController extends AbstractCustomController {
     private TableColumn<MemberDto, Boolean> colAnnals;
 
     @FXML
+    private HBox hbTop;
+    @FXML
     private TextField tfStudentNumber;
     @FXML
     private TextField tfLastname;
@@ -93,9 +100,9 @@ public class MembersController extends AbstractCustomController {
     @FXML
     private TextField tfPhone;
     @FXML
-    private CheckBox cbSubscription;
+    private ChoiceBox<String> cbSubscription;
     @FXML
-    private CheckBox cbAnnals;
+    private ChoiceBox<String> cbAnnals;
 
     private FilteredList<MemberDto> filteredData;
     private DateTimeFormatter dateFormatter;
@@ -230,9 +237,11 @@ public class MembersController extends AbstractCustomController {
         tfEmail.prefWidthProperty().bind(colEmail.widthProperty());
         addFilter(tfEmail, MemberDto::getEmail);
 
+        MaskHelper.addMask(tfPhone, MaskHelper.MASK_PHONE);
         tfPhone.prefWidthProperty().bind(colPhone.widthProperty());
         addFilter(tfPhone, MemberDto::getPhone);
 
+        MaskHelper.addMask(tfBirthday, MaskHelper.MASK_DATE);
         tfBirthday.prefWidthProperty().bind(colBirthday.widthProperty());
         addFilter(tfBirthday, dto -> {
             if (dto.getBirthday() == null) {
@@ -245,7 +254,7 @@ public class MembersController extends AbstractCustomController {
         addFilter(tfDegree, dto -> {
             if (mapDegrees.containsKey(dto.getDegreeCode())) {
                 return mapDegrees.get(dto.getDegreeCode()).getLabel();
-            }else {
+            } else {
                 return dto.getDegreeCode();
             }
         });
@@ -254,13 +263,34 @@ public class MembersController extends AbstractCustomController {
         addFilter(tfOption, dto -> {
             if (mapOptions.containsKey(dto.getOptionCode())) {
                 return mapOptions.get(dto.getOptionCode()).getLabel();
-            }else {
+            } else {
                 return dto.getOptionCode();
             }
         });
 
-//        cbSubscription.prefWidthProperty().bind(colSubscription.widthProperty());
-//        cbAnnals.prefWidthProperty().bind(colAnnals.widthProperty());
+        List<String> tmp = Arrays.asList("true", "false", "indifférent"); // fixme bundle
+
+        cbSubscription.setItems(FXCollections.observableArrayList(tmp));
+        cbSubscription.prefWidthProperty().bind(colSubscription.widthProperty());
+        GET_VALUES.put(cbSubscription.valueProperty(), dto -> String.valueOf(dto.getSubscription()));
+        cbSubscription.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ("indifférent".equals(newValue)) { // fixme bundle
+                newValue = "";
+            }
+            INPUTS.put(observable, newValue);
+            applyFilters(observable);
+        });
+
+        cbAnnals.prefWidthProperty().bind(colAnnals.widthProperty());
+        cbAnnals.setItems(FXCollections.observableArrayList(tmp));
+        GET_VALUES.put(cbAnnals.valueProperty(), dto -> String.valueOf(dto.getAnnals()));
+        cbAnnals.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ("indifférent".equals(newValue)) { // fixme bundle
+                newValue = "";
+            }
+            INPUTS.put(observable, newValue);
+            applyFilters(observable);
+        });
     }
 
     private void addFilter(TextField textField, Function<MemberDto, String> getValue) {
@@ -271,19 +301,20 @@ public class MembersController extends AbstractCustomController {
         {
             INPUTS.put(observable, newValue);
 
-            filteredData.setPredicate(dto -> {
-                boolean result = true;
-                for (Map.Entry<ObservableValue<? extends String>, String> entry : INPUTS.entrySet()) {
-                    // Current field is empty, it's ok
-                    if (StringUtils.isBlank(entry.getValue()) && entry.getKey().equals(observable)) {
-                        result &= true;
-                    } else {
-                        result &= GET_VALUES.get(entry.getKey()).apply(dto).toLowerCase().contains(entry.getValue().toLowerCase());
-                    }
-                }
+            applyFilters(observable);
+        });
+    }
 
-                return result;
-            });
+    private void applyFilters(ObservableValue<? extends String> observable) {
+        filteredData.setPredicate(dto -> {
+            boolean result = true;
+            for (Map.Entry<ObservableValue<? extends String>, String> entry : INPUTS.entrySet()) {
+                // Current field is empty, it's ok
+                result &= (StringUtils.isBlank(entry.getValue()) && entry.getKey().equals(observable))
+                        || GET_VALUES.get(entry.getKey()).apply(dto).toLowerCase().contains(entry.getValue().toLowerCase());
+            }
+
+            return result;
         });
     }
 
@@ -351,5 +382,10 @@ public class MembersController extends AbstractCustomController {
         } finally {
         }
 
+    }
+
+    public void showHideFilters() {
+        hbTop.setVisible(!hbTop.isVisible());
+        hbTop.setManaged(!hbTop.isManaged());
     }
 }

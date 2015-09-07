@@ -4,7 +4,7 @@
   Copyright (c) Frog Development 2015.
   -->
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.image.*?>
@@ -47,6 +47,9 @@
                 <TableColumn fx:id="colSubscription" maxWidth="70" minWidth="70" resizable="false" text="%member.subscription" />
                 <TableColumn fx:id="colAnnals" maxWidth="60" minWidth="60" resizable="false" text="%member.annals" />
             </columns>
+            <BorderPane.margin>
+                <Insets left="5.0" right="5.0" />
+            </BorderPane.margin>
         </TableView>
     </center>
 
@@ -72,36 +75,48 @@
                     </ImageView>
                 </graphic>
             </Button>
-            <!--<Button mnemonicParsing="false" text="Rechercher">-->
-            <!--<VBox.margin>-->
-            <!--<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
-            <!--</VBox.margin>-->
-            <!--</Button>-->
+            <Button mnemonicParsing="false" onMouseClicked="#showHideFilters" text="Button">
+                <VBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+                <graphic>
+                    <ImageView>
+                        <Image url="@../img/search_32.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
             <Button mnemonicParsing="false" onMouseClicked="#exportCSV" text="ExportCSV">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
                 <graphic>
                     <ImageView>
-                        <Image url="@../img/list_32.png"/>
+                        <Image url="@../img/csv_32.png"/>
                     </ImageView>
                 </graphic>
             </Button>
         </ToolBar>
     </bottom>
-   <top>
-       <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-           <TextField fx:id="tfStudentNumber" prefHeight="25.0" prefWidth="85.0"/>
-           <TextField fx:id="tfLastname" prefHeight="25.0" prefWidth="83.0"/>
-           <TextField fx:id="tfFirstname" prefHeight="25.0" prefWidth="84.0"/>
-           <TextField fx:id="tfBirthday" prefHeight="25.0" prefWidth="85.0"/>
-           <TextField fx:id="tfEmail" prefHeight="25.0" prefWidth="82.0"/>
-           <TextField fx:id="tfDegree" prefHeight="25.0" prefWidth="85.0"/>
-           <TextField fx:id="tfOption" prefHeight="25.0" prefWidth="83.0"/>
-           <TextField fx:id="tfPhone" prefHeight="25.0" prefWidth="84.0"/>
-           <CheckBox fx:id="cbSubscription" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0"/>
-           <CheckBox fx:id="cbAnnals" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0"/>
-       </HBox>
-   </top>
+    <top>
+        <HBox fx:id="hbTop" alignment="CENTER_LEFT" managed="false" prefHeight="30.0" visible="false"
+              BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets left="5.0" right="5.0" top="5.0"/>
+            </BorderPane.margin>
+            <TextField fx:id="tfStudentNumber"/>
+            <TextField fx:id="tfLastname"/>
+            <TextField fx:id="tfFirstname"/>
+            <TextField fx:id="tfBirthday"/>
+            <TextField fx:id="tfEmail"/>
+            <TextField fx:id="tfDegree"/>
+            <TextField fx:id="tfOption"/>
+            <TextField fx:id="tfPhone"/>
+            <ChoiceBox fx:id="cbSubscription"/>
+            <ChoiceBox fx:id="cbAnnals"/>
+        </HBox>
+    </top>
+   <padding>
+      <Insets top="5.0" />
+   </padding>
 
 </BorderPane>
