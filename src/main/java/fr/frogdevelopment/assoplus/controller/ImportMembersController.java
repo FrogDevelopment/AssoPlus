@@ -446,7 +446,13 @@ public class ImportMembersController extends AbstractCustomDialogController {
                     overrideBtn, ignoreBtn);
 
             if (overrideBtn.equals(response.get())) {
-                mapOnBaseByStudentNumber.entrySet().forEach(entry -> mapToSaveByStudentNumber.get(entry.getKey()).setId(entry.getValue().getId()));
+                mapOnBaseByStudentNumber.entrySet().forEach(entry -> {
+                    MemberDto toSave = mapToSaveByStudentNumber.get(entry.getKey());
+                    MemberDto toOverride = entry.getValue();
+                    toSave.setId(toOverride.getId());
+                    toSave.setSubscription(toOverride.getSubscription());
+                    toSave.setAnnals(toOverride.getAnnals());
+                });
             } else {
                 mapOnBaseByStudentNumber.keySet().forEach(mapToSaveByStudentNumber::remove);
             }
