@@ -17,7 +17,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -351,15 +350,6 @@ public class MembersController extends AbstractCustomController {
         dialog.setWidth(330);
         dialog.setHeight(375);
         dialog.setResizable(false);
-
-        dialog.show();
-    }
-
-    public void manageDegrees() {
-        Stage dialog = openDialog("/fxml/degrees.fxml");
-        dialog.setTitle(getMessage("member.degrees"));
-        dialog.setWidth(550);
-        dialog.setHeight(400);
 
         dialog.show();
     }

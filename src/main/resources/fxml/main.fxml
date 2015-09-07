@@ -13,9 +13,10 @@
             <Menu mnemonicParsing="false" text="Fichier">
                 <MenuItem mnemonicParsing="false" text="%member.import" onAction="#importMembers"/>
                 <SeparatorMenuItem />
-                <MenuItem mnemonicParsing="false" text="Quitter" onAction="#onExit"/>
+                <MenuItem mnemonicParsing="false" text="%global.exit" onAction="#onExit"/>
             </Menu>
-            <Menu mnemonicParsing="false" text="Paramètres" disable="true">
+            <Menu mnemonicParsing="false" text="Paramètres">
+                <MenuItem mnemonicParsing="false" text="%member.degrees" onAction="#manageDegrees" />
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                 <MenuItem mnemonicParsing="false" text="About"/>

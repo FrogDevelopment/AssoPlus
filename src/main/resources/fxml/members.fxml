@@ -65,16 +65,6 @@
                     </ImageView>
                 </graphic>
             </Button>
-            <Button mnemonicParsing="false" onMouseClicked="#manageDegrees" text="%member.degrees">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
-                <graphic>
-                    <ImageView>
-                        <Image url="@../img/list_32.png"/>
-                    </ImageView>
-                </graphic>
-            </Button>
             <Button mnemonicParsing="false" onMouseClicked="#showHideFilters" text="Button">
                 <VBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

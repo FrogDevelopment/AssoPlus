@@ -36,6 +36,15 @@ public class MainController extends AbstractCustomController {
         dialog.show();
     }
 
+    public void manageDegrees() {
+        Stage dialog = openDialog("/fxml/degrees.fxml");
+        dialog.setTitle(getMessage("member.degrees"));
+        dialog.setWidth(550);
+        dialog.setHeight(400);
+
+        dialog.show();
+    }
+
     public void onExit() {
         Platform.exit();
     }
