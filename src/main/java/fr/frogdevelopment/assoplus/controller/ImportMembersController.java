@@ -4,17 +4,23 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.components.controls.Validator;
-import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.service.MembersService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.input.ClipboardContent;
@@ -25,6 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -36,7 +43,16 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.io.*;
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.components.controls.Validator;
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.service.MembersService;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -382,29 +398,29 @@ public class ImportMembersController extends AbstractCustomDialogController {
         Map<String, String> mapping = new HashMap<>();
 
         // REQUIRED
-        mapping.put("member.student.number", tfStudentNumber.getText());
-        mapping.put("member.lastname", tfLastname.getText());
-        mapping.put("member.firstname", tfFirstname.getText());
+        mapping.put("member.student.number", tfStudentNumber.getText().trim());
+        mapping.put("member.lastname", tfLastname.getText().trim());
+        mapping.put("member.firstname", tfFirstname.getText().trim());
 
         // OPTIONNALS (but better if present)
         if (isNotBlank(tfBirthday.getText())) {
-            mapping.put("member.birthday", tfBirthday.getText());
+            mapping.put("member.birthday", tfBirthday.getText().trim());
         }
 
         if (isNotBlank(tfEmail.getText())) {
-            mapping.put("member.email", tfEmail.getText());
+            mapping.put("member.email", tfEmail.getText().trim());
         }
 
         if (isNotBlank(tfDegree.getText())) {
-            mapping.put("member.degree", tfDegree.getText());
+            mapping.put("member.degree", tfDegree.getText().trim());
         }
 
         if (isNotBlank(tfOption.getText())) {
-            mapping.put("member.option", tfOption.getText());
+            mapping.put("member.option", tfOption.getText().trim());
         }
 
         if (isNotBlank(tfPhone.getText())) {
-            mapping.put("member.phone", tfPhone.getText());
+            mapping.put("member.phone", tfPhone.getText().trim());
         }
 
         return mapping;
