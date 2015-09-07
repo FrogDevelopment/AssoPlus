@@ -42,10 +42,4 @@ public class DegreeServiceImpl extends AbstractService<Degree, DegreeDto> implem
         dao.delete(degree);
     }
 
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void deleteOption(DegreeDto degreeDto) {
-        dao.delete(createBean(degreeDto));
-    }
-
 }
