@@ -348,31 +348,31 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 memberDto.setFirstname(firstName);
 
                 if (mapping.containsKey("member.degree")) {
-                    memberDto.setDegreeCode(line.get(mapping.get("member.degree")));
+                    memberDto.setDegreeCode(line.get(mapping.get("member.degree")).trim());
                 } else {
                     memberDto.setDegreeCode("");
                 }
 
                 if (mapping.containsKey("member.option")) {
-                    memberDto.setOptionCode(line.get(mapping.get("member.option")));
+                    memberDto.setOptionCode(line.get(mapping.get("member.option")).trim());
                 } else {
                     memberDto.setOptionCode("");
                 }
 
                 if (mapping.containsKey("member.birthday")) {
-                    memberDto.setBirthday(line.get(mapping.get("member.birthday")));
+                    memberDto.setBirthday(line.get(mapping.get("member.birthday")).trim());
                 } else {
                     memberDto.setBirthday("");
                 }
 
                 if (mapping.containsKey("member.email")) {
-                    memberDto.setEmail(line.get(mapping.get("member.email")));
+                    memberDto.setEmail(line.get(mapping.get("member.email")).trim());
                 } else {
                     memberDto.setEmail("");
                 }
 
                 if (mapping.containsKey("member.phone")) {
-                    memberDto.setPhone(line.get(mapping.get("member.phone")));
+                    memberDto.setPhone(line.get(mapping.get("member.phone")).trim());
                 }
 
                 memberDto.setSelected(true);
@@ -398,29 +398,29 @@ public class ImportMembersController extends AbstractCustomDialogController {
         Map<String, String> mapping = new HashMap<>();
 
         // REQUIRED
-        mapping.put("member.student.number", tfStudentNumber.getText().trim());
-        mapping.put("member.lastname", tfLastname.getText().trim());
-        mapping.put("member.firstname", tfFirstname.getText().trim());
+        mapping.put("member.student.number", tfStudentNumber.getText());
+        mapping.put("member.lastname", tfLastname.getText());
+        mapping.put("member.firstname", tfFirstname.getText());
 
         // OPTIONNALS (but better if present)
         if (isNotBlank(tfBirthday.getText())) {
-            mapping.put("member.birthday", tfBirthday.getText().trim());
+            mapping.put("member.birthday", tfBirthday.getText());
         }
 
         if (isNotBlank(tfEmail.getText())) {
-            mapping.put("member.email", tfEmail.getText().trim());
+            mapping.put("member.email", tfEmail.getText());
         }
 
         if (isNotBlank(tfDegree.getText())) {
-            mapping.put("member.degree", tfDegree.getText().trim());
+            mapping.put("member.degree", tfDegree.getText());
         }
 
         if (isNotBlank(tfOption.getText())) {
-            mapping.put("member.option", tfOption.getText().trim());
+            mapping.put("member.option", tfOption.getText());
         }
 
         if (isNotBlank(tfPhone.getText())) {
-            mapping.put("member.phone", tfPhone.getText().trim());
+            mapping.put("member.phone", tfPhone.getText());
         }
 
         return mapping;
