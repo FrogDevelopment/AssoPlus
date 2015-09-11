@@ -4,9 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -30,7 +28,7 @@ import static fr.frogdevelopment.assoplus.components.controls.Validator.validate
 
 @Controller("eventController")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class EventController extends AbstractCustomController {
+public class EventController extends CreateUpdateDialogController<EventDto> {
 
     private static final int MAX_CHAR = 500;
 
@@ -40,8 +38,6 @@ public class EventController extends AbstractCustomController {
     private EventsService eventsService;
 
     @FXML
-    private Label lblError;
-    @FXML
     private TextField txtTitle;
     @FXML
     private DatePicker dpDate;
@@ -50,18 +46,6 @@ public class EventController extends AbstractCustomController {
     @FXML
     private TextArea taText;
 
-    @FXML
-    private Button btnPrevious;
-    @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnNew;
-    @FXML
-    private Button btnNext;
-
-    private ObservableList<EventDto> data;
-    private EventDto eventDto;
-    private int currentIndex;
 
     @Override
     public void initialize() {
@@ -111,43 +95,15 @@ public class EventController extends AbstractCustomController {
         });
     }
 
-    void newData(ObservableList<EventDto> data) {
-        this.data = data;
-        eventDto = new EventDto();
-
-        currentIndex = data.size() - 1;
-
-        setData();
+    @Override
+    protected EventDto newEntity() {
+        return new EventDto();
     }
 
-    void updateData(ObservableList<EventDto> data, int index) {
-        this.data = data;
-        eventDto = data.get(index);
-        currentIndex = index;
-
-        setData();
-    }
-
-    private void setData() {
-        txtTitle.setText(eventDto.getTitle());
-        dpDate.setValue(LocalDate.parse(eventDto.getDate(), dateTimeFormatter));
-        taText.setText(eventDto.getText());
-    }
-
-    public void previousData() {
-        updateData(data, --currentIndex);
-    }
-
-    public void saveData() {
-        save();
-    }
-
-    public void newData() {
-        newData(data);
-    }
-
-    public void nextData() {
-        updateData(data, ++currentIndex);
+    protected void setData() {
+        txtTitle.setText(entityDto.getTitle());
+        dpDate.setValue(LocalDate.parse(entityDto.getDate(), dateTimeFormatter));
+        taText.setText(entityDto.getText());
     }
 
     public void save() {
@@ -155,15 +111,15 @@ public class EventController extends AbstractCustomController {
         isOk &= validateNotNull(dpDate);
 
         if (isOk) {
-            eventDto.setTitle(txtTitle.getText());
-            eventDto.setDate(dpDate.getValue().format(dateTimeFormatter));
-            eventDto.setText(taText.getText());
+            entityDto.setTitle(txtTitle.getText());
+            entityDto.setDate(dpDate.getValue().format(dateTimeFormatter));
+            entityDto.setText(taText.getText());
 
-            if (eventDto.getId() == 0) {
-                eventsService.saveData(eventDto);
-                data.add(eventDto);
+            if (entityDto.getId() == 0) {
+                eventsService.saveData(entityDto);
+                entities.add(entityDto);
             } else {
-                eventsService.updateData(eventDto);
+                eventsService.updateData(entityDto);
             }
 
         } else {

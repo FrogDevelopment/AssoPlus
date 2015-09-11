@@ -7,11 +7,9 @@ package fr.frogdevelopment.assoplus.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
@@ -40,7 +38,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MemberController extends AbstractCustomDialogController {
+public class MemberController extends CreateUpdateDialogController<MemberDto> {
 
     private DateTimeFormatter dateTimeFormatter;
 
@@ -53,8 +51,6 @@ public class MemberController extends AbstractCustomDialogController {
     @Autowired
     private OptionsService optionsService;
 
-    @FXML
-    private Label lblError;
     @FXML
     private TextField txtStudentNumber;
     @FXML
@@ -76,20 +72,8 @@ public class MemberController extends AbstractCustomDialogController {
     @FXML
     private CheckBox cbAnnals;
 
-    @FXML
-    private Button btnPrevious;
-    @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnNew;
-    @FXML
-    private Button btnNext;
-
-    private MemberDto memberDto;
-    private ObservableList<MemberDto> data;
     private ObservableList<DegreeDto> degreeDtos;
     private ObservableList<OptionDto> optionDtos;
-    private int currentIndex;
 
     @Override
     protected void initialize() {
@@ -182,39 +166,27 @@ public class MemberController extends AbstractCustomDialogController {
         }
     }
 
-    void newData(ObservableList<MemberDto> data) {
-        this.data = data;
-        memberDto = new MemberDto();
-
-        currentIndex = data.size() - 1;
-
-        setData();
+    @Override
+    protected MemberDto newEntity() {
+        return new MemberDto();
     }
 
-    void updateData(ObservableList<MemberDto> data, int index) {
-        this.data = data;
-        memberDto = data.get(index);
-        currentIndex = index;
-
-        setData();
-    }
-
-    private void setData() {
-        txtStudentNumber.setText(memberDto.getStudentNumber());
-        txtStudentNumber.setDisable((memberDto.getId() != 0));
-        txtLastname.setText(memberDto.getLastname());
-        txtFirstname.setText(memberDto.getFirstname());
-        dpBirthday.setValue(memberDto.getBirthday());
-        txtEmail.setText(memberDto.getEmail());
+    protected void setData() {
+        txtStudentNumber.setText(entityDto.getStudentNumber());
+        txtStudentNumber.setDisable((entityDto.getId() != 0));
+        txtLastname.setText(entityDto.getLastname());
+        txtFirstname.setText(entityDto.getFirstname());
+        dpBirthday.setValue(entityDto.getBirthday());
+        txtEmail.setText(entityDto.getEmail());
 
         degreeDtos.stream().forEach(degreeDto -> {
-            if (degreeDto.getCode().equals(memberDto.getDegreeCode())) {
+            if (degreeDto.getCode().equals(entityDto.getDegreeCode())) {
                 cbDegree.getSelectionModel().select(degreeDto);
             }
         });
 
         cbOption.setItems(null);
-        final String codeDegree = memberDto.getDegreeCode();
+        final String codeDegree = entityDto.getDegreeCode();
         if (StringUtils.isNoneBlank(codeDegree)) {
             final List<OptionDto> dtos = optionDtos
                     .stream()
@@ -223,48 +195,29 @@ public class MemberController extends AbstractCustomDialogController {
             cbOption.setItems(FXCollections.observableArrayList(dtos));
 
             optionDtos.stream().forEach(optionDto -> {
-                if (optionDto.getCode().equals(memberDto.getOptionCode())) {
+                if (optionDto.getCode().equals(entityDto.getOptionCode())) {
                     cbOption.getSelectionModel().select(optionDto);
                 }
             });
         }
 
-        txtPhone.setText(memberDto.getPhone());
-        cbSubscription.setSelected(memberDto.getSubscription());
-        cbAnnals.setSelected(memberDto.getAnnals());
+        txtPhone.setText(entityDto.getPhone());
+        cbSubscription.setSelected(entityDto.getSubscription());
+        cbAnnals.setSelected(entityDto.getAnnals());
 
         txtStudentNumber.requestFocus();
-
-        btnPrevious.setDisable(currentIndex == 0);
-        btnNext.setDisable(currentIndex == data.size() - 1);
-    }
-
-    public void previousData() {
-        updateData(data, --currentIndex);
-    }
-
-    public void saveData() {
-        save();
-    }
-
-    public void newData() {
-        newData(data);
-    }
-
-    public void nextData() {
-        updateData(data, ++currentIndex);
     }
 
     // see http://howtodoinjava.com/2014/11/11/java-regex-validate-email-address/
     private static final String REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     private static final Pattern pattern = Pattern.compile(REGEX);
 
-    private void save() {
+    public void save() {
         boolean isOk = Validator.validateNoneBlank(txtStudentNumber, txtLastname, txtFirstname);
 
         String studentNumber = txtStudentNumber.getText();
-        if (memberDto.getId() == 0) {
-            isOk &= Validator.validate(() -> data
+        if (entityDto.getId() == 0) {
+            isOk &= Validator.validate(() -> entities
                             .stream()
                             .noneMatch(dto -> dto.getStudentNumber().equals(studentNumber)),
                     "member.error.msg.already.present",
@@ -280,32 +233,32 @@ public class MemberController extends AbstractCustomDialogController {
         if (isOk) {
             lblError.setText(null);
 
-            memberDto.setStudentNumber(studentNumber);
-            memberDto.setLastname(txtLastname.getText());
-            memberDto.setFirstname(txtFirstname.getText());
+            entityDto.setStudentNumber(studentNumber);
+            entityDto.setLastname(txtLastname.getText());
+            entityDto.setFirstname(txtFirstname.getText());
 
-            memberDto.setBirthday(dpBirthday.getValue());
-            memberDto.setEmail(txtEmail.getText());
+            entityDto.setBirthday(dpBirthday.getValue());
+            entityDto.setEmail(txtEmail.getText());
             if (cbDegree.getValue() != null) {
-                memberDto.setDegreeCode(cbDegree.getValue().getCode());
+                entityDto.setDegreeCode(cbDegree.getValue().getCode());
             } else {
-                memberDto.setDegreeCode(null);
+                entityDto.setDegreeCode(null);
             }
             if (cbOption.getValue() != null) {
-                memberDto.setOptionCode(cbOption.getValue().getCode());
+                entityDto.setOptionCode(cbOption.getValue().getCode());
             } else {
-                memberDto.setOptionCode(null);
+                entityDto.setOptionCode(null);
             }
-            memberDto.setPhone(txtPhone.getText());
+            entityDto.setPhone(txtPhone.getText());
 
-            memberDto.setSubscription(cbSubscription.isSelected());
-            memberDto.setAnnals(cbAnnals.isSelected());
+            entityDto.setSubscription(cbSubscription.isSelected());
+            entityDto.setAnnals(cbAnnals.isSelected());
 
-            if (memberDto.getId() == 0) {
-                membersService.saveData(memberDto);
-                data.add(memberDto);
+            if (entityDto.getId() == 0) {
+                membersService.saveData(entityDto);
+                entities.add(entityDto);
             } else {
-                membersService.updateData(memberDto);
+                membersService.updateData(entityDto);
             }
         } else {
             lblError.setText(getMessage("global.warning.msg.check"));
