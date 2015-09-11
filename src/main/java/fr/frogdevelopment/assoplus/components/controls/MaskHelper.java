@@ -4,8 +4,6 @@
 
 package fr.frogdevelopment.assoplus.components.controls;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
@@ -34,6 +32,11 @@ public class MaskHelper {
 		final char[] charsMask = mask.toCharArray();
 
 		textField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+			// back delete
+			if (newValue.length() < oldValue.length()) {
+				return;
+			}
+
 			String currentText = textField.getText();
 
 			// text limiter
