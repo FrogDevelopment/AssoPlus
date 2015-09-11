@@ -4,6 +4,23 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
@@ -12,16 +29,6 @@ import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.service.DegreeService;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.util.StringConverter;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -181,7 +188,7 @@ public class MemberController extends AbstractCustomDialogController {
 
         currentIndex = data.size() - 1;
 
-        todo();
+        setData();
     }
 
     void updateData(ObservableList<MemberDto> data, int index) {
@@ -189,10 +196,10 @@ public class MemberController extends AbstractCustomDialogController {
         memberDto = data.get(index);
         currentIndex = index;
 
-        todo();
+        setData();
     }
 
-    private void todo() {
+    private void setData() {
         txtStudentNumber.setText(memberDto.getStudentNumber());
         txtStudentNumber.setDisable((memberDto.getId() != 0));
         txtLastname.setText(memberDto.getLastname());
@@ -252,7 +259,7 @@ public class MemberController extends AbstractCustomDialogController {
     private static final String REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     private static final Pattern pattern = Pattern.compile(REGEX);
 
-    private boolean save() {
+    private void save() {
         boolean isOk = Validator.validateNoneBlank(txtStudentNumber, txtLastname, txtFirstname);
 
         String studentNumber = txtStudentNumber.getText();
@@ -303,8 +310,6 @@ public class MemberController extends AbstractCustomDialogController {
         } else {
             lblError.setText(getMessage("global.warning.msg.check"));
         }
-
-        return isOk;
     }
 
 }
