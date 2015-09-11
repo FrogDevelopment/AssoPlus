@@ -4,11 +4,19 @@
   Copyright (c) Frog Development 2015.
   -->
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.control.cell.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane fx:id="child" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.MembersController">
     <center>
         <TableView fx:id="tableView" managed="true">
@@ -47,13 +55,10 @@
                 <TableColumn fx:id="colSubscription" maxWidth="70" minWidth="70" resizable="false" text="%member.subscription" />
                 <TableColumn fx:id="colAnnals" maxWidth="60" minWidth="60" resizable="false" text="%member.annals" />
             </columns>
-            <BorderPane.margin>
-                <Insets left="5.0" right="5.0" />
-            </BorderPane.margin>
         </TableView>
     </center>
 
-    <bottom>
+    <top>
         <ToolBar BorderPane.alignment="CENTER">
             <Button mnemonicParsing="false" onMouseClicked="#addMember" text="%member.create.title">
                 <VBox.margin>
@@ -86,13 +91,10 @@
                 </graphic>
             </Button>
         </ToolBar>
-    </bottom>
-    <top>
+    </top>
+    <bottom>
         <HBox fx:id="hbTop" alignment="CENTER_LEFT" managed="false" prefHeight="30.0" visible="false"
               BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-                <Insets left="5.0" right="5.0" top="5.0"/>
-            </BorderPane.margin>
             <TextField fx:id="tfStudentNumber"/>
             <TextField fx:id="tfLastname"/>
             <TextField fx:id="tfFirstname"/>
@@ -104,9 +106,6 @@
             <ChoiceBox fx:id="cbSubscription"/>
             <ChoiceBox fx:id="cbAnnals"/>
         </HBox>
-    </top>
-   <padding>
-      <Insets top="5.0" />
-   </padding>
+    </bottom>
 
 </BorderPane>
