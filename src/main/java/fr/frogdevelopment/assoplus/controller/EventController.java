@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -102,7 +103,9 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
 
     protected void setData() {
         txtTitle.setText(entityDto.getTitle());
-        dpDate.setValue(LocalDate.parse(entityDto.getDate(), dateTimeFormatter));
+        if (StringUtils.isNotBlank(entityDto.getDate())) {
+            dpDate.setValue(LocalDate.parse(entityDto.getDate(), dateTimeFormatter));
+        }
         taText.setText(entityDto.getText());
     }
 
