@@ -4,13 +4,6 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.service.DegreeService;
-import fr.frogdevelopment.assoplus.service.MembersService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -18,12 +11,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +32,21 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.io.*;
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.service.DegreeService;
+import fr.frogdevelopment.assoplus.service.MembersService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UncheckedIOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -266,15 +280,25 @@ public class MembersController extends AbstractCustomController {
             }
         });
 
-        List<String> tmp = Arrays.asList("true", "false", "indifférent"); // fixme bundle
+        String yes = getMessage("global.yes");
+        String no = getMessage("global.no");
+        List<String> tmp = Arrays.asList(
+                yes,
+                no,
+                getMessage("global.none"));
 
         cbSubscription.setItems(FXCollections.observableArrayList(tmp));
         cbSubscription.prefWidthProperty().bind(colSubscription.widthProperty());
         GET_VALUES.put(cbSubscription.valueProperty(), dto -> String.valueOf(dto.getSubscription()));
         cbSubscription.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if ("indifférent".equals(newValue)) { // fixme bundle
+            if (yes.equals(newValue)) {
+                newValue = String.valueOf(true);
+            } else if (no.equals(newValue)) {
+                newValue = String.valueOf(false);
+            } else {
                 newValue = "";
             }
+
             INPUTS.put(observable, newValue);
             applyFilters(observable);
         });
@@ -283,9 +307,14 @@ public class MembersController extends AbstractCustomController {
         cbAnnals.setItems(FXCollections.observableArrayList(tmp));
         GET_VALUES.put(cbAnnals.valueProperty(), dto -> String.valueOf(dto.getAnnals()));
         cbAnnals.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if ("indifférent".equals(newValue)) { // fixme bundle
+            if (yes.equals(newValue)) {
+                newValue = String.valueOf(true);
+            } else if (no.equals(newValue)) {
+                newValue = String.valueOf(false);
+            } else {
                 newValue = "";
             }
+
             INPUTS.put(observable, newValue);
             applyFilters(observable);
         });
