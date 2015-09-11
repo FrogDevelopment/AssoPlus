@@ -4,16 +4,16 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
-import fr.frogdevelopment.assoplus.entities.Entity;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+
+import fr.frogdevelopment.assoplus.entities.Entity;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.Column;
@@ -26,14 +26,22 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonDaoImpl.class);
 
-    @Autowired
     protected JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private final Class<E> persistentClass;
     protected final RowMapper<E> mapper = (rs, rowNum) -> buildEntity(rs);
@@ -74,9 +82,14 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     // ***************************************** \\
     // ********** PACKAGE METHODES ************* \\ (visible for tests)
     // ***************************************** \\
+    protected boolean skipCreate = false;
 
     @PostConstruct
     void init() {
+        if (skipCreate) {
+            return;
+        }
+
         StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
         sb.append(tableName);
         sb.append("(");

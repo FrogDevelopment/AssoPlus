@@ -30,6 +30,9 @@
             </Tab>
             <Tab text="Librairie" disable="true">
             </Tab>
+            <Tab text="Évènements">
+                <fx:include source="events.fxml"/>
+            </Tab>
         </TabPane>
     </center>
 </BorderPane>
