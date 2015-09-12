@@ -8,6 +8,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
@@ -120,11 +121,13 @@ public class MembersController extends AbstractCustomController {
     private DateTimeFormatter dateFormatter;
     private Map<String, OptionDto> mapOptions;
     private Map<String, DegreeDto> mapDegrees;
+    private ObservableList<MemberDto> data;
 
     @Override
     protected void initialize() {
         // 1. Wrap the ObservableList in a FilteredList (initially display all filteredData).
-        filteredData = new FilteredList<>(FXCollections.observableArrayList(membersService.getAll()), p -> true);
+        data = FXCollections.observableArrayList(membersService.getAll());
+        filteredData = new FilteredList<>(data, p -> true);
 
         // 2. Set the filter Predicate whenever the filters changes.
         initFilters();
@@ -347,14 +350,14 @@ public class MembersController extends AbstractCustomController {
 
     private void removeMember(MemberDto selectedItem) {
         membersService.deleteData(selectedItem);
-        filteredData.remove(selectedItem);
+        data.remove(selectedItem);
     }
 
     public void addMember() {
         Stage dialog = openDialog("/fxml/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.newData(tableView.getItems());
+                memberController.newData(data);
             }
         });
 
@@ -370,7 +373,7 @@ public class MembersController extends AbstractCustomController {
         Stage dialog = openDialog("/fxml/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
-                memberController.updateData(tableView.getItems(), tableView.getSelectionModel().getSelectedIndex());
+                memberController.updateData(data, tableView.getSelectionModel().getSelectedIndex());
             }
         });
 
