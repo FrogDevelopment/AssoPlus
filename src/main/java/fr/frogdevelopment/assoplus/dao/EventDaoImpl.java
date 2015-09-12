@@ -5,8 +5,9 @@
 package fr.frogdevelopment.assoplus.dao;
 
 import fr.frogdevelopment.assoplus.entities.Event;
+import org.springframework.stereotype.Repository;
 
-//@Repository("eventDao")
+@Repository("eventDao")
 public class EventDaoImpl extends CommonDaoImpl<Event> implements EventDao {
 
     public EventDaoImpl() {

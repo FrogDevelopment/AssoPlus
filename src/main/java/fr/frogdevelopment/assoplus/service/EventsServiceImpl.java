@@ -4,13 +4,21 @@
 
 package fr.frogdevelopment.assoplus.service;
 
+import fr.frogdevelopment.assoplus.datasource.RoutingDataSource;
 import org.springframework.stereotype.Service;
 
 import fr.frogdevelopment.assoplus.dto.EventDto;
 import fr.frogdevelopment.assoplus.entities.Event;
 
+import static fr.frogdevelopment.assoplus.datasource.RoutingDataSource.DataSource.*;
+
 @Service("eventsService")
 public class EventsServiceImpl extends AbstractService<Event, EventDto> implements EventsService {
+
+    @Override
+    protected void setContext() {
+        RoutingDataSource.setDataSource(MYSQL);
+    }
 
     EventDto createDto(Event bean) {
         EventDto dto = new EventDto();
