@@ -112,7 +112,7 @@ public class EventsController extends AbstractCustomController {
 
         dialog.setTitle(getMessage("event.create.title"));
         dialog.setWidth(330);
-        dialog.setHeight(375);
+        dialog.setHeight(350);
         dialog.setResizable(true);
 
         dialog.show();
@@ -128,7 +128,7 @@ public class EventsController extends AbstractCustomController {
 
         dialog.setTitle(getMessage("event.update.title"));
         dialog.setWidth(330);
-        dialog.setHeight(375);
+        dialog.setHeight(350);
         dialog.setResizable(true);
 
         dialog.show();

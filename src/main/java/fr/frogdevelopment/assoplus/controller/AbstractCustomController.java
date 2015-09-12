@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -23,16 +23,13 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_16;
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_32;
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_48;
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.load;
+import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.*;
 import static javafx.scene.control.Alert.AlertType.*;
 
 abstract class AbstractCustomController implements Initializable {
 
     @FXML
-    protected Pane child;
+    protected Region child;
 
     private ResourceBundle resources;
 

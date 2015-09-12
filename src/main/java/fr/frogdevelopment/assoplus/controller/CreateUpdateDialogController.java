@@ -8,11 +8,16 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import org.controlsfx.control.NotificationPane;
 
 abstract class CreateUpdateDialogController<E> extends AbstractCustomController {
 
+//    @FXML
+//    protected Label lblError;
+
     @FXML
-    protected Label lblError;
+    protected HBox topBox;
 
     @FXML
     protected Button btnPrevious;
@@ -64,7 +69,11 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
     }
 
     public void saveData() {
-        save();
+        if(check()) {
+            save();
+        }else {
+            notifyError();
+        }
     }
 
     public void newData() {
@@ -77,5 +86,13 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
         }
     }
 
-    abstract public void save();
+    abstract protected boolean check();
+    abstract protected void save();
+
+    private void notifyError() {
+        NotificationPane notificationPane = (NotificationPane) child;
+        notificationPane.setShowFromTop(false);
+        notificationPane.setText(getMessage("global.warning.msg.check"));
+        notificationPane.show();
+    }
 }

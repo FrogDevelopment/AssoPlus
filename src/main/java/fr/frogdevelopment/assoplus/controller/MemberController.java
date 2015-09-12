@@ -4,21 +4,6 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-
 import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.DegreeDto;
@@ -27,6 +12,19 @@ import fr.frogdevelopment.assoplus.dto.OptionDto;
 import fr.frogdevelopment.assoplus.service.DegreeService;
 import fr.frogdevelopment.assoplus.service.MembersService;
 import fr.frogdevelopment.assoplus.service.OptionsService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.util.StringConverter;
+import org.apache.commons.lang3.StringUtils;
+import org.controlsfx.control.NotificationPane;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -212,7 +210,8 @@ public class MemberController extends CreateUpdateDialogController<MemberDto> {
     private static final String REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     private static final Pattern pattern = Pattern.compile(REGEX);
 
-    public void save() {
+    @Override
+    protected boolean check() {
         boolean isOk = Validator.validateNoneBlank(txtStudentNumber, txtLastname, txtFirstname);
 
         String studentNumber = txtStudentNumber.getText();
@@ -230,38 +229,36 @@ public class MemberController extends CreateUpdateDialogController<MemberDto> {
                     txtEmail);
         }
 
-        if (isOk) {
-            lblError.setText(null);
+        return isOk;
+    }
 
-            entityDto.setStudentNumber(studentNumber);
-            entityDto.setLastname(txtLastname.getText());
-            entityDto.setFirstname(txtFirstname.getText());
+    protected void save() {
+        entityDto.setStudentNumber(txtStudentNumber.getText());
+        entityDto.setLastname(txtLastname.getText());
+        entityDto.setFirstname(txtFirstname.getText());
 
-            entityDto.setBirthday(dpBirthday.getValue());
-            entityDto.setEmail(txtEmail.getText());
-            if (cbDegree.getValue() != null) {
-                entityDto.setDegreeCode(cbDegree.getValue().getCode());
-            } else {
-                entityDto.setDegreeCode(null);
-            }
-            if (cbOption.getValue() != null) {
-                entityDto.setOptionCode(cbOption.getValue().getCode());
-            } else {
-                entityDto.setOptionCode(null);
-            }
-            entityDto.setPhone(txtPhone.getText());
-
-            entityDto.setSubscription(cbSubscription.isSelected());
-            entityDto.setAnnals(cbAnnals.isSelected());
-
-            if (entityDto.getId() == 0) {
-                membersService.saveData(entityDto);
-                entities.add(entityDto);
-            } else {
-                membersService.updateData(entityDto);
-            }
+        entityDto.setBirthday(dpBirthday.getValue());
+        entityDto.setEmail(txtEmail.getText());
+        if (cbDegree.getValue() != null) {
+            entityDto.setDegreeCode(cbDegree.getValue().getCode());
         } else {
-            lblError.setText(getMessage("global.warning.msg.check"));
+            entityDto.setDegreeCode(null);
+        }
+        if (cbOption.getValue() != null) {
+            entityDto.setOptionCode(cbOption.getValue().getCode());
+        } else {
+            entityDto.setOptionCode(null);
+        }
+        entityDto.setPhone(txtPhone.getText());
+
+        entityDto.setSubscription(cbSubscription.isSelected());
+        entityDto.setAnnals(cbAnnals.isSelected());
+
+        if (entityDto.getId() == 0) {
+            membersService.saveData(entityDto);
+            entities.add(entityDto);
+        } else {
+            membersService.updateData(entityDto);
         }
     }
 

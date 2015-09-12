@@ -109,24 +109,24 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
         taText.setText(entityDto.getText());
     }
 
-    public void save() {
+    @Override
+    protected boolean check() {
         boolean isOk = Validator.validateNoneBlank(txtTitle, taText);
         isOk &= validateNotNull(dpDate);
 
-        if (isOk) {
-            entityDto.setTitle(txtTitle.getText());
-            entityDto.setDate(dpDate.getValue().format(dateTimeFormatter));
-            entityDto.setText(taText.getText());
+        return isOk;
+    }
 
-            if (entityDto.getId() == 0) {
-                eventsService.saveData(entityDto);
-                entities.add(entityDto);
-            } else {
-                eventsService.updateData(entityDto);
-            }
+    protected void save() {
+        entityDto.setTitle(txtTitle.getText());
+        entityDto.setDate(dpDate.getValue().format(dateTimeFormatter));
+        entityDto.setText(taText.getText());
 
+        if (entityDto.getId() == 0) {
+            eventsService.saveData(entityDto);
+            entities.add(entityDto);
         } else {
-            lblError.setText(getMessage("global.warning.msg.check"));
+            eventsService.updateData(entityDto);
         }
     }
 
