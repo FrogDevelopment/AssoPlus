@@ -36,12 +36,8 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonDaoImpl.class);
 
-    protected JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    protected JdbcTemplate jdbcTemplate;
 
     private final Class<E> persistentClass;
     protected final RowMapper<E> mapper = (rs, rowNum) -> buildEntity(rs);
