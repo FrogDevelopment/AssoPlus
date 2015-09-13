@@ -12,13 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
@@ -117,6 +111,9 @@ public class MembersController extends AbstractCustomController {
     @FXML
     private ChoiceBox<String> cbAnnals;
 
+    @FXML
+    private Button editBtn;
+
     private FilteredList<MemberDto> filteredData;
     private DateTimeFormatter dateFormatter;
     private Map<String, OptionDto> mapOptions;
@@ -146,29 +143,32 @@ public class MembersController extends AbstractCustomController {
         tableView.setRowFactory(param -> {
             TableRow<MemberDto> tableRow = new TableRow<>();
             tableRow.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 1
-                        && !tableRow.isEmpty()
-                        && event.getButton() == MouseButton.SECONDARY) {
-                    final ContextMenu contextMenu = new ContextMenu();
-                    MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
-
-                    MenuItem updateItem = new MenuItem(getMessage("global.update"));
-                    updateItem.setOnAction(e -> updateMember());
-                    contextMenu.getItems().add(updateItem);
-
-                    deleteItem.setOnAction(e -> {
+                if (event.getClickCount() == 1 && !tableRow.isEmpty()) {
+                    if (event.getButton() == MouseButton.PRIMARY) {
                         MemberDto selectedItem = tableView.getSelectionModel().getSelectedItem();
-                        // FIXME
-                        showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
-                    });
-                    contextMenu.getItems().add(deleteItem);
+                        editBtn.setDisable(selectedItem == null);
+                    } else if (event.getButton() == MouseButton.SECONDARY) {
+                        final ContextMenu contextMenu = new ContextMenu();
+                        MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
 
-                    // only display context menu for non-null items:
-                    tableRow.contextMenuProperty().bind(
-                            Bindings.when(Bindings.isNotNull(tableRow.itemProperty()))
-                                    .then(contextMenu)
-                                    .otherwise((ContextMenu) null)
-                    );
+                        MenuItem updateItem = new MenuItem(getMessage("global.update"));
+                        updateItem.setOnAction(e -> updateMember());
+                        contextMenu.getItems().add(updateItem);
+
+                        deleteItem.setOnAction(e -> {
+                            MemberDto selectedItem = tableView.getSelectionModel().getSelectedItem();
+                            // FIXME
+                            showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
+                        });
+                        contextMenu.getItems().add(deleteItem);
+
+                        // only display context menu for non-null items:
+                        tableRow.contextMenuProperty().bind(
+                                Bindings.when(Bindings.isNotNull(tableRow.itemProperty()))
+                                        .then(contextMenu)
+                                        .otherwise((ContextMenu) null)
+                        );
+                    }
                 } else if (event.getClickCount() == 2
                         && !tableRow.isEmpty()
                         && !(event.getTarget() instanceof CheckBoxTableCell)) {
@@ -369,7 +369,7 @@ public class MembersController extends AbstractCustomController {
         dialog.show();
     }
 
-    private void updateMember() {
+    public void updateMember() {
         Stage dialog = openDialog("/fxml/member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {

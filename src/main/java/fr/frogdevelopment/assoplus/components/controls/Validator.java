@@ -1,11 +1,16 @@
 package fr.frogdevelopment.assoplus.components.controls;
 
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Tooltip;
 
+import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.StringUtils;
+import org.controlsfx.control.decoration.Decorator;
+import org.controlsfx.control.decoration.GraphicDecoration;
 
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
@@ -23,19 +28,32 @@ public class Validator {
         return resourceBundle.getString(key);
     }
 
+    public static void clear(Control control) {
+        control.setStyle("-fx-border-color: null"); // todo use CSS
+        Decorator.removeAllDecorations(control);
+    }
+
+    public static void clear(Control... controls) {
+        for (Control control : controls) {
+            clear(control);
+        }
+    }
 
     // Validate generic
 
     public static boolean validate(Callable<Boolean> check, Consumer<Control> onOK, Consumer<Control> onKO, Control control) {
         try {
+            // clean all  to avoid adding a second decoration
+            clear(control);
             boolean isOk = check.call();
             if (isOk) {
-                control.setStyle("-fx-border-color: null"); // todo use CSS
                 if (onOK != null) {
                     onOK.accept(control);
                 }
             } else {
                 control.setStyle("-fx-border-color: red"); // todo use CSS
+                Node decoration = new ImageView("/img/dialog-error_16.png");
+                Decorator.addDecoration(control, new GraphicDecoration(decoration, Pos.CENTER_RIGHT));
                 if (onKO != null) {
                     onKO.accept(control);
                 }

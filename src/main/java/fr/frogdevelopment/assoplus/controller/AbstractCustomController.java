@@ -147,11 +147,11 @@ abstract class AbstractCustomController implements Initializable {
         alert.show();
     }
 
-    protected void showError(Exception e) {
+    protected void showError(Throwable th) {
 
         Alert alert = new Alert(ERROR);
         alert.setHeaderText(getMessage("global.error.header"));
-        alert.setContentText(ExceptionUtils.getMessage(e));
+        alert.setContentText(ExceptionUtils.getMessage(th));
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("/img/dialog-error_16.png"));
@@ -159,11 +159,11 @@ abstract class AbstractCustomController implements Initializable {
         alert.show();
     }
 
-    protected void showError(String headerKey, Exception e) {
+    protected void showError(String headerKey, Throwable th) {
 
         Alert alert = new Alert(ERROR);
         alert.setHeaderText(getMessage(headerKey));
-        alert.setContentText(ExceptionUtils.getMessage(e));
+        alert.setContentText(ExceptionUtils.getMessage(th));
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("/img/dialog-error_16.png"));

@@ -232,6 +232,11 @@ public class MemberController extends CreateUpdateDialogController<MemberDto> {
         return isOk;
     }
 
+    @Override
+    protected void clear() {
+        Validator.clear(txtStudentNumber, txtLastname, txtFirstname);
+    }
+
     protected void save() {
         entityDto.setStudentNumber(txtStudentNumber.getText());
         entityDto.setLastname(txtLastname.getText());

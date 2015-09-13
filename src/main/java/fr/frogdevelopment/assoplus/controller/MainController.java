@@ -7,6 +7,8 @@ package fr.frogdevelopment.assoplus.controller;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -16,11 +18,25 @@ import org.springframework.stereotype.Controller;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class MainController extends AbstractCustomController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
+
     @Autowired
     private MembersController membersController;
     
     @Override
     protected void initialize() {
+
+        Thread.setDefaultUncaughtExceptionHandler(this::showError);
+    }
+
+    private void showError(Thread t, Throwable e) {
+        LOGGER.error("***Default exception handler***");
+        if (Platform.isFxApplicationThread()) {
+            showError(e);
+        } else {
+            LOGGER.error("An unexpected error occurred in " + t);
+
+        }
     }
 
     public void importMembers() {

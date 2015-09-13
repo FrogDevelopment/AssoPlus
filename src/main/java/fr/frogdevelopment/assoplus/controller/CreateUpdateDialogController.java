@@ -7,16 +7,10 @@ package fr.frogdevelopment.assoplus.controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.image.ImageView;
 import org.controlsfx.control.NotificationPane;
 
 abstract class CreateUpdateDialogController<E> extends AbstractCustomController {
-
-//    @FXML
-//    protected Label lblError;
-
-    @FXML
-    protected HBox topBox;
 
     @FXML
     protected Button btnPrevious;
@@ -41,6 +35,7 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
 
         btnPrevious.setDisable(currentIndex == 0);
         btnNext.setDisable(currentIndex == entities.size());
+        clear();
     }
 
     abstract protected E newEntity();
@@ -54,6 +49,7 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
 
         btnPrevious.setDisable(currentIndex == 0);
         btnNext.setDisable(currentIndex == entities.size() - 1);
+        clear();
     }
 
     abstract protected void setData();
@@ -61,6 +57,7 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
     public void previousData() {
         if (currentIndex > 0) {
             updateData(entities, --currentIndex);
+            clear();
         }
     }
 
@@ -68,7 +65,7 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
         if (check()) {
             save();
             btnPrevious.setDisable(currentIndex == 0);
-            btnNext.setDisable(currentIndex == entities.size()-1);
+            btnNext.setDisable(currentIndex == entities.size() - 1);
         } else {
             notifyError();
         }
@@ -81,17 +78,19 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
     public void nextData() {
         if (currentIndex < entities.size() - 1) {
             updateData(entities, ++currentIndex);
+            clear();
         }
     }
 
     abstract protected boolean check();
 
     abstract protected void save();
+    abstract protected void clear();
 
     private void notifyError() {
         NotificationPane notificationPane = (NotificationPane) child;
         notificationPane.setShowFromTop(false);
-        notificationPane.setText(getMessage("global.warning.msg.check"));
-        notificationPane.show();
+        ImageView node = new ImageView("/img/dialog-error_16.png");
+        notificationPane.show(getMessage("global.warning.msg.check"), node);
     }
 }

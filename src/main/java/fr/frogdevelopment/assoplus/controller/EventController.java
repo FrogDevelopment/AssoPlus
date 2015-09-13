@@ -134,6 +134,11 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
         return isOk;
     }
 
+    @Override
+    protected void clear() {
+        Validator.clear(txtTitle, taText, dpDate);
+    }
+
     protected void save() {
         entityDto.setTitle(txtTitle.getText());
         entityDto.setDate(dpDate.getValue().format(dateTimeFormatter));
