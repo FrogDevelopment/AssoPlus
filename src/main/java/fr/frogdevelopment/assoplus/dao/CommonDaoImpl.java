@@ -4,6 +4,8 @@
 
 package fr.frogdevelopment.assoplus.dao;
 
+import fr.frogdevelopment.assoplus.entities.Entity;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +14,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
-import fr.frogdevelopment.assoplus.entities.Entity;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.Column;
@@ -26,18 +28,18 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonDaoImpl.class);
 
+    private JdbcTemplate jdbcTemplate;
+
     @Autowired
-    protected JdbcTemplate jdbcTemplate;
+    public void setSqliteDataSource(BasicDataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     private final Class<E> persistentClass;
     protected final RowMapper<E> mapper = (rs, rowNum) -> buildEntity(rs);
@@ -78,14 +80,8 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     // ***************************************** \\
     // ********** PACKAGE METHODES ************* \\ (visible for tests)
     // ***************************************** \\
-    protected boolean skipCreate = false;
-
     @PostConstruct
     void init() {
-        if (skipCreate) {
-            return;
-        }
-
         StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
         sb.append(tableName);
         sb.append("(");
@@ -162,14 +158,17 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     // **************************************** \\
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public List<E> getAll() {
         return jdbcTemplate.query("SELECT * FROM " + tableName, mapper);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public E getById(Integer identifiant) {
         return jdbcTemplate.queryForObject("SELECT * FROM " + tableName + " WHERE " + idName + " = ?", new Object[]{identifiant}, mapper);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public final void save(E entity) {
         try {
             Column column;
@@ -219,10 +218,12 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
     private final KeyHolder keyHolder = new GeneratedKeyHolder();
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public void saveAll(Collection<E> entities) {
         entities.forEach(this::save);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public final void update(E entity) {
         try {
             Column column;
@@ -266,10 +267,12 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
         }
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public void updateAll(Collection<E> entities) {
         entities.forEach(this::update);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public void saveOrUpdate(E entity) {
         if (entity.getId() == 0) {
             save(entity);
@@ -278,18 +281,22 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
         }
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public void saveOrUpdateAll(Collection<E> entities) {
         entities.forEach(this::saveOrUpdate);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public void delete(E entity) {
         delete(entity.getId());
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public void delete(Integer identifiant) {
         jdbcTemplate.update("DELETE FROM " + tableName + " WHERE " + idName + " = ?", identifiant);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM " + tableName);
     }

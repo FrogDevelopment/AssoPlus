@@ -32,6 +32,7 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
             <columns>
+                <TableColumn fx:id="colPublished" maxWidth="60" minWidth="60" resizable="false" text="%event.published" />
                 <TableColumn fx:id="colDate" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="%event.date">
                     <cellValueFactory>
                         <PropertyValueFactory property="date" />

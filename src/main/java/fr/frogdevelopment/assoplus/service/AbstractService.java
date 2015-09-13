@@ -5,7 +5,6 @@
 package fr.frogdevelopment.assoplus.service;
 
 import fr.frogdevelopment.assoplus.dao.CommonDao;
-import fr.frogdevelopment.assoplus.datasource.RoutingDataSource;
 import fr.frogdevelopment.assoplus.dto.Dto;
 import fr.frogdevelopment.assoplus.entities.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,36 +16,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static fr.frogdevelopment.assoplus.datasource.RoutingDataSource.DataSource.*;
-
-abstract class AbstractService<E extends Entity, D extends Dto> implements fr.frogdevelopment.assoplus.service.Service<D> {
+abstract class AbstractService<E extends Entity, D extends Dto> implements Service<D> {
 
     @Autowired
     protected CommonDao<E> dao;
 
-    protected void setContext() {
-        RoutingDataSource.setDataSource(SQLITE);
-    }
-
     @Override
+    @Transactional(value = "sqlite", propagation = Propagation.REQUIRED)
     public List<D> getAll() {
-        setContext();
-        return _getAll();
-    }
-
-    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    private List<D> _getAll() {
         return dao.getAll().stream().map(this::createDto).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(value = "sqlite", propagation = Propagation.REQUIRED)
     public D saveData(D dto) {
-        setContext();
-        return _saveData(dto);
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    private D _saveData(D dto) {
         E bean = createBean(dto);
         dao.save(bean);
         dto.setId(bean.getId());
@@ -55,24 +38,14 @@ abstract class AbstractService<E extends Entity, D extends Dto> implements fr.fr
     }
 
     @Override
+    @Transactional(value = "sqlite", propagation = Propagation.REQUIRED)
     public void saveAll(Collection<D> dtos) {
-        setContext();
-        _saveAll(dtos);
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    private void _saveAll(Collection<D> dtos) {
         dao.saveAll(createBeans(dtos));
     }
 
     @Override
+    @Transactional(value = "sqlite", propagation = Propagation.REQUIRED)
     public D updateData(D dto) {
-        setContext();
-        return _updateData(dto);
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    private D _updateData(D dto) {
         E bean = createBean(dto);
         dao.update(bean);
         dto.setId(bean.getId());
@@ -81,24 +54,14 @@ abstract class AbstractService<E extends Entity, D extends Dto> implements fr.fr
     }
 
     @Override
+    @Transactional(value = "sqlite", propagation = Propagation.REQUIRED)
     public void saveOrUpdateAll(Collection<D> dtos) {
-        setContext();
-        _saveOrUpdateAll(dtos);
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    private void _saveOrUpdateAll(Collection<D> dtos) {
         dao.saveOrUpdateAll(createBeans(dtos));
     }
 
     @Override
+    @Transactional(value = "sqlite", propagation = Propagation.REQUIRED)
     public void deleteData(D dto) {
-        setContext();
-        _deleteData(dto);
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    private void _deleteData(D dto) {
         dao.delete(createBean(dto));
     }
 

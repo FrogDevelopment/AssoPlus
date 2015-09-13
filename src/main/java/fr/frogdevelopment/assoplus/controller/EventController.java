@@ -4,11 +4,9 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +19,8 @@ import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.EventDto;
 import fr.frogdevelopment.assoplus.service.EventsService;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,7 +46,8 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
     private Label countChar;
     @FXML
     private TextArea taText;
-
+    @FXML
+    private Button btnPublish;
 
     @Override
     public void initialize() {
@@ -107,6 +108,20 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
             dpDate.setValue(LocalDate.parse(entityDto.getDate(), dateTimeFormatter));
         }
         taText.setText(entityDto.getText());
+
+        if (entityDto.getPublished()) {
+            txtTitle.setDisable(true);
+            dpDate.setDisable(true);
+            taText.setDisable(true);
+
+            btnSave.setDisable(true);
+        } else {
+            txtTitle.setDisable(false);
+            dpDate.setDisable(false);
+            taText.setDisable(false);
+
+            btnSave.setDisable(false);
+        }
     }
 
     @Override
@@ -130,4 +145,10 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
         }
     }
 
+    public void publishEvent() {
+        if (eventsService.publishEvent(entityDto)) {
+            entityDto.setPublished(true);
+            eventsService.updateData(entityDto);
+        }
+    }
 }

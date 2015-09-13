@@ -10,7 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository("eventDao")
 public class EventDaoImpl extends CommonDaoImpl<Event> implements EventDao {
 
-    public EventDaoImpl() {
-        skipCreate = true;
-    }
 }

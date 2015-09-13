@@ -59,6 +59,7 @@
                          BorderPane.alignment="CENTER">
                     <Button fx:id="btnPrevious" onAction="#previousData" text="%global.previous"/>
                     <Button fx:id="btnSave" onAction="#saveData" text="%global.save"/>
+                    <Button fx:id="btnPublish" onAction="#publishEvent" text="%event.publish"/>
                     <Button fx:id="btnNew" onAction="#newData" text="%global.new"/>
                     <Button fx:id="btnNext" onAction="#nextData" text="%global.next"/>
                 </ToolBar>

@@ -10,6 +10,4 @@ import java.util.List;
 
 public interface MemberDao extends CommonDao<Member> {
 
-	List<Integer> getAllNumbers();
-
 }

@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.dto.MemberDto;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,9 +40,11 @@ public class EventsController extends AbstractCustomController {
     private EventsService eventsService;
 
     @FXML
-    private TableColumn<EventDto, String> colDate;
-    @FXML
     private TableView<EventDto> tableView;
+    @FXML
+    private TableColumn<EventDto, Boolean> colPublished;
+    @FXML
+    private TableColumn<EventDto, String> colDate;
     @FXML
     private Button btnSave;
 
@@ -49,8 +52,8 @@ public class EventsController extends AbstractCustomController {
 
     private EventDto currentData;
 
-	@Override
-	public void initialize() {
+    @Override
+    public void initialize() {
         dateTimeFormatter = DateTimeFormatter.ofPattern(getMessage("global.date.format"));
 
         data = FXCollections.observableArrayList(eventsService.getAll());
@@ -74,13 +77,14 @@ public class EventsController extends AbstractCustomController {
                         && event.getButton() == MouseButton.SECONDARY) {
                     final ContextMenu contextMenu = new ContextMenu();
                     MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
+                    EventDto selectedItem = tableView.getSelectionModel().getSelectedItem();
+                    deleteItem.setDisable(selectedItem.getPublished());
 
                     MenuItem updateItem = new MenuItem(getMessage("global.update"));
                     updateItem.setOnAction(e -> updateEvent());
                     contextMenu.getItems().add(updateItem);
 
                     deleteItem.setOnAction(e -> {
-                        EventDto selectedItem = tableView.getSelectionModel().getSelectedItem();
                         // FIXME
                         showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'évènement " + selectedItem.getTitle()), o -> removeEvent(selectedItem));
                     });
@@ -100,7 +104,10 @@ public class EventsController extends AbstractCustomController {
             });
             return tableRow;
         });
-	}
+
+        colPublished.setCellValueFactory(param -> param.getValue().publishedProperty());
+        colPublished.setCellFactory(CheckBoxTableCell.forTableColumn(colPublished));
+    }
 
     public void addEvent() {
         Stage dialog = openDialog("/fxml/event.fxml", new Consumer<EventController>() {

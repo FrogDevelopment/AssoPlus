@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.dto;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -13,6 +14,7 @@ public class EventDto implements Dto {
 	private SimpleStringProperty title = new SimpleStringProperty();
 	private SimpleStringProperty date = new SimpleStringProperty();
 	private SimpleStringProperty text = new SimpleStringProperty();
+	private final SimpleBooleanProperty published = new SimpleBooleanProperty(false);
 
 	public Integer getId() {
 		return id.get();
@@ -64,5 +66,17 @@ public class EventDto implements Dto {
 
 	public void setText(String text) {
 		this.text.set(text);
+	}
+
+	public boolean getPublished() {
+		return published.get();
+	}
+
+	public SimpleBooleanProperty publishedProperty() {
+		return published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published.set(published);
 	}
 }

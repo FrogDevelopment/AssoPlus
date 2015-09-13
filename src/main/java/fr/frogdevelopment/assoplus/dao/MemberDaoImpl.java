@@ -13,8 +13,4 @@ import java.util.List;
 @Repository("memberDao")
 public class MemberDaoImpl extends CommonDaoImpl<Member> implements MemberDao {
 
-	@Override
-	public List<Integer> getAllNumbers() {
-		return this.jdbcTemplate.queryForList("SELECT number FROM member ORDER BY number", Integer.class);
-	}
 }

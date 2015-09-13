@@ -31,6 +31,9 @@ public class Event implements Entity {
 	@Column(name = "text", nullable = false)
 	private String text;
 
+	@Column(name="published", nullable = false)
+	private Integer published;
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -65,6 +68,14 @@ public class Event implements Entity {
 		this.text = text;
 	}
 
+	public Integer getPublished() {
+		return published;
+	}
+
+	public void setPublished(Integer published) {
+		this.published = published;
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
@@ -72,6 +83,7 @@ public class Event implements Entity {
 				.append("title", title)
 				.append("date", date)
 				.append("text", text)
+				.append("published", published)
 				.toString();
 	}
 
@@ -88,6 +100,7 @@ public class Event implements Entity {
 				.append(title, event.title)
 				.append(date, event.date)
 				.append(text, event.text)
+				.append(published, event.published)
 				.isEquals();
 	}
 
@@ -98,6 +111,7 @@ public class Event implements Entity {
 				.append(title)
 				.append(date)
 				.append(text)
+				.append(published)
 				.toHashCode();
 	}
 }
