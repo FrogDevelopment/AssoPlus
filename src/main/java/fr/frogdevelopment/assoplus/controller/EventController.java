@@ -115,12 +115,14 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
             taText.setDisable(true);
 
             btnSave.setDisable(true);
+            btnPublish.setDisable(true);
         } else {
             txtTitle.setDisable(false);
             dpDate.setDisable(false);
             taText.setDisable(false);
 
             btnSave.setDisable(false);
+            btnPublish.setDisable(entityDto.getId() == 0);
         }
     }
 
@@ -140,6 +142,7 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
         if (entityDto.getId() == 0) {
             eventsService.saveData(entityDto);
             entities.add(entityDto);
+            btnPublish.setDisable(false);
         } else {
             eventsService.updateData(entityDto);
         }

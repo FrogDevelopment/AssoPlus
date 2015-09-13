@@ -7,7 +7,6 @@ package fr.frogdevelopment.assoplus.controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.controlsfx.control.NotificationPane;
 
@@ -36,11 +35,12 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
         this.entities = data;
         entityDto = newEntity();
 
-        currentIndex = data.size() - 1;
+        currentIndex = data.size();
 
         setData();
 
-        handlePreviousNextButtons(data);
+        btnPrevious.setDisable(currentIndex == 0);
+        btnNext.setDisable(currentIndex == entities.size());
     }
 
     abstract protected E newEntity();
@@ -52,12 +52,8 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
 
         setData();
 
-        handlePreviousNextButtons(data);
-    }
-
-    private void handlePreviousNextButtons(ObservableList<E> data) {
         btnPrevious.setDisable(currentIndex == 0);
-        btnNext.setDisable(currentIndex == data.size() - 1);
+        btnNext.setDisable(currentIndex == entities.size() - 1);
     }
 
     abstract protected void setData();
@@ -69,9 +65,11 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
     }
 
     public void saveData() {
-        if(check()) {
+        if (check()) {
             save();
-        }else {
+            btnPrevious.setDisable(currentIndex == 0);
+            btnNext.setDisable(currentIndex == entities.size()-1);
+        } else {
             notifyError();
         }
     }
@@ -87,6 +85,7 @@ abstract class CreateUpdateDialogController<E> extends AbstractCustomController 
     }
 
     abstract protected boolean check();
+
     abstract protected void save();
 
     private void notifyError() {
