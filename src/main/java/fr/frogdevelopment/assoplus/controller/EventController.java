@@ -4,9 +4,12 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +22,6 @@ import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.components.controls.Validator;
 import fr.frogdevelopment.assoplus.dto.EventDto;
 import fr.frogdevelopment.assoplus.service.EventsService;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -157,6 +158,7 @@ public class EventController extends CreateUpdateDialogController<EventDto> {
         if (eventsService.publishEvent(entityDto)) {
             entityDto.setPublished(true);
             eventsService.updateData(entityDto);
+            btnPublish.setDisable(true);
         }
     }
 }

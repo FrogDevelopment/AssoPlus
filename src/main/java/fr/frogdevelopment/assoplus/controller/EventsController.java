@@ -4,7 +4,6 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
-import fr.frogdevelopment.assoplus.dto.MemberDto;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,20 +74,28 @@ public class EventsController extends AbstractCustomController {
                 if (event.getClickCount() == 1
                         && !tableRow.isEmpty()
                         && event.getButton() == MouseButton.SECONDARY) {
-                    final ContextMenu contextMenu = new ContextMenu();
-                    MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
+
                     EventDto selectedItem = tableView.getSelectionModel().getSelectedItem();
-                    deleteItem.setDisable(selectedItem.getPublished());
 
-                    MenuItem updateItem = new MenuItem(getMessage("global.update"));
-                    updateItem.setOnAction(e -> updateEvent());
-                    contextMenu.getItems().add(updateItem);
+                    final ContextMenu contextMenu = new ContextMenu();
 
+                    MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
+                    deleteItem.disableProperty().bind(selectedItem.publishedProperty());
                     deleteItem.setOnAction(e -> {
                         // FIXME
                         showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'évènement " + selectedItem.getTitle()), o -> removeEvent(selectedItem));
                     });
                     contextMenu.getItems().add(deleteItem);
+
+                    MenuItem updateItem = new MenuItem(getMessage(selectedItem.getPublished() ? "global.see" : "global.update"));
+                    updateItem.setOnAction(e -> updateEvent());
+                    contextMenu.getItems().add(updateItem);
+
+
+                    MenuItem publishItem = new MenuItem(getMessage("event.publish"));
+                    publishItem.disableProperty().bind(selectedItem.publishedProperty());
+                    publishItem.setOnAction(e -> publishEvent());
+                    contextMenu.getItems().add(publishItem);
 
                     // only display context menu for non-null items:
                     tableRow.contextMenuProperty().bind(
@@ -144,6 +151,13 @@ public class EventsController extends AbstractCustomController {
     private void removeEvent(EventDto selectedItem) {
         eventsService.deleteData(selectedItem);
         data.remove(selectedItem);
+    }
+
+    private void publishEvent() {
+        EventDto selectedItem = tableView.getSelectionModel().getSelectedItem();
+        if (eventsService.publishEvent(selectedItem)) {
+            selectedItem.setPublished(true);
+        }
     }
 
 }
