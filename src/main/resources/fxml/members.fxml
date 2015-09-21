@@ -61,9 +61,6 @@
     <top>
         <ToolBar BorderPane.alignment="CENTER">
             <Button mnemonicParsing="false" onMouseClicked="#addMember" text="%member.create.title">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
                 <graphic>
                     <ImageView>
                         <Image url="@../img/add_user_32.png"/>
@@ -72,9 +69,6 @@
             </Button>
             <Button fx:id="editBtn" disable="true"
                     mnemonicParsing="false" onMouseClicked="#updateMember" text="%member.update.title">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
                 <graphic>
                     <ImageView>
                         <Image url="@../img/edit_user_32.png"/>
@@ -82,9 +76,6 @@
                 </graphic>
             </Button>
             <Button mnemonicParsing="false" onMouseClicked="#showHideFilters" text="%global.filters">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
                 <graphic>
                     <ImageView>
                         <Image url="@../img/search_32.png"/>
@@ -92,9 +83,6 @@
                 </graphic>
             </Button>
             <Button mnemonicParsing="false" onMouseClicked="#exportCSV" text="ExportCSV">
-                <VBox.margin>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </VBox.margin>
                 <graphic>
                     <ImageView>
                         <Image url="@../img/csv_32.png"/>

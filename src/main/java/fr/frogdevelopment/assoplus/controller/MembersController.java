@@ -14,6 +14,8 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -150,17 +152,18 @@ public class MembersController extends AbstractCustomController {
                     } else if (event.getButton() == MouseButton.SECONDARY) {
                         final ContextMenu contextMenu = new ContextMenu();
                         MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
-
-                        MenuItem updateItem = new MenuItem(getMessage("global.update"));
-                        updateItem.setOnAction(e -> updateMember());
-                        contextMenu.getItems().add(updateItem);
-
+                        deleteItem.setGraphic(new ImageView(new Image("/img/delete_16.png")));
                         deleteItem.setOnAction(e -> {
                             MemberDto selectedItem = tableView.getSelectionModel().getSelectedItem();
                             // FIXME
                             showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
                         });
                         contextMenu.getItems().add(deleteItem);
+
+                        MenuItem updateItem = new MenuItem(getMessage("global.update"));
+                        updateItem.setGraphic(new ImageView(new Image("/img/edit_user_16.png")));
+                        updateItem.setOnAction(e -> updateMember());
+                        contextMenu.getItems().add(updateItem);
 
                         // only display context menu for non-null items:
                         tableRow.contextMenuProperty().bind(

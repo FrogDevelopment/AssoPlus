@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
 <!--
   Copyright (c) Frog Development 2015.
   -->
 
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <BorderPane fx:id="child" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.frogdevelopment.assoplus.controller.MainController">
     <top>
@@ -26,11 +33,26 @@
     <center>
         <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <Tab text="Adhérents">
+                <graphic>
+                    <ImageView>
+                        <Image url="@../img/user_16.png"/>
+                    </ImageView>
+                </graphic>
                 <fx:include source="members.fxml"/>
             </Tab>
             <Tab text="Librairie" disable="true">
+                <graphic>
+                    <ImageView>
+                        <Image url="@../img/books_16.png"/>
+                    </ImageView>
+                </graphic>
             </Tab>
             <Tab text="Évènements">
+                <graphic>
+                    <ImageView>
+                        <Image url="@../img/domain_16.png"/>
+                    </ImageView>
+                </graphic>
                 <fx:include source="events.fxml"/>
             </Tab>
         </TabPane>

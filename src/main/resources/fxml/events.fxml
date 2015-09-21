@@ -17,10 +17,24 @@
 
     <top>
         <ToolBar BorderPane.alignment="CENTER">
-            <Button fx:id="btnSave" onAction="#addEvent" text="%global.add">
+            <Button onAction="#addEvent" text="%global.add">
                 <graphic>
                     <ImageView>
                         <Image url="@../img/add_file_32.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="updateBtn" onAction="#addEvent" text="%global.update" disable="true">
+                <graphic>
+                    <ImageView>
+                        <Image url="@../img/edit_32.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="publishBtn" onAction="#publishEvent" text="%event.publish" disable="true">
+                <graphic>
+                    <ImageView>
+                        <Image url="@../img/up_32.png"/>
                     </ImageView>
                 </graphic>
             </Button>

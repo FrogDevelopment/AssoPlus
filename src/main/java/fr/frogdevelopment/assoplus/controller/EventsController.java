@@ -15,6 +15,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
@@ -38,14 +40,17 @@ public class EventsController extends AbstractCustomController {
     @Autowired
     private EventsService eventsService;
 
+
+    @FXML
+    private Button updateBtn;
+    @FXML
+    private Button publishBtn;
     @FXML
     private TableView<EventDto> tableView;
     @FXML
     private TableColumn<EventDto, Boolean> colPublished;
     @FXML
     private TableColumn<EventDto, String> colDate;
-    @FXML
-    private Button btnSave;
 
     private ObservableList<EventDto> data;
 
@@ -71,28 +76,40 @@ public class EventsController extends AbstractCustomController {
         tableView.setRowFactory(param -> {
             TableRow<EventDto> tableRow = new TableRow<>();
             tableRow.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 1
+                EventDto selectedItem = tableView.getSelectionModel().getSelectedItem();
+
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    updateBtn.setDisable(selectedItem == null);
+                    publishBtn.setDisable(selectedItem == null || selectedItem.getPublished());
+                } else if (event.getClickCount() == 1
                         && !tableRow.isEmpty()
                         && event.getButton() == MouseButton.SECONDARY) {
 
-                    EventDto selectedItem = tableView.getSelectionModel().getSelectedItem();
 
                     final ContextMenu contextMenu = new ContextMenu();
 
                     MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
                     deleteItem.disableProperty().bind(selectedItem.publishedProperty());
+                    deleteItem.setGraphic(new ImageView(new Image("/img/delete_16.png")));
                     deleteItem.setOnAction(e -> {
                         // FIXME
                         showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'évènement " + selectedItem.getTitle()), o -> removeEvent(selectedItem));
                     });
                     contextMenu.getItems().add(deleteItem);
 
-                    MenuItem updateItem = new MenuItem(getMessage(selectedItem.getPublished() ? "global.see" : "global.update"));
+                    MenuItem updateItem;
+                    if (selectedItem.getPublished()) {
+                        updateItem = new MenuItem(getMessage("global.see"));
+                        updateItem.setGraphic(new ImageView(new Image("/img/see_16.png")));
+                    } else {
+                        updateItem = new MenuItem(getMessage("global.update"));
+                        updateItem.setGraphic(new ImageView(new Image("/img/edit_16.png")));
+                    }
                     updateItem.setOnAction(e -> updateEvent());
                     contextMenu.getItems().add(updateItem);
 
-
                     MenuItem publishItem = new MenuItem(getMessage("event.publish"));
+                    publishItem.setGraphic(new ImageView(new Image("/img/up_16.png")));
                     publishItem.disableProperty().bind(selectedItem.publishedProperty());
                     publishItem.setOnAction(e -> publishEvent());
                     contextMenu.getItems().add(publishItem);
@@ -132,7 +149,7 @@ public class EventsController extends AbstractCustomController {
         dialog.show();
     }
 
-    private void updateEvent() {
+    public void updateEvent() {
         Stage dialog = openDialog("/fxml/event.fxml", new Consumer<EventController>() {
             @Override
             public void accept(EventController eventController) {
@@ -153,7 +170,7 @@ public class EventsController extends AbstractCustomController {
         data.remove(selectedItem);
     }
 
-    private void publishEvent() {
+    public void publishEvent() {
         EventDto selectedItem = tableView.getSelectionModel().getSelectedItem();
         if (eventsService.publishEvent(selectedItem)) {
             selectedItem.setPublished(true);
