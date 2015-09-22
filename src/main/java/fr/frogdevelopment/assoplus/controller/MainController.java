@@ -6,6 +6,7 @@ package fr.frogdevelopment.assoplus.controller;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class MainController extends AbstractCustomController {
 
     @Autowired
     private MembersController membersController;
-    
+
     @Override
     protected void initialize() {
 
@@ -45,9 +46,7 @@ public class MainController extends AbstractCustomController {
         dialog.setWidth(800);
         dialog.setHeight(200);
 
-        dialog.setOnCloseRequest(event -> {
-            membersController.initialize();
-        });
+        dialog.setOnCloseRequest(event -> membersController.initialize());
 
         dialog.show();
     }
@@ -63,5 +62,16 @@ public class MainController extends AbstractCustomController {
 
     public void onExit() {
         Platform.exit();
+    }
+
+    public void onAbout() {
+        Stage dialog = openDialog("/fxml/about.fxml");
+        dialog.setTitle(getMessage("about.title"));
+        dialog.initStyle(StageStyle.UTILITY);
+        dialog.setWidth(350);
+        dialog.setHeight(350);
+        dialog.setResizable(false);
+
+        dialog.show();
     }
 }
