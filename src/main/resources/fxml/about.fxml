@@ -11,7 +11,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<BorderPane prefHeight="350.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="350.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="fr.frogdevelopment.assoplus.controller.AboutController">
     <top>
         <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="80.0"
                text="FIXME LOGO APPLI BANDEAU" textAlignment="CENTER" BorderPane.alignment="CENTER" />
@@ -42,23 +43,23 @@
                 </padding>
                 <HBox alignment="CENTER_LEFT">
                     <Label text="%about.references.java.label"/>
-                    <Hyperlink text="%about.references.java.link"/>
+                    <Hyperlink text="%about.references.java.link" onAction="#onAction"/>
                 </HBox>
                 <HBox alignment="CENTER_LEFT">
                     <Label text="%about.references.javafx.label"/>
-                    <Hyperlink text="%about.references.javafx.link"/>
+                    <Hyperlink text="%about.references.javafx.link" onAction="#onAction"/>
                 </HBox>
                 <HBox alignment="CENTER_LEFT">
                     <Label text="%about.references.controlsfx.label"/>
-                    <Hyperlink text="%about.references.controlsfx.link"/>
+                    <Hyperlink text="%about.references.controlsfx.link" onAction="#onAction"/>
                 </HBox>
                 <HBox alignment="CENTER_LEFT">
                     <Label text="%about.references.apache.label"/>
-                    <Hyperlink text="%about.references.apache.link"/>
+                    <Hyperlink text="%about.references.apache.link" onAction="#onAction"/>
                 </HBox>
                 <HBox alignment="CENTER_LEFT">
                     <Label text="%about.references.icons.label"/>
-                    <Hyperlink text="%about.references.icons.link"/>
+                    <Hyperlink text="%about.references.icons.link" onAction="#onAction"/>
                 </HBox>
             </VBox>
         </VBox>

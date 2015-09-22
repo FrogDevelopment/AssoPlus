@@ -68,7 +68,7 @@ public class MainController extends AbstractCustomController {
         Stage dialog = openDialog("/fxml/about.fxml");
         dialog.setTitle(getMessage("about.title"));
         dialog.initStyle(StageStyle.UTILITY);
-        dialog.setWidth(350);
+        dialog.setWidth(400);
         dialog.setHeight(350);
         dialog.setResizable(false);
 

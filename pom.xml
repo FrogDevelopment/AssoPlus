@@ -16,6 +16,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <date.build>${maven.build.timestamp}</date.build>
+        <maven.build.timestamp.format>dd/MM/yyyy</maven.build.timestamp.format>
+        <controlfx.version>8.40.10-SNAPSHOT</controlfx.version>
     </properties>
 
     <organization>
@@ -115,7 +118,7 @@
             <dependency>
                 <groupId>org.controlsfx</groupId>
                 <artifactId>controlsfx</artifactId>
-                <version>8.40.10-SNAPSHOT</version>
+                <version>${controlfx.version}</version>
             </dependency>
 
         </dependencies>
