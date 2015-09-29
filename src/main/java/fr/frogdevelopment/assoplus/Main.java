@@ -4,20 +4,23 @@
 
 package fr.frogdevelopment.assoplus;
 
+import com.sun.javafx.application.LauncherImpl;
+import fr.frogdevelopment.assoplus.preloader.LongAppInitPreloader;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.concurrent.Task;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_16;
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_32;
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.ICON_48;
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.isInstanceAlreadyLocked;
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.load;
+import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.*;
+import static javafx.application.Preloader.ProgressNotification;
+import static javafx.application.Preloader.StateChangeNotification;
 
 public class Main extends Application {
 
@@ -26,11 +29,12 @@ public class Main extends Application {
     private static HostServices hostServices;
 
     public static void main(String[] args) {
-        launch(args);
+        LauncherImpl.launchApplication(Main.class, LongAppInitPreloader.class, args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        longStart();
 
         if (isInstanceAlreadyLocked()) {
             System.err.println("********************************** Already running ********************************** ");
@@ -50,8 +54,15 @@ public class Main extends Application {
 
         hostServices = super.getHostServices();
 
-        LOGGER.info("Ouverture de l'application");
-        primaryStage.show();
+        // After the app is ready, show the stage
+        ready.addListener((ov, t, t1) -> {
+            if (Boolean.TRUE.equals(t1)) {
+                Platform.runLater(() -> {
+                    LOGGER.info("Ouverture de l'application");
+                    primaryStage.show();
+                });
+            }
+        });
     }
 
     // FIXME
@@ -59,4 +70,34 @@ public class Main extends Application {
         hostServices.showDocument(url);
     }
 
+    @Override
+    public void init() throws Exception {
+        super.init();
+    }
+
+    private BooleanProperty ready = new SimpleBooleanProperty(false);
+
+    private void longStart() {
+        //simulate long init in background
+        Task task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int max = 10;
+                for (int i = 1; i <= max + 1; i++) {
+                    Thread.sleep(200);
+                    // Send progress to preloader
+                    notifyPreloader(new ProgressNotification(((double) i) / max));
+                }
+                // After init is ready, the app is ready to be shown
+                // Do this before hiding the preloader stage to prevent the
+                // app from exiting prematurely
+                ready.setValue(Boolean.TRUE);
+
+                notifyPreloader(new StateChangeNotification(StateChangeNotification.Type.BEFORE_START));
+
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
 }
