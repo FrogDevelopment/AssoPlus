@@ -54,6 +54,7 @@ public class Main extends Application {
 
         hostServices = super.getHostServices();
 
+        LOGGER.info("Configuration charg\u00e9e");
         // After the app is ready, show the stage
         ready.addListener((ov, t, t1) -> {
             if (Boolean.TRUE.equals(t1)) {
@@ -84,7 +85,7 @@ public class Main extends Application {
             protected Void call() throws Exception {
                 int max = 10;
                 for (int i = 1; i <= max + 1; i++) {
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                     // Send progress to preloader
                     notifyPreloader(new ProgressNotification(((double) i) / max));
                 }

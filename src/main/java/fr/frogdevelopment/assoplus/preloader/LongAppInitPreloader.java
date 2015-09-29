@@ -11,12 +11,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class LongAppInitPreloader extends Preloader {
-    ProgressBar bar;
-    Stage stage;
-    boolean noLoadingProgress = true;
+
+    private ProgressBar bar;
+    private Stage stage;
+    private boolean noLoadingProgress = true;
 
     private Scene createPreloaderScene() {
         bar = new ProgressBar(0);
+        bar.setPrefWidth(295);
         BorderPane p = new BorderPane();
         p.setCenter(bar);
         return new Scene(p, 300, 150);
@@ -34,7 +36,7 @@ public class LongAppInitPreloader extends Preloader {
         //Even if there is nothing to load 0% and 100% events can be
         // delivered
         if (pn.getProgress() != 1.0 || !noLoadingProgress) {
-            bar.setProgress(pn.getProgress()/2);
+            bar.setProgress(pn.getProgress() / 2);
             if (pn.getProgress() > 0) {
                 noLoadingProgress = false;
             }
@@ -56,7 +58,7 @@ public class LongAppInitPreloader extends Preloader {
                 //if we were receiving loading progress notifications
                 //then progress is already at 50%.
                 //Rescale application progress to start from 50%
-                v = 0.5 + v/2;
+                v = 0.5 + v / 2;
             }
             bar.setProgress(v);
         } else if (pn instanceof StateChangeNotification) {
