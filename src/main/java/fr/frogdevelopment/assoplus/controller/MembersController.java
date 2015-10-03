@@ -4,6 +4,14 @@
 
 package fr.frogdevelopment.assoplus.controller;
 
+import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.dto.MemberDto;
+import fr.frogdevelopment.assoplus.dto.OptionDto;
+import fr.frogdevelopment.assoplus.service.DegreeService;
+import fr.frogdevelopment.assoplus.service.MembersService;
+import fr.frogdevelopment.assoplus.service.OptionsService;
+import javafx.animation.Animation;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -20,7 +28,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
@@ -29,21 +36,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.components.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.dto.MemberDto;
-import fr.frogdevelopment.assoplus.dto.OptionDto;
-import fr.frogdevelopment.assoplus.service.DegreeService;
-import fr.frogdevelopment.assoplus.service.MembersService;
-import fr.frogdevelopment.assoplus.service.OptionsService;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -428,11 +421,56 @@ public class MembersController extends AbstractCustomController {
         } catch (IOException e) {
             showError(e);
         }
-
     }
+
+    private Animation showAnimation;
+    private Animation hideAnimation;
 
     public void showHideFilters() {
         hbTop.setVisible(!hbTop.isVisible());
         hbTop.setManaged(!hbTop.isManaged());
+
+        // TODO
+//        if (showAnimation == null) {
+//            showAnimation = new Transition() {
+//                {
+//                    setCycleDuration(Duration.millis(250));
+//                }
+//
+//                @Override
+//                protected void interpolate(double frac) {
+//                    final double curWidth = child.getWidth() * frac;
+//                    hbTop.setPrefWidth(curWidth);
+//                    hbTop.setTranslateX(-child.getWidth() + curWidth);
+//                }
+//            };
+//        }
+//
+//        if (hideAnimation == null) {
+//            hideAnimation = new Transition() {
+//                {
+//                    setCycleDuration(Duration.millis(250));
+//                }
+//
+//                @Override
+//                protected void interpolate(double frac) {
+//                    final double curWidth = child.getWidth() * (1.0 - frac);
+//                    hbTop.setPrefWidth(curWidth);
+//                    hbTop.setTranslateX(-child.getWidth() + curWidth);
+//                }
+//            };
+//
+//            hideAnimation.onFinishedProperty().set(actionEvent -> hbTop.setVisible(false));
+//        }
+//
+//        if (showAnimation.getStatus() == Animation.Status.STOPPED
+//                && hideAnimation.getStatus() == Animation.Status.STOPPED) {
+//            if (hbTop.isVisible()) {
+//                hideAnimation.play();
+//            } else {
+//                hbTop.setVisible(true);
+//                showAnimation.play();
+//            }
+//        }
     }
 }
