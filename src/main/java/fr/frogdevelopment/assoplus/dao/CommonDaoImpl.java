@@ -84,7 +84,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     void init() {
         StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
         sb.append(tableName);
-        sb.append("(");
+        sb.append(" (");
 
         List<String> columns = new ArrayList<>();
         Column column;
