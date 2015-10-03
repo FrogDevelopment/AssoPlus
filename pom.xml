@@ -10,7 +10,7 @@
 
     <groupId>fr.frogdevelopment</groupId>
     <artifactId>AssoManager</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -266,33 +266,33 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>com.zenjava</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>8.1.4</version>
-                <configuration>
-                    <mainClass>fr.frogdevelopment.assoplus.Main</mainClass>
-                    <vendor>${project.organization.name}</vendor>
-                    <verbose>true</verbose>
-                </configuration>
-                <executions>
-                    <!-- required before build-native -->
-                    <execution>
-                        <id>create-jfxjar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build-jar</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-native</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build-native</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>com.zenjava</groupId>-->
+                <!--<artifactId>javafx-maven-plugin</artifactId>-->
+                <!--<version>8.1.4</version>-->
+                <!--<configuration>-->
+                    <!--<mainClass>fr.frogdevelopment.assoplus.Main</mainClass>-->
+                    <!--<vendor>${project.organization.name}</vendor>-->
+                    <!--<verbose>true</verbose>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--&lt;!&ndash; required before build-native &ndash;&gt;-->
+                    <!--<execution>-->
+                        <!--<id>create-jfxjar</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>build-jar</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>create-native</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>build-native</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
         </plugins>
     </build>
