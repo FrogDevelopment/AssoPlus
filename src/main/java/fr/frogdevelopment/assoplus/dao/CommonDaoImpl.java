@@ -130,12 +130,9 @@ abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
             }
         }
 
-
         columns.addAll(foreignKeys);
 
         sb.append(String.join(", ", columns));
-
-
         sb.append(")");
 
         LOGGER.debug("Execute query {}", sb.toString());
