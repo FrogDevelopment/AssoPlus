@@ -211,8 +211,8 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.controlsfx</groupId>-->
-            <!--<artifactId>controlsfx</artifactId>-->
+        <!--<groupId>org.controlsfx</groupId>-->
+        <!--<artifactId>controlsfx</artifactId>-->
         <!--</dependency>-->
 
     </dependencies>
@@ -224,7 +224,6 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
-
         </resources>
 
         <plugins>
@@ -259,10 +258,9 @@
             <plugin>
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>8.1.3</version>
+                <version>8.1.4</version>
                 <configuration>
                     <mainClass>fr.frogdevelopment.assoplus.Main</mainClass>
-                    <bundler>EXE</bundler>
                     <vendor>${project.organization.name}</vendor>
                     <verbose>true</verbose>
                 </configuration>
