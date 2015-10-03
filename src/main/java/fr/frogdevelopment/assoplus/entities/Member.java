@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 @javax.persistence.Entity
 @Table(name = "member")
-public class Member implements Serializable, Entity {
+public class Member implements Entity {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)

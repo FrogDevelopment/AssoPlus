@@ -4,9 +4,7 @@
 
 package fr.frogdevelopment.assoplus.entities;
 
-import java.io.Serializable;
-
-public interface Reference extends Serializable {
+public interface Reference extends Entity{
 
 	String getCode();
 

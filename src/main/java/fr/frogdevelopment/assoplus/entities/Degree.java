@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @javax.persistence.Entity
 @Table(name = "degree")
-public class Degree implements Reference, Entity {
+public class Degree implements Reference {
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)

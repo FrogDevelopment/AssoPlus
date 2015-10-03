@@ -4,7 +4,9 @@
 
 package fr.frogdevelopment.assoplus.entities;
 
-public interface Entity {
+import java.io.Serializable;
+
+public interface Entity extends Serializable {
 
 	Integer getId();
 

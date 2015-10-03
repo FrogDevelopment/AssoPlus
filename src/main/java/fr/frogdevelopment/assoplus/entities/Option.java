@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @javax.persistence.Entity
 @Table(name = "`option`")
-public class Option implements Reference, Entity {
+public class Option implements Reference {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
