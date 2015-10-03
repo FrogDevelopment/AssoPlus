@@ -34,6 +34,10 @@ public class Event implements Entity {
 	@Column(name="published", nullable = false)
 	private Integer published;
 
+	// ********************************** \\
+	//            Getter & Setter         \\
+	// ********************************** \\
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -75,6 +79,10 @@ public class Event implements Entity {
 	public void setPublished(Integer published) {
 		this.published = published;
 	}
+
+	// ********************************** \\
+	//           Overriden methods        \\
+	// ********************************** \\
 
 	@Override
 	public String toString() {

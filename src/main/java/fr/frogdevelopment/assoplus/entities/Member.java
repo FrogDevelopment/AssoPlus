@@ -53,6 +53,10 @@ public class Member implements Entity {
     @Column(name="annals", nullable = false)
     private Integer annals;
 
+    // ********************************** \\
+    //            Getter & Setter         \\
+    // ********************************** \\
+
     public Integer getId() {
         return id;
     }
@@ -140,6 +144,10 @@ public class Member implements Entity {
     public void setAnnals(Integer annals) {
         this.annals = annals;
     }
+
+    // ********************************** \\
+    //           Overriden methods        \\
+    // ********************************** \\
 
     @Override
     public String toString() {

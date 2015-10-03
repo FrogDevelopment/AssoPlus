@@ -26,29 +26,43 @@ public class Degree implements Reference {
 	public Degree() {
 	}
 
+	// ********************************** \\
+	//            Getter & Setter         \\
+	// ********************************** \\
+
+	@Override
 	public Integer getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	@Override
 	public String getCode() {
 		return code;
 	}
 
+	@Override
 	public void setCode(String code) {
 		this.code = code;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
+	// ********************************** \\
+	//           Overriden methods        \\
+	// ********************************** \\
 
 	@Override
 	public String toString() {

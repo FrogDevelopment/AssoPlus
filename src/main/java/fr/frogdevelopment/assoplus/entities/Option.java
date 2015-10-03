@@ -28,6 +28,10 @@ public class Option implements Reference {
     @Column(name = "licence_code", nullable = false)
 	String licenceCode;
 
+    // ********************************** \\
+    //            Getter & Setter         \\
+    // ********************************** \\
+
     @Override
     public Integer getId() {
         return id;
@@ -60,6 +64,10 @@ public class Option implements Reference {
 	public void setLicenceCode(String licenceCode) {
 		this.licenceCode = licenceCode;
 	}
+
+    // ********************************** \\
+    //           Overriden methods        \\
+    // ********************************** \\
 
     @Override
     public String toString() {
