@@ -26,6 +26,17 @@
         <!--<url>www.mycompany.com</url>-->
     </organization>
 
+    <repositories>
+        <repository>
+            <id>org.controlsfx</id>
+            <name>controlsfx</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -210,10 +221,10 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>org.controlsfx</groupId>-->
-        <!--<artifactId>controlsfx</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+        </dependency>
 
     </dependencies>
 
