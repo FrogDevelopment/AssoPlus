@@ -30,11 +30,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
+abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonDaoImpl.class);
 
-    private JdbcTemplate jdbcTemplate;
+    protected JdbcTemplate jdbcTemplate;
 
     @Autowired
     public void setSqliteDataSource(BasicDataSource dataSource) {
@@ -44,8 +44,8 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     private final Class<E> persistentClass;
     protected final RowMapper<E> mapper = (rs, rowNum) -> buildEntity(rs);
 
-    private final String idName;
-    private final String tableName;
+    protected final String idName;
+    protected final String tableName;
 
     @SuppressWarnings("unchecked")
     public CommonDaoImpl() {
@@ -84,10 +84,12 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     void init() {
         StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
         sb.append(tableName);
-        sb.append(" (");
+        sb.append("(");
 
         List<String> columns = new ArrayList<>();
+        List<String> foreignKeys = new ArrayList<>();
         Column column;
+        ForeignKey foreignKey;
         for (Field field : persistentClass.getDeclaredFields()) {
             // Simple case
             if (field.isAnnotationPresent(Column.class)) {
@@ -121,9 +123,19 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
                 }
                 columns.add(col);
             }
+
+            if (field.isAnnotationPresent(ForeignKey.class)) {
+                foreignKey = field.getAnnotation(ForeignKey.class);
+                foreignKeys.add(String.format("FOREIGN KEY(%s) REFERENCES %s(%s)", foreignKey.primaryKey(), foreignKey.table(), foreignKey.primaryKey()));
+            }
         }
 
+
+        columns.addAll(foreignKeys);
+
         sb.append(String.join(", ", columns));
+
+
         sb.append(")");
 
         LOGGER.debug("Execute query {}", sb.toString());
@@ -191,7 +203,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
                 column = field.getAnnotation(Column.class);
 
                 // to be able to access the field's value
-                if(!field.isAccessible()) {
+                if (!field.isAccessible()) {
                     AccessController.doPrivileged((PrivilegedAction<E>) () -> {
                         field.setAccessible(true);
 
@@ -248,7 +260,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
                 column = field.getAnnotation(Column.class);
 
                 // to be able to write the field's value
-                if(!field.isAccessible()) {
+                if (!field.isAccessible()) {
                     AccessController.doPrivileged((PrivilegedAction<E>) () -> {
                         field.setAccessible(true);
 

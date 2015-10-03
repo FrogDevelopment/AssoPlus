@@ -4,6 +4,7 @@
 
 package fr.frogdevelopment.assoplus.entities;
 
+import fr.frogdevelopment.assoplus.dao.ForeignKey;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,16 +23,18 @@ public class BookOrder implements Entity {
     @GeneratedValue
     private Integer id;
 
-    @Column(name = "book_isbn", nullable = false)
-    private String bookIsbn;
+    @ForeignKey(table = "book")
+    @Column(name = "book_id", nullable = false)
+    private Integer bookId;
 
-    @Column(name = "member_id", nullable = true)
+    @ForeignKey(table = "member")
+    @Column(name = "member_id", nullable = false)
     private Integer memberId;
 
-    @Column(name = "quantity", nullable = true)
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "deposit", nullable = true)
+    @Column(name = "deposit", nullable = false)
     private Double deposit;
 
     @Column(name = "date_order", nullable = false)
@@ -57,12 +60,12 @@ public class BookOrder implements Entity {
         this.id = id;
     }
 
-    public String getBookIsbn() {
-        return bookIsbn;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setBookIsbn(String bookIsbn) {
-        this.bookIsbn = bookIsbn;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public Integer getMemberId() {
@@ -126,7 +129,7 @@ public class BookOrder implements Entity {
         BookOrder bookOrder = (BookOrder) o;
 
         return new EqualsBuilder()
-                .append(bookIsbn, bookOrder.bookIsbn)
+                .append(bookId, bookOrder.bookId)
                 .append(memberId, bookOrder.memberId)
                 .append(quantity, bookOrder.quantity)
                 .append(dateOrder, bookOrder.dateOrder)
@@ -136,7 +139,7 @@ public class BookOrder implements Entity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(bookIsbn)
+                .append(bookId)
                 .append(memberId)
                 .append(quantity)
                 .append(dateOrder)
@@ -147,7 +150,7 @@ public class BookOrder implements Entity {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
-                .append("bookIsbn", bookIsbn)
+                .append("bookId", bookId)
                 .append("memberId", memberId)
                 .append("quantity", quantity)
                 .append("deposit", deposit)
