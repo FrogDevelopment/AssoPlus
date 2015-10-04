@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <HBox prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
       fx:id="child"
-      fx:controller="fr.frogdevelopment.assoplus.controller.DegreeController">
+      fx:controller="fr.frogdevelopment.assoplus.member.controller.DegreeController">
     <TreeTableView fx:id="treeTableView" prefHeight="400.0" prefWidth="400.0">
         <columns>
             <TreeTableColumn prefWidth="75" resizable="false" text="%global.code">

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:id="child"
-            fx:controller="fr.frogdevelopment.assoplus.controller.ImportMembersController">
+            fx:controller="fr.frogdevelopment.assoplus.member.controller.ImportMembersController">
     <top>
         <GridPane hgap="5.0" BorderPane.alignment="CENTER">
             <columnConstraints>

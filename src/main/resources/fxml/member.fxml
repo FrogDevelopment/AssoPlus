@@ -4,14 +4,14 @@
   Copyright (c) Frog Development 2015.
   -->
 
-<?import fr.frogdevelopment.assoplus.components.controls.NumberTextField?>
+<?import fr.frogdevelopment.assoplus.core.controls.NumberTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.NotificationPane?>
 <NotificationPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
                   fx:id="child"
-                  fx:controller="fr.frogdevelopment.assoplus.controller.MemberController">
+                  fx:controller="fr.frogdevelopment.assoplus.member.controller.MemberController">
     <content>
         <BorderPane>
             <center>

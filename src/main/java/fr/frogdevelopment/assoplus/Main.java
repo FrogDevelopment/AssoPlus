@@ -5,7 +5,7 @@
 package fr.frogdevelopment.assoplus;
 
 import com.sun.javafx.application.LauncherImpl;
-import fr.frogdevelopment.assoplus.preloader.LongAppInitPreloader;
+import fr.frogdevelopment.assoplus.core.preloader.LongAppInitPreloader;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static fr.frogdevelopment.assoplus.utils.ApplicationUtils.*;
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.*;
 import static javafx.application.Preloader.ProgressNotification;
 import static javafx.application.Preloader.StateChangeNotification;
 

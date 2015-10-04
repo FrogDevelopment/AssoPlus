@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <BorderPane prefHeight="350.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="fr.frogdevelopment.assoplus.controller.AboutController">
+        fx:controller="fr.frogdevelopment.assoplus.core.controller.AboutController">
     <top>
         <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="80.0"
                text="FIXME LOGO APPLI BANDEAU" textAlignment="CENTER" BorderPane.alignment="CENTER" />
