@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.net.URL;
 import java.nio.channels.FileLock;
 import java.nio.file.FileSystems;
 import java.util.ResourceBundle;
@@ -91,8 +92,9 @@ public class ApplicationUtils {
             }
 
             return parent;
-        } catch (IOException ioException) {
-            throw new RuntimeException(ioException);
+        } catch (Exception e) {
+            LOGGER.error("Error while loading " + url);
+            throw new RuntimeException(e);
         }
     }
 }

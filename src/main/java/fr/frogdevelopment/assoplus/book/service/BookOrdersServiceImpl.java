@@ -35,15 +35,9 @@ public class BookOrdersServiceImpl extends AbstractService<BookOrder, BookOrderD
         bean.setMemberId(dto.getMemberId());
         bean.setQuantity(dto.getQuantity());
         bean.setDeposit(dto.getDeposit());
-        if (dto.getDateOrder() != null) {
-            bean.setDateOrder(dto.getDateOrder().toString());
-        }
-        if (dto.getDateReceipt() != null) {
-            bean.setDateReceipt(dto.getDateReceipt().toString());
-        }
-        if (dto.getDateDelivery() != null) {
-            bean.setDateReceipt(dto.getDateDelivery().toString());
-        }
+        bean.setDateOrder(dto.getDateOrder());
+        bean.setDateReceipt(dto.getDateReceipt());
+        bean.setDateReceipt(dto.getDateDelivery());
 
         return bean;
     }

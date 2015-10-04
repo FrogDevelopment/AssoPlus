@@ -40,12 +40,13 @@
                 </graphic>
                 <fx:include source="members.fxml"/>
             </Tab>
-            <Tab text="Librairie" disable="true">
+            <Tab text="Librairie">
                 <graphic>
                     <ImageView>
                         <Image url="@../img/books_16.png"/>
                     </ImageView>
                 </graphic>
+                <fx:include source="book_orders.fxml"/>
             </Tab>
             <Tab text="Évènements">
                 <graphic>

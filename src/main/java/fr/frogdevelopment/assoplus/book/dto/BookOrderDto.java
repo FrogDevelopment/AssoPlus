@@ -5,12 +5,11 @@
 package fr.frogdevelopment.assoplus.book.dto;
 
 import fr.frogdevelopment.assoplus.core.dto.Dto;
+import fr.frogdevelopment.assoplus.member.dto.MemberDto;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import org.apache.commons.lang3.StringUtils;
-
-import java.time.LocalDate;
+import javafx.beans.property.SimpleStringProperty;
 
 public class BookOrderDto implements Dto {
 
@@ -19,9 +18,12 @@ public class BookOrderDto implements Dto {
     private final SimpleIntegerProperty memberId = new SimpleIntegerProperty();
     private final SimpleIntegerProperty quantity = new SimpleIntegerProperty();
     private final SimpleDoubleProperty deposit = new SimpleDoubleProperty();
-    private final SimpleObjectProperty<LocalDate> dateOrder = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<LocalDate> dateReceipt = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<LocalDate> dateDelivery = new SimpleObjectProperty<>();
+    private final SimpleStringProperty dateOrder = new SimpleStringProperty();
+    private final SimpleStringProperty dateReceipt = new SimpleStringProperty();
+    private final SimpleStringProperty dateDelivery = new SimpleStringProperty();
+
+    private final SimpleObjectProperty<BookDto> book = new SimpleObjectProperty<>(this, "book");
+    private final SimpleObjectProperty<MemberDto> member = new SimpleObjectProperty<>(this, "member");
 
     @Override
     public Integer getId() {
@@ -32,6 +34,7 @@ public class BookOrderDto implements Dto {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id.set(id);
     }
@@ -88,57 +91,63 @@ public class BookOrderDto implements Dto {
         this.deposit.set(deposit);
     }
 
-    public LocalDate getDateOrder() {
+    public String getDateOrder() {
         return dateOrder.get();
     }
 
-    public SimpleObjectProperty<LocalDate> dateOrderProperty() {
+    public SimpleStringProperty dateOrderProperty() {
         return dateOrder;
     }
 
-    public void setDateOrder(LocalDate dateOrder) {
+    public void setDateOrder(String dateOrder) {
         this.dateOrder.set(dateOrder);
     }
 
-    public void setDateOrder(String dateOrder) {
-        if (StringUtils.isNotBlank(dateOrder)) {
-            this.dateOrder.set(LocalDate.parse(dateOrder));
-        }
-    }
-
-    public LocalDate getDateReceipt() {
+    public String getDateReceipt() {
         return dateReceipt.get();
     }
 
-    public SimpleObjectProperty<LocalDate> dateReceiptProperty() {
+    public SimpleStringProperty dateReceiptProperty() {
         return dateReceipt;
     }
 
-    public void setDateReceipt(LocalDate dateReceipt) {
+    public void setDateReceipt(String dateReceipt) {
         this.dateReceipt.set(dateReceipt);
     }
 
-    public void setDateReceipt(String dateReceipt) {
-        if (StringUtils.isNotBlank(dateReceipt)) {
-            this.dateReceipt.set(LocalDate.parse(dateReceipt));
-        }
-    }
-
-    public LocalDate getDateDelivery() {
+    public String getDateDelivery() {
         return dateDelivery.get();
     }
 
-    public SimpleObjectProperty<LocalDate> dateDeliveryProperty() {
+    public SimpleStringProperty dateDeliveryProperty() {
         return dateDelivery;
     }
 
-    public void setDateDelivery(LocalDate dateDelivery) {
+    public void setDateDelivery(String dateDelivery) {
         this.dateDelivery.set(dateDelivery);
     }
 
-    public void setDateDelivery(String dateDelivery) {
-        if (StringUtils.isNotBlank(dateDelivery)) {
-            this.dateDelivery.set(LocalDate.parse(dateDelivery));
-        }
+    public BookDto getBook() {
+        return book.get();
+    }
+
+    public SimpleObjectProperty<BookDto> bookProperty() {
+        return book;
+    }
+
+    public void setBook(BookDto book) {
+        this.book.set(book);
+    }
+
+    public MemberDto getMember() {
+        return member.get();
+    }
+
+    public SimpleObjectProperty<MemberDto> memberProperty() {
+        return member;
+    }
+
+    public void setMember(MemberDto member) {
+        this.member.set(member);
     }
 }

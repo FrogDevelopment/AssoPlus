@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) Frog Development 2015.
+  -->
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane fx:id="child" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="fr.frogdevelopment.assoplus.book.controller.BookOrdersController">
+    <center>
+        <TableView fx:id="tableView" managed="true">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="colBookTitle" text="Book Title"/>
+                <TableColumn fx:id="colBookPrice" text="Book Price" style="-fx-alignment: center-right"/>
+                <TableColumn fx:id="colMemberLastame" text="Member Lastname"/>
+                <TableColumn fx:id="colMemberStudentNumber" text="Member Student Number"/>
+                <TableColumn fx:id="colQuantity" text="Quantity" style="-fx-alignment: center-right"/>
+                <TableColumn fx:id="colDeposit" text="Deposit" style="-fx-alignment: center-right"/>
+                <TableColumn fx:id="colDateOrder" text="date Order"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
