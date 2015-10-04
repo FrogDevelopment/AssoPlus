@@ -4,15 +4,14 @@
 
 package fr.frogdevelopment.assoplus.member.controller;
 
-import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.core.controller.AbstractCustomController;
+import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
 import fr.frogdevelopment.assoplus.member.dto.MemberDto;
 import fr.frogdevelopment.assoplus.member.dto.OptionDto;
 import fr.frogdevelopment.assoplus.member.service.DegreeService;
 import fr.frogdevelopment.assoplus.member.service.MembersService;
 import fr.frogdevelopment.assoplus.member.service.OptionsService;
-import javafx.animation.Animation;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -115,11 +114,6 @@ public class MembersController extends AbstractCustomController {
     private Map<String, OptionDto> mapOptions;
     private Map<String, DegreeDto> mapDegrees;
     private ObservableList<MemberDto> data;
-
-    // fixme
-    public void reinit(){
-        initialize();
-    }
 
     @Override
     protected void initialize() {
@@ -387,10 +381,21 @@ public class MembersController extends AbstractCustomController {
         dialog.show();
     }
 
+    public void importCSV() {
+        Stage dialog = openDialog("/fxml/import_members.fxml");
+        dialog.setTitle(getMessage("import.title"));
+        dialog.setWidth(800);
+        dialog.setHeight(200);
+
+        dialog.setOnCloseRequest(event -> initialize()); // fixme just refresh data
+
+        dialog.show();
+    }
+
     public void exportCSV() {
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save file");
+        fileChooser.setTitle(getMessage("member.export.title"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV, XLS, XLSX", "*.csv", "*.xls", "*.xlsx"));
         File file = fileChooser.showSaveDialog(getParent());
         if (file == null) {
@@ -429,8 +434,17 @@ public class MembersController extends AbstractCustomController {
         }
     }
 
-    private Animation showAnimation;
-    private Animation hideAnimation;
+    public void manageDegrees() {
+        Stage dialog = openDialog("/fxml/degrees.fxml");
+        dialog.setTitle(getMessage("member.degrees"));
+        dialog.setWidth(550);
+        dialog.setHeight(400);
+
+        dialog.show();
+    }
+
+//    private Animation showAnimation;
+//    private Animation hideAnimation;
 
     public void showHideFilters() {
         hbTop.setVisible(!hbTop.isVisible());

@@ -36,28 +36,7 @@ public class MainController extends AbstractCustomController {
             showError(e);
         } else {
             LOGGER.error("An unexpected error occurred in " + t);
-
         }
-    }
-
-    public void importMembers() {
-        Stage dialog = openDialog("/fxml/import_members.fxml");
-        dialog.setTitle(getMessage("import.title"));
-        dialog.setWidth(800);
-        dialog.setHeight(200);
-
-        dialog.setOnCloseRequest(event -> membersController.reinit());
-
-        dialog.show();
-    }
-
-    public void manageDegrees() {
-        Stage dialog = openDialog("/fxml/degrees.fxml");
-        dialog.setTitle(getMessage("member.degrees"));
-        dialog.setWidth(550);
-        dialog.setHeight(400);
-
-        dialog.show();
     }
 
     public void onExit() {
