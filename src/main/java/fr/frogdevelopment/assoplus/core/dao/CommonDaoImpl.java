@@ -4,7 +4,6 @@
 
 package fr.frogdevelopment.assoplus.core.dao;
 
-import fr.frogdevelopment.assoplus.core.entity.Entity;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,6 +16,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.frogdevelopment.assoplus.core.entity.Entity;
+
 import javax.annotation.PostConstruct;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,11 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
@@ -173,17 +178,17 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
     // **************************************** \\
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public List<E> getAll() {
         return jdbcTemplate.query("SELECT * FROM " + tableName, mapper);
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public E getById(Integer identifiant) {
         return jdbcTemplate.queryForObject("SELECT * FROM " + tableName + " WHERE " + idName + " = ?", new Object[]{identifiant}, mapper);
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public final void save(E entity) {
         try {
             Column column;
@@ -223,9 +228,7 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
             String query = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, String.join(", ", map.keySet()), String.join(",", map.values()));
             LOGGER.debug("execute query : {}", query);
-            this.jdbcTemplate.update(con -> {
-                return con.prepareStatement(query, new String[]{idName});
-            }, keyHolder);
+            this.jdbcTemplate.update(con -> con.prepareStatement(query, new String[]{idName}), keyHolder);
 
             entity.setId(keyHolder.getKey().intValue());
         } catch (IllegalAccessException e) {
@@ -235,12 +238,12 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
 
     private final KeyHolder keyHolder = new GeneratedKeyHolder();
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public void saveAll(Collection<E> entities) {
         entities.forEach(this::save);
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public final void update(E entity) {
         try {
             Column column;
@@ -286,12 +289,12 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
         }
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public void updateAll(Collection<E> entities) {
         entities.forEach(this::update);
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public void saveOrUpdate(E entity) {
         if (entity.getId() == 0) {
             save(entity);
@@ -300,22 +303,22 @@ public abstract class CommonDaoImpl<E extends Entity> implements CommonDao<E> {
         }
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public void saveOrUpdateAll(Collection<E> entities) {
         entities.forEach(this::saveOrUpdate);
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public void delete(E entity) {
         delete(entity.getId());
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public void delete(Integer identifiant) {
         jdbcTemplate.update("DELETE FROM " + tableName + " WHERE " + idName + " = ?", identifiant);
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY, value = "sqlite")
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM " + tableName);
     }

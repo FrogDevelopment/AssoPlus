@@ -9,4 +9,7 @@ import fr.frogdevelopment.assoplus.member.dto.MemberDto;
 
 public interface MembersService extends Service<MemberDto> {
 
+    void updateSubscription(MemberDto dto);
+
+    void updateAnnals(MemberDto dto);
 }

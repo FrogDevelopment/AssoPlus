@@ -4,30 +4,18 @@
 
 package fr.frogdevelopment.assoplus.member.entity;
 
-import fr.frogdevelopment.assoplus.core.entity.Reference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
+import fr.frogdevelopment.assoplus.core.entity.Reference;
 
-@javax.persistence.Entity
-@Table(name = "`option`")
 public class Option implements Reference {
 
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue
     private Integer id;
-
-    @Column(name = "code", unique = true, nullable = false)
     private String code;
-
-    @Column(name = "label", unique = false, nullable = false)
     private String label;
-
-    @Column(name = "licence_code", nullable = false)
-	String licenceCode;
+	private String degreeCode;
 
     // ********************************** \\
     //            Getter & Setter         \\
@@ -38,6 +26,7 @@ public class Option implements Reference {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -58,12 +47,12 @@ public class Option implements Reference {
         this.label = label;
     }
 
-	public String getLicenceCode() {
-		return licenceCode;
+	public String getDegreeCode() {
+		return degreeCode;
 	}
 
-	public void setLicenceCode(String licenceCode) {
-		this.licenceCode = licenceCode;
+	public void setDegreeCode(String degreeCode) {
+		this.degreeCode = degreeCode;
 	}
 
     // ********************************** \\
@@ -76,7 +65,7 @@ public class Option implements Reference {
                 .append("id", id)
                 .append("code", code)
                 .append("label", label)
-                .append("licenceCode", licenceCode)
+                .append("licenceCode", degreeCode)
                 .toString();
     }
 

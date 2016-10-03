@@ -4,15 +4,6 @@
 
 package fr.frogdevelopment.assoplus.member.controller;
 
-import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.core.controls.Validator;
-import fr.frogdevelopment.assoplus.core.controller.AbstractCreateUpdateDialogController;
-import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
-import fr.frogdevelopment.assoplus.member.dto.OptionDto;
-import fr.frogdevelopment.assoplus.member.service.DegreeService;
-import fr.frogdevelopment.assoplus.member.service.MembersService;
-import fr.frogdevelopment.assoplus.member.service.OptionsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,11 +12,22 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import fr.frogdevelopment.assoplus.core.controller.AbstractCreateUpdateDialogController;
+import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.core.controls.Validator;
+import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.member.dto.MemberDto;
+import fr.frogdevelopment.assoplus.member.dto.OptionDto;
+import fr.frogdevelopment.assoplus.member.service.DegreeService;
+import fr.frogdevelopment.assoplus.member.service.MembersService;
+import fr.frogdevelopment.assoplus.member.service.OptionsService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -157,7 +159,7 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
         });
     }
 
-    protected LocalDate getLocalDate(String string) {
+    private LocalDate getLocalDate(String string) {
         if (string != null && !string.isEmpty()) {
             return LocalDate.parse(string, dateTimeFormatter);
         } else {
@@ -178,7 +180,7 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
         dpBirthday.setValue(entityDto.getBirthday());
         txtEmail.setText(entityDto.getEmail());
 
-        degreeDtos.stream().forEach(degreeDto -> {
+        degreeDtos.forEach(degreeDto -> {
             if (degreeDto.getCode().equals(entityDto.getDegreeCode())) {
                 cbDegree.getSelectionModel().select(degreeDto);
             }
@@ -193,7 +195,7 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
                     .collect(Collectors.toList());
             cbOption.setItems(FXCollections.observableArrayList(dtos));
 
-            optionDtos.stream().forEach(optionDto -> {
+            optionDtos.forEach(optionDto -> {
                 if (optionDto.getCode().equals(entityDto.getOptionCode())) {
                     cbOption.getSelectionModel().select(optionDto);
                 }

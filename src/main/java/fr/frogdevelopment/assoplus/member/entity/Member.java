@@ -4,63 +4,37 @@
 
 package fr.frogdevelopment.assoplus.member.entity;
 
-import fr.frogdevelopment.assoplus.core.entity.Entity;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import fr.frogdevelopment.assoplus.core.entity.Entity;
 
-@javax.persistence.Entity
-@Table(name = "member")
 public class Member implements Entity {
 
-    @Id
-    @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue
     private Integer id;
-
-    @Column(name = "studentNumber", unique = true, nullable = false)
     private String studentNumber;
-
-    @Column(name = "lastname", nullable = false)
     private String lastname;
-
-    @Column(name = "firstname", nullable = false)
     private String firstname;
-
-    @Column(name = "birthday", nullable = true)
     private String birthday;
-
-    @Column(name = "email", nullable = true)
     private String email;
-
-    @Column(name = "degree_code", nullable = true)
     private String degreeCode;
-
-    @Column(name = "option_code", nullable = true)
     private String optionCode;
-
-    @Column(name = "phone", nullable = true)
     private String phone;
-
-    @Column(name="subscription", nullable = false)
-    private Integer subscription;
-
-    @Column(name="annals", nullable = false)
-    private Integer annals;
+    private Boolean subscription;
+    private Boolean annals;
 
     // ********************************** \\
     //            Getter & Setter         \\
     // ********************************** \\
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -129,19 +103,19 @@ public class Member implements Entity {
         this.phone = phone;
     }
 
-    public Integer getSubscription() {
+    public Boolean getSubscription() {
         return subscription;
     }
 
-    public void setSubscription(Integer subscription) {
+    public void setSubscription(Boolean subscription) {
         this.subscription = subscription;
     }
 
-    public Integer getAnnals() {
+    public Boolean getAnnals() {
         return annals;
     }
 
-    public void setAnnals(Integer annals) {
+    public void setAnnals(Boolean annals) {
         this.annals = annals;
     }
 
@@ -151,7 +125,7 @@ public class Member implements Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
                 .append("studentNumber", studentNumber)
                 .append("lastname", lastname)

@@ -4,14 +4,7 @@
 
 package fr.frogdevelopment.assoplus.member.controller;
 
-import fr.frogdevelopment.assoplus.core.controller.AbstractCustomController;
-import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
-import fr.frogdevelopment.assoplus.member.dto.OptionDto;
-import fr.frogdevelopment.assoplus.member.service.DegreeService;
-import fr.frogdevelopment.assoplus.member.service.MembersService;
-import fr.frogdevelopment.assoplus.member.service.OptionsService;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -20,7 +13,14 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +28,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +37,22 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.io.*;
+import fr.frogdevelopment.assoplus.core.controller.AbstractCustomController;
+import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.member.dto.MemberDto;
+import fr.frogdevelopment.assoplus.member.dto.OptionDto;
+import fr.frogdevelopment.assoplus.member.service.DegreeService;
+import fr.frogdevelopment.assoplus.member.service.MembersService;
+import fr.frogdevelopment.assoplus.member.service.OptionsService;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UncheckedIOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -214,17 +230,13 @@ public class MembersController extends AbstractCustomController {
 
         colSubscription.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
             final MemberDto memberDto = filteredData.get(index);
-            memberDto.subscriptionProperty().addListener((obs, wasSelected, isSelected) -> {
-                membersService.updateData(memberDto);
-            });
+            memberDto.subscriptionProperty().addListener((obs, wasSelected, isSelected) -> Platform.runLater(() -> membersService.updateSubscription(memberDto)));
             return memberDto.subscriptionProperty();
         }));
         colSubscription.setEditable(true);
         colAnnals.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
             final MemberDto memberDto = filteredData.get(index);
-            memberDto.annalsProperty().addListener((obs, wasSelected, isSelected) -> {
-                membersService.updateData(memberDto);
-            });
+            memberDto.annalsProperty().addListener((obs, wasSelected, isSelected) -> Platform.runLater(() -> membersService.updateAnnals(memberDto)));
             return memberDto.annalsProperty();
         }));
         colAnnals.setEditable(true);
@@ -350,7 +362,7 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void addMember() {
-        Stage dialog = openDialog("/fxml/member.fxml", new Consumer<MemberController>() {
+        Stage dialog = openDialog("member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
                 memberController.newData(data);
@@ -366,7 +378,7 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void updateMember() {
-        Stage dialog = openDialog("/fxml/member.fxml", new Consumer<MemberController>() {
+        Stage dialog = openDialog("member.fxml", new Consumer<MemberController>() {
             @Override
             public void accept(MemberController memberController) {
                 memberController.updateData(data, tableView.getSelectionModel().getSelectedIndex());
@@ -382,7 +394,7 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void importCSV() {
-        Stage dialog = openDialog("/fxml/import_members.fxml");
+        Stage dialog = openDialog("import_members.fxml");
         dialog.setTitle(getMessage("import.title"));
         dialog.setWidth(800);
         dialog.setHeight(200);
@@ -435,7 +447,7 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void manageDegrees() {
-        Stage dialog = openDialog("/fxml/degrees.fxml");
+        Stage dialog = openDialog("degrees.fxml");
         dialog.setTitle(getMessage("member.degrees"));
         dialog.setWidth(550);
         dialog.setHeight(400);

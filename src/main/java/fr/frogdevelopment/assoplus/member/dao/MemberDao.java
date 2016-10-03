@@ -9,4 +9,7 @@ import fr.frogdevelopment.assoplus.member.entity.Member;
 
 public interface MemberDao extends CommonDao<Member> {
 
+    void updateSubscription(Integer memberId, boolean subscription);
+
+    void updateAnnals(Integer memberId, boolean annals);
 }

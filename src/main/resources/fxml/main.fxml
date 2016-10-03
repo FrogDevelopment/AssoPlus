@@ -37,14 +37,6 @@
                 </graphic>
                 <fx:include source="book_orders.fxml"/>
             </Tab>
-            <Tab text="Évènements">
-                <graphic>
-                    <ImageView>
-                        <Image url="@../img/domain_16.png"/>
-                    </ImageView>
-                </graphic>
-                <fx:include source="events.fxml"/>
-            </Tab>
         </TabPane>
     </center>
 </BorderPane>

@@ -4,28 +4,15 @@
 
 package fr.frogdevelopment.assoplus.member.entity;
 
-import fr.frogdevelopment.assoplus.core.entity.Reference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import javax.persistence.*;
+import fr.frogdevelopment.assoplus.core.entity.Reference;
 
-@javax.persistence.Entity
-@Table(name = "degree")
 public class Degree implements Reference {
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
-	@GeneratedValue
 	private Integer id;
-
-	@Column(name = "code", unique = true, nullable = false)
 	private String code;
-
-	@Column(name = "label", unique = false, nullable = false)
 	private String label;
-
-	public Degree() {
-	}
 
 	// ********************************** \\
 	//            Getter & Setter         \\

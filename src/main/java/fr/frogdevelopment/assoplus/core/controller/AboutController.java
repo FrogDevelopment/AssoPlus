@@ -4,7 +4,6 @@
 
 package fr.frogdevelopment.assoplus.core.controller;
 
-import fr.frogdevelopment.assoplus.core.controller.AbstractCustomDialogController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Hyperlink;
 

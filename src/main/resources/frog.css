@@ -1,0 +1,5 @@
+.root {
+    -fx-focus-color: green;
+    -fx-faint-focus-color: #039ED322;
+    -fx-accent: green;
+}

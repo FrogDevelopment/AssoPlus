@@ -4,24 +4,16 @@
 
 package fr.frogdevelopment.assoplus.core.utils;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.net.URL;
 import java.nio.channels.FileLock;
 import java.nio.file.FileSystems;
-import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class ApplicationUtils {
 
@@ -73,28 +65,4 @@ public class ApplicationUtils {
         return false;
     }
 
-    private static final ApplicationContext CONTEXT = new ClassPathXmlApplicationContext("/spring.xml");
-
-    public static Parent load(String url) {
-        return load(url, null);
-    }
-
-    public static <T> Parent load(String url, Consumer<T> controllerConsumer) {
-        try (InputStream fxmlStream = Class.class.getResourceAsStream(url)) {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setControllerFactory(CONTEXT::getBean);
-            loader.setLocation(Class.class.getResource("/fxml/"));
-            loader.setResources(ResourceBundle.getBundle("label"));
-            final Parent parent = loader.load(fxmlStream);
-
-            if (controllerConsumer != null) {
-                controllerConsumer.accept(loader.getController());
-            }
-
-            return parent;
-        } catch (Exception e) {
-            LOGGER.error("Error while loading " + url);
-            throw new RuntimeException(e);
-        }
-    }
 }

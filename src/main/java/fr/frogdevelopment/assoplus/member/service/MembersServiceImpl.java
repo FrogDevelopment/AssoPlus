@@ -4,13 +4,21 @@
 
 package fr.frogdevelopment.assoplus.member.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import fr.frogdevelopment.assoplus.core.service.AbstractService;
+import fr.frogdevelopment.assoplus.member.dao.MemberDao;
 import fr.frogdevelopment.assoplus.member.dto.MemberDto;
 import fr.frogdevelopment.assoplus.member.entity.Member;
-import org.springframework.stereotype.Service;
 
 @Service
 public class MembersServiceImpl extends AbstractService<Member, MemberDto> implements MembersService {
+
+    @Autowired
+    private MemberDao memberDao;
 
     @Override
     protected MemberDto createDto(Member bean) {
@@ -24,8 +32,8 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         memberDto.setDegreeCode(bean.getDegreeCode());
         memberDto.setOptionCode(bean.getOptionCode());
         memberDto.setPhone(bean.getPhone());
-        memberDto.setSubscription(1 == bean.getSubscription());
-        memberDto.setAnnals(1 == bean.getAnnals());
+        memberDto.setSubscription(bean.getSubscription());
+        memberDto.setAnnals(bean.getAnnals());
 
         return memberDto;
     }
@@ -44,10 +52,22 @@ public class MembersServiceImpl extends AbstractService<Member, MemberDto> imple
         member.setDegreeCode(dto.getDegreeCode());
         member.setOptionCode(dto.getOptionCode());
         member.setPhone(dto.getPhone());
-        member.setSubscription(dto.getSubscription() ? 1 : 0);
-        member.setAnnals(dto.getAnnals() ? 1 : 0);
+        member.setSubscription(dto.getSubscription());
+        member.setAnnals(dto.getAnnals());
 
         return member;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateSubscription(MemberDto dto) {
+        memberDao.updateSubscription(dto.getId(), dto.getSubscription());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateAnnals(MemberDto dto) {
+        memberDao.updateAnnals(dto.getId(), dto.getAnnals());
     }
 
 }

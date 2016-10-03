@@ -4,16 +4,18 @@
 
 package fr.frogdevelopment.assoplus.core.controller;
 
-import fr.frogdevelopment.assoplus.member.controller.MembersController;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import fr.frogdevelopment.assoplus.member.controller.MembersController;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -44,7 +46,7 @@ public class MainController extends AbstractCustomController {
     }
 
     public void onAbout() {
-        Stage dialog = openDialog("/fxml/about.fxml");
+        Stage dialog = openDialog("about.fxml");
         dialog.setTitle(getMessage("about.title"));
         dialog.initStyle(StageStyle.UTILITY);
         dialog.setWidth(400);

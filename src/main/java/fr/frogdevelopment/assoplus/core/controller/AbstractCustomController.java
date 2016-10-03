@@ -15,16 +15,24 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+
+import fr.frogdevelopment.assoplus.core.utils.SpringFXMLLoader;
 
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.*;
-import static javafx.scene.control.Alert.AlertType.*;
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.ICON_16;
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.ICON_32;
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.ICON_48;
+import static javafx.scene.control.Alert.AlertType.CONFIRMATION;
+import static javafx.scene.control.Alert.AlertType.ERROR;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
+import static javafx.scene.control.Alert.AlertType.WARNING;
 
 public abstract class AbstractCustomController implements Initializable {
 
@@ -60,7 +68,7 @@ public abstract class AbstractCustomController implements Initializable {
         dialog.initOwner(getParent());
         dialog.getIcons().addAll(ICON_16, ICON_32, ICON_48);
 
-        Parent root = load(url, controllerConsumer);
+        Parent root = SpringFXMLLoader.load(url, controllerConsumer);
         dialog.setScene(new Scene(root));
 
         return dialog;

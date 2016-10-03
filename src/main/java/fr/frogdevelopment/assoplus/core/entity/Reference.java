@@ -4,13 +4,13 @@
 
 package fr.frogdevelopment.assoplus.core.entity;
 
-public interface Reference extends Entity{
+public interface Reference extends Entity {
 
-	String getCode();
+    String getCode();
 
-	void setCode(String code);
+    void setCode(String code);
 
-	String getLabel();
+    String getLabel();
 
-	void setLabel(String label);
+    void setLabel(String label);
 }

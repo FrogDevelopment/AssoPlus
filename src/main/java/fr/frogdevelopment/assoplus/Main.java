@@ -5,22 +5,24 @@
 package fr.frogdevelopment.assoplus;
 
 import com.sun.javafx.application.LauncherImpl;
-import fr.frogdevelopment.assoplus.core.preloader.LongAppInitPreloader;
 import javafx.application.Application;
 import javafx.application.HostServices;
-import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.concurrent.Task;
+import javafx.application.Preloader.StateChangeNotification;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.*;
-import static javafx.application.Preloader.ProgressNotification;
-import static javafx.application.Preloader.StateChangeNotification;
+import fr.frogdevelopment.assoplus.core.utils.SpringFXMLLoader;
+
+import java.io.IOException;
+
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.ICON_16;
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.ICON_32;
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.ICON_48;
+import static fr.frogdevelopment.assoplus.core.utils.ApplicationUtils.isInstanceAlreadyLocked;
 
 public class Main extends Application {
 
@@ -28,42 +30,44 @@ public class Main extends Application {
 
     private static HostServices hostServices;
 
-    public static void main(String[] args) {
-        LauncherImpl.launchApplication(Main.class, LongAppInitPreloader.class, args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        longStart();
-
+    public static void main(String[] args) throws IOException {
         if (isInstanceAlreadyLocked()) {
             System.err.println("********************************** Already running ********************************** ");
             LOGGER.error("Exit cause already running.");
             System.exit(-1);
         }
 
+        LauncherImpl.launchApplication(Main.class, FrogPreloader.class, args);
+    }
+
+    private Parent root;
+
+    @Override
+    public void init() throws Exception {
+        // chargé dans un thread différent => n'empêche pas l'animation de la ProgressBar
         LOGGER.info("Chargement de la configuration");
 
-        Parent root = load("/fxml/main.fxml");
+        root = SpringFXMLLoader.load("/main.fxml");
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        LOGGER.info("Configuration charg\u00e9e");
+
+        // Context spring chargé => on prévient le préloader
+        notifyPreloader(new StateChangeNotification(StateChangeNotification.Type.BEFORE_START));
 
         primaryStage.setTitle("AssoManager");
         primaryStage.setScene(new Scene(root));
         primaryStage.setHeight(600);
         primaryStage.setWidth(1000);
+        primaryStage.getScene().getStylesheets().add("frog.css");
         primaryStage.getIcons().addAll(ICON_16, ICON_32, ICON_48);
 
         hostServices = super.getHostServices();
 
-        LOGGER.info("Configuration charg\u00e9e");
-        // After the app is ready, show the stage
-        ready.addListener((ov, t, t1) -> {
-            if (Boolean.TRUE.equals(t1)) {
-                Platform.runLater(() -> {
-                    LOGGER.info("Ouverture de l'application");
-                    primaryStage.show();
-                });
-            }
-        });
+        LOGGER.info("Ouverture de l'application");
+        primaryStage.show();
     }
 
     // FIXME
@@ -71,34 +75,4 @@ public class Main extends Application {
         hostServices.showDocument(url);
     }
 
-    @Override
-    public void init() throws Exception {
-        super.init();
-    }
-
-    private BooleanProperty ready = new SimpleBooleanProperty(false);
-
-    private void longStart() {
-        //simulate long init in background
-        Task task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                int max = 10;
-                for (int i = 1; i <= max + 1; i++) {
-                    Thread.sleep(100);
-                    // Send progress to preloader
-                    notifyPreloader(new ProgressNotification(((double) i) / max));
-                }
-                // After init is ready, the app is ready to be shown
-                // Do this before hiding the preloader stage to prevent the
-                // app from exiting prematurely
-                ready.setValue(Boolean.TRUE);
-
-                notifyPreloader(new StateChangeNotification(StateChangeNotification.Type.BEFORE_START));
-
-                return null;
-            }
-        };
-        new Thread(task).start();
-    }
 }
