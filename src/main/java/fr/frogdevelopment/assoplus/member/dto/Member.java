@@ -162,6 +162,16 @@ public class Member implements Entity, Comparable<Member> {
     }
 
     @Override
+    public boolean isToDelete() {
+        return false;
+    }
+
+    @Override
+    public void setToDelete(boolean toDelete) {
+
+    }
+
+    @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)

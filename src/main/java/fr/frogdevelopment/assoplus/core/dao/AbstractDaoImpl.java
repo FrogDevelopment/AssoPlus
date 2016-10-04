@@ -4,41 +4,25 @@
 
 package fr.frogdevelopment.assoplus.core.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.frogdevelopment.assoplus.core.dto.Entity;
 
 import java.util.Collection;
-import java.util.List;
 
 @Transactional(propagation = Propagation.MANDATORY)
 public abstract class AbstractDaoImpl<E extends Entity> implements Dao<E> {
 
-    protected final NamedParameterJdbcTemplate jdbcTemplate;
-    protected final KeyHolder keyHolder = new GeneratedKeyHolder();
-
-    @Autowired
-    public AbstractDaoImpl(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     // **************************************** \\
     // ********** ABSTRACT METHODES *********** \\
     // **************************************** \\
 
     @Transactional(readOnly = true)
-    abstract public E getById(Integer identifiant);
+    abstract public Collection<E> getAll();
 
-    @Transactional(readOnly = true)
-    abstract public List<E> getAll();
-
-    abstract public void save(E entity);
+    abstract public void create(E entity);
 
     abstract public void update(E entity);
 
@@ -46,26 +30,26 @@ public abstract class AbstractDaoImpl<E extends Entity> implements Dao<E> {
 
     abstract public void deleteAll();
 
-    abstract protected MapSqlParameterSource toSqlParameterSource(E entity);
-
-    public void saveAll(Collection<E> entities) {
-        entities.forEach(this::save);
+    public void createAll(Collection<E> entities) {
+        entities.forEach(this::create);
     }
 
     public void updateAll(Collection<E> entities) {
         entities.forEach(this::update);
     }
 
-    public void saveOrUpdate(E entity) {
-        if (entity.getId() == null || entity.getId() == 0) {
-            save(entity);
+    public void save(E entity) {
+        if (entity.isToDelete()) {
+            delete(entity);
+        } else if (entity.getId() == null) {
+            create(entity);
         } else {
             update(entity);
         }
     }
 
-    public void saveOrUpdateAll(Collection<E> entities) {
-        entities.forEach(this::saveOrUpdate);
+    public void create(Collection<E> entities) {
+        entities.forEach(this::save);
     }
 
     public void delete(E entity) {

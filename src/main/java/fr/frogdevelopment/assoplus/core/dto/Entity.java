@@ -8,7 +8,11 @@ import java.io.Serializable;
 
 public interface Entity extends Serializable {
 
-	void setId(Integer id);
+    void setId(Integer id);
 
-	Integer getId();
+    Integer getId();
+
+    boolean isToDelete();
+
+    void setToDelete(boolean toDelete);
 }

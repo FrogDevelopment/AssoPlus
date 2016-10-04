@@ -390,6 +390,7 @@ public class MembersController extends AbstractCustomController {
         dialog.setTitle(getMessage("member.degrees"));
         dialog.setWidth(550);
         dialog.setHeight(400);
+        dialog.setOnCloseRequest(event -> initialize());
 
         dialog.show();
     }

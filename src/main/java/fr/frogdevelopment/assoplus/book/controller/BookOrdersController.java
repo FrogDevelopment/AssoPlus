@@ -20,7 +20,7 @@ import fr.frogdevelopment.assoplus.core.controller.AbstractCustomController;
 import fr.frogdevelopment.assoplus.member.dto.Member;
 import fr.frogdevelopment.assoplus.member.service.MembersService;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -57,7 +57,7 @@ public class BookOrdersController extends AbstractCustomController {
     @Override
     protected void initialize() {
 
-        List<BookOrderDto> bookOrderDtos = bookOrdersService.getAll();
+        Collection<BookOrderDto> bookOrderDtos = bookOrdersService.getAll();
 
         Map<Integer, BookDto> mapBookDtos = booksService.getAll()
                 .stream()

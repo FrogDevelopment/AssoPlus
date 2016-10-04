@@ -27,15 +27,13 @@ import fr.frogdevelopment.assoplus.member.dto.Member;
 import fr.frogdevelopment.assoplus.member.dto.Option;
 import fr.frogdevelopment.assoplus.member.service.DegreeService;
 import fr.frogdevelopment.assoplus.member.service.MembersService;
-import fr.frogdevelopment.assoplus.member.service.OptionsService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -48,9 +46,6 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
 
     @Autowired
     private DegreeService degreeService;
-
-    @Autowired
-    private OptionsService optionsService;
 
     @FXML
     private TextField txtStudentNumber;
@@ -74,7 +69,6 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
     private CheckBox cbAnnals;
 
     private ObservableList<Degree> degrees;
-    private ObservableList<Option> optionDtos;
 
     @Override
     protected void initialize() {
@@ -109,7 +103,6 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
 
         degrees = FXCollections.observableArrayList(degreeService.getAll());
         cbDegree.setItems(degrees);
-        optionDtos = FXCollections.observableArrayList(optionsService.getAll());
         cbDegree.setConverter(new StringConverter<Degree>() {
 
             private final Map<String, Degree> _cache = new HashMap<>();
@@ -129,12 +122,7 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
         cbDegree.setOnAction(event -> {
             final Degree selectedItem = cbDegree.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
-                final String codeLicence = selectedItem.getCode();
-                final List<Option> dtos = optionDtos
-                        .stream()
-                        .filter(o -> codeLicence.equals(o.getDegreeCode()))
-                        .collect(Collectors.toList());
-                cbOption.setItems(FXCollections.observableArrayList(dtos));
+                cbOption.setItems(FXCollections.observableArrayList(selectedItem.getOptions()));
             } else {
                 cbOption.setItems(null);
             }
@@ -174,32 +162,33 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
 
     protected void setData() {
         txtStudentNumber.setText(entityDto.getStudentNumber());
-        txtStudentNumber.setDisable((entityDto.getId() != 0));
+        txtStudentNumber.setDisable((entityDto.getId() != null));
         txtLastname.setText(entityDto.getLastname());
         txtFirstname.setText(entityDto.getFirstname());
         dpBirthday.setValue(entityDto.getBirthday());
         txtEmail.setText(entityDto.getEmail());
 
-        degrees.forEach(degreeDto -> {
-            if (degreeDto.getCode().equals(entityDto.getDegree().getCode())) {
-                cbDegree.getSelectionModel().select(degreeDto);
-            }
-        });
+        if (entityDto.getDegree() != null) {
+            Optional<Degree> degreeOptional = degrees.stream().filter(d -> d.getCode().equals(entityDto.getDegree().getCode())).findFirst();
+            if (degreeOptional.isPresent()) {
+                Degree degree = degreeOptional.get();
+                cbDegree.getSelectionModel().select(degree);
+                cbOption.setItems(FXCollections.observableArrayList(degree.getOptions()));
 
-        cbOption.setItems(null);
-        final String codeDegree = entityDto.getDegree().getCode();
-        if (StringUtils.isNoneBlank(codeDegree)) {
-            final List<Option> dtos = optionDtos
-                    .stream()
-                    .filter(o -> codeDegree.equals(o.getDegreeCode()))
-                    .collect(Collectors.toList());
-            cbOption.setItems(FXCollections.observableArrayList(dtos));
-
-            optionDtos.forEach(optionDto -> {
-                if (optionDto.getCode().equals(entityDto.getOption().getCode())) {
-                    cbOption.getSelectionModel().select(optionDto);
+                if (entityDto.getOption() != null) {
+                    Optional<Option> optionOptional = degree.getOptions()
+                            .stream()
+                            .filter(o -> o.getCode().equals(entityDto.getOption().getCode()))
+                            .findFirst();
+                    if (optionOptional.isPresent()) {
+                        cbOption.getSelectionModel().select(optionOptional.get());
+                    }
                 }
-            });
+            } else {
+                cbOption.setItems(null);
+            }
+        } else {
+            cbOption.setItems(null);
         }
 
         txtPhone.setText(entityDto.getPhone());

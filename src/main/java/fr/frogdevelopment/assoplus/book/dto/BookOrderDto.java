@@ -31,6 +31,16 @@ public class BookOrderDto implements Entity {
         return id.get();
     }
 
+    @Override
+    public boolean isToDelete() {
+        return false;
+    }
+
+    @Override
+    public void setToDelete(boolean toDelete) {
+
+    }
+
     public SimpleIntegerProperty idProperty() {
         return id;
     }

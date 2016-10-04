@@ -4,10 +4,13 @@
 
 package fr.frogdevelopment.assoplus.member.dao;
 
-import org.springframework.jdbc.core.RowMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,64 +20,17 @@ import fr.frogdevelopment.assoplus.member.dto.Degree;
 import fr.frogdevelopment.assoplus.member.dto.Member;
 import fr.frogdevelopment.assoplus.member.dto.Option;
 
-import javax.sql.DataSource;
-import java.util.List;
+import java.util.Collection;
 
 @Repository()
 @Transactional(propagation = Propagation.MANDATORY)
 public class MemberDaoImpl extends AbstractDaoImpl<Member> implements MemberDao {
 
-    private RowMapper<Member> memberRowMapper = (rs, rowNum) -> {
-        Member member = new Member();
-        member.setId(rs.getInt("member_id"));
-        member.setStudentNumber(rs.getString("student_number"));
-        member.setLastname(rs.getString("lastname"));
-        member.setFirstname(rs.getString("firstname"));
-        member.setBirthday(rs.getString("birthday"));
-        member.setEmail(rs.getString("email"));
-
-        Degree degree = new Degree();
-        degree.setId(rs.getInt("degree_id"));
-        degree.setCode(rs.getString("degree_code"));
-        degree.setLabel(rs.getString("degree_label"));
-        member.setDegree(degree);
-
-        Option option = new Option();
-        option.setId(rs.getInt("option_id"));
-        option.setCode(rs.getString("option_code"));
-        option.setLabel(rs.getString("option_label"));
-        member.setOption(option);
-
-        member.setPhone(rs.getString("phone"));
-        member.setSubscription(rs.getBoolean("subscription"));
-        member.setAnnals(rs.getBoolean("annals"));
-
-        return member;
-    };
-
-    public MemberDaoImpl(NamedParameterJdbcTemplate jdbcTemplate, DataSource dataSource) {
-        super(jdbcTemplate);
-    }
+    @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public Member getById(Integer identifiant) {
-        String sql = "SELECT" +
-                " m.*," +
-                " d.degree_id AS degree_id," +
-                " d.code AS degree_code," +
-                " d.label AS degree_label," +
-                " o.option_id AS option_id," +
-                " o.code AS option_code," +
-                " o.label AS option_label" +
-                " FROM member m" +
-                " LEFT OUTER JOIN degree d ON d.code = m.degree_code" +
-                " LEFT OUTER JOIN option o ON o.degree_id = d.degree_id AND o.code = m.option_code" +
-                " WHERE member_id = :id";
-        return jdbcTemplate.queryForObject(sql, new MapSqlParameterSource("id", identifiant), memberRowMapper);
-    }
-
-    @Override
-    public List<Member> getAll() {
+    public Collection<Member> getAll() {
         String sql = "SELECT" +
                 " m.*," +
                 " d.degree_id AS degree_id," +
@@ -87,23 +43,55 @@ public class MemberDaoImpl extends AbstractDaoImpl<Member> implements MemberDao 
                 " LEFT OUTER JOIN degree d ON d.code = m.degree_code" +
                 " LEFT OUTER JOIN option o ON o.degree_id = d.degree_id AND o.code = m.option_code" +
                 " ORDER BY m.student_number ASC";
-        return jdbcTemplate.query(sql, new EmptySqlParameterSource(), memberRowMapper);
+        return jdbcTemplate.query(sql, new EmptySqlParameterSource(), (rs, rowNum) -> {
+            Member member = new Member();
+            member.setId(rs.getInt("member_id"));
+            member.setStudentNumber(rs.getString("student_number"));
+            member.setLastname(rs.getString("lastname"));
+            member.setFirstname(rs.getString("firstname"));
+            member.setBirthday(rs.getString("birthday"));
+            member.setEmail(rs.getString("email"));
+
+            String degree_code = rs.getString("degree_code");
+            if (StringUtils.isNotBlank(degree_code)) {
+                Degree degree = new Degree();
+                degree.setId(rs.getInt("degree_id"));
+                degree.setCode(degree_code);
+                degree.setLabel(rs.getString("degree_label"));
+                member.setDegree(degree);
+
+                String option_code = rs.getString("option_code");
+                if (StringUtils.isNotBlank(option_code)) {
+                    Option option = new Option();
+                    option.setId(rs.getInt("option_id"));
+                    option.setCode(option_code);
+                    option.setLabel(rs.getString("option_label"));
+                    member.setOption(option);
+                }
+            }
+
+            member.setPhone(rs.getString("phone"));
+            member.setSubscription(rs.getBoolean("subscription"));
+            member.setAnnals(rs.getBoolean("annals"));
+
+            return member;
+        });
     }
 
     @Override
-    public void save(Member member) {
+    public void create(Member member) {
         String sql = "INSERT INTO member (student_number,lastname,firstname,birthday,email,degree_code,option_code,phone,subscription,annals)" +
                 " VALUES (:studentNumber,:lastname,:firstname,:birthday,:email,:degreeCode,:optionCode,:phone,:subscription,:annals)";
 
         MapSqlParameterSource params = toSqlParameterSource(member);
 
+        KeyHolder keyHolder = new GeneratedKeyHolder();
         this.jdbcTemplate.update(sql, params, keyHolder);
 
         member.setId(keyHolder.getKey().intValue());
     }
 
-    @Override
-    protected MapSqlParameterSource toSqlParameterSource(Member member) {
+    private MapSqlParameterSource toSqlParameterSource(Member member) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("studentNumber", member.getStudentNumber());
         params.addValue("lastname", member.getLastname());

@@ -22,11 +22,9 @@ import fr.frogdevelopment.assoplus.core.dto.Reference;
 import fr.frogdevelopment.assoplus.member.dto.Degree;
 import fr.frogdevelopment.assoplus.member.dto.Option;
 import fr.frogdevelopment.assoplus.member.service.DegreeService;
-import fr.frogdevelopment.assoplus.member.service.OptionsService;
 
 import java.util.Comparator;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -34,9 +32,6 @@ public class DegreeController extends AbstractCustomDialogController {
 
     @Autowired
     private DegreeService degreeService;
-
-    @Autowired
-    private OptionsService optionsService;
 
     @FXML
     private TreeTableView<Reference> treeTableView;
@@ -48,7 +43,6 @@ public class DegreeController extends AbstractCustomDialogController {
     private Button btnRemove;
 
     private ObservableList<Degree> degrees;
-    private ObservableList<Option> optionDtos;
     private TreeItem<Reference> rootItem;
 
     @Override
@@ -81,16 +75,14 @@ public class DegreeController extends AbstractCustomDialogController {
 
     private void initData() {
         degrees = FXCollections.observableArrayList(degreeService.getAll());
-        optionDtos = FXCollections.observableArrayList(optionsService.getAll());
 
         rootItem = new TreeItem<>(new Degree());
 
         degrees.forEach(licenceDto -> {
-            TreeItem<Reference> treeItem = new TreeItem<>(licenceDto);
-            optionDtos.stream()
-                    .filter(optionDto -> optionDto.getDegreeCode().equals(licenceDto.getCode()))
-                    .forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
-            rootItem.getChildren().add(treeItem);
+            TreeItem<Reference> degreeItem = new TreeItem<>(licenceDto);
+            licenceDto.getOptions().forEach(o -> degreeItem.getChildren().add(new TreeItem<>(o)));
+
+            rootItem.getChildren().add(degreeItem);
         });
 
         rootItem.getChildren().sort(Comparator.comparing(o1 -> o1.getValue().getCode()));
@@ -100,8 +92,7 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     public void onSave() {
-        degreeService.saveOrUpdateAll(degrees);
-        optionsService.saveOrUpdateAll(optionDtos);
+        degreeService.save(degrees);
         initData();
     }
 
@@ -127,12 +118,11 @@ public class DegreeController extends AbstractCustomDialogController {
         }
 
         Degree degree = (Degree) selectedItem.getValue();
-        Option optionDto = new Option();
-        optionDto.setDegreeCode(degree.getCode());
+        Option option = new Option();
 
-        optionDtos.add(optionDto);
+        degree.addOption(option);
 
-        final TreeItem<Reference> newItem = new TreeItem<>(optionDto);
+        final TreeItem<Reference> newItem = new TreeItem<>(option);
         selectedItem.getChildren().add(newItem);
 
         selectedItem.expandedProperty().set(true);
@@ -165,18 +155,7 @@ public class DegreeController extends AbstractCustomDialogController {
         rootItem.getChildren().remove(selectedItem);
 
         Degree degree = (Degree) selectedItem.getValue();
-        degrees.remove(degree);
-
-
-        if (degree.getId() != 0) {
-            degreeService.deleteData(degree);
-
-            // suppression des options et maj liste
-            optionDtos = FXCollections.observableArrayList(optionDtos.stream()
-                    .filter(optionDto -> optionDto.getDegreeCode().equals(degree.getCode()))
-                    .peek(optionsService::deleteData)
-                    .collect(Collectors.toList()));
-        }
+        degree.setToDelete(true);
     }
 
     private void removeOption(final TreeItem<Reference> selectedItem) {
@@ -184,10 +163,6 @@ public class DegreeController extends AbstractCustomDialogController {
         parent.getChildren().remove(selectedItem);
 
         Option optionDto = (Option) selectedItem.getValue();
-        optionDtos.remove(optionDto);
-
-        if (optionDto.getId() != 0) {
-            optionsService.deleteData(optionDto);
-        }
+        optionDto.setToDelete(true);
     }
 }

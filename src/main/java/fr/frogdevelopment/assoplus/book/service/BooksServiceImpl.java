@@ -25,7 +25,7 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public void saveAll(Collection<BookDto> dtos) {
+    public void createAll(Collection<BookDto> dtos) {
 
     }
 
@@ -35,7 +35,7 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public void saveOrUpdateAll(Collection<BookDto> dtos) {
+    public void save(Collection<BookDto> dtos) {
 
     }
 

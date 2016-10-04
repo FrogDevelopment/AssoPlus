@@ -13,7 +13,6 @@ import fr.frogdevelopment.assoplus.member.dao.MemberDao;
 import fr.frogdevelopment.assoplus.member.dto.Member;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class MembersServiceImpl implements MembersService {
@@ -23,20 +22,20 @@ public class MembersServiceImpl implements MembersService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public List<Member> getAll() {
+    public Collection<Member> getAll() {
         return memberDao.getAll();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveData(Member member) {
-        memberDao.save(member);
+        memberDao.create(member);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveAll(Collection<Member> members) {
-        memberDao.saveAll(members);
+    public void createAll(Collection<Member> members) {
+        memberDao.createAll(members);
     }
 
     @Override
@@ -47,8 +46,8 @@ public class MembersServiceImpl implements MembersService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void saveOrUpdateAll(Collection<Member> members) {
-        memberDao.saveOrUpdateAll(members);
+    public void save(Collection<Member> members) {
+        memberDao.create(members);
     }
 
     @Override

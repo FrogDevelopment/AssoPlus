@@ -13,7 +13,6 @@ import fr.frogdevelopment.assoplus.member.dao.DegreeDao;
 import fr.frogdevelopment.assoplus.member.dto.Degree;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service("licencesService")
 public class DegreeServiceImpl implements DegreeService {
@@ -23,20 +22,20 @@ public class DegreeServiceImpl implements DegreeService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Degree> getAll() {
+    public Collection<Degree> getAll() {
         return degreeDao.getAll();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveData(Degree degree) {
-        degreeDao.save(degree);
+        degreeDao.create(degree);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveAll(Collection<Degree> degrees) {
-        degreeDao.saveAll(degrees);
+    public void createAll(Collection<Degree> degrees) {
+        degreeDao.createAll(degrees);
     }
 
     @Override
@@ -47,8 +46,8 @@ public class DegreeServiceImpl implements DegreeService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveOrUpdateAll(Collection<Degree> degrees) {
-        degreeDao.saveOrUpdateAll(degrees);
+    public void save(Collection<Degree> degrees) {
+        degreeDao.create(degrees);
     }
 
     @Override

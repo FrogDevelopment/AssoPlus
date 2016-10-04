@@ -48,16 +48,13 @@ import fr.frogdevelopment.assoplus.member.dto.Member;
 import fr.frogdevelopment.assoplus.member.dto.Option;
 import fr.frogdevelopment.assoplus.member.service.DegreeService;
 import fr.frogdevelopment.assoplus.member.service.MembersService;
-import fr.frogdevelopment.assoplus.member.service.OptionsService;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -77,9 +74,6 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
     @Autowired
     private DegreeService degreeService;
-
-    @Autowired
-    private OptionsService optionsService;
 
     @FXML
     private Label labelFileName;
@@ -133,8 +127,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
     private File file;
     private ObservableList<Member> data;
-    private List<Degree> newDegrees;
-    private List<Option> newOptions;
+    private Map<String, Degree> degreeMap;
 
     @Override
     protected void initialize() {
@@ -339,11 +332,14 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 return;
             }
 
-            Map<String, Degree> degreeMap = degreeService.getAll().stream().collect(Collectors.toMap(Degree::getCode, d -> d));
-            Map<String, Option> optionMap = optionsService.getAll().stream().collect(Collectors.toMap(Option::getCode, o -> o));
-
-            newDegrees = new ArrayList<>();
-            newOptions = new ArrayList<>();
+            degreeMap = degreeService.getAll().stream().collect(Collectors.toMap(Degree::getCode, d -> d));
+            Map<String, Option> optionMap = new HashMap<>();
+            for (Map.Entry<String, Degree> entry : degreeMap.entrySet()) {
+                Degree degree = entry.getValue();
+                for (Option option : degree.getOptions()) {
+                    optionMap.put(degree.getCode() + "-" + option.getCode(), option);
+                }
+            }
 
             Member memberDto;
             for (CSVRecord line : parser) {
@@ -366,32 +362,39 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 if (mapping.containsKey("member.degree")) {
                     String degreeCode = line.get(mapping.get("member.degree")).trim();
 
-                    if (StringUtils.isNotBlank(degreeCode) && !degreeMap.containsKey(degreeCode)) {
-                        Degree degree = new Degree();
-                        degree.setCode(degreeCode);
-                        degree.setLabel(degreeCode);
-                        degreeMap.put(degreeCode, degree);
-
-                        newDegrees.add(degree);
-                    }
-
-                    memberDto.setDegree(degreeMap.get(degreeCode));
-
-                    if (mapping.containsKey("member.option")) {
-                        String optionCode = line.get(mapping.get("member.option")).trim();
-
-                        if (StringUtils.isNotBlank(optionCode) && !optionMap.containsKey(optionCode)) {
-                            Option option = new Option();
-                            option.setCode(optionCode);
-                            option.setLabel(optionCode);
-                            option.setDegreeCode(degreeCode);
-
-                            optionMap.put(optionCode, option);
-
-                            newOptions.add(option);
+                    if (StringUtils.isNotBlank(degreeCode)) {
+                        Degree degree;
+                        if (degreeMap.containsKey(degreeCode)) {
+                            degree = degreeMap.get(degreeCode);
+                        } else {
+                            degree = new Degree();
+                            degree.setCode(degreeCode);
+                            degree.setLabel(degreeCode);
+                            degreeMap.put(degreeCode, degree);
                         }
 
-                        memberDto.setOption(optionMap.get(optionCode));
+                        memberDto.setDegree(degree);
+
+                        if (mapping.containsKey("member.option")) {
+                            String optionCode = line.get(mapping.get("member.option")).trim();
+                            String optionKey = degreeCode + "-" + optionCode;
+
+                            if (StringUtils.isNotBlank(optionCode)) {
+                                Option option;
+                                if (optionMap.containsKey(optionKey)) {
+                                    option = optionMap.get(optionKey);
+                                } else {
+                                    option = new Option();
+                                    option.setCode(optionCode);
+                                    option.setLabel(optionCode);
+
+                                    optionMap.put(optionKey, option);
+
+                                    degree.addOption(option);
+                                }
+                                memberDto.setOption(option);
+                            }
+                        }
                     }
                 }
 
@@ -497,10 +500,14 @@ public class ImportMembersController extends AbstractCustomDialogController {
             }
         }
 
-        membersService.saveOrUpdateAll(mapToSaveByStudentNumber.values());
+        try {
+            membersService.save(mapToSaveByStudentNumber.values());
 
-        degreeService.saveAll(newDegrees);
-        optionsService.saveAll(newOptions);
+            degreeService.save(degreeMap.values());
+        } catch (Exception e) {
+            e.printStackTrace(); // fixme handle transaction rollback !!
+            throw e;
+        }
 
         close();
     }

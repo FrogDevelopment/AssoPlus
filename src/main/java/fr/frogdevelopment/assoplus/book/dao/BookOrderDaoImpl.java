@@ -25,17 +25,12 @@ public class BookOrderDaoImpl implements BookOrderDao {
     }
 
     @Override
-    public BookOrder getById(Integer identifiant) {
-        return null;
-    }
-
-    @Override
-    public void save(BookOrder entity) {
+    public void create(BookOrder entity) {
 
     }
 
     @Override
-    public void saveAll(Collection<BookOrder> entities) {
+    public void createAll(Collection<BookOrder> entities) {
 
     }
 
@@ -50,12 +45,12 @@ public class BookOrderDaoImpl implements BookOrderDao {
     }
 
     @Override
-    public void saveOrUpdate(BookOrder entity) {
+    public void save(BookOrder entity) {
 
     }
 
     @Override
-    public void saveOrUpdateAll(Collection<BookOrder> entities) {
+    public void create(Collection<BookOrder> entities) {
 
     }
 
