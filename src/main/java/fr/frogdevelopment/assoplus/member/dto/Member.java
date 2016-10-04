@@ -5,9 +5,6 @@
 package fr.frogdevelopment.assoplus.member.dto;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.CompareToBuilder;
@@ -20,134 +17,116 @@ import java.time.LocalDate;
 
 public class Member implements Entity, Comparable<Member> {
 
-    private final SimpleIntegerProperty id = new SimpleIntegerProperty();
-    private final SimpleStringProperty studentNumber = new SimpleStringProperty("");
-    private final SimpleStringProperty lastname = new SimpleStringProperty("");
-    private final SimpleStringProperty firstname = new SimpleStringProperty("");
-    private final SimpleObjectProperty<LocalDate> birthday = new SimpleObjectProperty<>();
-    private final SimpleStringProperty email = new SimpleStringProperty("");
-    private final SimpleObjectProperty<Degree> degree = new SimpleObjectProperty<>();
-    private final SimpleObjectProperty<Option> option = new SimpleObjectProperty<>();
-    private final SimpleStringProperty phone = new SimpleStringProperty("");
+    private Integer id;
+    private String studentNumber;
+    private String lastname;
+    private String firstname;
+    private LocalDate birthday;
+    private String email;
+    private Degree degree;
+    private Option option;
+    private String phone;
     private final SimpleBooleanProperty subscription = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty annals = new SimpleBooleanProperty(false);
 
-    private final SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
+    private boolean selected = false;
 
     @Override
     public Integer getId() {
-        return id.get();
-    }
-
-    public SimpleIntegerProperty idProperty() {
         return id;
     }
 
     @Override
     public void setId(Integer id) {
-        this.id.set(id);
+        this.id = id;
     }
 
     public String getStudentNumber() {
-        return studentNumber.get();
-    }
-
-    public SimpleStringProperty studentNumberProperty() {
         return studentNumber;
     }
 
     public void setStudentNumber(String studentNumber) {
-        this.studentNumber.set(studentNumber);
+        this.studentNumber = studentNumber;
     }
 
     public String getLastname() {
-        return lastname.get();
-    }
-
-    public SimpleStringProperty lastnameProperty() {
         return lastname;
     }
 
     public void setLastname(String lastname) {
-        this.lastname.set(lastname);
+        this.lastname = lastname;
     }
 
     public String getFirstname() {
-        return firstname.get();
-    }
-
-    public SimpleStringProperty firstnameProperty() {
         return firstname;
     }
 
     public void setFirstname(String firstname) {
-        this.firstname.set(firstname);
+        this.firstname = firstname;
     }
 
     public LocalDate getBirthday() {
-        return birthday.get();
-    }
-
-    public SimpleObjectProperty<LocalDate> birthdayProperty() {
         return birthday;
     }
 
     public void setBirthday(LocalDate birthday) {
-        this.birthday.set(birthday);
+        this.birthday = birthday;
     }
 
     public void setBirthday(String birthday) {
         if (StringUtils.isNotBlank(birthday)) {
-            this.birthday.set(LocalDate.parse(birthday));
+            setBirthday(LocalDate.parse(birthday));
         }
     }
 
     public String getEmail() {
-        return email.get();
-    }
-
-    public SimpleStringProperty emailProperty() {
         return email;
     }
 
     public void setEmail(String email) {
-        this.email.set(email);
+        this.email = email;
+    }
+
+    public String getDegreeLabel() {
+        String label = "";
+        if (degree != null) {
+            label = degree.getCode() + " - " + degree.getLabel();
+        }
+
+        return label;
     }
 
     public Degree getDegree() {
-        return degree.get();
-    }
-
-    public SimpleObjectProperty<Degree> degreeProperty() {
         return degree;
     }
 
     public void setDegree(Degree degree) {
-        this.degree.set(degree);
+        this.degree = degree;
+    }
+
+    public String getOptionLabel() {
+        String label = "";
+        if (option != null) {
+            label = option.getCode() + " - " + option.getLabel();
+        }
+
+        return label;
     }
 
     public Option getOption() {
-        return option.get();
-    }
-
-    public SimpleObjectProperty<Option> optionProperty() {
         return option;
     }
 
     public void setOption(Option option) {
-        this.option.set(option);
+        this.option = option;
     }
 
     public String getPhone() {
-        return phone.get();
-    }
-
-    public SimpleStringProperty phoneProperty() {
         return phone;
     }
 
     public void setPhone(String phone) {
-        this.phone.set(phone);
+        this.phone = phone;
     }
 
     public boolean getAnnals() {
@@ -175,15 +154,11 @@ public class Member implements Entity, Comparable<Member> {
     }
 
     public boolean getSelected() {
-        return selected.get();
-    }
-
-    public SimpleBooleanProperty selectedProperty() {
         return selected;
     }
 
     public void setSelected(boolean selected) {
-        this.selected.set(selected);
+        this.selected = selected;
     }
 
     @Override
@@ -213,18 +188,18 @@ public class Member implements Entity, Comparable<Member> {
 
     public String[] toCSV() {
         String[] line = new String[10];
-        line[0] = getStudentNumber();
-        line[1] = getLastname();
-        line[2] = getFirstname();
-        if (getBirthday() != null) {
-            line[3] = getBirthday().toString();
+        line[0] = studentNumber;
+        line[1] = lastname;
+        line[2] = firstname;
+        if (birthday != null) {
+            line[3] = birthday.toString();
         } else {
             line[3] = "";
         }
-        line[4] = getEmail();
-        line[5] = getDegree() != null ? getDegree().getCode() : "";
-        line[6] = getOption() != null ? getOption().getCode() : "";
-        line[7] = getPhone();
+        line[4] = email;
+        line[5] = degree != null ? degree.getCode() : "";
+        line[6] = option != null ? option.getCode() : "";
+        line[7] = phone;
         line[8] = String.valueOf(getSubscription());
         line[9] = String.valueOf(getAnnals());
 

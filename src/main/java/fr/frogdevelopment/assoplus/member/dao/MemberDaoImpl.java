@@ -85,7 +85,8 @@ public class MemberDaoImpl extends AbstractDaoImpl<Member> implements MemberDao 
                 " o.label AS option_label" +
                 " FROM member m" +
                 " LEFT OUTER JOIN degree d ON d.code = m.degree_code" +
-                " LEFT OUTER JOIN option o ON o.degree_id = d.degree_id AND o.code = m.option_code";
+                " LEFT OUTER JOIN option o ON o.degree_id = d.degree_id AND o.code = m.option_code" +
+                " ORDER BY m.student_number ASC";
         return jdbcTemplate.query(sql, new EmptySqlParameterSource(), memberRowMapper);
     }
 

@@ -81,8 +81,8 @@ public class BookOrdersController extends AbstractCustomController {
             return new SimpleStringProperty(price + "€");
         });
 
-        colMemberLastame.setCellValueFactory(param -> param.getValue().getMember().lastnameProperty());
-        colMemberStudentNumber.setCellValueFactory(param -> param.getValue().getMember().studentNumberProperty());
+//        colMemberLastame.setCellValueFactory(param -> param.getValue().getMember().lastnameProperty());
+//        colMemberStudentNumber.setCellValueFactory(param -> param.getValue().getMember().studentNumberProperty());
 
         colQuantity.setCellValueFactory(param -> param.getValue().quantityProperty());
         colDeposit.setCellValueFactory(param -> {

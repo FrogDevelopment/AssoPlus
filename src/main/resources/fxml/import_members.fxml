@@ -126,8 +126,16 @@
                         <PropertyValueFactory property="email"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="%member.degree"/>
-                <TableColumn text="%member.option"/>
+                <TableColumn text="%member.degree">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="degreeLabel"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="%member.option">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="optionLabel"/>
+                    </cellValueFactory>
+                </TableColumn>
                 <TableColumn text="%member.phone">
                     <cellValueFactory>
                         <PropertyValueFactory property="phone"/>

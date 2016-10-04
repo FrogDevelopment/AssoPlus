@@ -189,9 +189,6 @@ public class MembersController extends AbstractCustomController {
             return property;
         });
 
-        colDegree.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDegree().getLabel()));
-        colOption.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getOption().getLabel()));
-
         colSubscription.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
             final Member memberDto = filteredData.get(index);
             memberDto.subscriptionProperty().addListener((obs, wasSelected, isSelected) -> Platform.runLater(() -> membersService.updateSubscription(memberDto)));
@@ -238,10 +235,10 @@ public class MembersController extends AbstractCustomController {
         });
 
         tfDegree.prefWidthProperty().bind(colDegree.widthProperty());
-        addFilter(tfDegree, dto -> dto.getDegree().getLabel());
+        addFilter(tfDegree, Member::getDegreeLabel);
 
         tfOption.prefWidthProperty().bind(colOption.widthProperty());
-        addFilter(tfOption, dto -> dto.getOption().getLabel());
+        addFilter(tfOption, Member::getOptionLabel);
 
         String yes = getMessage("global.yes");
         String no = getMessage("global.no");
