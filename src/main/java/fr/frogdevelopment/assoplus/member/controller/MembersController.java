@@ -39,12 +39,8 @@ import org.springframework.stereotype.Controller;
 
 import fr.frogdevelopment.assoplus.core.controller.AbstractCustomController;
 import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
-import fr.frogdevelopment.assoplus.member.dto.OptionDto;
-import fr.frogdevelopment.assoplus.member.service.DegreeService;
+import fr.frogdevelopment.assoplus.member.dto.Member;
 import fr.frogdevelopment.assoplus.member.service.MembersService;
-import fr.frogdevelopment.assoplus.member.service.OptionsService;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -61,7 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -70,34 +65,28 @@ public class MembersController extends AbstractCustomController {
     @Autowired
     private MembersService membersService;
 
-    @Autowired
-    private DegreeService degreeService;
-
-    @Autowired
-    private OptionsService optionsService;
-
     @FXML
-    private TableView<MemberDto> tableView;
+    private TableView<Member> tableView;
     @FXML
-    private TableColumn<MemberDto, String> colStudentNumber;
+    private TableColumn<Member, String> colStudentNumber;
     @FXML
-    private TableColumn<MemberDto, String> colLastname;
+    private TableColumn<Member, String> colLastname;
     @FXML
-    private TableColumn<MemberDto, String> colFirstname;
+    private TableColumn<Member, String> colFirstname;
     @FXML
-    private TableColumn<MemberDto, String> colPhone;
+    private TableColumn<Member, String> colPhone;
     @FXML
-    private TableColumn<MemberDto, String> colBirthday;
+    private TableColumn<Member, String> colBirthday;
     @FXML
     private TableColumn colEmail;
     @FXML
-    private TableColumn<MemberDto, String> colDegree;
+    private TableColumn<Member, String> colDegree;
     @FXML
-    private TableColumn<MemberDto, String> colOption;
+    private TableColumn<Member, String> colOption;
     @FXML
-    private TableColumn<MemberDto, Boolean> colSubscription;
+    private TableColumn<Member, Boolean> colSubscription;
     @FXML
-    private TableColumn<MemberDto, Boolean> colAnnals;
+    private TableColumn<Member, Boolean> colAnnals;
 
     @FXML
     private HBox hbTop;
@@ -125,11 +114,9 @@ public class MembersController extends AbstractCustomController {
     @FXML
     private Button editBtn;
 
-    private FilteredList<MemberDto> filteredData;
+    private FilteredList<Member> filteredData;
     private DateTimeFormatter dateFormatter;
-    private Map<String, OptionDto> mapOptions;
-    private Map<String, DegreeDto> mapDegrees;
-    private ObservableList<MemberDto> data;
+    private ObservableList<Member> data;
 
     @Override
     protected void initialize() {
@@ -141,7 +128,7 @@ public class MembersController extends AbstractCustomController {
         initFilters();
 
         // 3. Wrap the FilteredList in a SortedList.
-        SortedList<MemberDto> sortedData = filteredData.sorted();
+        SortedList<Member> sortedData = filteredData.sorted();
 
         // 4. Bind the SortedList comparator to the TableView comparator.
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
@@ -152,18 +139,18 @@ public class MembersController extends AbstractCustomController {
         tableView.setEditable(true);
 
         tableView.setRowFactory(param -> {
-            TableRow<MemberDto> tableRow = new TableRow<>();
+            TableRow<Member> tableRow = new TableRow<>();
             tableRow.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && !tableRow.isEmpty()) {
                     if (event.getButton() == MouseButton.PRIMARY) {
-                        MemberDto selectedItem = tableView.getSelectionModel().getSelectedItem();
+                        Member selectedItem = tableView.getSelectionModel().getSelectedItem();
                         editBtn.setDisable(selectedItem == null);
                     } else if (event.getButton() == MouseButton.SECONDARY) {
                         final ContextMenu contextMenu = new ContextMenu();
                         MenuItem deleteItem = new MenuItem(getMessage("global.delete"));
                         deleteItem.setGraphic(new ImageView(new Image("/img/delete_16.png")));
                         deleteItem.setOnAction(e -> {
-                            MemberDto selectedItem = tableView.getSelectionModel().getSelectedItem();
+                            Member selectedItem = tableView.getSelectionModel().getSelectedItem();
                             // FIXME
                             showYesNoDialog(String.format(getMessage("global.confirm.delete"), "l'étudiant " + selectedItem.getStudentNumber()), o -> removeMember(selectedItem));
                         });
@@ -202,40 +189,17 @@ public class MembersController extends AbstractCustomController {
             return property;
         });
 
-        mapDegrees = degreeService.getAll().stream().collect(Collectors.toMap(DegreeDto::getCode, dto -> dto));
-        colDegree.setCellValueFactory(param -> {
-            final String degreeCode = param.getValue().getDegreeCode();
-            String value;
-            if (mapDegrees.containsKey(degreeCode)) {
-                value = mapDegrees.get(degreeCode).getLabel();
-            } else {
-                value = degreeCode;
-            }
-
-            return new SimpleStringProperty(value);
-        });
-
-        mapOptions = optionsService.getAll().stream().collect(Collectors.toMap(OptionDto::getCode, dto -> dto));
-        colOption.setCellValueFactory(param -> {
-            final String optionCode = param.getValue().getOptionCode();
-            String value;
-            if (mapOptions.containsKey(optionCode)) {
-                value = mapOptions.get(optionCode).getLabel();
-            } else {
-                value = optionCode;
-            }
-
-            return new SimpleStringProperty(value);
-        });
+        colDegree.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDegree().getLabel()));
+        colOption.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getOption().getLabel()));
 
         colSubscription.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
-            final MemberDto memberDto = filteredData.get(index);
+            final Member memberDto = filteredData.get(index);
             memberDto.subscriptionProperty().addListener((obs, wasSelected, isSelected) -> Platform.runLater(() -> membersService.updateSubscription(memberDto)));
             return memberDto.subscriptionProperty();
         }));
         colSubscription.setEditable(true);
         colAnnals.setCellFactory(param -> new CheckBoxTableCell<>(index -> {
-            final MemberDto memberDto = filteredData.get(index);
+            final Member memberDto = filteredData.get(index);
             memberDto.annalsProperty().addListener((obs, wasSelected, isSelected) -> Platform.runLater(() -> membersService.updateAnnals(memberDto)));
             return memberDto.annalsProperty();
         }));
@@ -244,25 +208,25 @@ public class MembersController extends AbstractCustomController {
         initFilters();
     }
 
-    private static final Map<ObservableValue<? extends String>, Function<MemberDto, String>> GET_VALUES = new HashMap<>();
+    private static final Map<ObservableValue<? extends String>, Function<Member, String>> GET_VALUES = new HashMap<>();
     private static final Map<ObservableValue<? extends String>, String> INPUTS = new HashMap<>();
 
     private void initFilters() {
         tfStudentNumber.prefWidthProperty().bind(colStudentNumber.widthProperty());
-        addFilter(tfStudentNumber, MemberDto::getStudentNumber);
+        addFilter(tfStudentNumber, Member::getStudentNumber);
 
         tfLastname.prefWidthProperty().bind(colLastname.widthProperty());
-        addFilter(tfLastname, MemberDto::getLastname);
+        addFilter(tfLastname, Member::getLastname);
 
         tfFirstname.prefWidthProperty().bind(colFirstname.widthProperty());
-        addFilter(tfFirstname, MemberDto::getFirstname);
+        addFilter(tfFirstname, Member::getFirstname);
 
         tfEmail.prefWidthProperty().bind(colEmail.widthProperty());
-        addFilter(tfEmail, MemberDto::getEmail);
+        addFilter(tfEmail, Member::getEmail);
 
         MaskHelper.addMask(tfPhone, MaskHelper.MASK_PHONE);
         tfPhone.prefWidthProperty().bind(colPhone.widthProperty());
-        addFilter(tfPhone, MemberDto::getPhone);
+        addFilter(tfPhone, Member::getPhone);
 
         MaskHelper.addMask(tfBirthday, MaskHelper.MASK_DATE);
         tfBirthday.prefWidthProperty().bind(colBirthday.widthProperty());
@@ -274,22 +238,10 @@ public class MembersController extends AbstractCustomController {
         });
 
         tfDegree.prefWidthProperty().bind(colDegree.widthProperty());
-        addFilter(tfDegree, dto -> {
-            if (mapDegrees.containsKey(dto.getDegreeCode())) {
-                return mapDegrees.get(dto.getDegreeCode()).getLabel();
-            } else {
-                return dto.getDegreeCode();
-            }
-        });
+        addFilter(tfDegree, dto -> dto.getDegree().getLabel());
 
         tfOption.prefWidthProperty().bind(colOption.widthProperty());
-        addFilter(tfOption, dto -> {
-            if (mapOptions.containsKey(dto.getOptionCode())) {
-                return mapOptions.get(dto.getOptionCode()).getLabel();
-            } else {
-                return dto.getOptionCode();
-            }
-        });
+        addFilter(tfOption, dto -> dto.getOption().getLabel());
 
         String yes = getMessage("global.yes");
         String no = getMessage("global.no");
@@ -331,7 +283,7 @@ public class MembersController extends AbstractCustomController {
         });
     }
 
-    private void addFilter(TextField textField, Function<MemberDto, String> getValue) {
+    private void addFilter(TextField textField, Function<Member, String> getValue) {
 
         GET_VALUES.put(textField.textProperty(), getValue);
 
@@ -356,18 +308,13 @@ public class MembersController extends AbstractCustomController {
         });
     }
 
-    private void removeMember(MemberDto selectedItem) {
+    private void removeMember(Member selectedItem) {
         membersService.deleteData(selectedItem);
         data.remove(selectedItem);
     }
 
     public void addMember() {
-        Stage dialog = openDialog("member.fxml", new Consumer<MemberController>() {
-            @Override
-            public void accept(MemberController memberController) {
-                memberController.newData(data);
-            }
-        });
+        Stage dialog = openDialog("member.fxml", (Consumer<MemberController>) memberController -> memberController.newData(data));
 
         dialog.setTitle(getMessage("member.create.title"));
         dialog.setWidth(330);
@@ -378,12 +325,7 @@ public class MembersController extends AbstractCustomController {
     }
 
     public void updateMember() {
-        Stage dialog = openDialog("member.fxml", new Consumer<MemberController>() {
-            @Override
-            public void accept(MemberController memberController) {
-                memberController.updateData(data, tableView.getSelectionModel().getSelectedIndex());
-            }
-        });
+        Stage dialog = openDialog("member.fxml", (Consumer<MemberController>) memberController -> memberController.updateData(data, tableView.getSelectionModel().getSelectedIndex()));
 
         dialog.setTitle(getMessage("member.update.title"));
         dialog.setWidth(330);
@@ -433,7 +375,7 @@ public class MembersController extends AbstractCustomController {
              final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
              final CSVPrinter csvPrinter = new CSVPrinter(out, csvFormat)) {
 
-            filteredData.stream().map(MemberDto::toCSV).forEach(csv -> {
+            filteredData.stream().map(Member::toCSV).forEach(csv -> {
                 try {
                     csvPrinter.printRecord(csv);
                 } catch (IOException e) {

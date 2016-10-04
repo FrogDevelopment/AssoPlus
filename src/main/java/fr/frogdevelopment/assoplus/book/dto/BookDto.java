@@ -4,12 +4,13 @@
 
 package fr.frogdevelopment.assoplus.book.dto;
 
-import fr.frogdevelopment.assoplus.core.dto.Dto;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class BookDto implements Dto {
+import fr.frogdevelopment.assoplus.core.dto.Entity;
+
+public class BookDto implements Entity {
 
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
     private final SimpleStringProperty title = new SimpleStringProperty("");

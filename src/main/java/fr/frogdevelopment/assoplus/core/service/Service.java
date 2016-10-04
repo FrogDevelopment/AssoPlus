@@ -11,11 +11,11 @@ public interface Service<D> {
 
 	List<D> getAll();
 
-	D saveData(D dto);
+	void saveData(D dto);
 
 	void saveAll(Collection<D> dtos);
 
-	D updateData(D dto);
+	void updateData(D dto);
 
 	void saveOrUpdateAll(Collection<D> dtos);
 

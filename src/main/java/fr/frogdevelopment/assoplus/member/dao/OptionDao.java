@@ -4,9 +4,9 @@
 
 package fr.frogdevelopment.assoplus.member.dao;
 
-import fr.frogdevelopment.assoplus.core.dao.CommonDao;
-import fr.frogdevelopment.assoplus.member.entity.Option;
+import fr.frogdevelopment.assoplus.core.dao.Dao;
+import fr.frogdevelopment.assoplus.member.dto.Option;
 
-public interface OptionDao extends CommonDao<Option> {
+public interface OptionDao extends Dao<Option> {
 
 }

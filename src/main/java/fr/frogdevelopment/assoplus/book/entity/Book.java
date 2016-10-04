@@ -4,7 +4,6 @@
 
 package fr.frogdevelopment.assoplus.book.entity;
 
-import fr.frogdevelopment.assoplus.core.entity.Entity;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,7 +15,7 @@ import javax.persistence.Table;
 
 @javax.persistence.Entity
 @Table(name = "book")
-public class Book implements Entity {
+public class Book {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -39,12 +38,10 @@ public class Book implements Entity {
     //            Getter & Setter         \\
     // ********************************** \\
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }

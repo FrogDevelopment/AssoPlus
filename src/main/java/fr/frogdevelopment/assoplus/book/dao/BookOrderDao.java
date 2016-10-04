@@ -4,9 +4,9 @@
 
 package fr.frogdevelopment.assoplus.book.dao;
 
-import fr.frogdevelopment.assoplus.core.dao.CommonDao;
 import fr.frogdevelopment.assoplus.book.entity.BookOrder;
+import fr.frogdevelopment.assoplus.core.dao.Dao;
 
-public interface BookOrderDao extends CommonDao<BookOrder> {
+public interface BookOrderDao extends Dao<BookOrder> {
 
 }

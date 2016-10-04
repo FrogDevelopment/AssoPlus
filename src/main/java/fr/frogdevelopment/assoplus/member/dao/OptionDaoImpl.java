@@ -9,13 +9,16 @@ import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.frogdevelopment.assoplus.core.dao.AbstractDaoImpl;
-import fr.frogdevelopment.assoplus.member.entity.Option;
+import fr.frogdevelopment.assoplus.member.dto.Option;
 
 import java.util.List;
 
 @Repository
+@Transactional(propagation = Propagation.MANDATORY)
 public class OptionDaoImpl extends AbstractDaoImpl<Option> implements OptionDao {
 
     private RowMapper<Option> optionRowMapper = (rs, rowNum) -> {
@@ -23,7 +26,7 @@ public class OptionDaoImpl extends AbstractDaoImpl<Option> implements OptionDao 
         option.setId(rs.getInt("option_id"));
         option.setCode(rs.getString("code"));
         option.setLabel(rs.getString("label"));
-        option.setDegreeCode(rs.getString("degreeCode"));
+        option.setDegreeCode(rs.getString("degree_code"));
 
         return option;
     };
@@ -35,10 +38,10 @@ public class OptionDaoImpl extends AbstractDaoImpl<Option> implements OptionDao 
     @Override
     public Option getById(Integer identifiant) {
         String sql = "SELECT" +
-                " o.option_id AS code," +
+                " o.option_id AS option_id," +
                 " o.code AS code," +
                 " o.label AS label," +
-                " d.code AS degreeCode" +
+                " d.code AS degree_code" +
                 " FROM option o" +
                 " INNER JOIN degree d ON d.degree_id = o.degree_id" +
                 " WHERE option_id = :id";
@@ -48,10 +51,10 @@ public class OptionDaoImpl extends AbstractDaoImpl<Option> implements OptionDao 
     @Override
     public List<Option> getAll() {
         String sql = "SELECT" +
-                " o.option_id AS code," +
+                " o.option_id AS option_id," +
                 " o.code AS code," +
                 " o.label AS label," +
-                " d.code AS degreeCode" +
+                " d.code AS degree_code" +
                 " FROM option o" +
                 " INNER JOIN degree d ON d.degree_id = o.degree_id";
         return jdbcTemplate.query(sql, new EmptySqlParameterSource(), optionRowMapper);
@@ -59,9 +62,12 @@ public class OptionDaoImpl extends AbstractDaoImpl<Option> implements OptionDao 
 
     @Override
     public void save(Option option) {
-        String sql = "INSERT INTO option (code,label) VALUES (:code,:label)";
+        String sql = "INSERT INTO option (code,label,degree_id)" +
+                " SELECT :code,:label, d.degree_id" +
+                " FROM degree d WHERE d.code = :degree_code";
 
         MapSqlParameterSource params = toSqlParameterSource(option);
+        params.addValue("degree_code", option.getDegreeCode());
 
         this.jdbcTemplate.update(sql, params, keyHolder);
 
@@ -73,7 +79,6 @@ public class OptionDaoImpl extends AbstractDaoImpl<Option> implements OptionDao 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("code", option.getCode());
         params.addValue("label", option.getLabel());
-//        params.addValue("degree_id", option.getD()); // fixme
 
         return params;
     }

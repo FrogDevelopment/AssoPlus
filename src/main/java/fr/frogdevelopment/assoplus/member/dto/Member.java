@@ -4,17 +4,21 @@
 
 package fr.frogdevelopment.assoplus.member.dto;
 
-import fr.frogdevelopment.assoplus.core.dto.Dto;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import fr.frogdevelopment.assoplus.core.dto.Entity;
 
 import java.time.LocalDate;
 
-public class MemberDto implements Dto, Comparable<MemberDto> {
+public class Member implements Entity, Comparable<Member> {
 
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
     private final SimpleStringProperty studentNumber = new SimpleStringProperty("");
@@ -22,8 +26,8 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
     private final SimpleStringProperty firstname = new SimpleStringProperty("");
     private final SimpleObjectProperty<LocalDate> birthday = new SimpleObjectProperty<>();
     private final SimpleStringProperty email = new SimpleStringProperty("");
-    private final SimpleStringProperty degreeCode = new SimpleStringProperty("");
-    private final SimpleStringProperty optionCode = new SimpleStringProperty("");
+    private final SimpleObjectProperty<Degree> degree = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<Option> option = new SimpleObjectProperty<>();
     private final SimpleStringProperty phone = new SimpleStringProperty("");
     private final SimpleBooleanProperty subscription = new SimpleBooleanProperty(false);
     private final SimpleBooleanProperty annals = new SimpleBooleanProperty(false);
@@ -110,28 +114,28 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
         this.email.set(email);
     }
 
-    public String getDegreeCode() {
-        return degreeCode.get();
+    public Degree getDegree() {
+        return degree.get();
     }
 
-    public SimpleStringProperty degreeCodeProperty() {
-        return degreeCode;
+    public SimpleObjectProperty<Degree> degreeProperty() {
+        return degree;
     }
 
-    public void setDegreeCode(String degreeCode) {
-        this.degreeCode.set(degreeCode);
+    public void setDegree(Degree degree) {
+        this.degree.set(degree);
     }
 
-    public String getOptionCode() {
-        return optionCode.get();
+    public Option getOption() {
+        return option.get();
     }
 
-    public SimpleStringProperty optionCodeProperty() {
-        return optionCode;
+    public SimpleObjectProperty<Option> optionProperty() {
+        return option;
     }
 
-    public void setOptionCode(String optionCode) {
-        this.optionCode.set(optionCode);
+    public void setOption(Option option) {
+        this.option.set(option);
     }
 
     public String getPhone() {
@@ -184,15 +188,15 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
                 .append("studentNumber", studentNumber)
                 .append("lastname", lastname)
                 .append("firstname", firstname)
                 .append("birthday", birthday)
                 .append("email", email)
-                .append("degreeCode", degreeCode)
-                .append("optionCode", optionCode)
+                .append("degree", degree)
+                .append("option", option)
                 .append("phone", phone)
                 .append("subscription", subscription)
                 .append("annals", annals)
@@ -201,11 +205,10 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
     }
 
     @Override
-    public int compareTo(MemberDto o) {
-        if (o == null) {
-            return -1;
-        }
-        return this.getStudentNumber().compareTo(o.getStudentNumber());
+    public int compareTo(Member o) {
+        return new CompareToBuilder()
+                .append(getStudentNumber(), o.getStudentNumber())
+                .build();
     }
 
     public String[] toCSV() {
@@ -219,8 +222,8 @@ public class MemberDto implements Dto, Comparable<MemberDto> {
             line[3] = "";
         }
         line[4] = getEmail();
-        line[5] = getDegreeCode();
-        line[6] = getOptionCode();
+        line[5] = getDegree() != null ? getDegree().getCode() : "";
+        line[6] = getOption() != null ? getOption().getCode() : "";
         line[7] = getPhone();
         line[8] = String.valueOf(getSubscription());
         line[9] = String.valueOf(getAnnals());

@@ -4,7 +4,6 @@
 
 package fr.frogdevelopment.assoplus.member.controller;
 
-import fr.frogdevelopment.assoplus.core.controller.AbstractCustomDialogController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,9 +17,10 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.member.dto.OptionDto;
-import fr.frogdevelopment.assoplus.core.dto.ReferenceDto;
+import fr.frogdevelopment.assoplus.core.controller.AbstractCustomDialogController;
+import fr.frogdevelopment.assoplus.core.dto.Reference;
+import fr.frogdevelopment.assoplus.member.dto.Degree;
+import fr.frogdevelopment.assoplus.member.dto.Option;
 import fr.frogdevelopment.assoplus.member.service.DegreeService;
 import fr.frogdevelopment.assoplus.member.service.OptionsService;
 
@@ -39,7 +39,7 @@ public class DegreeController extends AbstractCustomDialogController {
     private OptionsService optionsService;
 
     @FXML
-    private TreeTableView<ReferenceDto> treeTableView;
+    private TreeTableView<Reference> treeTableView;
     @FXML
     private TextField tfLabel;
     @FXML
@@ -47,9 +47,9 @@ public class DegreeController extends AbstractCustomDialogController {
     @FXML
     private Button btnRemove;
 
-    private ObservableList<DegreeDto> degreeDtos;
-    private ObservableList<OptionDto> optionDtos;
-    private TreeItem<ReferenceDto> rootItem;
+    private ObservableList<Degree> degrees;
+    private ObservableList<Option> optionDtos;
+    private TreeItem<Reference> rootItem;
 
     @Override
     protected void initialize() {
@@ -80,13 +80,13 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     private void initData() {
-        degreeDtos = FXCollections.observableArrayList(degreeService.getAll());
+        degrees = FXCollections.observableArrayList(degreeService.getAll());
         optionDtos = FXCollections.observableArrayList(optionsService.getAll());
 
-        rootItem = new TreeItem<>(new DegreeDto());
+        rootItem = new TreeItem<>(new Degree());
 
-        degreeDtos.forEach(licenceDto -> {
-            TreeItem<ReferenceDto> treeItem = new TreeItem<>(licenceDto);
+        degrees.forEach(licenceDto -> {
+            TreeItem<Reference> treeItem = new TreeItem<>(licenceDto);
             optionDtos.stream()
                     .filter(optionDto -> optionDto.getDegreeCode().equals(licenceDto.getCode()))
                     .forEach(optionDto -> treeItem.getChildren().add(new TreeItem<>(optionDto)));
@@ -100,16 +100,16 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     public void onSave() {
-        degreeService.saveOrUpdateAll(degreeDtos);
+        degreeService.saveOrUpdateAll(degrees);
         optionsService.saveOrUpdateAll(optionDtos);
         initData();
     }
 
     public void onAddLicence() {
-        DegreeDto degreeDto = new DegreeDto();
-        degreeDtos.add(degreeDto);
+        Degree degree = new Degree();
+        degrees.add(degree);
 
-        final TreeItem<ReferenceDto> newItem = new TreeItem<>(degreeDto);
+        final TreeItem<Reference> newItem = new TreeItem<>(degree);
         rootItem.getChildren().add(newItem);
 
         rootItem.setExpanded(true);
@@ -120,19 +120,19 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     public void onAddOption() {
-        TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+        TreeItem<Reference> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
-        if (selectedItem.getValue() instanceof OptionDto) {
+        if (selectedItem.getValue() instanceof Option) {
             selectedItem = selectedItem.getParent();
         }
 
-        DegreeDto degreeDto = (DegreeDto) selectedItem.getValue();
-        OptionDto optionDto = new OptionDto();
-        optionDto.setDegreeCode(degreeDto.getCode());
+        Degree degree = (Degree) selectedItem.getValue();
+        Option optionDto = new Option();
+        optionDto.setDegreeCode(degree.getCode());
 
         optionDtos.add(optionDto);
 
-        final TreeItem<ReferenceDto> newItem = new TreeItem<>(optionDto);
+        final TreeItem<Reference> newItem = new TreeItem<>(optionDto);
         selectedItem.getChildren().add(newItem);
 
         selectedItem.expandedProperty().set(true);
@@ -143,15 +143,15 @@ public class DegreeController extends AbstractCustomDialogController {
     }
 
     public void onRemove() {
-        final TreeItem<ReferenceDto> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
+        final TreeItem<Reference> selectedItem = treeTableView.getSelectionModel().getSelectedItem();
 
         String message = getMessage("global.confirm.delete");
         Consumer onYes;
-        ReferenceDto value = selectedItem.getValue();
-        if ((value instanceof DegreeDto)) {
+        Reference value = selectedItem.getValue();
+        if ((value instanceof Degree)) {
             message = String.format(message, "le Diplôme '" + value.getCode() + "'"); // fixme
             onYes = o -> removeLicence(selectedItem);
-        } else if ((value instanceof OptionDto)) {
+        } else if ((value instanceof Option)) {
             message = String.format(message, "l'Option '" + value.getCode() + "'"); // fixme
             onYes = o -> removeOption(selectedItem);
         } else {
@@ -161,33 +161,33 @@ public class DegreeController extends AbstractCustomDialogController {
         showYesNoDialog(message, onYes);
     }
 
-    private void removeLicence(final TreeItem<ReferenceDto> selectedItem) {
+    private void removeLicence(final TreeItem<Reference> selectedItem) {
         rootItem.getChildren().remove(selectedItem);
 
-        DegreeDto degreeDto = (DegreeDto) selectedItem.getValue();
-        degreeDtos.remove(degreeDto);
+        Degree degree = (Degree) selectedItem.getValue();
+        degrees.remove(degree);
 
 
-        if (degreeDto.getId() != 0) {
-            degreeService.deleteLicence(degreeDto);
+        if (degree.getId() != 0) {
+            degreeService.deleteData(degree);
 
             // suppression des options et maj liste
             optionDtos = FXCollections.observableArrayList(optionDtos.stream()
-                    .filter(optionDto -> optionDto.getDegreeCode().equals(degreeDto.getCode()))
+                    .filter(optionDto -> optionDto.getDegreeCode().equals(degree.getCode()))
                     .peek(optionsService::deleteData)
                     .collect(Collectors.toList()));
         }
     }
 
-    private void removeOption(final TreeItem<ReferenceDto> selectedItem) {
-        TreeItem<ReferenceDto> parent = selectedItem.getParent();
+    private void removeOption(final TreeItem<Reference> selectedItem) {
+        TreeItem<Reference> parent = selectedItem.getParent();
         parent.getChildren().remove(selectedItem);
 
-        OptionDto optionDto = (OptionDto) selectedItem.getValue();
+        Option optionDto = (Option) selectedItem.getValue();
         optionDtos.remove(optionDto);
 
         if (optionDto.getId() != 0) {
-            optionsService.deleteOption(optionDto);
+            optionsService.deleteData(optionDto);
         }
     }
 }

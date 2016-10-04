@@ -4,10 +4,10 @@
 
 package fr.frogdevelopment.assoplus.member.dao;
 
-import fr.frogdevelopment.assoplus.core.dao.CommonDao;
-import fr.frogdevelopment.assoplus.member.entity.Member;
+import fr.frogdevelopment.assoplus.core.dao.Dao;
+import fr.frogdevelopment.assoplus.member.dto.Member;
 
-public interface MemberDao extends CommonDao<Member> {
+public interface MemberDao extends Dao<Member> {
 
     void updateSubscription(Integer memberId, boolean subscription);
 

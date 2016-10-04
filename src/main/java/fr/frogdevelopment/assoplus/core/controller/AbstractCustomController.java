@@ -159,7 +159,7 @@ public abstract class AbstractCustomController implements Initializable {
 
         Alert alert = new Alert(ERROR);
         alert.setHeaderText(getMessage("global.error.header"));
-        alert.setContentText(ExceptionUtils.getMessage(th));
+        alert.setContentText(ExceptionUtils.getRootCauseMessage(th));
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("/img/dialog-error_16.png"));

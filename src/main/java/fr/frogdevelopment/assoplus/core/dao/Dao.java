@@ -4,12 +4,10 @@
 
 package fr.frogdevelopment.assoplus.core.dao;
 
-import org.springframework.jdbc.core.ResultSetExtractor;
-
 import java.util.Collection;
 import java.util.List;
 
-public interface CommonDao<E> {
+public interface Dao<E> {
 
 	void deleteAll();
 

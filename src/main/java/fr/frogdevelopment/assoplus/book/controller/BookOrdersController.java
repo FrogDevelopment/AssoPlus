@@ -4,29 +4,28 @@
 
 package fr.frogdevelopment.assoplus.book.controller;
 
-import fr.frogdevelopment.assoplus.book.dto.BookDto;
-import fr.frogdevelopment.assoplus.book.dto.BookOrderDto;
-import fr.frogdevelopment.assoplus.book.service.BookOrdersService;
-import fr.frogdevelopment.assoplus.book.service.BooksService;
-import fr.frogdevelopment.assoplus.core.controller.AbstractCustomController;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
-import fr.frogdevelopment.assoplus.member.service.MembersService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+
+import fr.frogdevelopment.assoplus.book.dto.BookDto;
+import fr.frogdevelopment.assoplus.book.dto.BookOrderDto;
+import fr.frogdevelopment.assoplus.book.service.BookOrdersService;
+import fr.frogdevelopment.assoplus.book.service.BooksService;
+import fr.frogdevelopment.assoplus.core.controller.AbstractCustomController;
+import fr.frogdevelopment.assoplus.member.dto.Member;
+import fr.frogdevelopment.assoplus.member.service.MembersService;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Controller
-@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+//@Controller
+//@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class BookOrdersController extends AbstractCustomController {
 
     @Autowired
@@ -64,15 +63,15 @@ public class BookOrdersController extends AbstractCustomController {
                 .stream()
                 .collect(Collectors.toMap(BookDto::getId, dto -> dto));
 
-        Map<Integer, MemberDto> mapMemberDtos = membersService.getAll()
+        Map<Integer, Member> mapMemberDtos = membersService.getAll()
                 .stream()
-                .collect(Collectors.toMap(MemberDto::getId, dto -> dto));
+                .collect(Collectors.toMap(Member::getId, dto -> dto));
 
         bookOrderDtos.forEach(bookOrderDto -> {
             BookDto bookDto = mapBookDtos.get(bookOrderDto.getBookId());
             bookOrderDto.setBook(bookDto);
 
-            MemberDto memberDto = mapMemberDtos.get(bookOrderDto.getMemberId());
+            Member memberDto = mapMemberDtos.get(bookOrderDto.getMemberId());
             bookOrderDto.setMember(memberDto);
         });
 

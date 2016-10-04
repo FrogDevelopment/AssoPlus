@@ -4,43 +4,57 @@
 
 package fr.frogdevelopment.assoplus.member.service;
 
-import fr.frogdevelopment.assoplus.core.service.AbstractService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.frogdevelopment.assoplus.member.dto.OptionDto;
-import fr.frogdevelopment.assoplus.member.entity.Option;
+import fr.frogdevelopment.assoplus.member.dao.OptionDao;
+import fr.frogdevelopment.assoplus.member.dto.Option;
+
+import java.util.Collection;
+import java.util.List;
 
 @Service("optionsService")
-public class OptionsServiceImpl extends AbstractService<Option, OptionDto> implements OptionsService {
+public class OptionsServiceImpl implements OptionsService {
+
+    @Autowired
+    protected OptionDao optionDao;
 
     @Override
-    protected OptionDto createDto(Option bean) {
-        OptionDto dto = new OptionDto();
-        dto.setId(bean.getId());
-        dto.setCode(bean.getCode());
-        dto.setLabel(bean.getLabel());
-        dto.setDegreeCode(bean.getDegreeCode());
-
-        return dto;
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<Option> getAll() {
+        return optionDao.getAll();
     }
 
     @Override
-    protected Option createBean(OptionDto dto) {
-        Option bean = new Option();
-        bean.setId(dto.getId());
-        bean.setCode(dto.getCode());
-        bean.setLabel(dto.getLabel());
-        bean.setDegreeCode(dto.getDegreeCode());
-
-        return bean;
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveData(Option option) {
+        optionDao.save(option);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void deleteOption(OptionDto optionDto) {
-        dao.delete(createBean(optionDto));
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveAll(Collection<Option> options) {
+        optionDao.saveAll(options);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateData(Option option) {
+        optionDao.update(option);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveOrUpdateAll(Collection<Option> options) {
+        optionDao.saveOrUpdateAll(options);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteData(Option option) {
+        optionDao.delete(option);
     }
 
 }

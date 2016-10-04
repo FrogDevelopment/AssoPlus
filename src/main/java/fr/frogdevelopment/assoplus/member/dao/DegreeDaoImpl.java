@@ -9,13 +9,16 @@ import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.frogdevelopment.assoplus.core.dao.AbstractDaoImpl;
-import fr.frogdevelopment.assoplus.member.entity.Degree;
+import fr.frogdevelopment.assoplus.member.dto.Degree;
 
 import java.util.List;
 
-@Repository()
+@Repository
+@Transactional(propagation = Propagation.MANDATORY)
 public class DegreeDaoImpl extends AbstractDaoImpl<Degree> implements DegreeDao {
 
     private RowMapper<Degree> degreeRowMapper = (rs, rowNum) -> {

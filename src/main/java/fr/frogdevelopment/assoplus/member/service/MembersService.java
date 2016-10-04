@@ -5,11 +5,11 @@
 package fr.frogdevelopment.assoplus.member.service;
 
 import fr.frogdevelopment.assoplus.core.service.Service;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
+import fr.frogdevelopment.assoplus.member.dto.Member;
 
-public interface MembersService extends Service<MemberDto> {
+public interface MembersService extends Service<Member> {
 
-    void updateSubscription(MemberDto dto);
+    void updateSubscription(Member member);
 
-    void updateAnnals(MemberDto dto);
+    void updateAnnals(Member member);
 }

@@ -20,12 +20,10 @@
 
     <context:component-scan base-package="fr.frogdevelopment.assoplus"/>
 
-    <tx:annotation-driven/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="org.sqlite.JDBC"/>
+    <bean id="dataSource" class="org.sqlite.SQLiteDataSource">
         <property name="url" value="jdbc:sqlite:assoplus.db"/>
-        <property name="validationQuery" value="SELECT 1"/>
     </bean>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">

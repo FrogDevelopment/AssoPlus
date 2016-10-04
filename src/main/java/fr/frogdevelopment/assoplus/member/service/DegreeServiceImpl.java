@@ -4,45 +4,57 @@
 
 package fr.frogdevelopment.assoplus.member.service;
 
-import fr.frogdevelopment.assoplus.core.service.AbstractService;
-import fr.frogdevelopment.assoplus.member.entity.Degree;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.member.dao.DegreeDao;
+import fr.frogdevelopment.assoplus.member.dto.Degree;
+
+import java.util.Collection;
+import java.util.List;
 
 @Service("licencesService")
-public class DegreeServiceImpl extends AbstractService<Degree, DegreeDto> implements DegreeService {
+public class DegreeServiceImpl implements DegreeService {
+
+    @Autowired
+    protected DegreeDao degreeDao;
 
     @Override
-    protected DegreeDto createDto(Degree bean) {
-        DegreeDto dto = new DegreeDto();
-        dto.setId(bean.getId());
-        dto.setCode(bean.getCode());
-        dto.setLabel(bean.getLabel());
-
-        return dto;
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<Degree> getAll() {
+        return degreeDao.getAll();
     }
 
     @Override
-    protected Degree createBean(DegreeDto dto) {
-        Degree bean = new Degree();
-        bean.setId(dto.getId());
-        bean.setCode(dto.getCode());
-        bean.setLabel(dto.getLabel());
-
-        return bean;
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveData(Degree degree) {
+        degreeDao.save(degree);
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void deleteLicence(DegreeDto degreeDto) {
-        Degree degree = createBean(degreeDto);
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveAll(Collection<Degree> degrees) {
+        degreeDao.saveAll(degrees);
+    }
 
-        // FIXME à vérifier si besoin
-//        degree.getOptions().stream().filter(option -> option.getId() != 0).forEach(optionDao::delete);
-        dao.delete(degree);
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateData(Degree degree) {
+        degreeDao.update(degree);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveOrUpdateAll(Collection<Degree> degrees) {
+        degreeDao.saveOrUpdateAll(degrees);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteData(Degree degree) {
+        degreeDao.delete(degree);
     }
 
 }

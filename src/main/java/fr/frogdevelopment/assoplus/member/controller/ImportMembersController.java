@@ -4,18 +4,22 @@
 
 package fr.frogdevelopment.assoplus.member.controller;
 
-import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
-import fr.frogdevelopment.assoplus.core.controls.Validator;
-import fr.frogdevelopment.assoplus.core.controller.AbstractCustomDialogController;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
-import fr.frogdevelopment.assoplus.member.service.MembersService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
@@ -24,9 +28,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +40,24 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.io.*;
+import fr.frogdevelopment.assoplus.core.controller.AbstractCustomDialogController;
+import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
+import fr.frogdevelopment.assoplus.core.controls.Validator;
+import fr.frogdevelopment.assoplus.member.dto.Degree;
+import fr.frogdevelopment.assoplus.member.dto.Member;
+import fr.frogdevelopment.assoplus.member.dto.Option;
+import fr.frogdevelopment.assoplus.member.service.DegreeService;
+import fr.frogdevelopment.assoplus.member.service.MembersService;
+import fr.frogdevelopment.assoplus.member.service.OptionsService;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -52,6 +74,12 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
     @Autowired
     private MembersService membersService;
+
+    @Autowired
+    private DegreeService degreeService;
+
+    @Autowired
+    private OptionsService optionsService;
 
     @FXML
     private Label labelFileName;
@@ -97,14 +125,16 @@ public class ImportMembersController extends AbstractCustomDialogController {
     private Button btnLoadData;
 
     @FXML
-    private TableView<MemberDto> tableView;
+    private TableView<Member> tableView;
     @FXML
-    private TableColumn<MemberDto, Boolean> selectCol;
+    private TableColumn<Member, Boolean> selectCol;
     @FXML
     private ToolBar toolBar;
 
     private File file;
-    private ObservableList<MemberDto> data;
+    private ObservableList<Member> data;
+    private List<Degree> newDegrees;
+    private List<Option> newOptions;
 
     @Override
     protected void initialize() {
@@ -116,9 +146,7 @@ public class ImportMembersController extends AbstractCustomDialogController {
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
         CheckBox checkBoxAll = new CheckBox();
         checkBoxAll.setSelected(true);
-        checkBoxAll.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            data.forEach(dto -> dto.setSelected(newValue));
-        });
+        checkBoxAll.selectedProperty().addListener((observable, oldValue, newValue) -> data.forEach(dto -> dto.setSelected(newValue)));
         selectCol.setGraphic(checkBoxAll);
         tableView.setEditable(true);
 
@@ -311,9 +339,15 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 return;
             }
 
-            MemberDto memberDto;
+            Map<String, Degree> degreeMap = degreeService.getAll().stream().collect(Collectors.toMap(Degree::getCode, d -> d));
+            Map<String, Option> optionMap = optionsService.getAll().stream().collect(Collectors.toMap(Option::getCode, o -> o));
+
+            newDegrees = new ArrayList<>();
+            newOptions = new ArrayList<>();
+
+            Member memberDto;
             for (CSVRecord line : parser) {
-                memberDto = new MemberDto();
+                memberDto = new Member();
 
                 String studentNumber = line.get(mapping.get("member.student.number")).trim();
                 String lastName = line.get(mapping.get("member.lastname")).trim();
@@ -330,15 +364,35 @@ public class ImportMembersController extends AbstractCustomDialogController {
                 memberDto.setFirstname(firstName);
 
                 if (mapping.containsKey("member.degree")) {
-                    memberDto.setDegreeCode(line.get(mapping.get("member.degree")).trim());
-                } else {
-                    memberDto.setDegreeCode("");
-                }
+                    String degreeCode = line.get(mapping.get("member.degree")).trim();
 
-                if (mapping.containsKey("member.option")) {
-                    memberDto.setOptionCode(line.get(mapping.get("member.option")).trim());
-                } else {
-                    memberDto.setOptionCode("");
+                    if (StringUtils.isNotBlank(degreeCode) && !degreeMap.containsKey(degreeCode)) {
+                        Degree degree = new Degree();
+                        degree.setCode(degreeCode);
+                        degree.setLabel(degreeCode);
+                        degreeMap.put(degreeCode, degree);
+
+                        newDegrees.add(degree);
+                    }
+
+                    memberDto.setDegree(degreeMap.get(degreeCode));
+
+                    if (mapping.containsKey("member.option")) {
+                        String optionCode = line.get(mapping.get("member.option")).trim();
+
+                        if (StringUtils.isNotBlank(optionCode) && !optionMap.containsKey(optionCode)) {
+                            Option option = new Option();
+                            option.setCode(optionCode);
+                            option.setLabel(optionCode);
+                            option.setDegreeCode(degreeCode);
+
+                            optionMap.put(optionCode, option);
+
+                            newOptions.add(option);
+                        }
+
+                        memberDto.setOption(optionMap.get(optionCode));
+                    }
                 }
 
                 if (mapping.containsKey("member.birthday")) {
@@ -410,14 +464,14 @@ public class ImportMembersController extends AbstractCustomDialogController {
 
     public void saveSelectedData() {
 
-        final Map<String, MemberDto> mapOnBaseByStudentNumber = membersService.getAll()
+        final Map<String, Member> mapOnBaseByStudentNumber = membersService.getAll()
                 .stream()
-                .collect(Collectors.toMap(MemberDto::getStudentNumber, Function.identity()));
+                .collect(Collectors.toMap(Member::getStudentNumber, Function.identity()));
 
-        Map<String, MemberDto> mapToSaveByStudentNumber = data
+        Map<String, Member> mapToSaveByStudentNumber = data
                 .stream()
-                .filter(MemberDto::getSelected)
-                .collect(Collectors.toMap(MemberDto::getStudentNumber, Function.identity()));
+                .filter(Member::getSelected)
+                .collect(Collectors.toMap(Member::getStudentNumber, Function.identity()));
 
         mapOnBaseByStudentNumber.keySet().retainAll(mapToSaveByStudentNumber.keySet());
 
@@ -430,10 +484,10 @@ public class ImportMembersController extends AbstractCustomDialogController {
                     "import.data.already.present.message",
                     overrideBtn, ignoreBtn);
 
-            if (overrideBtn.equals(response.get())) {
+            if (response.isPresent() && overrideBtn.equals(response.get())) {
                 mapOnBaseByStudentNumber.entrySet().forEach(entry -> {
-                    MemberDto toSave = mapToSaveByStudentNumber.get(entry.getKey());
-                    MemberDto toOverride = entry.getValue();
+                    Member toSave = mapToSaveByStudentNumber.get(entry.getKey());
+                    Member toOverride = entry.getValue();
                     toSave.setId(toOverride.getId());
                     toSave.setSubscription(toOverride.getSubscription());
                     toSave.setAnnals(toOverride.getAnnals());
@@ -444,6 +498,9 @@ public class ImportMembersController extends AbstractCustomDialogController {
         }
 
         membersService.saveOrUpdateAll(mapToSaveByStudentNumber.values());
+
+        degreeService.saveAll(newDegrees);
+        optionsService.saveAll(newOptions);
 
         close();
     }

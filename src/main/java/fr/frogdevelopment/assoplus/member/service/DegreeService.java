@@ -5,10 +5,8 @@
 package fr.frogdevelopment.assoplus.member.service;
 
 import fr.frogdevelopment.assoplus.core.service.Service;
-import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
+import fr.frogdevelopment.assoplus.member.dto.Degree;
 
-public interface DegreeService extends Service<DegreeDto> {
-
-	void deleteLicence(DegreeDto degreeDto);
+public interface DegreeService extends Service<Degree> {
 
 }

@@ -12,13 +12,13 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import fr.frogdevelopment.assoplus.core.entity.Entity;
+import fr.frogdevelopment.assoplus.core.dto.Entity;
 
 import java.util.Collection;
 import java.util.List;
 
 @Transactional(propagation = Propagation.MANDATORY)
-public abstract class AbstractDaoImpl<E extends Entity> {
+public abstract class AbstractDaoImpl<E extends Entity> implements Dao<E> {
 
     protected final NamedParameterJdbcTemplate jdbcTemplate;
     protected final KeyHolder keyHolder = new GeneratedKeyHolder();

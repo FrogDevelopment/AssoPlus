@@ -4,10 +4,9 @@
 
 package fr.frogdevelopment.assoplus.core.dto;
 
-import fr.frogdevelopment.assoplus.core.dto.Dto;
 import javafx.beans.property.SimpleStringProperty;
 
-public interface ReferenceDto extends Dto {
+public interface Reference extends Entity {
 
 	SimpleStringProperty codeProperty();
 

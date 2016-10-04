@@ -4,14 +4,15 @@
 
 package fr.frogdevelopment.assoplus.book.dto;
 
-import fr.frogdevelopment.assoplus.core.dto.Dto;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class BookOrderDto implements Dto {
+import fr.frogdevelopment.assoplus.core.dto.Entity;
+import fr.frogdevelopment.assoplus.member.dto.Member;
+
+public class BookOrderDto implements Entity {
 
     private final SimpleIntegerProperty id = new SimpleIntegerProperty();
     private final SimpleIntegerProperty bookId = new SimpleIntegerProperty();
@@ -23,7 +24,7 @@ public class BookOrderDto implements Dto {
     private final SimpleStringProperty dateDelivery = new SimpleStringProperty();
 
     private final SimpleObjectProperty<BookDto> book = new SimpleObjectProperty<>(this, "book");
-    private final SimpleObjectProperty<MemberDto> member = new SimpleObjectProperty<>(this, "member");
+    private final SimpleObjectProperty<Member> member = new SimpleObjectProperty<>(this, "member");
 
     @Override
     public Integer getId() {
@@ -139,15 +140,15 @@ public class BookOrderDto implements Dto {
         this.book.set(book);
     }
 
-    public MemberDto getMember() {
+    public Member getMember() {
         return member.get();
     }
 
-    public SimpleObjectProperty<MemberDto> memberProperty() {
+    public SimpleObjectProperty<Member> memberProperty() {
         return member;
     }
 
-    public void setMember(MemberDto member) {
+    public void setMember(Member member) {
         this.member.set(member);
     }
 }

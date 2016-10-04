@@ -4,8 +4,6 @@
 
 package fr.frogdevelopment.assoplus.book.entity;
 
-import fr.frogdevelopment.assoplus.core.dao.ForeignKey;
-import fr.frogdevelopment.assoplus.core.entity.Entity;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -17,18 +15,16 @@ import javax.persistence.Table;
 
 @javax.persistence.Entity
 @Table(name = "book_order")
-public class BookOrder implements Entity {
+public class BookOrder {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue
     private Integer id;
 
-    @ForeignKey(table = "book")
     @Column(name = "book_id", nullable = false)
     private Integer bookId;
 
-    @ForeignKey(table = "member")
     @Column(name = "member_id", nullable = false)
     private Integer memberId;
 
@@ -51,12 +47,10 @@ public class BookOrder implements Entity {
     //            Getter & Setter         \\
     // ********************************** \\
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }

@@ -4,9 +4,9 @@
 
 package fr.frogdevelopment.assoplus.member.dao;
 
-import fr.frogdevelopment.assoplus.core.dao.CommonDao;
-import fr.frogdevelopment.assoplus.member.entity.Degree;
+import fr.frogdevelopment.assoplus.core.dao.Dao;
+import fr.frogdevelopment.assoplus.member.dto.Degree;
 
-public interface DegreeDao extends CommonDao<Degree> {
+public interface DegreeDao extends Dao<Degree> {
 
 }

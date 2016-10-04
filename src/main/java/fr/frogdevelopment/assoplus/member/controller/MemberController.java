@@ -22,9 +22,9 @@ import org.springframework.stereotype.Controller;
 import fr.frogdevelopment.assoplus.core.controller.AbstractCreateUpdateDialogController;
 import fr.frogdevelopment.assoplus.core.controls.MaskHelper;
 import fr.frogdevelopment.assoplus.core.controls.Validator;
-import fr.frogdevelopment.assoplus.member.dto.DegreeDto;
-import fr.frogdevelopment.assoplus.member.dto.MemberDto;
-import fr.frogdevelopment.assoplus.member.dto.OptionDto;
+import fr.frogdevelopment.assoplus.member.dto.Degree;
+import fr.frogdevelopment.assoplus.member.dto.Member;
+import fr.frogdevelopment.assoplus.member.dto.Option;
 import fr.frogdevelopment.assoplus.member.service.DegreeService;
 import fr.frogdevelopment.assoplus.member.service.MembersService;
 import fr.frogdevelopment.assoplus.member.service.OptionsService;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class MemberController extends AbstractCreateUpdateDialogController<MemberDto> {
+public class MemberController extends AbstractCreateUpdateDialogController<Member> {
 
     private DateTimeFormatter dateTimeFormatter;
 
@@ -63,9 +63,9 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
     @FXML
     private TextField txtEmail;
     @FXML
-    public ComboBox<DegreeDto> cbDegree;
+    public ComboBox<Degree> cbDegree;
     @FXML
-    public ComboBox<OptionDto> cbOption;
+    public ComboBox<Option> cbOption;
     @FXML
     private TextField txtPhone;
     @FXML
@@ -73,8 +73,8 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
     @FXML
     private CheckBox cbAnnals;
 
-    private ObservableList<DegreeDto> degreeDtos;
-    private ObservableList<OptionDto> optionDtos;
+    private ObservableList<Degree> degrees;
+    private ObservableList<Option> optionDtos;
 
     @Override
     protected void initialize() {
@@ -107,30 +107,30 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
                 }
         );
 
-        degreeDtos = FXCollections.observableArrayList(degreeService.getAll());
-        cbDegree.setItems(degreeDtos);
+        degrees = FXCollections.observableArrayList(degreeService.getAll());
+        cbDegree.setItems(degrees);
         optionDtos = FXCollections.observableArrayList(optionsService.getAll());
-        cbDegree.setConverter(new StringConverter<DegreeDto>() {
+        cbDegree.setConverter(new StringConverter<Degree>() {
 
-            private final Map<String, DegreeDto> _cache = new HashMap<>();
+            private final Map<String, Degree> _cache = new HashMap<>();
 
             @Override
-            public String toString(DegreeDto item) {
+            public String toString(Degree item) {
                 _cache.put(item.getLabel(), item);
                 return item.getLabel();
             }
 
             @Override
-            public DegreeDto fromString(String label) {
+            public Degree fromString(String label) {
                 return _cache.get(label);
             }
         });
 
         cbDegree.setOnAction(event -> {
-            final DegreeDto selectedItem = cbDegree.getSelectionModel().getSelectedItem();
+            final Degree selectedItem = cbDegree.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
                 final String codeLicence = selectedItem.getCode();
-                final List<OptionDto> dtos = optionDtos
+                final List<Option> dtos = optionDtos
                         .stream()
                         .filter(o -> codeLicence.equals(o.getDegreeCode()))
                         .collect(Collectors.toList());
@@ -140,12 +140,12 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
             }
         });
 
-        cbOption.setConverter(new StringConverter<OptionDto>() {
+        cbOption.setConverter(new StringConverter<Option>() {
 
-            private final Map<String, OptionDto> _cache = new HashMap<>();
+            private final Map<String, Option> _cache = new HashMap<>();
 
             @Override
-            public String toString(OptionDto item) {
+            public String toString(Option item) {
                 if (item == null) return null;
 
                 _cache.put(item.getLabel(), item);
@@ -153,7 +153,7 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
             }
 
             @Override
-            public OptionDto fromString(String label) {
+            public Option fromString(String label) {
                 return _cache.get(label);
             }
         });
@@ -168,8 +168,8 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
     }
 
     @Override
-    protected MemberDto newEntity() {
-        return new MemberDto();
+    protected Member newEntity() {
+        return new Member();
     }
 
     protected void setData() {
@@ -180,23 +180,23 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
         dpBirthday.setValue(entityDto.getBirthday());
         txtEmail.setText(entityDto.getEmail());
 
-        degreeDtos.forEach(degreeDto -> {
-            if (degreeDto.getCode().equals(entityDto.getDegreeCode())) {
+        degrees.forEach(degreeDto -> {
+            if (degreeDto.getCode().equals(entityDto.getDegree().getCode())) {
                 cbDegree.getSelectionModel().select(degreeDto);
             }
         });
 
         cbOption.setItems(null);
-        final String codeDegree = entityDto.getDegreeCode();
+        final String codeDegree = entityDto.getDegree().getCode();
         if (StringUtils.isNoneBlank(codeDegree)) {
-            final List<OptionDto> dtos = optionDtos
+            final List<Option> dtos = optionDtos
                     .stream()
                     .filter(o -> codeDegree.equals(o.getDegreeCode()))
                     .collect(Collectors.toList());
             cbOption.setItems(FXCollections.observableArrayList(dtos));
 
             optionDtos.forEach(optionDto -> {
-                if (optionDto.getCode().equals(entityDto.getOptionCode())) {
+                if (optionDto.getCode().equals(entityDto.getOption().getCode())) {
                     cbOption.getSelectionModel().select(optionDto);
                 }
             });
@@ -248,14 +248,14 @@ public class MemberController extends AbstractCreateUpdateDialogController<Membe
         entityDto.setBirthday(dpBirthday.getValue());
         entityDto.setEmail(txtEmail.getText());
         if (cbDegree.getValue() != null) {
-            entityDto.setDegreeCode(cbDegree.getValue().getCode());
+            entityDto.setDegree(cbDegree.getValue());
         } else {
-            entityDto.setDegreeCode(null);
+            entityDto.setDegree(null);
         }
         if (cbOption.getValue() != null) {
-            entityDto.setOptionCode(cbOption.getValue().getCode());
+            entityDto.setOption(cbOption.getValue());
         } else {
-            entityDto.setOptionCode(null);
+            entityDto.setOption(null);
         }
         entityDto.setPhone(txtPhone.getText());
 
